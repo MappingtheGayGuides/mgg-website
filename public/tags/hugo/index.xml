@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>hugo on Mapping the Gay Guides</title>
-    <link>/dev/tags/hugo/</link>
+    <link>http://www.mappingthegayguides.org/tags/hugo/</link>
     <description>Recent content in hugo on Mapping the Gay Guides</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#39;https://creativecommons.org/licenses/by/4.0/&#39; target=&#39;_blank&#39;&gt;&lt;img src=&#39;https://mirrors.creativecommons.org/presskit/icons/by.svg&#39; height=&#39;25&#39;&gt; Licensed CC-BY.&lt;/a&gt;</copyright>
     <lastBuildDate>Wed, 02 Apr 2014 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/dev/tags/hugo/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://www.mappingthegayguides.org/tags/hugo/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Getting Started with Hugo</title>
-      <link>/dev/2014/04/getting-started-with-hugo/</link>
+      <link>http://www.mappingthegayguides.org/2014/04/getting-started-with-hugo/</link>
       <pubDate>Wed, 02 Apr 2014 00:00:00 +0000</pubDate>
       
-      <guid>/dev/2014/04/getting-started-with-hugo/</guid>
+      <guid>http://www.mappingthegayguides.org/2014/04/getting-started-with-hugo/</guid>
       <description>Step 1. Install Hugo Goto hugo releases and download the appropriate version for your os and architecture.
 Save it somewhere specific as we will be using it in the next step.
 More complete instructions are available at installing hugo

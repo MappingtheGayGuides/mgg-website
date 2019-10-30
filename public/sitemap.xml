@@ -3,112 +3,112 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>/dev/2014/09/creating-a-new-theme/</loc>
+    <loc>http://www.mappingthegayguides.org/2014/09/creating-a-new-theme/</loc>
     <lastmod>2014-09-28T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/dev/2014/03/migrate-to-hugo-from-jekyll/</loc>
+    <loc>http://www.mappingthegayguides.org/2014/03/migrate-to-hugo-from-jekyll/</loc>
     <lastmod>2014-03-10T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/dev/categories/</loc>
+    <loc>http://www.mappingthegayguides.org/about/</loc>
+    <lastmod>2019-10-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.mappingthegayguides.org/categories/</loc>
     <lastmod>2015-07-23T21:13:14-05:00</lastmod>
   </url>
   
   <url>
-    <loc>/dev/2015/07/hello-r-markdown/</loc>
+    <loc>http://www.mappingthegayguides.org/2015/07/hello-r-markdown/</loc>
     <lastmod>2015-07-23T21:13:14-05:00</lastmod>
   </url>
   
   <url>
-    <loc>/dev/tags/plot/</loc>
+    <loc>http://www.mappingthegayguides.org/tags/plot/</loc>
     <lastmod>2015-07-23T21:13:14-05:00</lastmod>
   </url>
   
   <url>
-    <loc>/dev/post/</loc>
+    <loc>http://www.mappingthegayguides.org/post/</loc>
     <lastmod>2015-07-23T21:13:14-05:00</lastmod>
   </url>
   
   <url>
-    <loc>/dev/categories/r/</loc>
+    <loc>http://www.mappingthegayguides.org/categories/r/</loc>
     <lastmod>2015-07-23T21:13:14-05:00</lastmod>
   </url>
   
   <url>
-    <loc>/dev/tags/r-markdown/</loc>
+    <loc>http://www.mappingthegayguides.org/tags/r-markdown/</loc>
     <lastmod>2015-07-23T21:13:14-05:00</lastmod>
   </url>
   
   <url>
-    <loc>/dev/tags/regression/</loc>
+    <loc>http://www.mappingthegayguides.org/tags/regression/</loc>
     <lastmod>2015-07-23T21:13:14-05:00</lastmod>
   </url>
   
   <url>
-    <loc>/dev/tags/</loc>
+    <loc>http://www.mappingthegayguides.org/tags/</loc>
     <lastmod>2015-07-23T21:13:14-05:00</lastmod>
   </url>
   
   <url>
-    <loc>/dev/about/</loc>
+    <loc>http://www.mappingthegayguides.org/</loc>
     <lastmod>2014-09-28T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/dev/</loc>
-    <lastmod>2014-09-28T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/dev/2014/04/hugo-template-primer/</loc>
+    <loc>http://www.mappingthegayguides.org/2014/04/hugo-template-primer/</loc>
     <lastmod>2014-04-02T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/dev/categories/development/</loc>
+    <loc>http://www.mappingthegayguides.org/categories/development/</loc>
     <lastmod>2014-04-02T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/dev/tags/development/</loc>
+    <loc>http://www.mappingthegayguides.org/tags/development/</loc>
     <lastmod>2014-04-02T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/dev/2014/04/getting-started-with-hugo/</loc>
+    <loc>http://www.mappingthegayguides.org/2014/04/getting-started-with-hugo/</loc>
     <lastmod>2014-04-02T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/dev/tags/go/</loc>
+    <loc>http://www.mappingthegayguides.org/tags/go/</loc>
     <lastmod>2014-04-02T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/dev/categories/golang/</loc>
+    <loc>http://www.mappingthegayguides.org/categories/golang/</loc>
     <lastmod>2014-04-02T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/dev/tags/golang/</loc>
+    <loc>http://www.mappingthegayguides.org/tags/golang/</loc>
     <lastmod>2014-04-02T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/dev/tags/hugo/</loc>
+    <loc>http://www.mappingthegayguides.org/tags/hugo/</loc>
     <lastmod>2014-04-02T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/dev/tags/templates/</loc>
+    <loc>http://www.mappingthegayguides.org/tags/templates/</loc>
     <lastmod>2014-04-02T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/dev/tags/themes/</loc>
+    <loc>http://www.mappingthegayguides.org/tags/themes/</loc>
     <lastmod>2014-04-02T00:00:00+00:00</lastmod>
   </url>
   
