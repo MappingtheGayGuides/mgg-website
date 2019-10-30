@@ -1,0 +1,75 @@
+# Hugo variables
+#
+baseurl = "http://www.mappingthegayguides.org/dev"
+languageCode = "en-us"
+title = "Mapping the Gay Guides"
+theme = "hugo-theme-bootstrap4-blog"
+# number of posts to show on home/category/tag pages (Default: 10)
+paginate = 5
+#optionally override the site's footer with custom copyright text
+copyright = "<a href='https://creativecommons.org/licenses/by/4.0/' target='_blank'><img src='https://mirrors.creativecommons.org/presskit/icons/by.svg' height='25'> Licensed CC-BY.</a>"
+#googleAnalytics = "UA-123-45"
+#disqusShortname = "XYW"
+
+[permalinks]
+  post = "/:year/:month/:title/"
+  page = "/:slug/"
+
+
+
+# custom navbar menu entry.   See the custom_navbar parameter below for
+# details.
+[[menu.navbar]]
+  name = "About"
+  url = "/about"
+  weight = 1
+
+[[menu.navbar]]
+  name = "Test"
+  url = "/about"
+  weight = 2
+
+
+# Theme variables
+#
+[params]
+  # Site author
+  author = "Amanda Regan"
+
+  # Format dates with Go's time formatting
+  #date_format = "Mon Jan 02, 2006"
+
+  # verification string for Google Webmaster Tools
+  #google_verify_meta = "BAi57DROASu4b2mkVNA_EyUsobfA7Mq8BmSg7Rn-Zp9"
+
+  # verification string for Bing Webmaster Tools
+  #bing_verify_meta = "3DA353059F945D1AA256B1CD8A3DA847"
+
+  # verification string for Yandex Webmaster Tools
+  #yandex_verify_meta = "66b077430f35f04a"
+
+  # Optionally display a message about the site's use of cookies, which may be
+  # required for your site in the European Union. Set the parameter below to a
+  # page where the user can get more information about cookies, either on your
+  # site or externally, for example:
+  #cookie_consent_info_url = "/cookie-information/"
+  #cookie_consent_info_url = "http://cookiesandyou.com"
+
+  # customise the contents of the navbar at the top of the page.  The default
+  # behaviour is to list all static pages not in the posts directory. When the
+  # parameter below is set to true you will have to manually add entries to the
+  # navbar, either by adding the following menu variable to the front matter of
+  # the relevant pages
+  #   menu = "navbar"
+  # or by specifying menu entries in a similar way to the sidebar menu above.
+  custom_navbar = true
+
+  # show sharing icons on pages/posts (default: true)
+  sharingicons = false
+
+  # Display post summaries instead of content in list templates (default: true)
+  #truncate = true
+
+  # Disable the use of sub-resource integrity on CSS/JS assets (default: false)
+  # Useful if you're using a CDN or other host where you can't control cache headers
+  disable_sri = false

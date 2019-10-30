@@ -1,0 +1,31 @@
+<aside class="col-sm-4 blog-sidebar">
+  <section class="sidebar-module sidebar-module-inset">
+    <h4><i class="fas fa-info-circle"></i> Course Details</h4>
+    <hr>
+    <p>
+    {{ .Site.Params.course_number | markdownify }}<br>
+    {{ .Site.Params.course_term | markdownify }}<br>
+    {{ .Site.Params.course_days | markdownify }}, {{ .Site.Params.course_time | markdownify }} <br>
+    {{ .Site.Params.course_location | markdownify }}</br>
+    </p>
+
+    <a href="{{ .Site.Params.course_slack_url }}" target="_blank"><i class="fab fa-slack" aria-hidden="true"></i> Course Slack Channel</a><br>
+    <a href="{{.Site.Params.assignment_submission_link }}" target="_blank"><i class="fas fa-cloud-upload-alt" aria-hidden="true"></i> Assignment Submissions</a>
+  </section>
+  <section class="sidebar-module sidebar-module-inset">
+    <h4><i class="fas fa-envelope"></i> Contact</h4>
+    <hr>
+    <p>{{ .Site.Params.instructor_name | markdownify }}<br>
+    {{ .Site.Params.instructor_email | markdownify }}<br></p>
+    <p><b>Office Hours:</b><br>
+    {{ .Site.Params.office | markdownify }}<br>
+    {{ .Site.Params.office_hours| markdownify }}<br>
+    </p>
+  </section>
+
+
+
+
+</aside><!-- /.blog-sidebar -->
+
+{{- /* vim: set ts=2 sw=2 et: */}}

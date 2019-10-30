@@ -1,0 +1,26 @@
+{{ define "title" }}{{ .Title | markdownify }} | {{ .Site.Title }}{{ end }}
+{{ define "main" }}
+{{ $dateFormat := default "Mon Jan 2, 2006" (index .Site.Params "date_format") }}
+
+      <article class="blog-post">
+        <header>
+
+          
+
+        </header>
+
+
+
+        {{.Content }}
+
+
+
+
+
+      </article>
+
+      {{ if .Site.DisqusShortname }}
+           {{ partial "disqus.html" . }}
+      {{ end }}
+
+    {{ end }}
