@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>plot on Mapping the Gay Guides</title>
-    <link>/dev/tags/plot/</link>
+    <link>http://www.mappingthegayguides.org/dev/tags/plot/</link>
     <description>Recent content in plot on Mapping the Gay Guides</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#39;https://creativecommons.org/licenses/by/4.0/&#39; target=&#39;_blank&#39;&gt;&lt;img src=&#39;https://mirrors.creativecommons.org/presskit/icons/by.svg&#39; height=&#39;25&#39;&gt; Licensed CC-BY.&lt;/a&gt;</copyright>
     <lastBuildDate>Thu, 23 Jul 2015 21:13:14 -0500</lastBuildDate>
     
-	<atom:link href="/dev/tags/plot/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://www.mappingthegayguides.org/dev/tags/plot/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Hello R Markdown</title>
-      <link>/dev/2015/07/hello-r-markdown/</link>
+      <link>http://www.mappingthegayguides.org/dev/2015/07/hello-r-markdown/</link>
       <pubDate>Thu, 23 Jul 2015 21:13:14 -0500</pubDate>
       
-      <guid>/dev/2015/07/hello-r-markdown/</guid>
+      <guid>http://www.mappingthegayguides.org/dev/2015/07/hello-r-markdown/</guid>
       <description>R Markdown This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see http://rmarkdown.rstudio.com.
 You can embed an R code chunk like this:
 summary(cars) ## speed dist ## Min. : 4.0 Min. : 2.00 ## 1st Qu.:12.0 1st Qu.: 26.00 ## Median :15.0 Median : 36.00 ## Mean :15.4 Mean : 42.98 ## 3rd Qu.</description>
