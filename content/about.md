@@ -1,9 +1,9 @@
 ---
 author: Amanda Regan
-date: "2014-09-28"
+date: "2019-10-28"
 title: About
 ---
-Mapping the Gay Guides is a collaborative project by Dr. Amanda Regan and Dr. Eric Gonzaba. 
+Mapping the Gay Guides is a collaborative project by Dr. Amanda Regan and Dr. Eric Gonzaba.
 
 ## Dr. Amanda Regan
 Amanda Regan is historian of the late-nineteenth and early twentieth-centuries and is currently a Digital Humanities Postdoctoral Fellow at Southern Methodist University’s Center for Presidential History. She earned her PhD in History from George Mason University in 2019.
@@ -21,4 +21,3 @@ Beyond his research, Gonzaba strives to find innovative ways to teach and unders
 When not working on historical projects, Gonzaba enjoys going to the movies, chowing down on popcorn or Japanese food, poorly playing the piano, reading his favorite authors (Langston Hughes, Nora Eprhon, Truman Capote, & Zora Neale Hurston), or attempting to best his friends and family while watching Jeopardy.
 
 And on particularly stressful days, you can find him re-watching his favorite movie that has never failed to cheer him up: The Birdcage.
-
