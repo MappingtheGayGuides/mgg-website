@@ -1,0 +1,31 @@
+{{ $dateFormat := default "Mon Jan 2, 2006" (index .Site.Params "date_format") }}
+
+<article class="blog-post">
+
+    <div class="card" style="width: 18rem;">
+      <div class="card-body">
+        <h4 class="card-title"><a href="{{ .Permalink }}">{{ .Title | markdownify }}</a></h4>
+
+    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque porttitor risus leo, ac euismod massa tristique nec.</p>
+
+    <a class="btn btn-outline-primary" href='{{ .Permalink }}'>{{ i18n "readMore" }}</a>
+  </div>
+</div>
+</article> <!-- /.blog-post -->
+
+{{- /* vim: set ts=2 sw=2 et: */}}
+
+
+
+
+
+<!-- ----- -->
+<!--
+<div class="card" style="width: 18rem;">
+  <img src="..." class="card-img-top" alt="...">
+  <div class="card-body">
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+  </div>
+</div>
+
+-->

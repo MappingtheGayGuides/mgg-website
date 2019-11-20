@@ -66,14 +66,14 @@
     {{ block "body" . }}
     <div class="container">
       <div class="row">
-        <div class="col-sm-12 blog-main">
+
 
           {{ block "main" . }}
 
           <!-- The part of the page that begins to differ between templates -->
           {{ end }}
 
-        </div> {{ "<!-- /.blog-main -->" | safeHTML }}
+
 
         <!-- {{ partial "sidebar.html" . }} -->
 
@@ -84,14 +84,7 @@
     {{ block "footer" . }}
     <footer class="blog-footer">
       <p dir="auto">
-      {{ if .Site.Copyright }}
-      {{ .Site.Copyright | markdownify }}
-      {{ else }}
-
-      {{ end }}
-      </p>
-      <p>
-      <a href="#">{{ i18n "backToTop" }}</a>
+      <img src="/images/ccby.png" style="height:25px;">  This site is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">Creative Commons Attribution 4.0 International License.</a>
       </p>
     </footer>
     {{ end }}

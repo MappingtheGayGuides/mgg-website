@@ -3,6 +3,27 @@
  * See: https://getbootstrap.com/docs/4.0/examples/blog/blog.css
  */
 
+ @import url('https://fonts.googleapis.com/css?family=Gothic+A1:400,500,600,700&display=swap');
+// MGG Specific Styles
+
+.article h1 {
+  margin-bottom: 25px;
+
+}
+.see-full-vis-modal{
+  max-width: 30%;
+  margin-left: 0px;
+  margin-right: 18px;
+  margin-bottom: 18px;
+  float: left;
+}
+.article-figure {
+  float: right;
+  clear: both;
+  max-width: 65%;
+  padding-left:20px;
+}
+
 /*
  * Globals
  */
@@ -31,7 +52,29 @@ h6, .h6 {
   }
 }
 
+h1, .h1 {
+  font-family: 'Gothic A1', sans-serif;
+  font-weight: 800;
+}
 
+h2, .h2 {
+  font-family: 'Gothic A1', sans-serif;
+  font-weight: 700;
+}
+h3, .h3,
+h4, .h4 {
+  font-family: 'Gothic A1', sans-serif;
+  font-weight: 600;
+}
+h5, .h5,
+h6, .h6 {
+  font-family: 'Gothic A1', sans-serif;
+  font-weight: 500;
+}
+body{
+  font-family: 'Gothic A1', sans-serif;
+  font-weight: 400;
+}
 /*
  * Override Bootstrap's default container.
  */
