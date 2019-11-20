@@ -1,7 +1,7 @@
 #!/bin/sh
 USER=mapping6
 HOST=mappingthegayguides.org
-DIR=/public_html/
+DIR=/public_html/dev/
 
 hugo && rsync -avz public/ ${USER}@${HOST}:~/${DIR}
 

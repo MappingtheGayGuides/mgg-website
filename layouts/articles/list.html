@@ -29,20 +29,26 @@
 
 {{ define "main" }}
 
-{{ $truncate := default true .Site.Params.truncate }}
-{{ $paginator := .Paginate (where .Site.RegularPages "Section" "in" .Site.Params.mainSections) }}
-{{ range $paginator.Pages }}
-{{ if $truncate }}
-{{ .Render "cards" }}
-{{ else }}
-{{ .Render "content" }}
-{{ end }}
-{{ end }}
+{{ range .Pages.GroupBy "Section" }}
+<div class="row">
+  <div class="col-sm-12">
+<h1>Articles</h1>
+  </div>
+<div class="row">
+    {{ range .Pages }}
+    <article class="blog-post">
 
-{{ if or (.Paginator.HasPrev) (.Paginator.HasNext) }}
-{{ partial "pagination.html" . }}
-{{ end }}
+        <div class="card" style="width: 18rem;">
+          <div class="card-body">
+            <h4 class="card-title"><a href="{{ .Permalink }}">{{ .Title | markdownify }}</a></h4>
+    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque porttitor risus leo, ac euismod massa tristique nec.</p>
+
+    <a class="btn btn-outline-primary" href='{{ .Permalink }}'>{{ i18n "readMore" }}</a>
+  </div>
+</div>
+</article>
+</div>
+    {{ end }}
 
 {{ end }}
-
-{{- /* vim: set ts=2 sw=2 et: */}}
+{{ end }}

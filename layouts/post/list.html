@@ -1,0 +1,51 @@
+{{ define "schema-dot-org" }}
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Blog",
+  {{- /* Google recommends the headline be no more than 110 characters */}}
+  "headline": "{{ substr .Site.Title 0 110 }}",
+  "url" : "{{ printf "%s" .Permalink }}",
+  "author": {
+    "@type": "Person",
+    "name": "{{ .Site.Params.author }}"
+  },
+  {{- $ISO8601 := "2006-01-02T15:04:05-07:00" }}
+  {{- if not .Date.IsZero }}
+  "dateModified": {{ .Date.Format $ISO8601 }},
+  {{- end }}
+  {{- with .Site.Social.GooglePlus }}
+  "publisher": "{{ printf "%s" . }}",
+  {{- end }}
+  {{- /* all of the site's categories/tags, from Hugo's tpl/template_embedded.go */}}
+  "keywords": "{{ range $plural, $terms := .Site.Taxonomies }}{{ range $term, $val := $terms }}{{ printf "%s," $term }}{{ end }}{{ end }}"
+  {{- with .Site.Params.description -}}
+  ,
+  "description": "{{- . -}}"
+  {{- end }}
+}
+</script>
+{{ end }}
+
+
+{{ define "main" }}
+
+{{ range .Pages.GroupBy "Section" }}
+
+
+
+
+    {{ range .Pages }}
+    <div class="row">
+      <div class="col-sm-12">
+    <h2><a href="{{ .Permalink }}">{{ .Title | markdownify }}</a></h2>
+    <p>Posted by {{ $.Param "author" }} on {{ .Date.Format "Jan 7, 2006"}}</p>
+    <p>{{ .Description }}</p>
+    <a type="button" class="btn btn-outline-primary" href="{{ .Permalink }}">Read more</a>
+    </div>
+</div>
+
+    {{ end }}
+
+{{ end }}
+{{ end }}

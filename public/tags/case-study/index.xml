@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>case-study on Mapping the Gay Guides</title>
+    <link>http://www.mappingthegayguides.org/dev/tags/case-study/</link>
+    <description>Recent content in case-study on Mapping the Gay Guides</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&lt;a href=&#39;https://creativecommons.org/licenses/by/4.0/&#39; target=&#39;_blank&#39;&gt;&lt;img src=&#39;https://mirrors.creativecommons.org/presskit/icons/by.svg&#39; height=&#39;25&#39;&gt; Licensed CC-BY.&lt;/a&gt;</copyright>
+    <lastBuildDate>Wed, 30 Oct 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://www.mappingthegayguides.org/dev/tags/case-study/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Mapping the Alabama Gay Guides</title>
+      <link>http://www.mappingthegayguides.org/dev/articles/alabama/</link>
+      <pubDate>Wed, 30 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.mappingthegayguides.org/dev/articles/alabama/</guid>
+      <description>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque porttitor risus leo, ac euismod massa tristique nec. Duis suscipit mauris a erat dictum sagittis. Phasellus tristique urna et tortor dignissim convallis. Donec sed erat nec lectus euismod eleifend et vitae nibh. Morbi mattis ligula vel odio elementum, lobortis rhoncus eros imperdiet. Pellentesque a enim enim. Proin in massa a neque accumsan cursus id aliquam risus.
+ See the full map  Praesent auctor nulla in augue pellentesque sollicitudin.</description>
+    </item>
+    
+  </channel>
+</rss>
