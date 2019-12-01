@@ -13,6 +13,15 @@
     
     
     <item>
+      <title>Visualization: Mapping the Alabama Gay Guides</title>
+      <link>http://www.mappingthegayguides.org/dev/maps/alabama/</link>
+      <pubDate>Wed, 20 Nov 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.mappingthegayguides.org/dev/maps/alabama/</guid>
+      <description>  iframe { min-width: 100%; }    iFrameResize({ heightCalculationMethod: &#39;taggedElement&#39; });  </description>
+    </item>
+    
+    <item>
       <title>Mapping the Alabama Gay Guides</title>
       <link>http://www.mappingthegayguides.org/dev/articles/alabama/</link>
       <pubDate>Wed, 30 Oct 2019 00:00:00 +0000</pubDate>
@@ -23,14 +32,54 @@
     </item>
     
     <item>
-      <title>About</title>
+      <title>Mapping the New Gay South</title>
+      <link>http://www.mappingthegayguides.org/dev/articles/newgaysouth/</link>
+      <pubDate>Wed, 30 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.mappingthegayguides.org/dev/articles/newgaysouth/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Welcome!</title>
+      <link>http://www.mappingthegayguides.org/dev/2019/10/welcome/</link>
+      <pubDate>Wed, 30 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.mappingthegayguides.org/dev/2019/10/welcome/</guid>
+      <description>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque pellentesque non velit vitae euismod. Cras dapibus laoreet justo porta porttitor. Integer tellus massa, consectetur eget interdum nec, tincidunt vitae nisl. Phasellus ullamcorper velit in massa vehicula dapibus. Morbi semper velit et ipsum ornare vestibulum. Nulla sed sagittis justo. Etiam tempus tincidunt justo ac eleifend. Aliquam erat volutpat. Aenean vitae euismod ipsum, id mollis tellus.
+Duis rutrum ipsum ut nunc dictum hendrerit.</description>
+    </item>
+    
+    <item>
+      <title>About this Project</title>
       <link>http://www.mappingthegayguides.org/dev/about/</link>
       <pubDate>Mon, 28 Oct 2019 00:00:00 +0000</pubDate>
       
       <guid>http://www.mappingthegayguides.org/dev/about/</guid>
       <description>Mapping the Gay Guides is a collaborative project by Dr. Amanda Regan and Dr. Eric Gonzaba.
-Dr. Amanda Regan Amanda Regan is a historian of the late-nineteenth and early twentieth-centuries and is currently a Digital Humanities Postdoctoral Fellow at Southern Methodist University’s Center for Presidential History. She earned her PhD in History from George Mason University in 2019.
+If you use this project, we would appreciate it if you would cite us using the suggested citation below:
+ Mapping the Gay Guides, Amanda Regan and Eric Gonzaba, (2019-): http:// www.mappingthegayguides.org.
+ Contributors  Dr. Amanda Regan, Co-primary investigator Dr. Eric Gonzaba, Co-primary investigator Liset Machedo, Intern, Fall 2019. Morgan Glover, Intern, 2019-2020.</description>
+    </item>
+    
+    <item>
+      <title>Amanda Regan</title>
+      <link>http://www.mappingthegayguides.org/dev/regan/</link>
+      <pubDate>Mon, 28 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.mappingthegayguides.org/dev/regan/</guid>
+      <description>Amanda Regan is a historian of the late-nineteenth and early twentieth-centuries and is currently a Digital Humanities Postdoctoral Fellow at Southern Methodist University’s Center for Presidential History. She earned her PhD in History from George Mason University in 2019.
 Her research sits at the intersection of women’s history, fitness history, and history of the body and her work often relies upon computational methodologies as a research tool for examining large corpuses of primary sources and gleaning new insights.</description>
+    </item>
+    
+    <item>
+      <title>Eric Gonzaba</title>
+      <link>http://www.mappingthegayguides.org/dev/gonzaba/</link>
+      <pubDate>Mon, 28 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.mappingthegayguides.org/dev/gonzaba/</guid>
+      <description>Dr. Eric Gonzaba is an Assistant Professor of American Studies at California State University, Fullerton. He received his doctorate in American History from George Mason University in 2019. A specialist in African American history and LGBT culture, he’s currently completing a book on the culture and politics of gay nightlife in Washington, D.C., Baltimore, and Philadelphia since 1970.
+Beyond his research, Gonzaba strives to find innovative ways to teach and understand our past, especially through digital public history.</description>
     </item>
     
   </channel>

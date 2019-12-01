@@ -40,13 +40,20 @@
     <div class="blog-masthead">
       <!-- <div class="container"> -->
         <nav class="navbar navbar-dark primary-color navbar-expand-sm">
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
         <a class="navbar-brand" href="#"><img src="/dev/images/logo_white_500.png" width=250></a>
-      <a class="nav-link {{ if .IsHome }}active{{ end }}" href="{{ .Site.BaseURL | absLangURL }}">{{ i18n "home" }}</a>
+
+        <a class="nav-link {{ if .IsHome }}active{{ end }}" href="{{ .Site.BaseURL | absLangURL }}">{{ i18n "home" }}</a>
            {{- $currentPage := . -}}
            {{ range .Site.Menus.navbar }}
            {{ $menuURL := .URL | absLangURL }}
            <a class="nav-link{{ if or ($currentPage.IsMenuCurrent "navbar" .) ($currentPage.HasMenuCurrent "navbar" .) }} active{{end}}" href="{{ .URL }}" title="{{ .Title }}">{{ .Name }}</a>
            {{ end }}
+      </div>
          </nav>
        <!-- </div> -->
     </div>

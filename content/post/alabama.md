@@ -3,8 +3,8 @@ title: "Welcome!"
 author: "Eric Gonzaba"
 date: "2019-10-30"
 description: "Today we are excited to announce the launch of the alpha-version of Mapping the Gay Guides..."
-tags: [case-study]
 lastmod: "2019-11-20"
+category: "Project News"
 ---
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque pellentesque non velit vitae euismod. Cras dapibus laoreet justo porta porttitor. Integer tellus massa, consectetur eget interdum nec, tincidunt vitae nisl. Phasellus ullamcorper velit in massa vehicula dapibus. Morbi semper velit et ipsum ornare vestibulum. Nulla sed sagittis justo. Etiam tempus tincidunt justo ac eleifend. Aliquam erat volutpat. Aenean vitae euismod ipsum, id mollis tellus.

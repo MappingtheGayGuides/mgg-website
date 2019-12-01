@@ -3,9 +3,18 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>http://www.mappingthegayguides.org/dev/maps/</loc>
+    <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.mappingthegayguides.org/dev/maps/alabama/</loc>
+    <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://www.mappingthegayguides.org/dev/articles/</loc>
     <lastmod>2019-11-20T00:00:00+00:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -24,12 +33,37 @@
   </url>
   
   <url>
+    <loc>http://www.mappingthegayguides.org/dev/articles/newgaysouth/</loc>
+    <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.mappingthegayguides.org/dev/post/</loc>
+    <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://www.mappingthegayguides.org/dev/tags/</loc>
     <lastmod>2019-11-20T00:00:00+00:00</lastmod>
   </url>
   
   <url>
+    <loc>http://www.mappingthegayguides.org/dev/2019/10/welcome/</loc>
+    <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://www.mappingthegayguides.org/dev/about/</loc>
+    <lastmod>2019-10-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.mappingthegayguides.org/dev/regan/</loc>
+    <lastmod>2019-10-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.mappingthegayguides.org/dev/gonzaba/</loc>
     <lastmod>2019-10-28T00:00:00+00:00</lastmod>
   </url>
   
