@@ -3,72 +3,26 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>http://www.mappingthegayguides.org/dev/maps/</loc>
-    <lastmod>2019-11-20T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://www.mappingthegayguides.org/dev/maps/alabama/</loc>
-    <lastmod>2019-11-20T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://www.mappingthegayguides.org/dev/articles/</loc>
-    <lastmod>2019-11-20T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://www.mappingthegayguides.org/dev/tags/case-study/</loc>
-    <lastmod>2019-11-20T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://www.mappingthegayguides.org/dev/</loc>
+    <loc>http://www.mappingthegayguides.org/</loc>
     <lastmod>2019-10-30T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://www.mappingthegayguides.org/dev/articles/alabama/</loc>
-    <lastmod>2019-11-20T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://www.mappingthegayguides.org/dev/articles/newgaysouth/</loc>
-    <lastmod>2019-11-20T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://www.mappingthegayguides.org/dev/post/</loc>
-    <lastmod>2019-11-20T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://www.mappingthegayguides.org/dev/tags/</loc>
-    <lastmod>2019-11-20T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://www.mappingthegayguides.org/dev/2019/10/welcome/</loc>
-    <lastmod>2019-11-20T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://www.mappingthegayguides.org/dev/about/</loc>
+    <loc>http://www.mappingthegayguides.org/regan/</loc>
     <lastmod>2019-10-28T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://www.mappingthegayguides.org/dev/regan/</loc>
+    <loc>http://www.mappingthegayguides.org/gonzaba/</loc>
     <lastmod>2019-10-28T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://www.mappingthegayguides.org/dev/gonzaba/</loc>
-    <lastmod>2019-10-28T00:00:00+00:00</lastmod>
+    <loc>http://www.mappingthegayguides.org/categories/</loc>
   </url>
   
   <url>
-    <loc>http://www.mappingthegayguides.org/dev/categories/</loc>
+    <loc>http://www.mappingthegayguides.org/tags/</loc>
   </url>
   
 </urlset>

@@ -1,6 +1,6 @@
 # Hugo variables
 #
-baseurl = "http://www.mappingthegayguides.org/dev/"
+baseurl = "http://www.mappingthegayguides.org/"
 languageCode = "en-us"
 title = "Mapping the Gay Guides"
 theme = "hugo-theme-bootstrap4-blog"
@@ -19,30 +19,30 @@ googleAnalytics = "UA-151188328-1"
 
 # custom navbar menu entry.   See the custom_navbar parameter below for
 # details.
-[[menu.navbar]]
-  name = "About"
-  url = "/about"
-  weight = 1
+# [[menu.navbar]]
+#   name = "About"
+#   url = "/about"
+#   weight = 1
 
-[[menu.navbar]]
-   name = "Methodology"
-   url = "#"
-   weight = 2
-
-[[menu.navbar]]
-    name = "Vignettes"
-    url = "/articles"
-    weight = 3
-
-[[menu.navbar]]
-   name = "Maps"
-   url = "/maps"
-   weight = 4
-
-[[menu.navbar]]
-  name = "Blog"
-  url = "/post"
-  weight = 5
+# [[menu.navbar]]
+#    name = "Methodology"
+#    url = "#"
+#    weight = 2
+#
+# [[menu.navbar]]
+#     name = "Vignettes"
+#     url = "/articles"
+#     weight = 3
+#
+# [[menu.navbar]]
+#    name = "Maps"
+#    url = "/maps"
+#    weight = 4
+#
+# [[menu.navbar]]
+#   name = "Blog"
+#   url = "/post"
+#   weight = 5
 
 
 
