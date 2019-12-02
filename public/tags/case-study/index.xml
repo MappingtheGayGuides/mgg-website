@@ -31,15 +31,5 @@
       <description></description>
     </item>
     
-    <item>
-      <title>Welcome!</title>
-      <link>http://www.mappingthegayguides.org/dev/2019/10/welcome/</link>
-      <pubDate>Wed, 30 Oct 2019 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.mappingthegayguides.org/dev/2019/10/welcome/</guid>
-      <description>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque pellentesque non velit vitae euismod. Cras dapibus laoreet justo porta porttitor. Integer tellus massa, consectetur eget interdum nec, tincidunt vitae nisl. Phasellus ullamcorper velit in massa vehicula dapibus. Morbi semper velit et ipsum ornare vestibulum. Nulla sed sagittis justo. Etiam tempus tincidunt justo ac eleifend. Aliquam erat volutpat. Aenean vitae euismod ipsum, id mollis tellus.
-Duis rutrum ipsum ut nunc dictum hendrerit.</description>
-    </item>
-    
   </channel>
 </rss>
