@@ -2,60 +2,60 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Home on Mapping the Gay Guides</title>
-    <link>http://www.mappingthegayguides.org/dev/</link>
+    <link>https://www.mappingthegayguides.org/dev/</link>
     <description>Recent content in Home on Mapping the Gay Guides</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#39;https://creativecommons.org/licenses/by/4.0/&#39; target=&#39;_blank&#39;&gt;&lt;img src=&#39;https://mirrors.creativecommons.org/presskit/icons/by.svg&#39; height=&#39;25&#39;&gt; Licensed CC-BY.&lt;/a&gt;</copyright>
     <lastBuildDate>Wed, 30 Oct 2019 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="http://www.mappingthegayguides.org/dev/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://www.mappingthegayguides.org/dev/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Visualization: Mapping the Alabama Gay Guides</title>
-      <link>http://www.mappingthegayguides.org/dev/maps/alabama/</link>
+      <link>https://www.mappingthegayguides.org/dev/maps/alabama/</link>
       <pubDate>Wed, 20 Nov 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://www.mappingthegayguides.org/dev/maps/alabama/</guid>
+      <guid>https://www.mappingthegayguides.org/dev/maps/alabama/</guid>
       <description>  iframe { min-width: 100%; }    iFrameResize({ heightCalculationMethod: &#39;taggedElement&#39; });  </description>
     </item>
     
     <item>
       <title>Mapping the Alabama Gay Guides</title>
-      <link>http://www.mappingthegayguides.org/dev/articles/alabama/</link>
+      <link>https://www.mappingthegayguides.org/dev/articles/alabama/</link>
       <pubDate>Wed, 30 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://www.mappingthegayguides.org/dev/articles/alabama/</guid>
+      <guid>https://www.mappingthegayguides.org/dev/articles/alabama/</guid>
       <description>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque porttitor risus leo, ac euismod massa tristique nec. Duis suscipit mauris a erat dictum sagittis. Phasellus tristique urna et tortor dignissim convallis. Donec sed erat nec lectus euismod eleifend et vitae nibh. Morbi mattis ligula vel odio elementum, lobortis rhoncus eros imperdiet. Pellentesque a enim enim. Proin in massa a neque accumsan cursus id aliquam risus.
  See the full map  Praesent auctor nulla in augue pellentesque sollicitudin.</description>
     </item>
     
     <item>
       <title>Mapping the New Gay South</title>
-      <link>http://www.mappingthegayguides.org/dev/articles/newgaysouth/</link>
+      <link>https://www.mappingthegayguides.org/dev/articles/newgaysouth/</link>
       <pubDate>Wed, 30 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://www.mappingthegayguides.org/dev/articles/newgaysouth/</guid>
+      <guid>https://www.mappingthegayguides.org/dev/articles/newgaysouth/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Welcome!</title>
-      <link>http://www.mappingthegayguides.org/dev/2019/10/welcome/</link>
+      <link>https://www.mappingthegayguides.org/dev/2019/10/welcome/</link>
       <pubDate>Wed, 30 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://www.mappingthegayguides.org/dev/2019/10/welcome/</guid>
+      <guid>https://www.mappingthegayguides.org/dev/2019/10/welcome/</guid>
       <description>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque pellentesque non velit vitae euismod. Cras dapibus laoreet justo porta porttitor. Integer tellus massa, consectetur eget interdum nec, tincidunt vitae nisl. Phasellus ullamcorper velit in massa vehicula dapibus. Morbi semper velit et ipsum ornare vestibulum. Nulla sed sagittis justo. Etiam tempus tincidunt justo ac eleifend. Aliquam erat volutpat. Aenean vitae euismod ipsum, id mollis tellus.
 Duis rutrum ipsum ut nunc dictum hendrerit.</description>
     </item>
     
     <item>
       <title>About this Project</title>
-      <link>http://www.mappingthegayguides.org/dev/about/</link>
+      <link>https://www.mappingthegayguides.org/dev/about/</link>
       <pubDate>Mon, 28 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://www.mappingthegayguides.org/dev/about/</guid>
+      <guid>https://www.mappingthegayguides.org/dev/about/</guid>
       <description>Mapping the Gay Guides is a collaborative project by Dr. Amanda Regan and Dr. Eric Gonzaba.
 If you use this project, we would appreciate it if you would cite us using the suggested citation below:
  Mapping the Gay Guides, Amanda Regan and Eric Gonzaba, (2019-): http:// www.mappingthegayguides.org.
@@ -64,20 +64,20 @@ If you use this project, we would appreciate it if you would cite us using the s
     
     <item>
       <title>Amanda Regan</title>
-      <link>http://www.mappingthegayguides.org/dev/regan/</link>
+      <link>https://www.mappingthegayguides.org/dev/regan/</link>
       <pubDate>Mon, 28 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://www.mappingthegayguides.org/dev/regan/</guid>
+      <guid>https://www.mappingthegayguides.org/dev/regan/</guid>
       <description>Amanda Regan is a historian of the late-nineteenth and early twentieth-centuries and is currently a Digital Humanities Postdoctoral Fellow at Southern Methodist University’s Center for Presidential History. She earned her PhD in History from George Mason University in 2019.
 Her research sits at the intersection of women’s history, fitness history, and history of the body and her work often relies upon computational methodologies as a research tool for examining large corpuses of primary sources and gleaning new insights.</description>
     </item>
     
     <item>
       <title>Eric Gonzaba</title>
-      <link>http://www.mappingthegayguides.org/dev/gonzaba/</link>
+      <link>https://www.mappingthegayguides.org/dev/gonzaba/</link>
       <pubDate>Mon, 28 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://www.mappingthegayguides.org/dev/gonzaba/</guid>
+      <guid>https://www.mappingthegayguides.org/dev/gonzaba/</guid>
       <description>Dr. Eric Gonzaba is an Assistant Professor of American Studies at California State University, Fullerton. He received his doctorate in American History from George Mason University in 2019. A specialist in African American history and LGBT culture, he’s currently completing a book on the culture and politics of gay nightlife in Washington, D.C., Baltimore, and Philadelphia since 1970.
 Beyond his research, Gonzaba strives to find innovative ways to teach and understand our past, especially through digital public history.</description>
     </item>

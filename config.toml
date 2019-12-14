@@ -1,6 +1,6 @@
 # Hugo variables
 #
-baseurl = "http://www.mappingthegayguides.org/dev/"
+baseurl = "https://www.mappingthegayguides.org/dev/"
 languageCode = "en-us"
 title = "Mapping the Gay Guides"
 theme = "hugo-theme-bootstrap4-blog"
@@ -88,4 +88,4 @@ googleAnalytics = "UA-151188328-1"
 
   # Disable the use of sub-resource integrity on CSS/JS assets (default: false)
   # Useful if you're using a CDN or other host where you can't control cache headers
-  disable_sri = false
+  disable_sri = true
