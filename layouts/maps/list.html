@@ -42,7 +42,7 @@
         <div class="card" style="width: 18rem;">
           <div class="card-body">
             <h4 class="card-title"><a href="{{ .Permalink }}">{{ .Title | markdownify }}</a></h4>
-    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque porttitor risus leo, ac euismod massa tristique nec.</p>
+    <p class="card-text">{{ .Site.Params.description }}</p>
 
     <a class="btn btn-outline-primary" href='{{ .Permalink }}'>{{ i18n "readMore" }}</a>
   </div>

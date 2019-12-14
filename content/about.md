@@ -9,7 +9,7 @@ A work in progress, MGG will launch in February 2020 with an initial dataset foc
 
 If you use this project, we would appreciate it if you would cite us using the suggested citation below:
 
-  > _Mapping the Gay Guides_, Amanda Regan and Eric Gonzaba, (2019-): http:// www.mappingthegayguides.org.
+  > _Mapping the Gay Guides_, Amanda Regan and Eric Gonzaba, (2019-): https:// www.mappingthegayguides.org.
 
 ## Project Team
 

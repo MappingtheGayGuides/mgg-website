@@ -1,6 +1,7 @@
 ---
 title: "Visualization: Mapping the Alabama Gay Guides"
 author: "Eric Gonzaba"
+description: "View the locations listed in the Damron Gay Guides for Alabama between 1965 and 1980."
 lastmod: "2019-11-20"
 ---
 
