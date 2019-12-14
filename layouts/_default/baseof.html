@@ -45,7 +45,7 @@
           </button>
 
       <div class="collapse navbar-collapse" id="navbarNav">
-        <a class="navbar-brand" href="#"><img src="/dev/images/logo_white_500.png" width=250></a>
+        <a class="navbar-brand" href="https://www.mappingthegayguides.org"><img src="/images/logo_white_500.png" width=250></a>
 
         <a class="nav-link {{ if .IsHome }}active{{ end }}" href="{{ .Site.BaseURL | absLangURL }}">{{ i18n "home" }}</a>
            {{- $currentPage := . -}}
@@ -91,7 +91,7 @@
     {{ block "footer" . }}
     <footer class="blog-footer">
       <p dir="auto">
-      <img src="/dev/images/ccby.png" style="height:25px;">  This site is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">Creative Commons Attribution 4.0 International License.</a>
+      <img src="/images/ccby.png" style="height:25px;">  This site is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">Creative Commons Attribution 4.0 International License.</a>
       </p>
     </footer>
     {{ end }}

@@ -4,7 +4,7 @@ date: "2019-10-28"
 title: Eric Gonzaba
 ---
 
-Dr. Eric Gonzaba is an Assistant Professor of American Studies at California State University, Fullerton. He received his doctorate in American History from George Mason University in 2019. A specialist in African American history and LGBT culture, he’s currently completing a book on the culture and politics of gay nightlife in Washington, D.C., Baltimore, and Philadelphia since 1970.
+<img alt="Headshot of Eric Gonzaba" src="/images/gonzaba.jpg" style="float:right; margin-left:20px; margin-bottom: 20px; width:300px;"> Dr. Eric Gonzaba is an Assistant Professor of American Studies at California State University, Fullerton. He received his doctorate in American History from George Mason University in 2019. A specialist in African American history and LGBT culture, he’s currently completing a book on the culture and politics of gay nightlife in Washington, D.C., Baltimore, and Philadelphia since 1970. 
 
 Beyond his research, Gonzaba strives to find innovative ways to teach and understand our past, especially through digital public history. In 2014, he founded Wearing Gay History, a digital archiving project documenting the history of modern LGBT communities through t-shirts. The project currently includes over 4,000 historical LGBTQ shirts from over twenty archival facilities across the globe and showcases the dynamic history of lesbians, gays, bisexuals, and trans people across local and national boundaries. In 2016, the National Council on Public History awarded Wearing Gay History its top student prize.
 
