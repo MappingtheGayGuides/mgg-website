@@ -8,7 +8,7 @@ lastmod: "2019-12-14"
 ---
 
 <figure>
-<img src="/dev/images/al_tableofcontents.JPG" class="image-right" style="width: 350px;">
+<img src="/images/al_tableofcontents.JPG" class="image-right" style="width: 350px;">
 <figcaption class="caption-right alert-secondary" role="alert" style="width:350px;"><small><p><b>Figure 1.</b> From Martinac’s <i>The Queerest Places</i>. Despite her excellent coverage of the American South, no Alabama sites are listed.</p></small></figcaption>
 </figure>
 
@@ -47,21 +47,21 @@ For this vignette, we have isolated just the Alabama listings in the Damron Addr
 It’s important to remember that the Damron Guides, while offering extensive listings of possible queer spots, aren’t without bias; they sometimes show a coastal perspective to areas thought of as wholly unsafe for queer people, like the U.S. South. For example, in its opening description of Alabama in several 1970s guidebooks, Damron refers to Alabama as a “virtual police state.” While certainly attitudes toward queer people and communities certainly varied across state lines, Damron’s framing of Alabama as a backward place reflects a negative coastal perspective on Southern culture.  
 
 <figure>
-<img src="/dev/images/al_Damron1974.png" class="image-left" style="width:320px;">
+<img src="/images/al_Damron1974.png" class="image-left" style="width:320px;">
 <figcaption class="caption-left alert-secondary" style="width:320px;"><small><p><b>Figure 3.</b> From <i>Damron’s Address Book</i>, 1974.</p></small></figcaption>
 </figure>
 
 Beyond simply the incredibly increase of listings in Alabama gay sites, readers are encouraged to explore the different categorizations used to differentiate sites in the Damron Guides. Damron used a lettered categorization system, labeling establishments that the writers of the guides felt pertained to certain listings. For example, For example, the 1965 Jewel Box bar at the Dinkler-Tutwiler Hotel is listed as "M" for "mixed crowds" (suggesting a large number of straight people in attendance) and "PE" for “pretty elegant- jacket & tie may be required,” noting that while gay men could find perhaps a friendly atmosphere at the location, it was not without the scrutiny of straight eyes and a formal dress code.
 
 <figure>
-<img src="/dev/images/al_tutwiler.png" class="image-right" style="width:320px;">
+<img src="/images/al_tutwiler.png" class="image-right" style="width:320px;">
 <figcaption class="caption-right alert-secondary" role="alert" style="width:320px;"><small><p><b>Figure 4.</b> Dinkler-Tutwiler Hotel, listed in <i>Damron’s Address Book</i>, 1965. Photo compliments of the Birmingham Public Archives.</p></small></figcaption>
 </figure>
 
 Readers might be surprised to see other famous spots in Alabama history listed as places safe for gay men. The Governor’s House Motel’s Filibuster Lounge bar is listed in 1970 as a spot with “Mixed crowds” but one that gay men could find possible interaction with people like them. The now-destroyed hotel held the election night parties of both Alabama governors George Wallace and Fob James and celebrities like Whoopi Goldberg are among the hotel’s most famous guests. Despite the hotel’s already rich history, _Mapping the Gay Guides_ invites users to understand the often hidden histories of queer people that lay within the state.  
 
 <figure>
-<img src="/dev/images/al_govhousemotel1965.jpg" style="width:370px;" class="image-left">
+<img src="/images/al_govhousemotel1965.jpg" style="width:370px;" class="image-left">
 <figcaption class="caption-left alert-secondary" style="width:370px;"><small><p><b>Figure 5.</b> Montgomery’s Governor’s House Motel hosted numerous celebrities and Alabama political events throughout its history. It’s inclusion in the Damron guides suggest it has a LGBTQ history as well. Photo compliment of the Alabama Archives</p></small></figcaption>
 </figure>
 
@@ -70,7 +70,7 @@ Another example of Damron classifications is the noting of popular “cruisy are
 In 1980 Alabama, cruising areas centered on the northern half of the state, particularly in Birmingham and Huntsville. In Anniston, Alabama, popular cruising areas included the Greyhound Bus Depot and the blocks around Noble St. In Mobile, a popular spot for gay men to meet, especially in the summer months, was Dauphin Island (incorrectly listed as “Dolphin Island” in its first appearance in the guides in 1973). Far from the gay beach havens on the East Coast like Fire Island or Rehoboth, Alabaman gay men could find perhaps less glamorous but important sites of community near their own hometowns.
 
 <!-- <figure>
-<img src="/dev/images/al_dauphinisland.jpg" class="image-right" style="width:320px;">
+<img src="/images/al_dauphinisland.jpg" class="image-right" style="width:320px;">
 <figcaption class="alert-secondary caption-right" style="width:320px;"><small><p><b>Figure 6.</b> Damron listed Dauphin Island as a popular cruising ground for gay men just off the coast of Mobile, AL. Photo courtesy of Faungg.</p></small>
 </figcaption>
 </figure> -->
@@ -78,7 +78,7 @@ In 1980 Alabama, cruising areas centered on the northern half of the state, part
 One of the most fascinating characteristics collected by the Damron Address books pertain to race. The guides use the letter “B” to designate sites where “blacks frequent.” In the fifteen years currently displayed on the _Mapping the Gay Guides_, a total of nine (9) unique locations are listed under the “B” symbol. All nine of these locations are either in Birmingham or Mobile. At first glance this may seem odd; neither of these cities lay inside Alabama’s “Black Belt,” where a historical demographic concentration of African Americans have resided since the before the Civil War. However, both Mobile and Birmingham are industrial urban centers with large African American populations. Their sheer size allowed for queer friendly businesses to have a large enough patronage to survive. By analyzing this data via the _Mapping the Gay Guides_ interface, we can see how African American gay men built sites of relative safety and acceptance in an often stereotyped-conservative South.
 
 <figure>
-<img src="/dev/images/al_explanationoflistings.png" class="image-right" style="width:350px;">
+<img src="/images/al_explanationoflistings.png" class="image-right" style="width:350px;">
 <figcaption class="alert-secondary caption-right" style="width:350px;"><small><p><b>Figure 6.</b> Explanation of Listings, from Damron’s Address Book, 1980.</p></small>
 </figcaption>
 </figure>
