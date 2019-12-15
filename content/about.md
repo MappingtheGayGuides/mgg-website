@@ -15,6 +15,6 @@ If you use this project, we would appreciate it if you would cite us using the s
 
 * [Dr. Amanda Regan](/regan), Co-primary investigator
 * [Dr. Eric Gonzaba](/gonzaba), Co-primary investigator
-* Liset Machedo, Intern, Fall 2019.
+* Liset Machado, Intern, Fall 2019.
 * Morgan Glover, Intern, 2019-2020.
 * Susana Garcia, Intern, 2019-2020

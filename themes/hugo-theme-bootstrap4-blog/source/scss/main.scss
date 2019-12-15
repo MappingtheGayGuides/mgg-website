@@ -5,6 +5,39 @@
 
 
 // MGG Specific Styles
+figcaption p {
+  margin: 0 0 0 0;
+}
+.image-right {
+  float: right;
+  margin:0 0px 20px 40px;
+}
+.image-left {
+  float: left;
+  margin:0 40px 20px 0px;
+}
+
+.caption-right{
+  position: relative;
+  padding: $alert-padding-y $alert-padding-x;
+  margin-bottom: $alert-margin-bottom;
+  border: $alert-border-width solid transparent;
+  @include border-radius($alert-border-radius);
+  float: right;
+  margin:0 0px 20px 40px;
+  clear: both;
+}
+
+.caption-left {
+  position: relative;
+  padding: $alert-padding-y $alert-padding-x;
+  margin-bottom: $alert-margin-bottom;
+  border: $alert-border-width solid transparent;
+  @include border-radius($alert-border-radius);
+  float: left;
+  margin:0 40px 20px 0px;
+  clear: both;
+}
 
 .article h1 {
   margin-bottom: 25px;
