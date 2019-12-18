@@ -2,6 +2,7 @@
 author: Amanda Regan
 date: "2019-12-14"
 title: Eric Gonzaba
+description: "Dr. Eric Gonzaba is an Assistant Professor of American Studies at California State University, Fullerton. He received his doctorate in American History from George Mason University in 2019."
 ---
 
 <img alt="Headshot of Eric Gonzaba" src="/images/gonzaba.jpg" style="float:right; margin-left:20px; margin-bottom: 20px; width:300px;"> Dr. Eric Gonzaba is an Assistant Professor of American Studies at California State University, Fullerton. He received his doctorate in American History from George Mason University in 2019. A specialist in African American history and LGBT culture, he’s currently completing a book on the culture and politics of gay nightlife in Washington, D.C., Baltimore, and Philadelphia since 1970.

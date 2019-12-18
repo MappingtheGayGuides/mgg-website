@@ -2,6 +2,8 @@
 author: Amanda Regan
 date: "2019-12-14"
 title: About this Project
+description: "Mapping the Gay Guides aims to understand often ignored queer geographies using the Damron Guides, an early but longstanding travel guide aimed at gay men since the early 1960s."
+tag: digital history, mapping, damron gay guides, lgbtq history
 ---
 _Mapping the Gay Guides_ aims to understand often ignored queer geographies using the Damron Guides, an early but longstanding travel guide aimed at gay men since the early 1960s. Similar in function to the green books used by African Americans during the Jim Crow era to help identity businesses that catered to black clients in the South, the Damron Guides aided a generation of queer people to identity sites of community, pleasure, and politics. By associating geographical coordinates with each location mentioned within the Damron Guides, MGG provides an interface for visualizing the growth of queer spaces between 1965 and 1980.
 

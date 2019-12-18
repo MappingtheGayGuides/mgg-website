@@ -3,8 +3,8 @@ title: "Does Alabama have an LGBTQ history?"
 author: "Eric Gonzaba"
 date: "2019-12-01"
 description: "For this vignette, we have isolated just the Alabama listings in the Damron Address books from 1965-1980, a sort of preview before the official launch of an additional eleven southern states in February 2020."
-tags: [case-study]
-lastmod: "2019-12-14"
+tag: case-study, Alabama, digital history, mapping, damron gay guides, lgbtq history
+lastmod: "2019-12-18"
 ---
 
 <figure>

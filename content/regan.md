@@ -2,6 +2,7 @@
 author: Amanda Regan
 date: "2019-12-14"
 title: Amanda Regan
+description: "Amanda Regan is a historian of the late-nineteenth and twentieth-centuries and is currently a Digital Humanities Postdoctoral Fellow at Southern Methodist University’s Center for Presidential History."
 ---
 <img alt="Headshot of Amanda Regan" src="/images/regan.jpg" style="float:right; margin-left:20px; margin-bottom: 20px; width:300px;"> [Amanda Regan](http://www.amanda-regan.com) is a historian of the late-nineteenth and twentieth-centuries and is currently a Digital Humanities Postdoctoral Fellow at Southern Methodist University’s [Center for Presidential History](https://www.smu.edu/CPH/). She earned her PhD in History from George Mason University in 2019.
 
