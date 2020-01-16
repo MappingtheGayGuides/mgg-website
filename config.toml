@@ -24,10 +24,10 @@ googleAnalytics = "UA-151188328-1"
   url = "/about"
   weight = 1
 
-# [[menu.navbar]]
-#    name = "Methodology"
-#    url = "#"
-#    weight = 2
+[[menu.navbar]]
+    name = "Methodology"
+    url = "/methodology"
+    weight = 2
 
 [[menu.navbar]]
     name = "Vignettes"
