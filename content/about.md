@@ -17,9 +17,13 @@ If you use this project, we would appreciate it if you would cite us using the s
 
 * [Dr. Amanda Regan](/regan), Co-primary investigator
 * [Dr. Eric Gonzaba](/gonzaba), Co-primary investigator
-* Liset Machado, Intern, Fall 2019.
+* Liset Machado, Intern, Florida International University, Fall 2019.
 * Morgan Glover, Intern, 2019-2020.
 * Susana Garcia, Intern, 2019-2020
+* Christian Castillo, Graduate Research Assistant, California State University Fullerton, Spring 2020.
+* Laura Fauvor, Graduate Research Assistant, California State University Fullerton, Spring 2020.
+* Giulia Oprea, Graduate Research Assistant, California State University Fullerton, Spring 2020.
+* Sierra Rivera, Graduate Research Assistant, California State University Fullerton, Spring 2020.
 
 ## Project Log
 
