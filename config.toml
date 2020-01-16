@@ -15,8 +15,6 @@ googleAnalytics = "UA-151188328-1"
   post = "/:year/:month/:title/"
   page = "/:slug/"
 
-
-
 # custom navbar menu entry.   See the custom_navbar parameter below for
 # details.
 [[menu.navbar]]

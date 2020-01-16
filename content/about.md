@@ -20,3 +20,8 @@ If you use this project, we would appreciate it if you would cite us using the s
 * Liset Machado, Intern, Fall 2019.
 * Morgan Glover, Intern, 2019-2020.
 * Susana Garcia, Intern, 2019-2020
+
+## Project Log
+
+* February 1, 2020: Site launch!
+* December 15, 2019: Added a "preview" vignette and visualization focusing on Alabama's LGBTQ spaces between 1965 and 1980.
