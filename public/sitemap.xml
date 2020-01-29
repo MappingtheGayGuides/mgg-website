@@ -3,67 +3,66 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://www.mappingthegayguides.org/about/</loc>
+    <loc>https://www.mappingthegayguides.org/dev/methodology/</loc>
+    <lastmod>2020-01-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.mappingthegayguides.org/dev/about/</loc>
     <lastmod>2019-12-14T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://www.mappingthegayguides.org/regan/</loc>
+    <loc>https://www.mappingthegayguides.org/dev/regan/</loc>
     <lastmod>2019-12-14T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://www.mappingthegayguides.org/gonzaba/</loc>
+    <loc>https://www.mappingthegayguides.org/dev/gonzaba/</loc>
     <lastmod>2019-12-14T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://www.mappingthegayguides.org/articles/</loc>
-    <lastmod>2019-12-14T00:00:00+00:00</lastmod>
+    <loc>https://www.mappingthegayguides.org/dev/articles/</loc>
+    <lastmod>2019-12-18T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://www.mappingthegayguides.org/tags/case-study/</loc>
-    <lastmod>2019-12-14T00:00:00+00:00</lastmod>
+    <loc>https://www.mappingthegayguides.org/dev/articles/alabama/</loc>
+    <lastmod>2019-12-18T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://www.mappingthegayguides.org/articles/alabama/</loc>
-    <lastmod>2019-12-14T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://www.mappingthegayguides.org/tags/</loc>
-    <lastmod>2019-12-14T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://www.mappingthegayguides.org/maps/</loc>
+    <loc>https://www.mappingthegayguides.org/dev/maps/</loc>
     <lastmod>2019-11-20T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://www.mappingthegayguides.org/maps/alabama/</loc>
+    <loc>https://www.mappingthegayguides.org/dev/maps/alabama/</loc>
     <lastmod>2019-11-20T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://www.mappingthegayguides.org/</loc>
+    <loc>https://www.mappingthegayguides.org/dev/</loc>
     <lastmod>2019-10-30T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://www.mappingthegayguides.org/post/</loc>
+    <loc>https://www.mappingthegayguides.org/dev/post/</loc>
     <lastmod>2019-11-20T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://www.mappingthegayguides.org/2019/10/welcome/</loc>
+    <loc>https://www.mappingthegayguides.org/dev/2019/10/welcome/</loc>
     <lastmod>2019-11-20T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://www.mappingthegayguides.org/categories/</loc>
+    <loc>https://www.mappingthegayguides.org/dev/categories/</loc>
+  </url>
+  
+  <url>
+    <loc>https://www.mappingthegayguides.org/dev/tags/</loc>
   </url>
   
 </urlset>

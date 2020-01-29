@@ -9,7 +9,7 @@ tag: digital history, mapping, damron gay guides, lgbtq history
 # Mapping the Gay Guides
 ## Visualizing Queer Space and American Life
 <figure>
-<img src="/images/home-damroncovers.png" class="image-right" style="width:350px;">
+<img src="/dev/images/home-damroncovers.png" class="image-right" style="width:350px;">
 <figcaption class="caption-right alert-secondary" style="width:350px;"><small><p><b>Figure 1.</b> Covers from <i>Damron’s Address Book</i></p></small></figcaption>
 </figure>
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus faucibus quis sem id faucibus. Mauris ornare vestibulum neque, non semper augue ultricies ac. Pellentesque venenatis eleifend lorem nec pellentesque. Etiam cursus gravida magna id mollis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ut ultricies sem. Mauris fringilla id sapien sit amet hendrerit. Quisque dapibus ante feugiat eleifend bibendum. Phasellus tincidunt leo ut turpis dictum consequat. Sed a felis ligula. Duis mi augue, lacinia et nisl quis, aliquam pellentesque magna. Nam sollicitudin sodales lectus, a laoreet lectus fringilla et.
@@ -19,7 +19,7 @@ Aliquam id porttitor nulla. Nulla iaculis lacinia urna, et ornare neque pulvinar
 Aenean tempor risus sed commodo porttitor. Pellentesque pharetra quam et est eleifend pulvinar. Suspendisse ultrices et neque semper condimentum. Duis fermentum neque erat, ac lobortis dui finibus nec. Vivamus vel dui at diam porttitor cursus. Pellentesque tincidunt elit nec ex tristique, sed vulputate augue consectetur. In eleifend, enim at sollicitudin ultrices, orci turpis maximus nisi, et aliquam quam erat id diam.
 
 <figure>
-<img src="/images/1976ExplanationofListings.png" class="image-left" style="width:300px;">
+<img src="/dev/images/1976ExplanationofListings.png" class="image-left" style="width:300px;">
 <figcaption class="caption-left alert-secondary" style="width:300px;"><small><p><b>Figure 2.</b> Explanation of Listings from <i>Damron’s Address Book</i>, 1976</p></small></figcaption>
 </figure>
 
