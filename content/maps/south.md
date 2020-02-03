@@ -1,5 +1,5 @@
 ---
-title: "Visualization: Mapping Queer Southern Culture"
+title: "Mapping the 'New Gay South'"
 author: "Eric Gonzaba"
 description: "View the locations listed in the Damron Gay Guides for the South between 1965 and 1980."
 lastmod: "2019-11-20"
