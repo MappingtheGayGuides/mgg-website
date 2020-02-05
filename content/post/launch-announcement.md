@@ -1,16 +1,42 @@
 ---
 title: "Announcing the Launch of Mapping the Gay Guides!"
 author: "Amanda Regan and Eric Gonzaba"
-description: ""
+description: "Today we’re excited to officially launch the first phase of _Mapping the Gay Guides_, a digital history mapping project that aims to understand ignored queer geographies using the Damron Address Books."
 lastmod: "2020-02-10"
+draft: true
 category: "Project News"
+images: ["/images/logo-square.png"]
 ---
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sit amet dictum sit amet justo donec enim diam vulputate. Imperdiet sed euismod nisi porta. Nunc aliquet bibendum enim facilisis gravida. Non pulvinar neque laoreet suspendisse interdum consectetur libero id faucibus. Nunc sed id semper risus in hendrerit gravida. Lorem sed risus ultricies tristique. Nunc consequat interdum varius sit amet mattis vulputate. Vestibulum lorem sed risus ultricies tristique nulla aliquet enim. Euismod nisi porta lorem mollis aliquam ut porttitor. Consequat semper viverra nam libero justo laoreet. Eget aliquet nibh praesent tristique. Integer malesuada nunc vel risus commodo viverra maecenas accumsan. Mollis nunc sed id semper. Arcu dictum varius duis at consectetur lorem donec.
+Today we’re excited to officially launch the first phase of _Mapping the Gay Guides_.
 
-Tincidunt vitae semper quis lectus nulla at. At lectus urna duis convallis convallis tellus id interdum. Vitae tortor condimentum lacinia quis vel eros donec. Facilisis gravida neque convallis a cras semper auctor. Erat nam at lectus urna duis convallis convallis. Scelerisque fermentum dui faucibus in ornare. Viverra tellus in hac habitasse platea dictumst vestibulum rhoncus est. Risus commodo viverra maecenas accumsan lacus. Varius duis at consectetur lorem donec massa sapien faucibus et. Consectetur adipiscing elit duis tristique sollicitudin nibh sit amet. Non consectetur a erat nam at lectus urna duis convallis. Nibh sed pulvinar proin gravida hendrerit lectus.
+### What is _Mapping the Gay Guides_?
 
-Suspendisse potenti nullam ac tortor vitae purus faucibus ornare suspendisse. Mi bibendum neque egestas congue quisque egestas. Pharetra sit amet aliquam id diam maecenas. At varius vel pharetra vel turpis nunc. Felis imperdiet proin fermentum leo vel. Sit amet est placerat in. Auctor augue mauris augue neque gravida. Sed viverra ipsum nunc aliquet bibendum enim facilisis gravida neque. Amet aliquam id diam maecenas ultricies mi. Duis ultricies lacus sed turpis tincidunt id aliquet. Non arcu risus quis varius quam. Fames ac turpis egestas integer eget aliquet nibh praesent. Lorem sed risus ultricies tristique nulla aliquet enim. Pharetra pharetra massa massa ultricies mi quis hendrerit dolor. Aliquet bibendum enim facilisis gravida. Enim nec dui nunc mattis enim ut tellus.
+_Mapping the Gay Guides_ (MGG) is a digital mapping project that aims to understand often ignored queer geographies using the Damron Address Books, an early but longstanding travel guide aimed at gay men since the early 1960s. Similar in function to the green books used by African Americans during the Jim Crow era to help identity businesses that catered to black clients in the South, the Damron Guides aided a generation of queer people to identity sites of community, pleasure, and politics. By associating geographical coordinates with each location mentioned within the Damron Guides, MGG provides an interface for visualizing the growth of queer spaces between 1965 and 1980.
+<figure>
+<img src="/dev/images/logo-square.png" class="image-left" style="width:270px;">
+</figure>
+MGG’s first phase is focused on the American South. Over the last year we have constructed a data set based on all of the locations listed in the Damron Address Book for the following 10 states: Alabama, Arkansas, Florida, Georgia, Kentucky, Louisiana, Mississippi, North Carolina, South Carolina, and Tennessee. Spanning ten states and fourteen years this data provides a detailed portrait of gay life in the American South.
 
-Quam adipiscing vitae proin sagittis nisl. Ultrices dui sapien eget mi. Nunc aliquet bibendum enim facilisis gravida neque. Tellus orci ac auctor augue mauris augue neque. Nullam vehicula ipsum a arcu cursus vitae. Ligula ullamcorper malesuada proin libero nunc consequat. Lectus arcu bibendum at varius vel pharetra vel. Phasellus faucibus scelerisque eleifend donec pretium vulputate sapien. Feugiat scelerisque varius morbi enim nunc faucibus a pellentesque. Risus in hendrerit gravida rutrum quisque non tellus orci ac. Eleifend mi in nulla posuere sollicitudin aliquam ultrices sagittis orci. Rhoncus mattis rhoncus urna neque viverra justo nec ultrices. Magna etiam tempor orci eu lobortis elementum nibh. At imperdiet dui accumsan sit amet. Orci nulla pellentesque dignissim enim. Quisque sagittis purus sit amet.
+### Why the Damron Address Books?
+<figure>
+<img src="/dev/images/damron-ad-1976.png" class="image-right" style="width:250px;">
+</figure>
+While the Damron Address Books were not the only gay travel guide or yellow page in the 1970s, they were the original and remained the gold standard, especially for men, through the 1990s. Aside from being the most popular travel guide, its the nature of the data inside that makes these guides an ideal source for a digital project such as this. An entry in Damron’s guide typically included the name of the establishment, an address, sometimes notes or warnings, and often an “Explanation of Listings” which were lettered designations describing Damron’s own characterization of the location. For example, a location may contain a “(D)” next to it indicating that it was a popular location for Dancing.
 
-Lacus viverra vitae congue eu consequat ac. Ut tristique et egestas quis ipsum suspendisse ultrices. Hendrerit dolor magna eget est lorem ipsum dolor. Ut sem viverra aliquet eget. At risus viverra adipiscing at in tellus. Elit at imperdiet dui accumsan sit amet. Quis eleifend quam adipiscing vitae proin sagittis. Ultrices mi tempus imperdiet nulla malesuada pellentesque elit. Eu scelerisque felis imperdiet proin fermentum. Sit amet luctus venenatis lectus magna. Enim sit amet venenatis urna cursus eget nunc. Sit amet porttitor eget dolor morbi non arcu. Ut sem nulla pharetra diam.
+These categorizations pose interesting historical questions. How did Damron’s perspective of certain regions of the country shape his categorization? How do these categorizations change over time, especially in the post-Stonewall period? Are spaces in the South categorized differently than spaces in the major meccas of San Francisco or New York? How did lesbians and gay men interpret and use these spaces outlined by Damron? By choosing to maintain the categorization assigned by Damron to each location in the “Amenity Features” column, we are able to segment the map based on Damron’s classifications and examine change over time in a way that would be difficult to do without the use of digital mapping methodologies.
+
+### How to Explore the Materials Launched Today
+
+As part of this launch we are releasing not only the public dataset that was transcribed from the Damron Address Books, but also a series of maps and digital vignettes that contextualize this data. Our public data (as well as all of our code) can be found on our GitHub page and we’ve also written a statement on our methodology in transcribing and categorizing this data.
+<figure>
+<img src="/dev/images/launch-blog-map.png" class="image-left" style="width:500px;">
+</figure>
+There are two main ways to explore the content on this site. First, you can look at our visualizations that display the location of each entry in the Damron Address Book between 1965 and 1980 along with information about how the location was classified by the Damron Corporation. Drop down menus and a date slider on the visualization allow you to filter the data by city, amenity feature, type or year. Our methodology page includes more information on each of these categories as well as on the choices made in digitizing our source data.
+
+The second way to explore content on the site is through our “Digital Vignettes” which are short case studies based on the visualizations. Each Vignette explores some aspect regarding the history of LGBTQ spaces in the United States and includes historical context and analysis.
+
+### Project Staff
+As we launch the first phase of this site we want to thank the many people who this project wouldn’t be possible without. We’ve benefited immensely from the labor of some outstanding interns who helped us to transcribe the data included within the Damron guides. Liset Machedo (Florida International University) and Susana Garcia and Morgan Glover, (both impressive young high school students at the Irma Lerma Rangel Young Women’s Leadership School in Dallas, TX) collaborated with us and aided in transcribing the data for the Southern states. Their attention to detail, thoughtful questions, and commitment propelled the project forward and MGG wouldn’t have been possible without their labor. We also received a Research, Scholarship and Creative Activities Development Grant from California State University, Fullerton which has funded work on further transcription and another cohort of graduate student interns from CSUF.
+
+### Looking Forward
+In the coming year we plan to release more data focusing on other regions so stay tuned for continued updates and new vignettes contextualizing these valuable historical sources!

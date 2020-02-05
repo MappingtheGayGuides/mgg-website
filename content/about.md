@@ -30,7 +30,7 @@ A work in progress, MGG will launch in February 2020 with an initial dataset foc
 
 ## Project Log
 
-* **February 1, 2020:** Site launch!
+* **February x, 2020:** Site launch!
 * **December 15, 2019:** Added a "preview" vignette and visualization focusing on Alabama's LGBTQ spaces between 1965 and 1980.
 
 ## Cite Us
