@@ -53,7 +53,13 @@
            {{ $menuURL := .URL | absLangURL }}
            <a class="nav-link{{ if or ($currentPage.IsMenuCurrent "navbar" .) ($currentPage.HasMenuCurrent "navbar" .) }} active{{end}}" href="{{ .URL }}" title="{{ .Title }}">{{ .Name }}</a>
            {{ end }}
+
       </div>
+      <div class="nav justify-content-end">
+        <a class="nav-link" href="www.twitter.com/gayguides"><i class="fab fa-lg fa-twitter"></i></a>
+        <a class="nav-link" href="www.github.com"><i class="fab fa-lg fa-github"></i></a>
+      </div>
+
          </nav>
        <!-- </div> -->
     </div>

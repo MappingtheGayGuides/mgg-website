@@ -3,8 +3,6 @@ author: Amanda Regan
 date: "2019-02-04"
 title: Project Staff
 description:
-type: about
-layout: aboutpage
 ---
 <br>
 
