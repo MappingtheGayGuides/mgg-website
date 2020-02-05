@@ -3,10 +3,13 @@ author: Amanda Regan
 date: "2019-02-04"
 title: Project Staff
 description:
+type: about
+layout: aboutpage
 ---
 <br>
 
-## California State University Fullerton Graduate Research Assistants, Spring 2020
+### California State University Fullerton
+#### Graduate Research Assistants, Spring 2020
 <br>
 
 <div class="media">

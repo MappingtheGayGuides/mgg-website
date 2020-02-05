@@ -5,6 +5,17 @@
 
 
 // MGG Specific Styles
+.sidebar-module {
+  .nav-link {
+    margin-top: 5px;
+    color: #007bff;
+    padding: 8px 8px 8px 8px;
+  }
+  a:hover{
+    color: #0062cc;
+  }
+}
+
 figcaption p {
   margin: 0 0 0 0;
 }

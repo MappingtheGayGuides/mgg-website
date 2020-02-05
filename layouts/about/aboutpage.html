@@ -55,18 +55,21 @@
 
 {{ define "main" }}
 {{ $dateFormat := default "Mon Jan 2, 2006" (index .Site.Params "date_format") }}
+
 <div class="col-sm-12 blog-main article">
 <article class="blog-post">
   <header>
     <h1 class="blog-post-title">{{ .Title | markdownify }}</h1>
-    <p class="blog-post-meta">Posted by {{ $.Param "author" }} on {{ .Date.Format "Jan 7, 2006"}} in {{ .Params.category }}</p>
   </header>
-
-
-
+  <div class="row">
+  <div class="col-sm-12">
           {{ .Content }}
+  </div>
 
-  <!-- <small>Originally Published: {{ .PublishDate.Format "January 2, 2006"}}  |  Last modified: {{ .Lastmod.Format "January 2, 2006" }}</small> -->
+<!-- {{ partial "sidebar.html" . }} -->
+
+</div>
+  <small>Originally Published: {{ .PublishDate.Format "January 2, 2006"}}  |  Last modified: {{ .Lastmod.Format "January 2, 2006" }}</small>
   {{ if .IsTranslated }}
   <h4>{{ i18n "translations" }}</h4>
   <ul>

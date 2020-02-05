@@ -3,6 +3,7 @@ title: "Announcing the Launch of Mapping the Gay Guides!"
 author: "Amanda Regan and Eric Gonzaba"
 description: ""
 lastmod: "2020-02-10"
+category: "Project News"
 ---
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sit amet dictum sit amet justo donec enim diam vulputate. Imperdiet sed euismod nisi porta. Nunc aliquet bibendum enim facilisis gravida. Non pulvinar neque laoreet suspendisse interdum consectetur libero id faucibus. Nunc sed id semper risus in hendrerit gravida. Lorem sed risus ultricies tristique. Nunc consequat interdum varius sit amet mattis vulputate. Vestibulum lorem sed risus ultricies tristique nulla aliquet enim. Euismod nisi porta lorem mollis aliquam ut porttitor. Consequat semper viverra nam libero justo laoreet. Eget aliquet nibh praesent tristique. Integer malesuada nunc vel risus commodo viverra maecenas accumsan. Mollis nunc sed id semper. Arcu dictum varius duis at consectetur lorem donec.
 

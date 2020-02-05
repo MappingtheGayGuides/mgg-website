@@ -1,10 +1,10 @@
 ---
 title: "Mapping the New Gay South"
 author: "Eric Gonzaba"
-date: "2019-10-30"
+date: "2020-02-05"
 tags: [case-study]
 draft: false
-lastmod: "2019-11-20"
+lastmod: "2020-02-10"
 ---
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Enim tortor at auctor urna nunc id cursus metus. Sit amet nulla facilisi morbi tempus iaculis urna id volutpat. Orci dapibus ultrices in iaculis nunc sed augue lacus. At erat pellentesque adipiscing commodo elit. Faucibus in ornare quam viverra. Sed velit dignissim sodales ut eu. Montes nascetur ridiculus mus mauris vitae. Massa tincidunt nunc pulvinar sapien et ligula ullamcorper. Tortor consequat id porta nibh venenatis.
