@@ -19,7 +19,8 @@
       
       <guid>https://www.mappingthegayguides.org/dev/methodology/</guid>
       <description>Turning a historical document, such as the Damron Address Books, into data that can be used for mapping is a process fraught with methodological decisions that shape the resulting dataset. The goal of this page is to make visible the choices that were made and clarify our categorization of data.
-Although the Damron Guides have been digitized up until 1980 they are only available via a subscription to an academic database.</description>
+ Figure 1. Example of typical listings in the Damron Address Book.
+  Although the Damron Guides have been digitized up until 1980 they are only available via an academic subscription to the Alexander Street LGBT Thought and Culture database.</description>
     </item>
     
     <item>
@@ -62,12 +63,30 @@ Beyond his research, Gonzaba strives to find innovative ways to teach and unders
     </item>
     
     <item>
+      <title>Mapping the &#39;New Gay South&#39;</title>
+      <link>https://www.mappingthegayguides.org/dev/maps/south/</link>
+      <pubDate>Wed, 20 Nov 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mappingthegayguides.org/dev/maps/south/</guid>
+      <description>  iframe { min-width: 100%; }    iFrameResize({ heightCalculationMethod: &#39;taggedElement&#39; });  </description>
+    </item>
+    
+    <item>
       <title>Visualization: Mapping the Alabama Gay Guides</title>
       <link>https://www.mappingthegayguides.org/dev/maps/alabama/</link>
       <pubDate>Wed, 20 Nov 2019 00:00:00 +0000</pubDate>
       
       <guid>https://www.mappingthegayguides.org/dev/maps/alabama/</guid>
       <description>  iframe { min-width: 100%; }    iFrameResize({ heightCalculationMethod: &#39;taggedElement&#39; });  </description>
+    </item>
+    
+    <item>
+      <title>Mapping the New Gay South</title>
+      <link>https://www.mappingthegayguides.org/dev/articles/newgaysouth/</link>
+      <pubDate>Wed, 30 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mappingthegayguides.org/dev/articles/newgaysouth/</guid>
+      <description>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Enim tortor at auctor urna nunc id cursus metus. Sit amet nulla facilisi morbi tempus iaculis urna id volutpat. Orci dapibus ultrices in iaculis nunc sed augue lacus. At erat pellentesque adipiscing commodo elit. Faucibus in ornare quam viverra. Sed velit dignissim sodales ut eu. Montes nascetur ridiculus mus mauris vitae. Massa tincidunt nunc pulvinar sapien et ligula ullamcorper.</description>
     </item>
     
     <item>

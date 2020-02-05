@@ -16,9 +16,11 @@ If you use this project, we would appreciate it if you would cite us using the s
   > _Mapping the Gay Guides_, Amanda Regan and Eric Gonzaba, (2019-): https:// www.mappingthegayguides.org.
 
 ## Project Team
-
+Core Team:
 * [Dr. Amanda Regan](/regan), Co-primary investigator
 * [Dr. Eric Gonzaba](/gonzaba), Co-primary investigator
+
+Interns and Graduate Research Assistants:
 * Liset Machado, Intern, Florida International University, Fall 2019.
 * Morgan Glover, Intern, 2019-2020.
 * Susana Garcia, Intern, 2019-2020

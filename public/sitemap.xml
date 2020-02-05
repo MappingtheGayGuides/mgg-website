@@ -33,6 +33,11 @@
   </url>
   
   <url>
+    <loc>https://www.mappingthegayguides.org/dev/maps/south/</loc>
+    <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://www.mappingthegayguides.org/dev/maps/</loc>
     <lastmod>2019-11-20T00:00:00+00:00</lastmod>
   </url>
@@ -43,12 +48,27 @@
   </url>
   
   <url>
+    <loc>https://www.mappingthegayguides.org/dev/tags/case-study/</loc>
+    <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://www.mappingthegayguides.org/dev/</loc>
     <lastmod>2019-10-30T00:00:00+00:00</lastmod>
   </url>
   
   <url>
+    <loc>https://www.mappingthegayguides.org/dev/articles/newgaysouth/</loc>
+    <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://www.mappingthegayguides.org/dev/post/</loc>
+    <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.mappingthegayguides.org/dev/tags/</loc>
     <lastmod>2019-11-20T00:00:00+00:00</lastmod>
   </url>
   
@@ -59,10 +79,6 @@
   
   <url>
     <loc>https://www.mappingthegayguides.org/dev/categories/</loc>
-  </url>
-  
-  <url>
-    <loc>https://www.mappingthegayguides.org/dev/tags/</loc>
   </url>
   
 </urlset>
