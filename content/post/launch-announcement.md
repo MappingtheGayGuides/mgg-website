@@ -3,7 +3,7 @@ title: "Announcing the Launch of Mapping the Gay Guides!"
 author: "Amanda Regan and Eric Gonzaba"
 description: "Today we’re excited to officially launch the first phase of _Mapping the Gay Guides_, a digital history mapping project that aims to understand ignored queer geographies using the Damron Address Books."
 lastmod: "2020-02-10"
-draft: true
+draft: false
 category: "Project News"
 images: ["/images/logo-square.png"]
 ---

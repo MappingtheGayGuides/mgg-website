@@ -3,6 +3,16 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://www.mappingthegayguides.org/dev/2020/02/announcing-the-launch-of-mapping-the-gay-guides/</loc>
+    <lastmod>2020-02-10T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.mappingthegayguides.org/dev/post/</loc>
+    <lastmod>2020-02-10T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://www.mappingthegayguides.org/dev/articles/</loc>
     <lastmod>2020-02-10T00:00:00+00:00</lastmod>
   </url>
@@ -73,21 +83,7 @@
   </url>
   
   <url>
-    <loc>https://www.mappingthegayguides.org/dev/castillo/</loc>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.mappingthegayguides.org/dev/1/01/</loc>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://www.mappingthegayguides.org/dev/categories/</loc>
-  </url>
-  
-  <url>
-    <loc>https://www.mappingthegayguides.org/dev/post/</loc>
   </url>
   
 </urlset>
