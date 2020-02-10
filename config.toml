@@ -18,9 +18,9 @@ googleAnalytics = "UA-151188328-1"
 # custom navbar menu entry.   See the custom_navbar parameter below for
 # details.
 [[menu.navbar]]
-  name = "About"
-  url = "/about"
-  weight = 1
+    name = "About"
+    url = "/about"
+    weight = 1
 
 [[menu.navbar]]
     name = "Methodology"
@@ -28,19 +28,26 @@ googleAnalytics = "UA-151188328-1"
     weight = 2
 
 [[menu.navbar]]
+    name = "Ethics"
+    url = "/ethics"
+    weight = 3
+
+[[menu.navbar]]
     name = "Vignettes"
     url = "/articles"
-    weight = 3
+    weight = 4
 
 [[menu.navbar]]
    name = "Maps"
    url = "/maps"
-   weight = 4
+   weight = 5
 
 [[menu.navbar]]
-    name = "Project Blog"
+    name = "Blog"
     url = "/post"
-    weight = 5
+    weight = 6
+
+
 
 # [[menu.navbar]]
 #   name = "Blog"
