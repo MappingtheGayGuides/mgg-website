@@ -1,6 +1,6 @@
 ---
 author: Amanda Regan
-date: "2019-10-30"
+date: "2019-02-12"
 title: Home
 description: "Mapping the Gay Guides (MGG), is a collaborative mapping project by Dr. Amanda Regan and Dr. Eric Gonzaba that draws on the Damron Guides, an early but longstanding travel guide aimed at gay men since the early 1960s."
 tag: digital history, mapping, damron gay guides, lgbtq history
@@ -8,12 +8,13 @@ tag: digital history, mapping, damron gay guides, lgbtq history
 
 # Mapping the Gay Guides
 ## Visualizing Queer Space and American Life
-<figure>
-<img src="/dev/images/home-damroncovers.png" class="image-right" style="width:375px;">
-<figcaption class="caption-right alert-secondary" style="width:375px;"><small><p><b>Figure 1.</b> Covers from <i>Damron’s Address Book</i></p></small></figcaption>
-</figure>
 
 Welcome to _Mapping the Gay Guides_!
+
+<figure>
+<img src="/dev/images/home-damroncovers.png" class="image-right" style="width:425px;">
+<figcaption class="caption-right alert-secondary" style="width:425px;"><small><p><b>Figure 1.</b> Covers from <i>Damron’s Address Book</i></p></small></figcaption>
+</figure>
 
 While on his frequent business trips around the United States in the late 1950s and early 1960s, Bob Damron wanted to find bars and other locales to meet other men like him. A gay man, Damron sought friends, companions, and safety at friendly businesses in the various cities he visited. He began jotting down the names of the spots he frequented, sometimes loaning out his notebooks to fellow gay friends to take with them on their own journeys. His prolific lists became the basis of gay travel guide he began publishing in 1964.
 
