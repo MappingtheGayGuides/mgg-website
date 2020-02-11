@@ -1,9 +1,10 @@
 ---
 author: Amanda Regan
-date: "2020-01-16"
+date: "2020-02-11"
 title: Methodology
 description: "A description of the methodology behind Mapping the Gay Guides. On this page we discuss how we digitized the data and the decisions made during that process."
 tag: digital history, dataset, methodology, damron gay guides, lgbtq history
+lastmod: "2020-02-11"
 ---
 ### Creating a Dataset
 
@@ -87,7 +88,7 @@ Damron’s “explanation of listings” remained remarkably consistent over the
   * **`(P)` – Private – Inquire locally as to admission**
     * Many establishments often used the “private” designation to get around the possibility of police raids. Police raids against gay bars were common in the 1960s through 1980. It was harder to raid “private” clubs, however.
   * **`(PE)` – Pretty Elegant – often coat or tie**
-  * **`(PT)`— Pool Table**
+  * **`(PT)` — Pool Table**
   * **`(R)` –  Restaurant**
   * **`(RT)` – Raunchy Types – Hustlers, Drags, and other ‘Downtown’ Types**
     * Damron began using the (RT) classification in 1972. It’s presence on the explanation of listings suggest Damron’s early attempts to highlight establishments that the guides deemed as less than reputable. The Damron guides link sex workers (hustlers) and “downtown types” (likely people who lived in the inner city) to places of vice, crime, and deviancy.
@@ -95,7 +96,7 @@ Damron’s “explanation of listings” remained remarkably consistent over the
     * It’s likely that “impersonators” here is Damron’s designation of drag shows.
   * **`(SM)` — Some Motorcycle & Leather**
     * American motorcycle culture began in the 1940s and 1950s, and gay motorcycle clubs gained in popularity around the same time. Some participants in the culture found refuge in these roaming motorcycle communities as replacement meeting spots for the bars (which could be unsafe, especially with constant police raids).  Gay leather culture also allowed some gay men to embrace a masculine gay identity, one in opposition to the stereotyped femininity of “fairy” gay men.
-  * **`(W)`— Western or Cowboy Types**
+  * **`(W)` — Western or Cowboy Types**
     * Somewhat similar to the (SM) classification above, Damron used the (W) designation to identify places with rodeo and/or western vibes. These establishments were particularly popular in the American West and South and projected a more masculine image of gay life.
   * **`(WE)` — Weekends**
     * Damron used (WE) to note places open on the weekends. This label was sometimes joined with the star symbol (or asterisk in our data), suggesting an establishment was popular on the weekends.
