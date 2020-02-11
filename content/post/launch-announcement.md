@@ -15,7 +15,7 @@ _Mapping the Gay Guides_ (MGG) is a digital mapping project that aims to underst
 <figure>
 <img src="/dev/images/logo-square.png" class="image-left" style="width:270px;">
 </figure>
-MGG’s first phase is focused on the American South. Over the last year we have constructed a data set based on all of the locations listed in the Damron Address Book for the following 10 states: Alabama, Arkansas, Florida, Georgia, Kentucky, Louisiana, Mississippi, North Carolina, South Carolina, and Tennessee. Spanning ten states and fourteen years this data provides a detailed portrait of gay life in the American South.
+MGG’s first phase is focused on the American South. Over the last year we have constructed a data set based on all of the locations listed in the Damron Address Book for the following 12 states: Alabama, Arkansas, Florida, Georgia, Kentucky, Louisiana, Mississippi, North Carolina, South Carolina, Tennessee, Texas, and Virginia. Spanning twelve states and fourteen years this data provides a detailed portrait of gay life in the American South.
 
 ### Why the Damron Address Books?
 <figure>
