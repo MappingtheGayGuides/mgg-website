@@ -1,8 +1,9 @@
 ---
 author: Eric Gonzaba
-date: "2019-02-10"
+date: "2020-02-10"
+lastmod: "2020-02-11"
 title: A Statement on Ethics
-description: "Since this project is centered on the culture of gay, lesbian, bisexual, transgender, and queer people, the _Mapping the Gay Guides_ team strives to make our project ethically responsible, respecting the privacy, perspectives, and dignity of those whose stories are reflected within our work."
+description: "Since this project is centered on the culture of gay, lesbian, bisexual, transgender, and queer people, the Mapping the Gay Guides team strives to make our project ethically responsible, respecting the privacy, perspectives, and dignity of those whose stories are reflected within our work."
 tag: digital history, mapping, damron gay guides, lgbtq history
 ---
 Digital historians have ethical obligations, especially when they work with materials and subject matters that relate to marginalized communities. Since this project is centered on the culture of gay, lesbian, bisexual, transgender, and queer people, the _Mapping the Gay Guides_ team strives to make our project ethically responsible, respecting the privacy, perspectives, and dignity of those whose stories are reflected within our work.

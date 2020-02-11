@@ -2,6 +2,7 @@
 author: Amanda Regan
 date: "2019-12-14"
 title: About this Project
+lastmod: "2020-02-11"
 type: about
 layout: aboutpage
 description: "Mapping the Gay Guides aims to understand often ignored queer geographies using the Damron Guides, an early but longstanding travel guide aimed at gay men since the early 1960s."
@@ -30,7 +31,7 @@ A work in progress, MGG will launch in February 2020 with an initial dataset foc
 
 ## Project Log
 
-* **February x, 2020:** Site launch!
+* **February 12, 2020:** Site launch. The initial launch contains data from the Southern United States from 1965 through 1980. 
 * **December 15, 2019:** Added a "preview" vignette and visualization focusing on Alabama's LGBTQ spaces between 1965 and 1980.
 
 ## Cite Us

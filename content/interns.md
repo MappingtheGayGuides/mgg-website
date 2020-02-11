@@ -1,8 +1,9 @@
 ---
 author: Amanda Regan
 date: "2019-02-04"
-title: Project Staff
-description:
+lastmod: "2020-02-11"
+title: Collaborators
+description: "Mapping the Gay Guides project interns."
 ---
 <br>
 

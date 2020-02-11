@@ -1,6 +1,7 @@
 ---
 author: Amanda Regan
 date: "2020-02-11"
+lastmod: "2020-02-11"
 title: Eric Gonzaba
 description: "Dr. Eric Gonzaba is an Assistant Professor of American Studies at California State University, Fullerton. He received his doctorate in American History from George Mason University in 2019."
 ---
