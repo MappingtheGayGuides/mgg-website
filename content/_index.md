@@ -9,7 +9,7 @@ tag: digital history, mapping, damron gay guides, lgbtq history
 
 # Mapping the Gay Guides
 ## Visualizing Queer Space and American Life
-
+<br>
 Welcome to _Mapping the Gay Guides_!
 
 <figure>
