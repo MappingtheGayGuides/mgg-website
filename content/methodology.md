@@ -11,7 +11,7 @@ lastmod: "2020-02-11"
 Turning a historical document, such as the Damron Address Books, into data that can be used for mapping is a process fraught with methodological decisions that shape the resulting dataset. The goal of this page is to make visible the choices that were made and clarify our categorization of data.
 
 <figure>
-<img src="/dev/images/methodology-typicallisting.png" class="image-right" style="width:350px;">
+<img src="/images/methodology-typicallisting.png" class="image-right" style="width:350px;">
 <figcaption class="caption-right alert-secondary" style="width:350px;"><small><p><b>Figure 1.</b> Example of typical listings in the <i>Damron Address Book</i>.</p></small></figcaption>
 </figure>
 
@@ -20,15 +20,15 @@ Although the Damron Guides have been digitized up until 1980 they are only avail
 Listings in the Damron Guides are grouped by state and then by city. A typical entry in the guide (figure 1) includes the name of the establishment, an address, sometimes notes or warnings, and often an “Explanation of Listings” which were lettered designations describing Damron’s categorization of the location. For example, a location may contain a “(D)” next to it indicating that it is a popular location for Dancing. Our data mirrors the information included in each listing as closely as possible.
 
 <figure>
-<img src="/dev/images/1976ExplanationofListings.png" class="image-left" style="width:350px;">
+<img src="/images/1976ExplanationofListings.png" class="image-left" style="width:350px;">
 <figcaption class="caption-left alert-secondary" style="width:350px;"><small><p><b>Figure 2.</b> Explanation of Listings in the <i>Damron Address Book</i>. On this site we refer to these categories as "Amenity Features."</p></small></figcaption>
 </figure>
 
-We have chosen to maintain the categorization assigned by Damron and we use the term "Amenity Feature" to describe these categories. [(Read more about each of Damron's categories at the bottom of this page)](/dev/methodology/#damron-s-establishment-features) However, we have also added our own classification in the "Type" field. The type field goes beyond Damron's categorization by describing locations as one or more of the following types: Bars/Clubs, Hotels, Church, Theatre, Restaurant, Business, Baths, Book Stores or Cruising Area. While some of our type designations overlap with Damron's categorization, we note that locations can often function as multiple types. For example, many bars were located inside hotels and in order to track this unique kind of space we've made these locations both bars and hotels. Likewise, in the cases where a straight establishment (like a mall) is noted for being "Cruisy" but is not listed under Cruising Areas in the guide, we've assigned the type of location as Cruising Area. As the guides grow in length the diversity of business types increases but Damron’s own classification system doesn’t account for the rise in bookstores, theaters, or escort services listed in the guides. We’ve added categories to account for such locations making the type classification more robust and nuanced than Damron's.
+We have chosen to maintain the categorization assigned by Damron and we use the term "Amenity Feature" to describe these categories. [(Read more about each of Damron's categories at the bottom of this page)](/methodology/#damron-s-establishment-features) However, we have also added our own classification in the "Type" field. The type field goes beyond Damron's categorization by describing locations as one or more of the following types: Bars/Clubs, Hotels, Church, Theatre, Restaurant, Business, Baths, Book Stores or Cruising Area. While some of our type designations overlap with Damron's categorization, we note that locations can often function as multiple types. For example, many bars were located inside hotels and in order to track this unique kind of space we've made these locations both bars and hotels. Likewise, in the cases where a straight establishment (like a mall) is noted for being "Cruisy" but is not listed under Cruising Areas in the guide, we've assigned the type of location as Cruising Area. As the guides grow in length the diversity of business types increases but Damron’s own classification system doesn’t account for the rise in bookstores, theaters, or escort services listed in the guides. We’ve added categories to account for such locations making the type classification more robust and nuanced than Damron's.
 After transcribing and categorizing the data contained in the guide, it was necessary to associate the location's address with spatial longitude and latitude coordinates so that they could be plotted onto a map. This process is known as geocoding [link to wikipedia entry on geocoding here].
 
 <figure>
-<img src="/dev/images/methodology-unclearaddresses.png" class="image-right" style="width:350px;">
+<img src="/images/methodology-unclearaddresses.png" class="image-right" style="width:350px;">
 <figcaption class="caption-right alert-secondary" style="width:350px;"><small><p><b>Figure 3.</b> Example of an unclear address in the <i>Damron Address Book</i>.</p></small></figcaption>
 </figure>
 
@@ -36,7 +36,7 @@ Roughly 32% of the entries included in the Damron Address Books between 1965 and
 
 
 <figure>
-<img src="/dev/images/methodology-status-plot.png" class="image-left" style="width:450px;">
+<img src="/images/methodology-status-plot.png" class="image-left" style="width:450px;">
 <figcaption class="caption-left alert-secondary" style="width:450px;"><small><p><b>Figure 4.</b> Chart showing the breakdown between verified (22%), google verified (68%), and locations that could not be verified (11%).</p></small></figcaption>
 </figure>
 

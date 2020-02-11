@@ -1,6 +1,6 @@
 # Hugo variables
 #
-baseurl = "https://www.mappingthegayguides.org"
+baseurl = "https://www.mappingthegayguides.org/"
 languageCode = "en-us"
 title = "Mapping the Gay Guides"
 theme = "hugo-theme-bootstrap4-blog"
@@ -15,8 +15,7 @@ googleAnalytics = "UA-151188328-1"
   post = "/:year/:month/:title/"
   page = "/:slug/"
 
-# custom navbar menu entry.   See the custom_navbar parameter below for
-# details.
+# Navigation
 [[menu.main]]
     name = "About"
     url = "/about"
@@ -43,39 +42,15 @@ googleAnalytics = "UA-151188328-1"
     weight = 5
 
 [[menu.main]]
-    parent= "Ethics"
     name = "Blog"
     url = "/post"
+    weight = 6
 
 
 
 
 
 
-
-# [[menu.navbar]]
-#   name = "Blog"
-#   url = "/post"
-#   weight = 5
-[[menu.sidebar]]
-  name = "About"
-  url = "/about"
-  weight = 1
-
-[[menu.sidebar]]
-  name = "Project Staff"
-  url = "/interns"
-  weight = 2
-
-[[menu.sidebar]]
-  name = "Methodology"
-  url = "/methodology"
-  weight = 3
-
-[[menu.sidebar]]
-  name = "Ethics"
-  url = "/ethics"
-  weight = 4
 
 [params.sidebar]
   # Optional about block for sidebar (can be Markdown)

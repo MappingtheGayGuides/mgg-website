@@ -13,7 +13,7 @@ tag: digital history, mapping, damron gay guides, lgbtq history
 Welcome to _Mapping the Gay Guides_!
 
 <figure>
-<img src="/dev/images/home-damroncovers.png" class="image-right" style="width:425px;">
+<img src="/images/home-damroncovers.png" class="image-right" style="width:425px;">
 <figcaption class="caption-right alert-secondary" style="width:425px;"><small><p><b>Figure 1.</b> Covers from <i>Damron’s Address Book</i></p></small></figcaption>
 </figure>
 
@@ -24,7 +24,7 @@ Named the _Bob Damron Address Books_, these travel guides became almost survival
 Damron’s address books were part of a growing interest in gay travel guide publications that began in the early 1960s. Bob Damron wasn’t the only entrepreneur looking to offer gay consumers listings of queer friendly places. Guy Strait published the first edition of _The Lavender Baedeker_ in 1963, an extension to his already popular newspaper in San Francisco entitled _Citizen’s Guide_. Other publishers followed suit, including _Guild Guide to the Gay Scene_ and _World Report Travel Guide_, published not in the gay mecca of San Francisco but rather in New York. Despite stiff competition from these early publishers and later “copycats” (as Damron often saw them), Darmon’s guidebooks were perhaps the most extensive and long running of any of the early gay travel guides. In fact, unlike all his initial competition, Damron’s guides are, as of 2020, still in publication. While the internet age threatens the continuation of these important guidebooks, the fact that the _Bob Damron Address Books_ have existed for nearly six decades suggests an enduring and active queer travel community that never was strictly confined to a closet.
 
 <figure>
-<img src="/dev/images/1976ExplanationofListings.png" class="image-left" style="width:300px;">
+<img src="/images/1976ExplanationofListings.png" class="image-left" style="width:300px;">
 <figcaption class="caption-left alert-secondary" style="width:300px;"><small><p><b>Figure 2.</b> Explanation of Listings from <i>Damron’s Address Book</i>, 1976</p></small></figcaption>
 </figure>
 

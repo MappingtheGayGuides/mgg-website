@@ -19,7 +19,7 @@ A work in progress, MGG will launch in February 2020 with an initial dataset foc
 * [Dr. Amanda Regan](/regan), Co-primary investigator
 * [Dr. Eric Gonzaba](/gonzaba), Co-primary investigator
 
-[**Interns and Graduate Research Assistants:**](/dev/interns)
+[**Interns and Graduate Research Assistants:**](/interns)
 
 * Liset Machado, Intern, Florida International University, Fall 2019.
 * Morgan Glover, Intern, 2019-2020.
@@ -31,7 +31,7 @@ A work in progress, MGG will launch in February 2020 with an initial dataset foc
 
 ## Project Log
 
-* **February 12, 2020:** Site launch. The initial launch contains data from the Southern United States from 1965 through 1980. 
+* **February 12, 2020:** Site launch. The initial launch contains data from the Southern United States from 1965 through 1980.
 * **December 15, 2019:** Added a "preview" vignette and visualization focusing on Alabama's LGBTQ spaces between 1965 and 1980.
 
 ## Cite Us
