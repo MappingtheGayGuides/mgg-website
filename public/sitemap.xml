@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://www.mappingthegayguides.org/dev/map/</loc>
+    <lastmod>2020-02-12T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://www.mappingthegayguides.org/dev/2020/02/announcing-the-launch-of-mapping-the-gay-guides/</loc>
     <lastmod>2020-02-10T00:00:00+00:00</lastmod>
   </url>
@@ -58,11 +63,6 @@
   </url>
   
   <url>
-    <loc>https://www.mappingthegayguides.org/dev/maps/south/</loc>
-    <lastmod>2019-11-20T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://www.mappingthegayguides.org/dev/maps/</loc>
     <lastmod>2019-11-20T00:00:00+00:00</lastmod>
   </url>
@@ -74,7 +74,7 @@
   
   <url>
     <loc>https://www.mappingthegayguides.org/dev/</loc>
-    <lastmod>2019-10-30T00:00:00+00:00</lastmod>
+    <lastmod>2019-02-12T00:00:00+00:00</lastmod>
   </url>
   
   <url>

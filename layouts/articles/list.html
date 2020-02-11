@@ -41,7 +41,7 @@
         <div class="card" style="width: 18rem;">
           <div class="card-body">
             <h4 class="card-title"><a href="{{ .Permalink }}">{{ .Title | markdownify }}</a></h4>
-    <p class="card-text">{{ .Site.Params.description }}</p>
+    <p class="card-text">{{ .Description }}</p>
 
     <a class="btn btn-outline-primary" href='{{ .Permalink }}'>{{ i18n "readMore" }}</a>
   </div>

@@ -13,15 +13,6 @@
     
     
     <item>
-      <title>Mapping the &#39;New Gay South&#39;</title>
-      <link>https://www.mappingthegayguides.org/dev/maps/south/</link>
-      <pubDate>Wed, 20 Nov 2019 00:00:00 +0000</pubDate>
-      
-      <guid>https://www.mappingthegayguides.org/dev/maps/south/</guid>
-      <description>  iframe { min-width: 100%; }    iFrameResize({ heightCalculationMethod: &#39;taggedElement&#39; });  </description>
-    </item>
-    
-    <item>
       <title>Visualization: Mapping the Alabama Gay Guides</title>
       <link>https://www.mappingthegayguides.org/dev/maps/alabama/</link>
       <pubDate>Wed, 20 Nov 2019 00:00:00 +0000</pubDate>

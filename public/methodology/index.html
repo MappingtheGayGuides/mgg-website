@@ -27,7 +27,7 @@
   "@type": "BlogPosting",
   "headline": "Methodology",
   "url": "https:\/\/www.mappingthegayguides.org\/dev\/methodology\/",
-  "wordCount": "2074",
+  "wordCount": "2073",
   "datePublished": "2020-01-16T00:00:00\x2b00:00",
   "dateModified": "2020-01-16T00:00:00\x2b00:00",
   "author": {
@@ -90,16 +90,16 @@ if (!doNotTrack) {
            <a class="nav-link" href="/dev/about" title="">About</a>
            
            
-           <a class="nav-link" href="/dev/methodology" title="">Methodology</a>
-           
-           
-           <a class="nav-link" href="/dev/ethics" title="">Ethics</a>
+           <a class="nav-link" href="/dev/map" title="">Map</a>
            
            
            <a class="nav-link" href="/dev/articles" title="">Vignettes</a>
            
            
-           <a class="nav-link" href="/dev/maps" title="">Maps</a>
+           <a class="nav-link" href="/dev/methodology" title="">Methodology</a>
+           
+           
+           <a class="nav-link" href="/dev/ethics" title="">Ethics</a>
            
            
            <a class="nav-link" href="/dev/post" title="">Blog</a>
@@ -132,7 +132,7 @@ if (!doNotTrack) {
   </header>
   
 
-<h3 id="creating-a-dataset-the-transcription-and-categorization-of-the-damron-address-books">Creating a Dataset: The Transcription and Categorization of the <em>Damron Address Books</em></h3>
+<h3 id="creating-a-dataset">Creating a Dataset</h3>
 
 <p>Turning a historical document, such as the Damron Address Books, into data that can be used for mapping is a process fraught with methodological decisions that shape the resulting dataset. The goal of this page is to make visible the choices that were made and clarify our categorization of data.</p>
 
@@ -161,11 +161,13 @@ After transcribing and categorizing the data contained in the guide, it was nece
 <p>Roughly 32% of the entries included in the Damron Address Books between 1965 and 1980 were addresses that we deemed &ldquo;unclear.&rdquo; This meant that the addresses were either vague and un-mappable locations (i.e. &ldquo;Inquire Locally&rdquo; or &ldquo;U.S. Hwy 67&rdquo;) or were locations that had descriptive street addresses that required us to identify them by hand (i.e. Rice Park or ‘Primrose Path’ – Senate St. near Capitol). Of these &ldquo;unclear locations&rdquo; we were able to identify correct locations for more than half. Addresses listed as &ldquo;Verified Locations&rdquo; denote the locations that were found by hand and make up about 21% of the dataset.</p>
 
 <figure>
-<img src="/dev/images/methodology-status-plot.png" class="image-left" style="width:375px;">
-<figcaption class="caption-left alert-secondary" style="width:375px;"><small><p><b>Figure 4.</b> Example of an unclear address in the <i>Damron Address Book</i>.</p></small></figcaption>
+<img src="/dev/images/methodology-status-plot.png" class="image-left" style="width:450px;">
+<figcaption class="caption-left alert-secondary" style="width:450px;"><small><p><b>Figure 4.</b> Chart showing the breakdown between verified (22%), google verified (68%), and locations that could not be verified (11%).</p></small></figcaption>
 </figure>
 
 <p>However, there were many locations that we were unable to associate a geographical location with. Often these were locations that simply stated &ldquo;Inquire locally&rdquo; or where the location was simply too vague to confidently identify. These locations make up about 11% of the dataset and are marked by a note in the status column that reads: &ldquo;Location could not be verified. General city or location coordinates used.&rdquo; Rather than ignoring these locations, we have opted to use general city coordinates for them. This means, however, that the default map shows all locations and there are frequently clusters of locations with general coordinates mixed with verified locations. We&rsquo;ve opted to include these locations by default to demonstrate the growth of LGBTQ spaces in the South over time however were recognize that these locations can be somewhat misleading. Therefore we have included a checkbox on the map controls that will filter the map to show only verified locations.</p>
+
+<p><br></p>
 
 <ul>
 <li><p><strong>Google Verified Location:</strong> A location that was able to be verified using Google&rsquo;s Geocoding API.</p></li>
@@ -175,15 +177,11 @@ After transcribing and categorizing the data contained in the guide, it was nece
 <li><p><strong>Location could not be verified. General city or location coordinates used:</strong> For locations that our team was not able to verify manually, we&rsquo;ve opted to include the general coordinates for the city. Because these generalized locations can skew the map and provide a false sense of the geographic landscape of a city, we&rsquo;ve included a checkbox on our app that allows users to filter out these locations and look only at verified locations. However we&rsquo;ve opted to include them by default in the map in order to depict the scale of the growth in LGBTQ establishments between 1965 and 1980.</p></li>
 </ul>
 
-<h3 id="open-datasets">Open Datasets</h3>
-
-<p>In line with reproducible research practices, all of our data and code is available on <a href="https://github.com/MappingtheGayGuides">GitHub.</a> If you&rsquo;re interested in our raw data it can be found in the MGG-Data repository. This repository includes basic csv files with the raw data digitized from the Damron Guides. If you&rsquo;re interested in the code used to build the visualizations on this site you can find that code in the <a href="https://github.com/MappingtheGayGuides/MGG-App">MGG-App repository.</a> All of the code used to generate this website is in the <a href="https://github.com/MappingtheGayGuides/mgg-website">MGG-Website</a> repository.</p>
-
-<h3 id="damron-s-establishment-features">Damron&rsquo;s Establishment features</h3>
+<h3 id="damron-s-establishment-features">Damron&rsquo;s Establishment Features</h3>
 
 <p>How did Damron organize the gay world?</p>
 
-<p>While you browse any of the maps on Mapping the Gay Guides, you’ll quickly notice the ability to search through the listings via “establishment features.” These categories are not our team’s creation; rather, these classifications were actually a part of the original listings during publication. The Damron publishers used a series of mostly letters to denote that certain establishments included particular features. The Mapping the Gay Guides team cannot verify whether all of these establishment features are necessarily accurate, nor do we know Damron’s methodology in adding these letters to particular listings. However, the addition of these amenities features allows users to more thoroughly investigate the gay world the way thousands, perhaps millions of gay men understood it via these travel guides.</p>
+<p>While you browse any of the maps on <em>Mapping the Gay Guides</em>, you’ll quickly notice the ability to search through the listings via “establishment features.” These categories are not our team’s creation; rather, these classifications were actually a part of the original listings during publication. The Damron publishers used a series of mostly letters to denote that certain establishments included particular features. The <em>Mapping the Gay Guides</em> team cannot verify whether all of these establishment features are necessarily accurate, nor do we know Damron’s methodology in adding these letters to particular listings. However, the addition of these amenities features allows users to more thoroughly investigate the gay world the way thousands, perhaps millions of gay men understood it via these travel guides.</p>
 
 <p>Damron’s “explanation of listings” remained remarkably consistent over the 15 years of data we currently have available. Subtle changes do occasionally appear, including sometimes changing a letter designation or including a whole new category. Below is Damron’s establishment features in the year 1980. You’ll note that the Damron publishers offered their own explanations for each feature.</p>
 
@@ -291,6 +289,10 @@ After transcribing and categorizing the data contained in the guide, it was nece
 <li>In opposition to the (OC) label, Damron utilized (YC) to note places popular with a younger in age crowd.</li>
 </ul></li>
 </ul>
+
+<h3 id="open-datasets">Open Datasets</h3>
+
+<p>In line with reproducible research practices, all of our data and code is available on <a href="https://github.com/MappingtheGayGuides">GitHub.</a> If you&rsquo;re interested in our raw data it can be found in the MGG-Data repository. This repository includes basic csv files with the raw data digitized from the Damron Guides. If you&rsquo;re interested in the code used to build the visualizations on this site you can find that code in the <a href="https://github.com/MappingtheGayGuides/MGG-App">MGG-App repository.</a> All of the code used to generate this website is in the <a href="https://github.com/MappingtheGayGuides/mgg-website">MGG-Website</a> repository.</p>
 
 
   

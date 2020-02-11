@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#39;https://creativecommons.org/licenses/by/4.0/&#39; target=&#39;_blank&#39;&gt;&lt;img src=&#39;https://mirrors.creativecommons.org/presskit/icons/by.svg&#39; height=&#39;25&#39;&gt; Licensed CC-BY.&lt;/a&gt;</copyright>
-    <lastBuildDate>Wed, 30 Oct 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 12 Feb 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://www.mappingthegayguides.org/dev/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Mapping the Gay Guides</title>
+      <link>https://www.mappingthegayguides.org/dev/map/</link>
+      <pubDate>Wed, 12 Feb 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mappingthegayguides.org/dev/map/</guid>
+      <description>  iframe { min-width: 100%; }    iFrameResize({ heightCalculationMethod: &#39;taggedElement&#39; });  </description>
+    </item>
     
     <item>
       <title>Announcing the Launch of Mapping the Gay Guides!</title>
@@ -37,8 +46,9 @@ What is Mapping the Gay Guides? Mapping the Gay Guides (MGG) is a digital mappin
       <pubDate>Thu, 16 Jan 2020 00:00:00 +0000</pubDate>
       
       <guid>https://www.mappingthegayguides.org/dev/methodology/</guid>
-      <description>Creating a Dataset: The Transcription and Categorization of the Damron Address Books Turning a historical document, such as the Damron Address Books, into data that can be used for mapping is a process fraught with methodological decisions that shape the resulting dataset. The goal of this page is to make visible the choices that were made and clarify our categorization of data.
- Figure 1. Example of typical listings in the Damron Address Book.</description>
+      <description>Creating a Dataset Turning a historical document, such as the Damron Address Books, into data that can be used for mapping is a process fraught with methodological decisions that shape the resulting dataset. The goal of this page is to make visible the choices that were made and clarify our categorization of data.
+ Figure 1. Example of typical listings in the Damron Address Book.
+  Although the Damron Guides have been digitized up until 1980 they are only available via an academic subscription to the Alexander Street LGBT Thought and Culture database.</description>
     </item>
     
     <item>
@@ -78,15 +88,6 @@ Beyond his research, Gonzaba strives to find innovative ways to teach and unders
       <guid>https://www.mappingthegayguides.org/dev/articles/alabama/</guid>
       <description>Figure 1. From Martinac’s The Queerest Places. Despite her excellent coverage of the American South, no Alabama sites are listed.
   Does Alabama have an LGBTQ history? In her 1997 travel guide The Queerest Places: A Guide to Gay and Lesbian Historic Sites, Paula Martinac provides readers wonderful descriptions of historical places of interest related to queer history. She divides her summaries by states from five regions: New England, the Mid-Atlantic, the Midwest, the West, and the South.</description>
-    </item>
-    
-    <item>
-      <title>Mapping the &#39;New Gay South&#39;</title>
-      <link>https://www.mappingthegayguides.org/dev/maps/south/</link>
-      <pubDate>Wed, 20 Nov 2019 00:00:00 +0000</pubDate>
-      
-      <guid>https://www.mappingthegayguides.org/dev/maps/south/</guid>
-      <description>  iframe { min-width: 100%; }    iFrameResize({ heightCalculationMethod: &#39;taggedElement&#39; });  </description>
     </item>
     
     <item>

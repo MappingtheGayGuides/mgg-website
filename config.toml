@@ -23,29 +23,31 @@ googleAnalytics = "UA-151188328-1"
     weight = 1
 
 [[menu.navbar]]
-    name = "Methodology"
-    url = "/methodology"
-    weight = 2
-
-[[menu.navbar]]
-    name = "Ethics"
-    url = "/ethics"
-    weight = 3
+   name = "Map"
+   url = "/map"
+   weight = 2
 
 [[menu.navbar]]
     name = "Vignettes"
     url = "/articles"
+    weight = 3
+
+[[menu.navbar]]
+    name = "Methodology"
+    url = "/methodology"
     weight = 4
 
 [[menu.navbar]]
-   name = "Maps"
-   url = "/maps"
-   weight = 5
+    name = "Ethics"
+    url = "/ethics"
+    weight = 5
 
 [[menu.navbar]]
     name = "Blog"
     url = "/post"
     weight = 6
+
+
 
 
 
