@@ -29,21 +29,19 @@
 
 
 {{ define "main" }}
-
+<header>
+  <h1>{{ .Title | markdownify }}</h1>
+</header>
 {{ range .Pages.GroupBy "Section" }}
-
-
-
-
     {{ range .Pages }}
-    <div class="row">
+    <div class="row blog-list-entry">
       <div class="col-sm-12">
     <h2><a href="{{ .Permalink }}">{{ .Title | markdownify }}</a></h2>
-    <p>Posted by {{ $.Param "author" }} on {{ .Date.Format "Jan 7, 2006"}}</p>
+    <p>Posted by {{ $.Param "author" }} on {{ .Date.Format "Jan 2, 2006"}}</p>
     <p>{{ .Description }}</p>
     <a type="button" class="btn btn-outline-primary" href="{{ .Permalink }}">Read more</a>
     </div>
-</div>
+    </div>
 
     {{ end }}
 

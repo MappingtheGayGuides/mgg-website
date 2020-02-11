@@ -1,9 +1,9 @@
 ---
 title: "Announcing the Launch of Mapping the Gay Guides!"
 author: "Amanda Regan and Eric Gonzaba"
-description: "Today we’re excited to officially launch the first phase of _Mapping the Gay Guides_, a digital history mapping project that aims to understand ignored queer geographies using the Damron Address Books."
-lastmod: "2020-02-10"
+description: "Today we’re excited to officially launch the first phase of Mapping the Gay Guides, a digital history mapping project that aims to understand ignored queer geographies using the Damron Address Books."
 draft: false
+lastmod: "2020-02-12"
 category: "Project News"
 images: ["/images/logo-square.png"]
 ---
@@ -36,7 +36,7 @@ There are two main ways to explore the content on this site. First, you can look
 The second way to explore content on the site is through our “Digital Vignettes” which are short case studies based on the visualizations. Each Vignette explores some aspect regarding the history of LGBTQ spaces in the United States and includes historical context and analysis.
 
 ### Project Staff
-As we launch the first phase of this site we want to thank the many people who this project wouldn’t be possible without. We’ve benefited immensely from the labor of some outstanding interns who helped us to transcribe the data included within the Damron guides. Liset Machedo (Florida International University) and Susana Garcia and Morgan Glover, (both impressive young high school students at the Irma Lerma Rangel Young Women’s Leadership School in Dallas, TX) collaborated with us and aided in transcribing the data for the Southern states. Their attention to detail, thoughtful questions, and commitment propelled the project forward and MGG wouldn’t have been possible without their labor. We also received a Research, Scholarship and Creative Activities Development Grant from California State University, Fullerton which has funded work on further transcription and another cohort of graduate student interns from CSUF.
+As we launch the first phase of this site we want to thank the many people who this project wouldn’t be possible without. We’ve benefited immensely from the work of some outstanding interns who helped us transcribe the data included within the Damron guides. Liset Machedo (Florida International University) and Susana Garcia and Morgan Glover, (both impressive young high school students at the Irma Lerma Rangel Young Women’s Leadership School in Dallas, TX) collaborated with us and aided in transcribing the data for the Southern states. Their attention to detail, thoughtful questions, and commitment propelled the project forward and MGG wouldn’t have been possible without their labor. We also received a Research, Scholarship and Creative Activities Development Grant from California State University, Fullerton which has funded work on further transcription and another cohort of graduate student interns from CSUF.
 
 ### Looking Forward
 In the coming year we plan to release more data focusing on other regions so stay tuned for continued updates and new vignettes contextualizing these valuable historical sources!

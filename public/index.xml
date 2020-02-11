@@ -7,28 +7,49 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#39;https://creativecommons.org/licenses/by/4.0/&#39; target=&#39;_blank&#39;&gt;&lt;img src=&#39;https://mirrors.creativecommons.org/presskit/icons/by.svg&#39; height=&#39;25&#39;&gt; Licensed CC-BY.&lt;/a&gt;</copyright>
-    <lastBuildDate>Tue, 12 Feb 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 14 Dec 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://www.mappingthegayguides.org/dev/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
+      <title>Eric Gonzaba</title>
+      <link>https://www.mappingthegayguides.org/dev/gonzaba/</link>
+      <pubDate>Tue, 11 Feb 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mappingthegayguides.org/dev/gonzaba/</guid>
+      <description>Dr. Eric Gonzaba is an Assistant Professor of American Studies at California State University, Fullerton. He received his doctorate in American History from George Mason University in 2019. A specialist in African American history and LGBT culture, he’s currently completing a book on the culture and politics of gay nightlife in Washington, D.C., Baltimore, and Philadelphia since 1970.
+Beyond his research, Gonzaba strives to find innovative ways to teach and understand our past, especially through digital public history.</description>
+    </item>
+    
+    <item>
       <title>Mapping the Gay Guides</title>
       <link>https://www.mappingthegayguides.org/dev/map/</link>
-      <pubDate>Wed, 12 Feb 2020 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 11 Feb 2020 00:00:00 +0000</pubDate>
       
       <guid>https://www.mappingthegayguides.org/dev/map/</guid>
       <description>  iframe { min-width: 100%; }    iFrameResize({ heightCalculationMethod: &#39;taggedElement&#39; });  </description>
     </item>
     
     <item>
-      <title>Announcing the Launch of Mapping the Gay Guides!</title>
-      <link>https://www.mappingthegayguides.org/dev/2020/02/announcing-the-launch-of-mapping-the-gay-guides/</link>
+      <title>Methodology</title>
+      <link>https://www.mappingthegayguides.org/dev/methodology/</link>
+      <pubDate>Tue, 11 Feb 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mappingthegayguides.org/dev/methodology/</guid>
+      <description>Creating a Dataset Turning a historical document, such as the Damron Address Books, into data that can be used for mapping is a process fraught with methodological decisions that shape the resulting dataset. The goal of this page is to make visible the choices that were made and clarify our categorization of data.
+ Figure 1. Example of typical listings in the Damron Address Book.
+  Although the Damron Guides have been digitized up until 1980 they are only available via an academic subscription to the Alexander Street LGBT Thought and Culture database.</description>
+    </item>
+    
+    <item>
+      <title>A Statement on Ethics</title>
+      <link>https://www.mappingthegayguides.org/dev/ethics/</link>
       <pubDate>Mon, 10 Feb 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://www.mappingthegayguides.org/dev/2020/02/announcing-the-launch-of-mapping-the-gay-guides/</guid>
-      <description>Today we’re excited to officially launch the first phase of Mapping the Gay Guides.
-What is Mapping the Gay Guides? Mapping the Gay Guides (MGG) is a digital mapping project that aims to understand often ignored queer geographies using the Damron Address Books, an early but longstanding travel guide aimed at gay men since the early 1960s. Similar in function to the green books used by African Americans during the Jim Crow era to help identity businesses that catered to black clients in the South, the Damron Guides aided a generation of queer people to identity sites of community, pleasure, and politics.</description>
+      <guid>https://www.mappingthegayguides.org/dev/ethics/</guid>
+      <description>Digital historians have ethical obligations, especially when they work with materials and subject matters that relate to marginalized communities. Since this project is centered on the culture of gay, lesbian, bisexual, transgender, and queer people, the Mapping the Gay Guides team strives to make our project ethically responsible, respecting the privacy, perspectives, and dignity of those whose stories are reflected within our work.
+The data in Mapping the Gay Guides reflects thousands of sites important to development of queer (mostly gay male) culture since the 1960s.</description>
     </item>
     
     <item>
@@ -38,17 +59,6 @@ What is Mapping the Gay Guides? Mapping the Gay Guides (MGG) is a digital mappin
       
       <guid>https://www.mappingthegayguides.org/dev/articles/newgaysouth/</guid>
       <description>No study of the American South (or really any part of the United States) would be complete without a thorough examination of race. In his examination of queer life in Mississippi, historian John Howard reminds us that race has a “pervasive influence &amp;hellip; in all realms of human behavior.”1 In a region of the country when at the first years of our study still suffered through immense apartheid via Jim Crow segregation, we expected to see some trends that reflected the racial dynamics in the burgeoning gay world of the South.</description>
-    </item>
-    
-    <item>
-      <title>Methodology</title>
-      <link>https://www.mappingthegayguides.org/dev/methodology/</link>
-      <pubDate>Thu, 16 Jan 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://www.mappingthegayguides.org/dev/methodology/</guid>
-      <description>Creating a Dataset Turning a historical document, such as the Damron Address Books, into data that can be used for mapping is a process fraught with methodological decisions that shape the resulting dataset. The goal of this page is to make visible the choices that were made and clarify our categorization of data.
- Figure 1. Example of typical listings in the Damron Address Book.
-  Although the Damron Guides have been digitized up until 1980 they are only available via an academic subscription to the Alexander Street LGBT Thought and Culture database.</description>
     </item>
     
     <item>
@@ -71,16 +81,6 @@ Her research sits at the intersection of women’s history, fitness history, and
     </item>
     
     <item>
-      <title>Eric Gonzaba</title>
-      <link>https://www.mappingthegayguides.org/dev/gonzaba/</link>
-      <pubDate>Sat, 14 Dec 2019 00:00:00 +0000</pubDate>
-      
-      <guid>https://www.mappingthegayguides.org/dev/gonzaba/</guid>
-      <description>Dr. Eric Gonzaba is an Assistant Professor of American Studies at California State University, Fullerton. He received his doctorate in American History from George Mason University in 2019. A specialist in African American history and LGBT culture, he’s currently completing a book on the culture and politics of gay nightlife in Washington, D.C., Baltimore, and Philadelphia since 1970.
-Beyond his research, Gonzaba strives to find innovative ways to teach and understand our past, especially through digital public history.</description>
-    </item>
-    
-    <item>
       <title>Does Alabama have an LGBTQ history?</title>
       <link>https://www.mappingthegayguides.org/dev/articles/alabama/</link>
       <pubDate>Sun, 01 Dec 2019 00:00:00 +0000</pubDate>
@@ -100,17 +100,7 @@ Beyond his research, Gonzaba strives to find innovative ways to teach and unders
     </item>
     
     <item>
-      <title>A Statement on Ethics</title>
-      <link>https://www.mappingthegayguides.org/dev/ethics/</link>
-      <pubDate>Sun, 10 Feb 2019 00:00:00 +0000</pubDate>
-      
-      <guid>https://www.mappingthegayguides.org/dev/ethics/</guid>
-      <description>Digital historians have ethical obligations, especially when they work with materials and subject matters that relate to marginalized communities. Since this project is centered on the culture of gay, lesbian, bisexual, transgender, and queer people, the Mapping the Gay Guides team strives to make our project ethically responsible, respecting the privacy, perspectives, and dignity of those whose stories are reflected within our work.
-The data in Mapping the Gay Guides reflects thousands of sites important to development of queer (mostly gay male) culture since the 1960s.</description>
-    </item>
-    
-    <item>
-      <title>Project Staff</title>
+      <title>Collaborators</title>
       <link>https://www.mappingthegayguides.org/dev/interns/</link>
       <pubDate>Mon, 04 Feb 2019 00:00:00 +0000</pubDate>
       

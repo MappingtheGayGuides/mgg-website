@@ -5,7 +5,19 @@
 
 
 // MGG Specific Styles
-
+.blog-list-entry:first-child{
+  border-top: none;
+}
+.blog-list-entry{
+  // border-top: 1px solid #e0e0e0;
+  // margin-top:35px;
+  h2 {
+    padding-top: 15px;
+  }
+  .btn {
+    margin-bottom: 20px;
+  }
+}
 .sidebar-module {
   .nav-link {
     margin-top: 5px;
