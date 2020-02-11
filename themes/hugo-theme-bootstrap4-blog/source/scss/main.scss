@@ -157,37 +157,35 @@ body{
 }
 
 /* Nav links */
-.nav-link {
+.navbar-dark .navbar-nav .nav-link {
   position: relative;
   padding: 1rem;
   font-weight: 500;
-  color: #cdddeb;
+  color: white;
   margin-top: 25px;
 }
-.nav-link:hover,
-.nav-link:focus {
-  color: #fff;
-  background-color: transparent;
-}
+// .collapsed {
+//   display: none !importa;
+// }
 
 /* Active state gets a caret at the bottom */
 .nav-link.active {
   color: #fff;
   font-weight: bold;
 }
-// .nav-link.active:after {
-//   position: absolute;
-//   bottom: 0;
-//   left: 50%;
-//   width: 0;
-//   height: 0;
-//   margin-left: -.3rem;
-//   vertical-align: middle;
-//   content: "";
-//   border-right: .3rem solid transparent;
-//   border-bottom: .3rem solid;
-//   border-left: .3rem solid transparent;
-// }
+.nav-link.active:after {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 0;
+  margin-left: -.3rem;
+  vertical-align: middle;
+  content: "";
+  border-right: .3rem solid transparent;
+  border-bottom: .3rem solid;
+  border-left: .3rem solid transparent;
+}
 
 
 /*

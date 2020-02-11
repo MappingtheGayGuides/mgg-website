@@ -40,25 +40,42 @@
     <div class="blog-masthead">
       <!-- <div class="container"> -->
         <nav class="navbar navbar-dark primary-color navbar-expand-sm">
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
+          <div class="navbar-header">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+               <span class="navbar-toggler-icon"></span>
+             </button>
 
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <a class="navbar-brand" href="https://www.mappingthegayguides.org"><img src="/dev/images/logo_white_500.png" width=250></a>
+          <a class="navbar-brand" href="https://www.mappingthegayguides.org">
+            <img src="/dev/images/logo_white_500.png" width=250>
+          </a>
+        </div>
 
-        <a class="nav-link {{ if .IsHome }}active{{ end }}" href="{{ .Site.BaseURL | absLangURL }}">{{ i18n "home" }}</a>
-           {{- $currentPage := . -}}
-           {{ range .Site.Menus.navbar }}
-           {{ $menuURL := .URL | absLangURL }}
-           <a class="nav-link{{ if or ($currentPage.IsMenuCurrent "navbar" .) ($currentPage.HasMenuCurrent "navbar" .) }} active{{end}}" href="{{ .URL }}" title="{{ .Title }}">{{ .Name }}</a>
-           {{ end }}
+        <div class="collapse navbar-collapse" id="navigation">
+          <ul class="nav navbar-nav navbar-right">
+                <li><a href="{{ .Site.BaseURL | relLangURL }}">{{ .Site.Params.home }}</a></li>
 
+                {{ range .Site.Menus.main }}
+                {{ if .HasChildren }}
+                <li class="dropdown">
+                  <a class="nav-link" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                    aria-expanded="false">{{ .Name }} <span class="ion-ios-arrow-down"></span></a>
+                  <ul class="dropdown-menu">
+                    {{ range .Children }}
+                    <li><a class="nav-link" href="{{ .URL | relLangURL }}">{{ .Name }}</a></li>
+                    {{ end }}
+                  </ul>
+                </li>
+                {{ else }}
+                <li><a class="nav-link" href="{{ .URL | relLangURL }}">{{ .Name }}</a></li>
+                {{ end }}
+                {{ end }}
+                <li><a class="nav-link" href="http://www.twitter.com/gayguides"><i class="fab fa-twitter fa-lg"></i></a></li>
+                <li><a class="nav-link" href="http://www.twitter.com/gayguides"><i class="fab fa-github fa-lg"></i></a></li>
       </div>
-      <div class="nav justify-content-end">
+      <!-- <div class="nav justify-content-end">
         <a class="nav-link" href="www.twitter.com/gayguides"><i class="fab fa-lg fa-twitter"></i></a>
         <a class="nav-link" href="www.github.com"><i class="fab fa-lg fa-github"></i></a>
-      </div>
+      </div> -->
 
          </nav>
        <!-- </div> -->
@@ -99,6 +116,10 @@
       <p dir="auto">
       <img src="/images/ccby.png" style="height:25px;">  This site is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">Creative Commons Attribution 4.0 International License.</a>
       </p>
+      <script defer src="//use.fontawesome.com/releases/v5.1.0/js/all.js"></script>
+      <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     </footer>
     {{ end }}
 
