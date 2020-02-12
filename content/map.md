@@ -6,7 +6,7 @@ date: "2020-02-11"
 lastmod: "2020-02-111"
 slug: map
 ---
-
+<small><i>This map may take a moment to load.</i></small>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/3.5.16/iframeResizer.min.js"></script>
 <style>
   iframe {

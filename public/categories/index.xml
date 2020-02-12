@@ -2,13 +2,13 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on Mapping the Gay Guides</title>
-    <link>https://www.mappingthegayguides.org/dev/categories/</link>
+    <link>https://www.mappingthegayguides.org/categories/</link>
     <description>Recent content in Categories on Mapping the Gay Guides</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#39;https://creativecommons.org/licenses/by/4.0/&#39; target=&#39;_blank&#39;&gt;&lt;img src=&#39;https://mirrors.creativecommons.org/presskit/icons/by.svg&#39; height=&#39;25&#39;&gt; Licensed CC-BY.&lt;/a&gt;</copyright>
     
-	<atom:link href="https://www.mappingthegayguides.org/dev/categories/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://www.mappingthegayguides.org/categories/index.xml" rel="self" type="application/rss+xml" />
     
     
   </channel>

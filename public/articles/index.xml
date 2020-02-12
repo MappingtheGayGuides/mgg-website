@@ -2,31 +2,32 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Articles on Mapping the Gay Guides</title>
-    <link>https://www.mappingthegayguides.org/dev/articles/</link>
+    <link>https://www.mappingthegayguides.org/articles/</link>
     <description>Recent content in Articles on Mapping the Gay Guides</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#39;https://creativecommons.org/licenses/by/4.0/&#39; target=&#39;_blank&#39;&gt;&lt;img src=&#39;https://mirrors.creativecommons.org/presskit/icons/by.svg&#39; height=&#39;25&#39;&gt; Licensed CC-BY.&lt;/a&gt;</copyright>
     <lastBuildDate>Wed, 05 Feb 2020 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://www.mappingthegayguides.org/dev/articles/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://www.mappingthegayguides.org/articles/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Southern Black Queer Spaces</title>
-      <link>https://www.mappingthegayguides.org/dev/articles/newgaysouth/</link>
+      <link>https://www.mappingthegayguides.org/articles/southern-black-spaces/</link>
       <pubDate>Wed, 05 Feb 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://www.mappingthegayguides.org/dev/articles/newgaysouth/</guid>
-      <description>No study of the American South (or really any part of the United States) would be complete without a thorough examination of race. In his examination of queer life in Mississippi, historian John Howard reminds us that race has a “pervasive influence &amp;hellip; in all realms of human behavior.”1 In a region of the country when at the first years of our study still suffered through immense apartheid via Jim Crow segregation, we expected to see some trends that reflected the racial dynamics in the burgeoning gay world of the South.</description>
+      <guid>https://www.mappingthegayguides.org/articles/southern-black-spaces/</guid>
+      <description>iframe { min-width: 50%; }    Figure 1. This map shows the number of locations listed in the Damron Guides and categorized as (B) for each year from 1965 to 1980. Use the slider to change the year or hit the play button to animate the map. Click here for a more expansive map exploring the LGBTQ past since 1965.
+    iFrameResize({ heightCalculationMethod: &#39;taggedElement&#39; });  With our data from U.</description>
     </item>
     
     <item>
       <title>Does Alabama have an LGBTQ history?</title>
-      <link>https://www.mappingthegayguides.org/dev/articles/alabama/</link>
+      <link>https://www.mappingthegayguides.org/articles/alabama/</link>
       <pubDate>Sun, 01 Dec 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://www.mappingthegayguides.org/dev/articles/alabama/</guid>
+      <guid>https://www.mappingthegayguides.org/articles/alabama/</guid>
       <description>Figure 1. From Martinac’s The Queerest Places. Despite her excellent coverage of the American South, no Alabama sites are listed.
   Does Alabama have an LGBTQ history? In her 1997 travel guide The Queerest Places: A Guide to Gay and Lesbian Historic Sites, Paula Martinac provides readers wonderful descriptions of historical places of interest related to queer history. She divides her summaries by states from five regions: New England, the Mid-Atlantic, the Midwest, the West, and the South.</description>
     </item>

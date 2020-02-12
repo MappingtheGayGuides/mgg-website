@@ -15,7 +15,7 @@ lastmod: "2019-12-18"
 Does Alabama have an LGBTQ history? In her 1997 travel guide _The Queerest Places: A Guide to Gay and Lesbian Historic Sites_, Paula Martinac provides readers wonderful descriptions of historical places of interest related to queer history. She divides her summaries by states from five regions: New England, the Mid-Atlantic, the Midwest, the West, and the South. Yet, while Martinac lists eleven states in her Southern chapters, no entries from Alabama are included (one of just five states without any listings).  
 
 <div class="see-full-vis-modal">
-<a class="btn btn-large btn-primary" href="../../maps/alabama/">
+<a class="btn btn-large btn-primary" href="/map">
 <i class="fas fa-map-marked-alt" style="font-size: 1.5em; clear: both;"></i> See the full map</a>
 </div>
 
@@ -90,7 +90,7 @@ We invite you to explore the current full map of Alabama’s Damron Address book
 We invite you to stay tuned for the launch of the full 1965-1980 US South map set to launch in February 2020. Then, you’ll be able to compare Alabama’s map in relation to eleven other southern states, including Arkansas, Florida, Georgia, Kentucky, Louisiana, Mississippi, North Carolina, South Carolina, Tennessee, Texas, and Virginia.  
 
 <div class="see-full-vis-modal">
-<a class="btn btn-large btn-primary" href="../../maps/alabama">
+<a class="btn btn-large btn-primary" href="/map">
 <i class="fas fa-map-marked-alt" style="font-size: 1.5em; clear: both;"></i> See the full map</a>
 </div>
 

@@ -5,6 +5,7 @@ title: Methodology
 description: "A description of the methodology behind Mapping the Gay Guides. On this page we discuss how we digitized the data and the decisions made during that process."
 tag: digital history, dataset, methodology, damron gay guides, lgbtq history
 lastmod: "2020-02-11"
+images: ["/images/1976ExplanationofListings.png"]
 ---
 ### Creating a Dataset
 
