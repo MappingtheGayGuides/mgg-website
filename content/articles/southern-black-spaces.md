@@ -7,6 +7,7 @@ description: "What do the Damron guides tell us about black gay spaces in the So
 draft: false
 lastmod: "2020-02-11"
 images: ["/images/vignette-gold-room.jpg"]
+img: "vignette-gold-room.jpg"
 ---
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/3.5.16/iframeResizer.min.js"></script>
 <style>

@@ -28,27 +28,37 @@
 {{ end }}
 
 {{ define "main" }}
+<div class="row pack">
 
-{{ range .Pages.GroupBy "Section" }}
-<div class="row">
-  <div class="col-sm-12">
-<h1>Articles</h1>
-  </div>
-<div class="row">
-    {{ range .Pages }}
-    <article class="blog-post">
+       {{ $paginator := .Paginate (where .Site.RegularPages "Section" "articles") }}
+       {{ range $paginator.Pages }}
+           <div class="col-md-4 card">
 
-        <div class="card" style="width: 18rem;">
-          <div class="card-body">
-            <h4 class="card-title"><a href="{{ .Permalink }}">{{ .Title | markdownify }}</a></h4>
-    <p class="card-text">{{ .Description }}</p>
+               <div class="panel panel-default">
 
-    <a class="btn btn-outline-primary" href='{{ .Permalink }}'>{{ i18n "readMore" }}</a>
-  </div>
-</div>
-</article>
-</div>
-    {{ end }}
+                 {{ if .Params.img }}
+                 <img width="100%" src="{{ .Site.BaseURL }}images/{{ .Params.img }}" alt="{{ .Title }}">
+                 {{ else }}
+                 <img width="100%" src="{{ .Site.BaseURL }}images/{{ .Site.Params.defaultImage }}" alt="{{ .Site.Title }}">
+                 {{ end }}
 
-{{ end }}
+                 <div class="panel-body">
+                   <h4 class="panel-title pull-left">{{ .Title | truncate 100 }}</h4>
+                   <!-- <span class="post-meta pull-right">
+                     <small>{{ .Date.Format "January 2, 2006" }}</small>
+                   </span> -->
+                 </div>
+
+                 <div class="panel-body">
+                   <small>{{ .Description | plainify | truncate 250 }}</small>
+                   <br>
+                   <a href="{{ .Permalink }}" class="btn btn-primary" type="button">Read More</a>
+                 </div>
+               </div>
+           </div>
+
+         {{ end }}
+
+   </div>
+
 {{ end }}
