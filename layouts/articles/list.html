@@ -28,16 +28,19 @@
 {{ end }}
 
 {{ define "main" }}
+
+<div class="row">
+<h1>What can we learn from mapping <i>Damron's Address Books?</i></h1>
 <div class="row pack">
 
-       {{ $paginator := .Paginate (where .Site.RegularPages "Section" "articles") }}
+       {{ $paginator := .Paginate (where .Site.RegularPages "Section" "articles") 500 }}
        {{ range $paginator.Pages }}
-           <div class="col-md-4 card">
+           <div class="col-md-4 card vignette-card">
 
                <div class="panel panel-default">
 
                  {{ if .Params.img }}
-                 <img width="100%" src="{{ .Site.BaseURL }}images/{{ .Params.img }}" alt="{{ .Title }}">
+                 <img class="card-image" width="100%" src="{{ .Site.BaseURL }}images/{{ .Params.img }}" alt="{{ .Title }}">
                  {{ else }}
                  <img width="100%" src="{{ .Site.BaseURL }}images/{{ .Site.Params.defaultImage }}" alt="{{ .Site.Title }}">
                  {{ end }}
@@ -50,9 +53,10 @@
                  </div>
 
                  <div class="panel-body">
-                   <small>{{ .Description | plainify | truncate 250 }}</small>
-                   <br>
+                   <p class="card-text"><small>{{ .Description | plainify | truncate 250 }}</small></p>
+                   <div class="read-more-button">
                    <a href="{{ .Permalink }}" class="btn btn-primary" type="button">Read More</a>
+                   </div>
                  </div>
                </div>
            </div>
@@ -60,5 +64,5 @@
          {{ end }}
 
    </div>
-
+   </div>
 {{ end }}

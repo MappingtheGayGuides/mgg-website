@@ -1,5 +1,5 @@
 ---
-title: "A Listing Tragically Disappears: The Upstairs Lounge Fire in New Orleans 2"
+title: "A Listing Tragically Disappears: The Upstairs Lounge Fire in New Orleans"
 author: "Eric Gonzaba"
 date: "2020-03-02"
 tags: [case-study]
