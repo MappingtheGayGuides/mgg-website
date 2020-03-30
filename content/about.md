@@ -2,7 +2,7 @@
 author: Amanda Regan
 date: "2019-12-14"
 title: About this Project
-lastmod: "2020-03-10"
+lastmod: "2020-03-30"
 type: about
 layout: aboutpage
 description: "Mapping the Gay Guides aims to understand often ignored queer geographies using the Damron Guides, an early but longstanding travel guide aimed at gay men since the early 1960s."
