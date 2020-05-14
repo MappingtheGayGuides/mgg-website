@@ -32,6 +32,8 @@ MGG launched in February 2020 with an initial dataset focused on the Southern Un
 
 ## Project Log
 
+* **May 15, 2020:** Release of data from: Illinois, Massachusetts, and Wisconsin. 
+* **April 6, 2020:** Release of data from: Pennsylvania, Michigan, Kansas, Wyoming, Vermont, Utah, North Dakota & Alaska.
 * **March 30, 2020:** Release of data from: California, Idaho, Montana, South Dakota, Nebraska, Oklahoma, Delaware, & New Hampshire.
 * **March 10, 2020:** Release of Washington D.C. data.
 * **February 12, 2020:** Site launch. The initial launch contains data from the Southern United States from 1965 through 1980.
