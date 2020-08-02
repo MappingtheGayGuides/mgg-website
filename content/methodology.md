@@ -4,7 +4,7 @@ date: "2020-02-11"
 title: Methodology
 description: "A description of the methodology behind Mapping the Gay Guides. On this page we discuss how we digitized the data and the decisions made during that process."
 tag: digital history, dataset, methodology, damron gay guides, lgbtq history
-lastmod: "2020-02-11"
+lastmod: "2020-08-02"
 images: ["/images/1976ExplanationofListings.png"]
 ---
 ### Creating a Dataset
@@ -33,15 +33,15 @@ After transcribing and categorizing the data contained in the guide, it was nece
 <figcaption class="caption-right alert-secondary" style="width:350px;"><small><p><b>Figure 3.</b> Example of an unclear address in the <i>Damron Address Book</i>.</p></small></figcaption>
 </figure>
 
-Roughly 32% of the entries included in the Damron Address Books between 1965 and 1980 were addresses that we deemed "unclear." This meant that the addresses were either vague and un-mappable locations (i.e. "Inquire Locally" or "U.S. Hwy 67") or were locations that had descriptive street addresses that required us to identify them by hand (i.e. Rice Park or ‘Primrose Path’ – Senate St. near Capitol). Of these "unclear locations" we were able to identify correct locations for more than half. Addresses listed as "Verified Locations" denote the locations that were found by hand and make up about 21% of the dataset.
+Roughly 30% of the entries included in the Damron Address Books between 1965 and 1980 were addresses that we deemed "unclear." This meant that the addresses were either vague and un-mappable locations (i.e. "Inquire Locally" or "U.S. Hwy 67") or were locations that had descriptive street addresses that required us to identify them by hand (i.e. Rice Park or ‘Primrose Path’ – Senate St. near Capitol). Of these "unclear locations" we were able to identify correct locations for more than half. Addresses listed as "Verified Locations" denote the locations that were found by hand and make up about 21% of the dataset.
 
 
 <figure>
-<img src="/images/methodology-status-plot.png" class="image-left" style="width:450px;">
-<figcaption class="caption-left alert-secondary" style="width:450px;"><small><p><b>Figure 4.</b> Chart showing the breakdown between verified (22%), google verified (68%), and locations that could not be verified (11%).</p></small></figcaption>
+<img src="/images/methodology-status-plot-08-02-2020.png" class="image-left" style="width:450px;">
+<figcaption class="caption-left alert-secondary" style="width:450px;"><small><p><b>Figure 4.</b> Chart showing the breakdown between verified (21%), google verified (70%), and locations that could not be verified (9%).</p></small></figcaption>
 </figure>
 
-However, there were many locations that we were unable to associate a geographical location with. Often these were locations that simply stated "Inquire locally" or where the location was simply too vague to confidently identify. These locations make up about 11% of the dataset and are marked by a note in the status column that reads: "Location could not be verified. General city or location coordinates used." Rather than ignoring these locations, we have opted to use general city coordinates for them. This means, however, that the default map shows all locations and there are frequently clusters of locations with general coordinates mixed with verified locations. We've opted to include these locations by default to demonstrate the growth of LGBTQ spaces in the South over time however were recognize that these locations can be somewhat misleading. Therefore we have included a checkbox on the map controls that will filter the map to show only verified locations.
+However, there were many locations that we were unable to associate a geographical location with. Often these were locations that simply stated "Inquire locally" or where the location was simply too vague to confidently identify. These locations make up 9% of the dataset and are marked by a note in the status column that reads: "Location could not be verified. General city or location coordinates used." Rather than ignoring these locations, we have opted to use general city coordinates for them. This means, however, that the default map shows all locations and there are frequently clusters of locations with general coordinates mixed with verified locations. We've opted to include these locations by default to demonstrate the growth of LGBTQ spaces in the South over time however were recognize that these locations can be somewhat misleading. Therefore we have included a checkbox on the map controls that will filter the map to show only verified locations.
 
 <br>
 
