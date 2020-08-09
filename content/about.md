@@ -2,7 +2,7 @@
 author: Amanda Regan
 date: "2019-12-14"
 title: About this Project
-lastmod: "2020-03-30"
+lastmod: "2020-08-10"
 type: about
 layout: aboutpage
 description: "Mapping the Gay Guides aims to understand often ignored queer geographies using the Damron Guides, an early but longstanding travel guide aimed at gay men since the early 1960s."
@@ -32,7 +32,8 @@ MGG launched in February 2020 with an initial dataset focused on the Southern Un
 
 ## Project Log
 
-* **May 15, 2020:** Release of data from: Illinois, Massachusetts, and Wisconsin. 
+* **August 10, 2020:** Release of data from remaining states from 1965-1980. This release completes the entirety of the United States plus Washington, D.C. We've also made some changes to the map to ensure usability.
+* **May 15, 2020:** Release of data from: Illinois, Massachusetts, and Wisconsin.
 * **April 6, 2020:** Release of data from: Pennsylvania, Michigan, Kansas, Wyoming, Vermont, Utah, North Dakota & Alaska.
 * **March 30, 2020:** Release of data from: California, Idaho, Montana, South Dakota, Nebraska, Oklahoma, Delaware, & New Hampshire.
 * **March 10, 2020:** Release of Washington D.C. data.
