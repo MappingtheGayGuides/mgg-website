@@ -3,7 +3,7 @@ title: "Mapping the Gay Guides"
 author: "Amanda Regan and Eric Gonzaba"
 description: "Explore the Damron Address Book from 1965 through 1980."
 date: "2020-02-11"
-lastmod: "2020-02-111"
+lastmod: "2020-08-11"
 slug: map
 ---
 <small><i>This map may take a moment to load.</i></small>
