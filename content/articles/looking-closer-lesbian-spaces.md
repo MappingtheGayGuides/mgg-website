@@ -3,7 +3,7 @@ title: "Looking Closer at Lesbian Spaces in the Bay Area"
 author: "Laura Fauvor"
 date: "2020-08-09"
 tags: [case-study]
-description: "Damron’s guide primarily caters to white gay males while occasionally noting some spaces for queer women. The designations of spaces where queer women frequented in Damron’s guides may not have been intended for women to find, but rather for queer men to take note and perhaps consider looking elsewhere for other men."
+description: "Despite our data reflecting mostly a gay male perspective, what sort of lesbian histories exist within these travel guides? CSUF graduate researcher Laura Fauvor explores sites of queer women in San Francisco. "
 draft: false
 lastmod: "2020-08-09"
 images: ["/images/vignette-mauds.png"]
