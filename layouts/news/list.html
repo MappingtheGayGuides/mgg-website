@@ -29,16 +29,20 @@
 
 
 {{ define "main" }}
+
 <header>
   <h1>{{ .Title | markdownify }}</h1>
 </header>
 {{ range .Pages.GroupBy "Section" }}
     {{ range .Pages }}
     <div class="row blog-list-entry">
-      <div class="col-sm-12">
+    <div class="col-sm-12">
+      {{ if isset .Params "affiliatelink" }}
+      <h2><i class="fas fa-external-link-alt"></i>  <a href="{{ .Params.affiliatelink }}" target="_blank">{{ .Title | markdownify }}</a></h2>
+      {{else}}
     <h2><a href="{{ .Permalink }}">{{ .Title | markdownify }}</a></h2>
-    <p>Posted by {{ $.Param "author" }} on {{ .Date.Format "Jan 2, 2006"}}</p>
-    <p>{{ .Description }}</p>
+      {{end}}
+    <p>{{ .Date.Format "Jan 2, 2006"}}. {{ .Description }}</p>
     <a type="button" class="btn btn-outline-primary" href="{{ .Permalink }}">Read more</a>
     </div>
     </div>

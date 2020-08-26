@@ -1,11 +1,12 @@
 ---
-title: "Full Data Launch"
+title: "MGG Featured on Smithsonian Magazine's Website"
 author: "Amanda Regan and Eric Gonzaba"
-description: "Today we’re excited to officially launch the first phase of Mapping the Gay Guides, a digital history mapping project that aims to understand ignored queer geographies using the Damron Address Books."
-draft: true
-lastmod: "2020-02-12"
+description: "At first glance, Bob Damron’s Address Book reads like any other travel guide. Bars, restaurants, hotels and businesses are grouped by city and state, their names and addresses listed in alphabetical order..."
+draft: false
+lastmod: "2020-03-09"
 category: "Project News"
 images: ["/images/logo-square.png"]
+affiliatelink: "https://www.smithsonianmag.com/history/interactive-map-visualizes-queer-geography-20th-century-america-180974306/?utm_source=twitter.com&utm_medium=socialmedia"
 ---
 
 Today we're so excited to formally launch a map and complete dataset of all U.S. locations listed in Bob Damron's Address Book from 1965-1980! In February 2020 we launched with just the U.S. South and since then we've been slowly rolling out additional states. Today we are adding more than twenty states to complete our dataset!
