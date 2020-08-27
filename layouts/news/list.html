@@ -53,9 +53,10 @@
                    {{end}}
                    <span class="post-meta pull-right">
                     {{ if isset .Params "affiliate" }}
-                      <small>{{ .Date.Format "January 2, 2006" }}</small>
-                    {{else}}
                       <small>Posted in <a href="{{.Params.affiliatewesbite}}" target="_blank"><i>{{.Params.affiliatename}}</i></a> on {{ .Date.Format "January 2, 2006" }}.<br></small>
+
+                    {{else}}
+                      <small>{{ .Date.Format "January 2, 2006" }}</small>
                     {{end}}
                    </span>
                  </div>
@@ -63,7 +64,11 @@
                  <div class="panel-body">
                    <p class="card-text">{{ .Description | plainify | truncate 250 }}</p>
                    <div class="read-more-button">
+                  {{ if isset .Params "affiliate" }}
+                   <a href="{{ .Params.affiliatelink }}" target="_blank" class="btn btn-primary" type="button">Read More</a>
+                  {{else}}
                    <a href="{{ .Permalink }}" class="btn btn-primary" type="button">Read More</a>
+                  {{end}}
                    </div>
                  </div>
                </div>

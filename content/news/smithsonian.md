@@ -10,4 +10,5 @@ img: "news-smithsonian-header.jpg"
 affiliatelink: "https://www.smithsonianmag.com/history/interactive-map-visualizes-queer-geography-20th-century-america-180974306/?utm_source=twitter.com&utm_medium=socialmedia"
 affiliatename: "Smithsonian Magazine"
 afilliatewebsite: "https://www.smithsonianmag.com"
+affiliate: true
 ---

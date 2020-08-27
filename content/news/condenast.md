@@ -7,7 +7,8 @@ lastmod: "2020-07-30"
 category: "Project News"
 images: ["/images/news-condenaste-header.jpg"]
 img: "news-condenaste-header.jpg"
-affiliatelink: "https://www.smithsonianmag.com/history/interactive-map-visualizes-queer-geography-20th-century-america-180974306/?utm_source=twitter.com&utm_medium=socialmedia"
+affiliatelink: "https://www.cntraveler.com/story/this-new-map-is-digitizing-lgbtq-travel-guides-from-the-60s-and-beyond"
 affiliatename: "Conde Naste Traveler"
-afilliatewebsite: "https://www.condenastetraveler.com"
+affiliatewebsite: "https://www.condenastetraveler.com"
+affiliate: true
 ---

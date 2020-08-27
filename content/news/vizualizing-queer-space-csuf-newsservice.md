@@ -11,6 +11,7 @@ img: "news-csuf-header.jpg"
 affiliatelink: "https://www.smithsonianmag.com/history/interactive-map-visualizes-queer-geography-20th-century-america-180974306/?utm_source=twitter.com&utm_medium=socialmedia"
 affilliatewebsite: "http://news.fullerton.edu/"
 affiliatename: "CSUF News Service"
+affiliate: true
 ---
 
 Today we're so excited to formally launch a map and complete dataset of all U.S. locations listed in Bob Damron's Address Book from 1965-1980! In February 2020 we launched with just the U.S. South and since then we've been slowly rolling out additional states. Today we are adding more than twenty states to complete our dataset!

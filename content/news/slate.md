@@ -9,5 +9,6 @@ images: ["/images/news-slate.png"]
 img: "news-slate.png"
 affiliatelink: "https://slate.com/human-interest/2020/08/mapping-gay-guides-project.html"
 affiliatename: "Slate"
-afilliatewebsite: "https://www.slate.com"
+affiliatewebsite: "https://www.slate.com"
+affiliate: true
 ---
