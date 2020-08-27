@@ -3,6 +3,16 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://www.mappingthegayguides.org/news/</loc>
+    <lastmod>2020-08-27T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.mappingthegayguides.org/news/slate/</loc>
+    <lastmod>2020-08-27T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://www.mappingthegayguides.org/articles/</loc>
     <lastmod>2020-08-26T00:00:00+00:00</lastmod>
   </url>
@@ -33,8 +43,33 @@
   </url>
   
   <url>
+    <loc>https://www.mappingthegayguides.org/news/condenast/</loc>
+    <lastmod>2020-07-30T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.mappingthegayguides.org/news/windy-city-times/</loc>
+    <lastmod>2020-06-26T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.mappingthegayguides.org/news/ocregister/</loc>
+    <lastmod>2020-06-24T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.mappingthegayguides.org/news/vizualizing-queer-space-csuf-newsservice/</loc>
+    <lastmod>2020-06-04T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://www.mappingthegayguides.org/articles/parmount-steakhouse-a-forever-listing/</loc>
     <lastmod>2020-03-10T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.mappingthegayguides.org/news/smithsonian/</loc>
+    <lastmod>2020-03-09T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -43,12 +78,7 @@
   </url>
   
   <url>
-    <loc>https://www.mappingthegayguides.org/2020/02/announcing-the-launch-of-mapping-the-gay-guides/</loc>
-    <lastmod>2020-02-12T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://www.mappingthegayguides.org/post/</loc>
+    <loc>https://www.mappingthegayguides.org/news/launch-announcement/</loc>
     <lastmod>2020-02-12T00:00:00+00:00</lastmod>
   </url>
   
