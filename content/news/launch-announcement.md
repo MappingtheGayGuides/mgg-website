@@ -6,6 +6,7 @@ draft: false
 lastmod: "2020-02-12"
 category: "Project News"
 images: ["/images/logo-square.png"]
+img: "news-genericimage2.jpg"
 ---
 Today we’re excited to officially launch the first phase of _Mapping the Gay Guides_.
 
