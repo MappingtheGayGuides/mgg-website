@@ -29,25 +29,48 @@
 
 
 {{ define "main" }}
+<div class="row">
+<h1>Project News</h1>
+<div class="row pack">
 
-<header>
-  <h1>{{ .Title | markdownify }}</h1>
-</header>
-{{ range .Pages.GroupBy "Section" }}
-    {{ range .Pages }}
-    <div class="row blog-list-entry">
-    <div class="col-sm-12">
-      {{ if isset .Params "affiliatelink" }}
-      <h2><i class="fas fa-external-link-alt"></i>  <a href="{{ .Params.affiliatelink }}" target="_blank">{{ .Title | markdownify }}</a></h2>
-      {{else}}
-    <h2><a href="{{ .Permalink }}">{{ .Title | markdownify }}</a></h2>
-      {{end}}
-    <p>{{ .Date.Format "Jan 2, 2006"}}. {{ .Description }}</p>
-    <a type="button" class="btn btn-outline-primary" href="{{ .Permalink }}">Read more</a>
-    </div>
-    </div>
+       {{ $paginator := .Paginate (where .Site.RegularPages "Section" "news") 500 }}
+       {{ range $paginator.Pages }}
+           <div class="col-md-4 card vignette-card">
 
-    {{ end }}
+               <div class="panel panel-default">
 
-{{ end }}
+                 {{ if .Params.img }}
+                 <img class="card-image" width="100%" src="{{ .Site.BaseURL }}images/{{ .Params.img }}" alt="{{ .Title }}">
+                 {{ else }}
+                 <img width="100%" src="{{ .Site.BaseURL }}images/{{ .Site.Params.defaultImage }}" alt="{{ .Site.Title }}">
+                 {{ end }}
+
+                 <div class="panel-body">
+                   {{ if isset .Params "affiliatelink" }}
+                    <h4 class="panel-title pull-left"><i class="fas fa-external-link-alt"></i> {{ .Title | truncate 150 }}</h4>
+                    {{else}}
+                   <h4 class="panel-title pull-left">{{ .Title | truncate 150 }}</h4>
+                   {{end}}
+                   <span class="post-meta pull-right">
+                    {{ if isset .Params "affiliate" }}
+                      <small>{{ .Date.Format "January 2, 2006" }}</small>
+                    {{else}}
+                      <small>Posted in <a href="{{.Params.affiliatewesbite}}" target="_blank"><i>{{.Params.affiliatename}}</i></a> on {{ .Date.Format "January 2, 2006" }}.<br></small>
+                    {{end}}
+                   </span>
+                 </div>
+
+                 <div class="panel-body">
+                   <p class="card-text">{{ .Description | plainify | truncate 250 }}</p>
+                   <div class="read-more-button">
+                   <a href="{{ .Permalink }}" class="btn btn-primary" type="button">Read More</a>
+                   </div>
+                 </div>
+               </div>
+           </div>
+
+         {{ end }}
+
+   </div>
+   </div>
 {{ end }}
