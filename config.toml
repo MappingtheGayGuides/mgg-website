@@ -99,3 +99,6 @@ googleAnalytics = "UA-151188328-1"
   # Disable the use of sub-resource integrity on CSS/JS assets (default: false)
   # Useful if you're using a CDN or other host where you can't control cache headers
   disable_sri = true
+
+  [markup.goldmark.renderer]
+    unsafe= true

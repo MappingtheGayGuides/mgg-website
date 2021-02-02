@@ -11,7 +11,7 @@ images: ["/images/logo-square.png"]
 ---
 _Mapping the Gay Guides_ aims to understand often ignored queer geographies using the _Damron Address Books_, an early but longstanding travel guide aimed at gay men since the early 1960s. Similar in function to the green books used by African Americans during the Jim Crow era to help identify businesses that catered to black clients in the South, the Damron Guides aided a generation of queer people to identity sites of community, pleasure, and politics. By associating geographical coordinates with each location mentioned within the Damron Guides, MGG provides an interface for visualizing the growth of queer spaces between 1965 and 1980.
 
-MGG launched in February 2020 with an initial dataset focused on the Southern United States from 1965 through 1980. We've also received a Research Scholarship and Creative Activities grant from California State University, Fullerton to continue to digitize data and will continue to release more data throughout 2020.
+MGG launched in February 2020 with an initial dataset focused on the Southern United States from 1965 through 1980. Throughout 2020 we've continued to add data and now have a complete dataset for the United States from 1965 to 1980.
 
 ## Project Team
 
@@ -32,6 +32,7 @@ MGG launched in February 2020 with an initial dataset focused on the Southern Un
 
 ## Project Log
 
+* **February 2, 2020:** Release of data from U.S. territories between 1965 and 1980. This includes Guam, Puerto Rico, and the Virgin Islands. Please note that the _Bob Damron Address Books_ did not separate out entries in the US Virgin Islands from the British Virgin Islands. In an effort to maintain our commitment to replicating the source material as accurately as possible we have not done so either. 
 * **August 10, 2020:** Release of data from remaining states from 1965-1980. This release completes the entirety of the United States plus Washington, D.C. We've also made some changes to the map to ensure usability.
 * **May 15, 2020:** Release of data from: Illinois, Massachusetts, and Wisconsin.
 * **April 6, 2020:** Release of data from: Pennsylvania, Michigan, Kansas, Wyoming, Vermont, Utah, North Dakota & Alaska.

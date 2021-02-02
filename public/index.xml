@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Home on Mapping the Gay Guides</title>
@@ -7,10 +7,25 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#39;https://creativecommons.org/licenses/by/4.0/&#39; target=&#39;_blank&#39;&gt;&lt;img src=&#39;https://mirrors.creativecommons.org/presskit/icons/by.svg&#39; height=&#39;25&#39;&gt; Licensed CC-BY.&lt;/a&gt;</copyright>
-    <lastBuildDate>Sat, 14 Dec 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 14 Dec 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://www.mappingthegayguides.org/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>A Hotel in Bohemia</title>
+      <link>https://www.mappingthegayguides.org/articles/a-hotel-in-bohemia/</link>
+      <pubDate>Wed, 13 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mappingthegayguides.org/articles/a-hotel-in-bohemia/</guid>
+      <description>So many of the entries in Bob Damron Address Books appear unremarkable. (I mean, not all bars can have a history like Stonewall, right?) The vast majority of listings in the gay guides don’t provide much context or historical information, and so it requires historians and the wider public to give meaning to these lists of addresses. But even if wider context doesn’t always lead to cinematic stories of police raids or resistance, it doesn’t mean we can’t learn more about queer life in America through these guides.</description>
+    </item>
     
-	<atom:link href="https://www.mappingthegayguides.org/index.xml" rel="self" type="application/rss+xml" />
-    
+    <item>
+      <title>MGG wins 2021 Emerging Open Scholarship Award</title>
+      <link>https://www.mappingthegayguides.org/news/award-openscholarship/</link>
+      <pubDate>Wed, 13 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mappingthegayguides.org/news/award-openscholarship/</guid>
+      <description>We are pleased to announce that the directors of Mapping the Gay Guides, Dr. Amanda Regan and Dr. Eric Gonzaba, have been awarded the 2021 Emerging Open Scholarship Award by the Canadian Social Knowledge Institute.
+  The award recognizes open scholarship that incorporates open access, open data, open education, and other related movements that have the potential to make scholarly work more efficient, more accessible, and more usable by those within and beyond the academy.</description>
+    </item>
     
     <item>
       <title>We Are Everywhere. The Bob Damron Address Books were a lifeline for gay travelers in the 1960s and 70s.</title>
@@ -141,8 +156,8 @@ Beyond his research, Gonzaba strives to find innovative ways to teach and unders
       <pubDate>Tue, 11 Feb 2020 00:00:00 +0000</pubDate>
       
       <guid>https://www.mappingthegayguides.org/map/</guid>
-      <description>This map may take a moment to load.   iframe { min-width: 100%; } 
-  iFrameResize({ heightCalculationMethod: &#39;taggedElement&#39; });  </description>
+      <description>This map may take a moment to load.
+  iframe { min-width: 100%; }    iFrameResize({ heightCalculationMethod: &#39;taggedElement&#39; });  </description>
     </item>
     
     <item>
@@ -220,8 +235,7 @@ Her research sits at the intersection of women’s history, fitness history, and
       <pubDate>Mon, 04 Feb 2019 00:00:00 +0000</pubDate>
       
       <guid>https://www.mappingthegayguides.org/interns/</guid>
-      <description>California State University Fullerton Graduate Research Assistants, Spring 2020 
-Christian Castillo Christian is a MA student in the Department of American Studies at California State University, Fullerton. They are interested in queer studies, gender and sex.   Laura Fauvor Laura Fauvor is currently a M.A. student of the American Studies at California State University, Fullerton. She received her B.A. in History and American Studies from California State University, Long Beach and her A.</description>
+      <description>California State University Fullerton Graduate Research Assistants, Spring 2020 Christian Castillo Christian is a MA student in the Department of American Studies at California State University, Fullerton. They are interested in queer studies, gender and sex.    Laura Fauvor Laura Fauvor is currently a M.A. student of the American Studies at California State University, Fullerton. She received her B.A. in History and American Studies from California State University, Long Beach and her A.</description>
     </item>
     
   </channel>

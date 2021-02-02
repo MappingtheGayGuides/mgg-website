@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>News on Mapping the Gay Guides</title>
@@ -7,10 +7,16 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#39;https://creativecommons.org/licenses/by/4.0/&#39; target=&#39;_blank&#39;&gt;&lt;img src=&#39;https://mirrors.creativecommons.org/presskit/icons/by.svg&#39; height=&#39;25&#39;&gt; Licensed CC-BY.&lt;/a&gt;</copyright>
-    <lastBuildDate>Thu, 27 Aug 2020 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://www.mappingthegayguides.org/news/index.xml" rel="self" type="application/rss+xml" />
-    
+    <lastBuildDate>Wed, 13 Jan 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://www.mappingthegayguides.org/news/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>MGG wins 2021 Emerging Open Scholarship Award</title>
+      <link>https://www.mappingthegayguides.org/news/award-openscholarship/</link>
+      <pubDate>Wed, 13 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mappingthegayguides.org/news/award-openscholarship/</guid>
+      <description>We are pleased to announce that the directors of Mapping the Gay Guides, Dr. Amanda Regan and Dr. Eric Gonzaba, have been awarded the 2021 Emerging Open Scholarship Award by the Canadian Social Knowledge Institute.
+  The award recognizes open scholarship that incorporates open access, open data, open education, and other related movements that have the potential to make scholarly work more efficient, more accessible, and more usable by those within and beyond the academy.</description>
+    </item>
     
     <item>
       <title>We Are Everywhere. The Bob Damron Address Books were a lifeline for gay travelers in the 1960s and 70s.</title>

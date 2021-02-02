@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>case-study on Mapping the Gay Guides</title>
@@ -7,10 +7,15 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#39;https://creativecommons.org/licenses/by/4.0/&#39; target=&#39;_blank&#39;&gt;&lt;img src=&#39;https://mirrors.creativecommons.org/presskit/icons/by.svg&#39; height=&#39;25&#39;&gt; Licensed CC-BY.&lt;/a&gt;</copyright>
-    <lastBuildDate>Wed, 26 Aug 2020 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://www.mappingthegayguides.org/tags/case-study/index.xml" rel="self" type="application/rss+xml" />
-    
+    <lastBuildDate>Wed, 13 Jan 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://www.mappingthegayguides.org/tags/case-study/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>A Hotel in Bohemia</title>
+      <link>https://www.mappingthegayguides.org/articles/a-hotel-in-bohemia/</link>
+      <pubDate>Wed, 13 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mappingthegayguides.org/articles/a-hotel-in-bohemia/</guid>
+      <description>So many of the entries in Bob Damron Address Books appear unremarkable. (I mean, not all bars can have a history like Stonewall, right?) The vast majority of listings in the gay guides don’t provide much context or historical information, and so it requires historians and the wider public to give meaning to these lists of addresses. But even if wider context doesn’t always lead to cinematic stories of police raids or resistance, it doesn’t mean we can’t learn more about queer life in America through these guides.</description>
+    </item>
     
     <item>
       <title>Policing Balboa Park</title>

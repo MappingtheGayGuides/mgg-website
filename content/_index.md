@@ -11,7 +11,8 @@ images: ["/images/logo-square.png"]
 # Mapping the Gay Guides
 ## Visualizing Queer Space and American Life
 <br>
-Welcome to _Mapping the Gay Guides_!
+
+Welcome to _Mapping the Gay Guides!_
 
 <figure>
 <img src="/images/home-damroncovers.png" class="image-right" style="width:425px;">
