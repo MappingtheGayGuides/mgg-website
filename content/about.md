@@ -34,6 +34,7 @@ With the support of a grant from the [National Endowment for the Humanities,](ww
 **Advisory Board:**
 * Darius Bost. Associate Professor of Ethnic Studies, University of Utah.
 * Julio Capo. Associate Professor of History, Florida International University.
+* Nicholae Cline, Scholarly Services Librarian and Librarian for Media Studies, Indiana University.
 * Gina Gatta. President and Editor-in-Chief, the Damron Company, San Francisco, CA.
 * Christina B. Hanhardt. Associate Professor of American Studies, University of Maryland.
 * Emily K. Hobson. Associate Professor of History, University of Nevada, Reno.
