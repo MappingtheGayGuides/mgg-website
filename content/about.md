@@ -13,14 +13,14 @@ _Mapping the Gay Guides_ aims to understand often ignored queer geographies usin
 
 MGG launched in February 2020 with an initial dataset focused on the Southern United States from 1965 through 1980. Throughout 2020 we continued to add data and now have a complete dataset for the United States from 1965 to 1980.
 
-With the support of a grant from the [National Endowment for the Humanities,](www.neh.gov) the MGG team will spend the next three years digitizing, transcribing, and geolocating data from 1981-2000. In addition to the expanded dataset, we will add public history and educational resources and new data driven vignettes focused on using the site's data to explore facets of LGBTQ geography and history. Read more about our plans [on the news page](#). You can [sign up here](/subscribe) to receive updates as we release new data and materials.
+With the support of a grant from the [National Endowment for the Humanities,](www.neh.gov) the MGG team will spend the next three years digitizing, transcribing, and geolocating data from 1981-2000. In addition to the expanded dataset, we will add public history and educational resources and new data driven vignettes focused on using the site's data to explore facets of LGBTQ geography and history. Read more about our plans [on the news page](/news/neh-funding). You can [sign up here](/subscribe) to receive updates as we release new data and materials.
 
 ## Project Team
 
 **Core Team:**
 
-* [Dr. Amanda Regan](/regan), Co-primary investigator
-* [Dr. Eric Gonzaba](/gonzaba), Co-primary investigator
+* [Dr. Amanda Regan](/regan), Co-Project Director and Digital Lead
+* [Dr. Eric Gonzaba](/gonzaba), Co-Project Director
 
 [**Interns and Graduate Research Assistants:**](/interns)
 * Liset Machado, Intern, Florida International University, Fall 2019.
