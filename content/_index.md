@@ -1,7 +1,7 @@
 ---
 author: Amanda Regan
 date: "2019-12-14"
-lastmod: "2020-04-14"
+lastmod: "2021-04-14"
 title: Home
 description: "Mapping the Gay Guides (MGG), is a collaborative mapping project by Dr. Amanda Regan and Dr. Eric Gonzaba that draws on the Damron Guides, an early but longstanding travel guide aimed at gay men since the early 1960s."
 tag: digital history, mapping, damron gay guides, lgbtq history
@@ -41,4 +41,4 @@ There are two main ways to explore the content on this site. First, you can look
 
 The second way to explore content on the site is through our [“Vignettes,”](/articles) or short case studies based on the visualizations. Each Vignette explores some aspect regarding the history of LGBTQ spaces in the United States and includes historical context and analysis.
 
-In June 2021 we will begin digitizing, transcribing, and geolocating data from 1981-2000. Sign up here to receive updates when new data and materials launch!
+In June 2021 we will begin digitizing, transcribing, and geolocating data from 1981-2000. [Sign up here](/subscribe) to receive updates when new data and materials launch!
