@@ -2,7 +2,7 @@
 author: Amanda Regan
 date: "2019-12-14"
 title: About this Project
-lastmod: "2021-04-14"
+lastmod: "2021-09-25"
 type: about
 layout: aboutpage
 description: "Mapping the Gay Guides aims to understand often ignored queer geographies using the Damron Guides, an early but longstanding travel guide aimed at gay men since the early 1960s."
@@ -30,6 +30,13 @@ With the support of a grant from the [National Endowment for the Humanities,](ww
 * Laura Fauvor, Graduate Research Assistant, California State University Fullerton, Spring 2020.
 * Giulia Oprea, Graduate Research Assistant, California State University Fullerton, Spring 2020.
 * Sierra Rivera, Graduate Research Assistant, California State University Fullerton, Spring 2020.
+* Mikel Baxter, Intern, St. Mary's University, 2021.
+* Justin Cesario, Graduate Research Assistant, California State University Fullerton, Fall 2021.
+* Darius Faulk, Graduate Research Assistant, California State University Fullerton, 2021-22.
+* Marisol Rivera, Graduate Research Assistant, California State University Fullerton, 2021-22.
+* Dianna Barahona Carrillo, Graduate Research Assistant, California State University Fullerton, Spring 2022.
+* Dominick Bucca, Graduate Research Assistant, Clemson University, 2021-2022.
+* Jillian Dillard, Undergraduate Research Assistant, Clemson University, Spring 2022.
 
 **Advisory Board:**
 * Darius Bost. Associate Professor of Ethnic Studies, University of Utah.
@@ -44,7 +51,7 @@ With the support of a grant from the [National Endowment for the Humanities,](ww
 * Marc Robert Stein. Jamie and Phyllis Pasker Professor of History, San Francisco State University.
 * Amy Sueyoshi. Dean of the College of Ethnic Studies, San Francisco State University.
 * Lauren Tilton. Assistant Professor of Digital Humanities and Research Fellow in the Digital Scholarship Lab, University of Richmond.
-* Lindsey Wieck. Assistant Professor of History, St. Mary’s University.
+* Lindsey Passenger Wieck. Assistant Professor of History, St. Mary’s University.
 
 
 ## Project Log
