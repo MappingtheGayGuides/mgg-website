@@ -9,7 +9,7 @@ images: ["/images/1976ExplanationofListings.png"]
 ---
 ### Creating a Dataset
 
-Turning a historical document, such as the Damron Address Books, into data that can be used for mapping is a process fraught with methodological decisions that shape the resulting dataset. The goal of this page is to make visible the choices that were made and clarify our categorization of data.
+Turning a historical document, such as the Damron Address Books, into data that can be used for mapping is a process fraught with methodological decisions that shape the resulting dataset. The goal of this page is to make visible the choices that were made and clarify our categorization of the data.
 
 <figure>
 <img src="/images/methodology-typicallisting.png" class="image-right" style="width:350px;">
