@@ -1,0 +1,111 @@
+{{ define "title" }}{{ .Title | markdownify }} | {{ .Site.Title }}{{ end }}
+
+{{ define "schema-dot-org" }}
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BlogPosting",
+  {{- /* Google recommends the headline be no more than 110 characters */}}
+  "headline": "{{ substr .Title 0 110 }}",
+  {{- with .Params.images -}}{{ range first 1 . }}
+  "image": {
+    "@type": "ImageObject",
+    "url": "{{ . | absURL }}"
+    {{- /* Don't try to get imageConfig if image param is not local */ -}}
+    {{- if not (or (hasPrefix . "http://") (hasPrefix . "https://")) -}}
+    {{- with (imageConfig (printf "/static/%s" .)) -}}
+    ,
+    "height": "{{ .Height }}",
+    "width": "{{ .Width }}"
+    {{- end -}}
+    {{ end }}
+  },
+  {{- end -}}{{ end }}
+  "url": "{{ printf "%s" .Permalink }}",
+  "wordCount": "{{ .WordCount }}",
+  {{- $ISO8601 := "2006-01-02T15:04:05-07:00" }}
+  {{- if not .PublishDate.IsZero }}
+  "datePublished": "{{ .PublishDate.Format $ISO8601 }}",
+  {{- else }}
+  "datePublished": "{{ .Date.Format $ISO8601 }}",
+  {{- end }}
+  {{- if not .Lastmod.IsZero }}
+  "dateModified": "{{ .Lastmod.Format $ISO8601 }}",
+  {{- end }}
+  {{- with .Site.Social.GooglePlus }}
+  "publisher": "{{ printf "%s" . }}",
+  {{- end }}
+  "author": {
+    "@type": "Person",
+    "name": "{{ .Params.author | default .Site.Params.author }}"
+  }
+  {{- if or (.Params.keywords) (or (.Params.categories) (.Params.tags)) -}}
+  ,
+  "keywords": "{{ delimit (union .Params.keywords (union .Params.categories .Params.tags)) ", " }}"
+  {{- end }}
+
+  {{- with .Params.description -}}
+  ,
+  "description": "{{ . }}"
+  {{- end }}
+}
+</script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<!-- load jQuery, use newest version at https://code.jquery.com   -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<!-- Load Esri Leaflet, use newest version at http://esri.github.io/esri-leaflet -->
+<script src="https://unpkg.com/esri-leaflet/dist/esri-leaflet.js"></script>
+
+{{ end }}
+
+{{ define "main" }}
+{{ $dateFormat := default "Mon Jan 2, 2006" (index .Site.Params "date_format") }}
+<div class="col-sm-12 blog-main article">
+<article class="blog-post">
+  <header>
+    <h1 class="blog-post-title">{{ .Title | markdownify }}</h1>
+    <p class="blog-post-meta">Posted by {{ $.Param "author" }}</p>
+  </header>
+
+<div id="map"></div>
+
+          {{ .Content }}
+
+  <small>Originally Published: {{ .PublishDate.Format "January 2, 2006"}}  |  Last modified: {{ .Lastmod.Format "January 2, 2006" }}</small>
+  <script src="../../js/viz.js"></script>
+  {{ if .IsTranslated }}
+  <h4>{{ i18n "translations" }}</h4>
+  <ul>
+    {{ range .Translations }}
+    <li>
+      <a href="{{ .Permalink }}">{{ .Lang }}: {{ .Title }}{{ if .IsPage }}{{ end }}</a>
+    </li>
+    {{ end }}
+  </ul>
+  {{ end }}
+  </div> {{ "<!-- /.blog-main -->" | safeHTML }}
+  {{ if or (ne ($.Param "sharingicons") false) (.Site.DisqusShortname) }}
+  <hr>
+  <footer>
+
+  {{ if (ne ($.Param "sharingicons") false) }}
+  {{ partial "sharing-icons.html" . }}
+  {{ end }}
+
+  {{ if and (.Site.DisqusShortname) (ne .Params.comments false) }}
+  {{ template "_internal/disqus.html" . }}
+  {{ end }}
+
+
+
+  </footer>
+  {{ end }}
+
+</article> <!-- /.blog-post -->
+
+{{ end }}
+
+{{- /* vim: set ts=2 sw=2 et: */}}

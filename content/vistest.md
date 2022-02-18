@@ -1,14 +1,16 @@
-<!DOCTYPE html>
-<html>
-
-  <head>
-    <meta charset="utf-8" />
-    <title>Leaflet Maps with Open Data APIs</title>
-    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-
+---
+author: Amanda Regan
+date: "2019-12-14"
+title: Map Vis Test
+lastmod: "2021-04-14"
+description: ""
+slug: "maptest"
+---
+{{< rawhtml >}}
     <!-- Load Leaflet, use newest version at http://leafletjs.com -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
     <!-- load jQuery, use newest version at https://code.jquery.com   -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -18,10 +20,7 @@
 
     <!-- style the map -->
     <style>
-      body {
-        margin: 0;
-        padding: 0;
-      }
+
       #map {
         position: absolute;
         height: 100vh;
@@ -32,17 +31,24 @@
     </style>
   </head>
 
-<body>
 
+  <div class="row">
+  <div class="col-lg-10">
   <!-- Create div element to house the map -->
   <div id="map"></div>
   <div class="mypanel"></div>
+  </div>
+  </div>
+
+
+
+
   <script>
   //  Initialize the map with specified center coordinates and zoom level
     //for target area (North Dakota)
     var map = L.map('map', {
       center: [47.55, -100.34],
-      zoom: 7,
+      zoom: 2,
     })
     //var map = L.map('map').setView([51.505, -0.09], 13);
 
@@ -91,7 +97,4 @@
 
 
     </script>
-
-  </body>
-
-</html>
+{{< /rawhtml >}}
