@@ -71,7 +71,18 @@
   </header>
 
 <div id="map"></div>
-
+<div class="btn-group">
+<button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+  Action
+</button>
+<div class="dropdown-menu">
+  <a class="dropdown-item" href="#">Action</a>
+  <a class="dropdown-item" href="#">Another action</a>
+  <a class="dropdown-item" href="#">Something else here</a>
+  <div class="dropdown-divider"></div>
+  <a class="dropdown-item" href="#">Separated link</a>
+</div>
+</div>
           {{ .Content }}
 
   <small>Originally Published: {{ .PublishDate.Format "January 2, 2006"}}  |  Last modified: {{ .Lastmod.Format "January 2, 2006" }}</small>
@@ -98,6 +109,7 @@
   {{ if and (.Site.DisqusShortname) (ne .Params.comments false) }}
   {{ template "_internal/disqus.html" . }}
   {{ end }}
+
 
 
 
