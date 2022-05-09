@@ -9,6 +9,15 @@
     <copyright>&lt;a href=&#39;https://creativecommons.org/licenses/by/4.0/&#39; target=&#39;_blank&#39;&gt;&lt;img src=&#39;https://mirrors.creativecommons.org/presskit/icons/by.svg&#39; height=&#39;25&#39;&gt; Licensed CC-BY.&lt;/a&gt;</copyright>
     <lastBuildDate>Sat, 14 Dec 2019 00:00:00 +0000</lastBuildDate><atom:link href="http://dev.mappingthegayguides.org/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>My semester with MGG</title>
+      <link>http://dev.mappingthegayguides.org/news/dominick-bucca-blog/</link>
+      <pubDate>Fri, 22 Apr 2022 00:00:00 +0000</pubDate>
+      
+      <guid>http://dev.mappingthegayguides.org/news/dominick-bucca-blog/</guid>
+      <description>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent sit amet ultrices dui. Curabitur maximus turpis aliquet risus malesuada, et viverra mauris interdum. Proin tellus massa, dignissim vel dignissim nec, pharetra vel quam. Suspendisse feugiat, mauris id ornare molestie, nulla sem varius mauris, aliquam auctor dui leo ut nibh. Mauris laoreet varius ligula, id tincidunt nunc pharetra ut. In hac habitasse platea dictumst. Nullam tortor lacus, pulvinar eget vehicula eget, euismod nec mauris.</description>
+    </item>
+    
+    <item>
       <title>Amanda Regan</title>
       <link>http://dev.mappingthegayguides.org/regan/</link>
       <pubDate>Fri, 23 Jul 2021 00:00:00 +0000</pubDate>
@@ -229,6 +238,24 @@ The data in Mapping the Gay Guides reflects thousands of sites important to deve
       
       <guid>http://dev.mappingthegayguides.org/about/</guid>
       <description>Mapping the Gay Guides aims to understand often ignored queer geographies using the Damron Address Books, an early but longstanding travel guide aimed at gay men since the early 1960s. Similar in function to the green books used by African Americans during the Jim Crow era to help identify businesses that catered to black clients in the South, the Damron Guides aided a generation of queer people to identity sites of community, pleasure, and politics.</description>
+    </item>
+    
+    <item>
+      <title>Map Vis Test</title>
+      <link>http://dev.mappingthegayguides.org/maptest/</link>
+      <pubDate>Sat, 14 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://dev.mappingthegayguides.org/maptest/</guid>
+      <description>#map { position: absolute; height: 100vh; width: 100vw; top: 0; left: 0; }        // Initialize the map with specified center coordinates and zoom level //for target area (North Dakota) var map = L.map(&#39;map&#39;, { center: [47.55, -100.34], zoom: 2, }) //var map = L.map(&#39;map&#39;).setView([51.505, -0.09], 13); L.tileLayer(&#39;https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png&#39;, { attribution: &#39;Map data &amp;copy; OpenStreetMap contributors, Imagery © Mapbox&#39;, maxZoom: 18, id: &#39;mapbox/streets-v11&#39;, tileSize: 512, zoomOffset: -1, accessToken: &#39;your.</description>
+    </item>
+    
+    <item>
+      <title>Map Vis Test</title>
+      <link>http://dev.mappingthegayguides.org/viz/maptest/</link>
+      <pubDate>Sat, 14 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://dev.mappingthegayguides.org/viz/maptest/</guid>
+      <description>  html, body, #map { position: relative; height: 400px; /* or as desired */ width: 100%; }  </description>
     </item>
     
     <item>

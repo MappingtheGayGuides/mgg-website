@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta property="og:title" content="Map Vis Test" />
+<meta property="og:description" content="#map { position: absolute; height: 100vh; width: 100vw; top: 0; left: 0; }        // Initialize the map with specified center coordinates and zoom level //for target area (North Dakota) var map = L.map(&#39;map&#39;, { center: [47.55, -100.34], zoom: 2, }) //var map = L.map(&#39;map&#39;).setView([51.505, -0.09], 13); L.tileLayer(&#39;https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png&#39;, { attribution: &#39;Map data &copy; OpenStreetMap contributors, Imagery © Mapbox&#39;, maxZoom: 18, id: &#39;mapbox/streets-v11&#39;, tileSize: 512, zoomOffset: -1, accessToken: &#39;your." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://dev.mappingthegayguides.org/maptest/" /><meta property="article:section" content="" />
+<meta property="article:published_time" content="2019-12-14T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-04-14T00:00:00+00:00" />
+
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Map Vis Test"/>
+<meta name="twitter:description" content="#map { position: absolute; height: 100vh; width: 100vw; top: 0; left: 0; }        // Initialize the map with specified center coordinates and zoom level //for target area (North Dakota) var map = L.map(&#39;map&#39;, { center: [47.55, -100.34], zoom: 2, }) //var map = L.map(&#39;map&#39;).setView([51.505, -0.09], 13); L.tileLayer(&#39;https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png&#39;, { attribution: &#39;Map data &copy; OpenStreetMap contributors, Imagery © Mapbox&#39;, maxZoom: 18, id: &#39;mapbox/streets-v11&#39;, tileSize: 512, zoomOffset: -1, accessToken: &#39;your."/>
+<meta name="generator" content="Hugo 0.86.0" />
+<link rel="apple-touch-icon" href="/dev/images/mgg-ati.png">
+<link rel="shortcut icon" href="/dev/images/favicon.ico"/>
+
+
+    
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Map Vis Test",
+  "url": "http:\/\/dev.mappingthegayguides.org\/maptest\/",
+  "wordCount": "138",
+  "datePublished": "2019-12-14T00:00:00\u002b00:00",
+  "dateModified": "2021-04-14T00:00:00\u002b00:00",
+  "author": {
+    "@type": "Person",
+    "name": "Amanda Regan"
+  }
+}
+</script>
+
+
+
+    <link rel="canonical" href="http://dev.mappingthegayguides.org/maptest/">
+
+    <title>Map Vis Test | Mapping the Gay Guides</title>
+
+    
+    <!-- combined, minified CSS -->
+    <link href="http://dev.mappingthegayguides.org/css/style.css" rel="stylesheet">
+    
+
+    <!-- RSS 2.0 feed -->
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-151188328-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+    
+
+    <link href="//fonts.googleapis.com/css?family=Gothic+A1:400,500,600,700&display=swap" rel="stylesheet">
+
+  </head>
+
+  <body>
+
+    
+    <div class="blog-masthead">
+      
+        <nav class="navbar navbar-dark primary-color navbar-expand-sm">
+          <div class="navbar-header">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+               <span class="navbar-toggler-icon"></span>
+             </button>
+
+          <a class="navbar-brand" href="https://www.mappingthegayguides.org">
+            <img src="/images/logo_white_500.png" width=250>
+          </a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navigation">
+          <ul class="nav navbar-nav navbar-right">
+                <li><a href="/"></a></li>
+
+                
+                
+                <li><a class="nav-link" href="/about">About</a></li>
+                
+                
+                
+                <li><a class="nav-link" href="/map">Map</a></li>
+                
+                
+                
+                <li><a class="nav-link" href="/articles">Vignettes</a></li>
+                
+                
+                
+                <li><a class="nav-link" href="/methodology">Methodology</a></li>
+                
+                
+                
+                <li><a class="nav-link" href="/ethics">Ethics</a></li>
+                
+                
+                
+                <li><a class="nav-link" href="/news">News</a></li>
+                
+                
+                <li><a class="nav-link" href="http://www.twitter.com/gayguides"><i class="fab fa-twitter fa-lg"></i></a></li>
+                <li><a class="nav-link" href="https://github.com/MappingtheGayGuides"><i class="fab fa-github fa-lg"></i></a></li>
+      </div>
+      
+
+         </nav>
+       
+    </div>
+    
+
+    
+
+    
+    <div class="container">
+      <div class="row">
+
+
+          
+
+<div class="col-sm-12 blog-main">
+<article class="blog-post">
+  <header>
+    <h1 class="blog-post-title">Map Vis Test</h1>
+  </header>
+  
+
+    <!-- Load Leaflet, use newest version at http://leafletjs.com -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <!-- load jQuery, use newest version at https://code.jquery.com   -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!-- Load Esri Leaflet, use newest version at http://esri.github.io/esri-leaflet -->
+    <script src="https://unpkg.com/esri-leaflet/dist/esri-leaflet.js"></script>
+
+    <!-- style the map -->
+    <style>
+
+      #map {
+        position: absolute;
+        height: 100vh;
+        width: 100vw;
+        top: 0;
+        left: 0;
+      }
+    </style>
+  </head>
+
+
+  <div class="row">
+  <div class="col-lg-10">
+  <!-- Create div element to house the map -->
+  <div id="map"></div>
+  <div class="mypanel"></div>
+  </div>
+  </div>
+
+
+
+
+  <script>
+  //  Initialize the map with specified center coordinates and zoom level
+    //for target area (North Dakota)
+    var map = L.map('map', {
+      center: [47.55, -100.34],
+      zoom: 2,
+    })
+    //var map = L.map('map').setView([51.505, -0.09], 13);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png', {
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        maxZoom: 18,
+        id: 'mapbox/streets-v11',
+        tileSize: 512,
+        zoomOffset: -1,
+        accessToken: 'your.mapbox.access.token'
+    }).addTo(map);
+
+    //var marker = L.marker([51.5, -0.09]).addTo(map);
+    //marker.bindPopup("<b>Hello world!</b><br>I am a popup.");
+
+    var markerGroup = L.featureGroup([]).addTo(map);
+
+    // $.getJSON('http://localhost:', function(data) {
+    //   for(var key in data.Sheet1){
+    //     var latLng = L.latLng([data.Sheet1[key].Latitude, data.Sheet1[key].Longitude]);
+    //     L.marker(latLng).bindPopup(data.Sheet1[key].Status).addTo(markerGroup);
+    //   }
+    // });
+
+
+
+
+  $.getJSON('http://localhost:1313/api/v1/person', function(mggdata) {
+
+      var text = `Date: ${mggdata.data.Year}<br>
+                  Time: ${mggdata.data.title}<br>
+                  Unix time: ${mggdata.data.id}`
+
+      for(var key in mggdata.data){
+      var latLng = L.latLng([mggdata.data[key].lat, mggdata.data[key].lon]);
+      console.log(latLng);
+      L.marker(latLng).bindPopup(mggdata.data[key].title).addTo(markerGroup);
+         //var latLng = L.latLng([mggdata.data[key].lat, mggdata.data[key].lon]);
+         //console.log(mggdata.data[0].lon);
+       }
+
+      //console.log(mggdata.data[0]);
+      //$(".mypanel").html(text);
+  });
+
+
+
+    </script>
+
+
+
+
+  
+  <small class="publish-dates">Originally Published: December 14, 2019  |  Last modified: April 14, 2021</small>
+  </div> <!-- /.blog-main -->
+  
+
+</article> 
+
+
+
+
+
+        
+
+      </div> <!-- /.row -->
+    </div> <!-- /.container -->
+    
+
+    
+    <footer class="blog-footer row">
+
+      <div class="col-md-3">
+        <img src="/images/footer-logo-csuf.png" height="150">
+      </div>
+      <div class="col-md-3">
+        <img src="/images/footer-logo-clemson.png" height="150">
+      </div>
+      <div class="col-md-3">
+        <img src="/images/footer-logo-neh.jpg" height="125">
+      </div>
+      <div class="col-md-3">
+        <p dir="auto">
+          <img src="/images/ccby.png" style="height:30px;"><br>  This site is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">Creative Commons Attribution 4.0 International License.</a>
+        </p>
+      </div>
+      <script defer src="//use.fontawesome.com/releases/v5.1.0/js/all.js"></script>
+      <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    </footer>
+    
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+  </body>
+
+</html>

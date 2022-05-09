@@ -2,13 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>http://dev.mappingthegayguides.org/news/dominick-bucca-blog/</loc>
+    <lastmod>2022-04-22T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://dev.mappingthegayguides.org/news/</loc>
+    <lastmod>2022-04-22T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>http://dev.mappingthegayguides.org/regan/</loc>
     <lastmod>2021-07-23T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://dev.mappingthegayguides.org/news/neh-funding/</loc>
-    <lastmod>2021-04-14T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://dev.mappingthegayguides.org/news/</loc>
     <lastmod>2021-04-14T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://dev.mappingthegayguides.org/news/award-garfinkel/</loc>
@@ -86,7 +89,16 @@
     <loc>http://dev.mappingthegayguides.org/</loc>
     <lastmod>2021-04-14T00:00:00+00:00</lastmod>
   </url><url>
+    <loc>http://dev.mappingthegayguides.org/maptest/</loc>
+    <lastmod>2021-04-14T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://dev.mappingthegayguides.org/viz/maptest/</loc>
+    <lastmod>2021-04-14T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>http://dev.mappingthegayguides.org/subscribe/</loc>
+    <lastmod>2021-04-14T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://dev.mappingthegayguides.org/viz/</loc>
     <lastmod>2021-04-14T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://dev.mappingthegayguides.org/articles/alabama/</loc>
@@ -103,6 +115,12 @@
   </url><url>
     <loc>http://dev.mappingthegayguides.org/advisoryboard/</loc>
     <priority>0</priority>
+  </url><url>
+    <loc>http://dev.mappingthegayguides.org/authors/amanda-regan/</loc>
+  </url><url>
+    <loc>http://dev.mappingthegayguides.org/authors/eric-gonzaba/</loc>
+  </url><url>
+    <loc>http://dev.mappingthegayguides.org/authors/</loc>
   </url><url>
     <loc>http://dev.mappingthegayguides.org/categories/</loc>
   </url>
