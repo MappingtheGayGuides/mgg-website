@@ -1,71 +1,29 @@
-//  Initialize the map with specified center coordinates and zoom level
-  //for target area (North Dakota)
-  var map = L.map('map', {
-    center: [47.55, -100.34],
-    zoom: 2,
-  })
-  //var map = L.map('map').setView([51.505, -0.09], 13);
 
-  L.tileLayer('https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png', {
-      attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-      maxZoom: 18,
-      id: 'mapbox/streets-v11',
-      tileSize: 512,
-      zoomOffset: -1,
-      accessToken: 'your.mapbox.access.token'
-  }).addTo(map);
-
-  //var marker = L.marker([51.5, -0.09]).addTo(map);
-  //marker.bindPopup("<b>Hello world!</b><br>I am a popup.");
-
-  var markerGroup = L.featureGroup([]).addTo(map);
-
-  // $.getJSON('http://localhost:', function(data) {
-  //   for(var key in data.Sheet1){
-  //     var latLng = L.latLng([data.Sheet1[key].Latitude, data.Sheet1[key].Longitude]);
-  //     L.marker(latLng).bindPopup(data.Sheet1[key].Status).addTo(markerGroup);
-  //   }
-  // });
+//ARC GIS JS
+const apiKey = "AAPK913fd73cbefa48b5929c8df63e95db270yZCsUIDQf_nRatPI26GP3cKLfeGycrnILpoxgllDSZpmcM8MXFR1SZ9mHcIcprX";
 
 
 
+const map = L.map('map', {
+  maxZoom: 18
+}).setView([0,0], 2);
 
-$.getJSON('https://monkfish-app-ovahi.ondigitalocean.app/api/v1/person', function(mggdata) {
+L.esri.Vector.vectorBasemapLayer("ArcGIS:DarkGray", {
+      apikey: apiKey
+    }).addTo(map);
 
-    var text = `Date: ${mggdata.data.Year}<br>
-                Time: ${mggdata.data.title}<br>
-                Unix time: ${mggdata.data.id}`
-
-    for(var key in mggdata.data){
-    var latLng = L.latLng([mggdata.data[key].lat, mggdata.data[key].lon]);
-    console.log(latLng);
-    L.marker(latLng).bindPopup(mggdata.data[key].title).addTo(markerGroup);
-       //var latLng = L.latLng([mggdata.data[key].lat, mggdata.data[key].lon]);
-       //console.log(mggdata.data[0].lon);
-     }
-
-    //console.log(mggdata.data[0]);
-    //$(".mypanel").html(text);
+const mggdata = L.esri.Cluster.featureLayer({
+  url: "https://services1.arcgis.com/x5wCko8UnSi4h0CB/arcgis/rest/services/mapping_the_gay_guides_data_19651980/FeatureServer/0"
+})
+.addTo(map);
+mggdata.setWhere('Year=1965');
+const year = document.getElementById("map-viewby-year");
+const state = document.getElementById("map-viewby-state");
+year.addEventListener("change", function(){
+  mggdata.setWhere('Year=' + year.value);
 });
-
-
-
-//
-//
-// $.getJSON('http://localhost:1313/api/v1/person', function(mggdata) {
-//
-//     var text = `Date: ${mggdata.data.Year}<br>
-//                 Time: ${mggdata.data.title}<br>
-//                 Unix time: ${mggdata.data.id}`
-//
-//     for(var key in mggdata.data){
-//     var latLng = L.latLng([mggdata.data[key].lat, mggdata.data[key].lon]);
-//     console.log(latLng);
-//     L.marker(latLng).bindPopup(mggdata.data[key].title).addTo(markerGroup);
-//        //var latLng = L.latLng([mggdata.data[key].lat, mggdata.data[key].lon]);
-//        //console.log(mggdata.data[0].lon);
-//      }
-//
-//     //console.log(mggdata.data[0]);
-//     //$(".mypanel").html(text);
-// });
+state.addEventListener("change", function(){
+  mggdata.setWhere("state='" + state.value + "'");
+});
+console.log('State is set at:' + state.value)
+console.log('Year ' + year.value);
