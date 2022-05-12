@@ -94,22 +94,27 @@
 <div id="map"></div>
 
 <div class="row">
-<div class="col-lg-3">
-<div class="form-floating">
-<select class="form-control form-control" id="map-viewby-state">
-  <option selected>All</option>
-  <option value="CA">California</option>
-  <option value="SC">South Carolina</option>
-</select>
-<label for="map-viewby-state">State</label>
-</div>
-</div>
-<div class="col-lg-3">
-<div class="form-floating">
-<label for="map-viewby-year" class="form-label">Year</label>
-<input type="range" class="form-range" min="1965" max="1980" step="1" id="map-viewby-year" oninput="Year='rangeInput.value'">
-</div>
-</div>
+  <div class="col-lg-9">
+    <div class="form-floating">
+      <label for="map-viewby-year" class="float-left form-label">1965</label>
+      <label for="map-viewby-year" class="float-right form-label">1980</label><br>
+      <input type="range" class="form-range" min="1965" max="1980" step="1" id="map-viewby-year" width="100%" oninput="Year='rangeInput.value'" style="width:100%;">
+    </div>
+  </div>
+</div> <!-- end row -->
+
+<div class="row">
+  <!-- State dropdown -->
+  <div class="col-lg-3">
+    <div class="form-floating">
+      <label for="map-viewby-state">State</label>
+      <select class="form-control form-control" id="map-viewby-state">
+        <option selected>All</option>
+        <option value="CA">California</option>
+        <option value="SC">South Carolina</option>
+      </select>
+    </div>
+  </div>
 </div>
 
 
