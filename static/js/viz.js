@@ -21,7 +21,7 @@ mggdata.setWhere('Year=1965');
 
 // Setup the Popup
       mggdata.bindPopup(function (layer) {
-        return L.Util.template("<b>Location Name:</b> {title}</br><b>Description:</b> {description}<br><b>City/State:</b> {city}, {state}<br>", layer.feature.properties);
+        return L.Util.template("<b>Location Name:</b> {title}</br><b>Description:</b> {description}<br><b>City/State:</b> {city}, {state}<br><b>Type:</b> {type}<br><b>Amenity Features:</b> {amenityfeatures}", layer.feature.properties);
       });
 
 
