@@ -89,11 +89,17 @@
     <h1 class="blog-post-title">{{ .Title | markdownify }}</h1>
     <p class="blog-post-meta">Posted by {{ $.Param "author" }}</p>
   </header>
-  <!-- <div id="viewDiv"></div> -->
 
-<div id="map"></div>
+  {{ .Content }}
 
-<div class="row" style="margin-top: 25px;">
+<div class="row visualization">
+  <div class="col-lg-12">
+    <div id="map" style="height: 400px;"></div>
+  </div>
+</div>
+
+<div class="container alert alert-secondary controls" style ="margin-top: 30px;">
+<div class="row">
   <div class="col-lg-9">
     <div class="form-floating">
       <label for="map-viewby-year" class="float-left form-label">1965</label>
@@ -153,8 +159,8 @@
 
 </div> <!-- end row -->
 
+</div>
 
-          {{ .Content }}
 
   <small>Originally Published: {{ .PublishDate.Format "January 2, 2006"}}  |  Last modified: {{ .Lastmod.Format "January 2, 2006" }}</small>
   <script src="../../js/viz.js"></script>

@@ -24,7 +24,6 @@ mggdata.setWhere('Year=1965');
         return L.Util.template("<b>Location Name:</b> {title}</br><b>Description:</b> {description}<br><b>City/State:</b> {city}, {state}<br><b>Type:</b> {type}<br><b>Amenity Features:</b> {amenityfeatures}", layer.feature.properties);
       });
 
-
 const year = document.getElementById("map-viewby-year");
 const state = document.getElementById("map-viewby-state");
 year.addEventListener("change", function(){
