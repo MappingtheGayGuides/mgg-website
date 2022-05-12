@@ -16,7 +16,15 @@ const mggdata = L.esri.Cluster.featureLayer({
   url: "https://services1.arcgis.com/x5wCko8UnSi4h0CB/arcgis/rest/services/mapping_the_gay_guides_data_19651980/FeatureServer/0"
 })
 .addTo(map);
+
 mggdata.setWhere('Year=1965');
+
+// Setup the Popup
+      mggdata.bindPopup(function (layer) {
+        return L.Util.template("<b>Location Name:</b> {title}</br><b>Description:</b> {description}<br><b>City/State:</b> {city}, {state}<br>", layer.feature.properties);
+      });
+
+
 const year = document.getElementById("map-viewby-year");
 const state = document.getElementById("map-viewby-state");
 year.addEventListener("change", function(){
