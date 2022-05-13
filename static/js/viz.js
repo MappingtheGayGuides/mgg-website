@@ -26,11 +26,21 @@ mggdata.setWhere('Year=1965');
 
 const year = document.getElementById("map-viewby-year");
 const state = document.getElementById("map-viewby-state");
+const runq = document.getElementById("runbutton");
+
 year.addEventListener("change", function(){
   mggdata.setWhere('Year=' + year.value);
 });
 state.addEventListener("change", function(){
   mggdata.setWhere("state='" + state.value + "'");
 });
+
+function query(){
+  console.log('query running test');
+};
+
+runq.addEventListener('click', query);
+
+
 console.log('State is set at:' + state.value)
 console.log('Year ' + year.value);
