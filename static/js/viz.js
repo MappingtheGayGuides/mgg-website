@@ -26,6 +26,7 @@ mggdata.setWhere('Year=1965');
 
 const year = document.getElementById("map-viewby-year");
 const state = document.getElementById("map-viewby-state");
+const type = document.getElementById("map-viewby-type");
 const runq = document.getElementById("runbutton");
 const resetBtn = document.getElementById("reset-btn")
 
@@ -41,11 +42,16 @@ state.addEventListener("change", function(){
 function query(){
   var qvalue;
   if (state.value != "All") {
-    console.log(false);
+    console.log("query has a state value");
     qvalue = "Year=" + year.value + " AND state='" + state.value + "'";
     console.log(qvalue);
-    mggdata.setWhere(qvalue);
+
+  } if (type.value != "All") {
+    console.log("query has type value");
+    qvalue = qvalue + "AND type='" + type.value + "'";
+    console.log(qvalue);
   }
+  mggdata.setWhere(qvalue);
 };
 
 runq.addEventListener('click', query);
