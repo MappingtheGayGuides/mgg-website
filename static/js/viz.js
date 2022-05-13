@@ -29,15 +29,23 @@ const state = document.getElementById("map-viewby-state");
 const runq = document.getElementById("runbutton");
 const resetBtn = document.getElementById("reset-btn")
 
+
 year.addEventListener("change", function(){
-  mggdata.setWhere('Year=' + year.value);
+  mggdata.setWhere("Year=" + year.value);
 });
 state.addEventListener("change", function(){
   mggdata.setWhere("state='" + state.value + "'");
+  //mggdata.setWhere(params.toString());
 });
 
 function query(){
-  console.log('query running test');
+  var qvalue;
+  if (state.value != "All") {
+    console.log(false);
+    qvalue = "Year=" + year.value + " AND state='" + state.value + "'";
+    console.log(qvalue);
+    mggdata.setWhere(qvalue);
+  }
 };
 
 runq.addEventListener('click', query);
