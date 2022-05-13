@@ -27,20 +27,21 @@ mggdata.setWhere('Year=1965');
 const year = document.getElementById("map-viewby-year");
 const state = document.getElementById("map-viewby-state");
 const type = document.getElementById("map-viewby-type");
+const amenities = document.getElementById("map-viewby-amenities");
 const runq = document.getElementById("runbutton");
 const resetBtn = document.getElementById("reset-btn")
 
 
-year.addEventListener("change", function(){
-  mggdata.setWhere("Year=" + year.value);
-});
-state.addEventListener("change", function(){
-  mggdata.setWhere("state='" + state.value + "'");
-  //mggdata.setWhere(params.toString());
-});
+// year.addEventListener("change", function(){
+//   mggdata.setWhere("Year=" + year.value);
+// });
+// state.addEventListener("change", function(){
+//   mggdata.setWhere("state='" + state.value + "'");
+//   //mggdata.setWhere(params.toString());
+// });
 
 function query(){
-  var qvalue;
+  var qvalue = "";
   if (state.value != "All") {
     console.log("query has a state value");
     qvalue = "Year=" + year.value + " AND state='" + state.value + "'";
@@ -48,7 +49,12 @@ function query(){
 
   } if (type.value != "All") {
     console.log("query has type value");
-    qvalue = qvalue + "AND type='" + type.value + "'";
+    qvalue = qvalue + " AND type='" + type.value + "'";
+    console.log(qvalue);
+  }
+  if (amenities.value != "All") {
+    console.log("query has amenities value");
+    qvalue = qvalue + " AND amenityfeatures LIKE '%" + amenities.value + "%'";
     console.log(qvalue);
   }
   mggdata.setWhere(qvalue);
