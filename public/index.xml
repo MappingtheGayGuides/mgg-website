@@ -250,12 +250,12 @@ The data in Mapping the Gay Guides reflects thousands of sites important to deve
     </item>
     
     <item>
-      <title>Map Vis Test</title>
+      <title>Mapping the Gay Guides</title>
       <link>http://dev.mappingthegayguides.org/viz/maptest/</link>
       <pubDate>Sat, 14 Dec 2019 00:00:00 +0000</pubDate>
       
       <guid>http://dev.mappingthegayguides.org/viz/maptest/</guid>
-      <description>  html, body, #map { position: relative; height: 400px; /* or as desired */ width: 100%; }  </description>
+      <description>Each year Bob Damron&amp;rsquo;s Address Book expanded and added new locations, updated entries, and provided readers with a refreshed guide exploring LGTBQ America. The interactive map below displays each of the locations listed in the Damron Guides by year. The filter controls below the map allow users to look at different years using the slider and filter the data according to the type of location as well as by the amenity categorizations that Damron used each year.</description>
     </item>
     
     <item>
