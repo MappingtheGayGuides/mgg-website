@@ -8,7 +8,7 @@ category: "Project News"
 images: ["/images/review-scholarlyediting.png"]
 img: "review-scholarlyediting.png"
 affiliatelink: "https://scholarlyediting.org/issues/39/mapping-the-gay-guides-visualizing-queer-space-and-american-life-amanda-regan-and-eric-gonzaba"
-affiliatename: "Scholarly Editing: The Annual of the Association for Documentary Editing"
+affiliatename: "Scholarly Editing"
 affiliatewebsite: "https://scholarlyediting.org/"
 affiliate: true
 ---
