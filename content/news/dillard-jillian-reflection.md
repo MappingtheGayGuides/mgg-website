@@ -2,7 +2,7 @@
 title: "My Semester Working on Mapping the Gay Guides"
 author: "Jillian Dillard"
 description: "Jillian Dillard, a senior history major at Clemson University, reflects on her experience working on Mapping the Gay Guides in Spring 2022."
-draft: false
+draft: TRUE
 date: "2022-05-21"
 lastmod: "2022-05-21"
 category: "Project Blog"
