@@ -23,7 +23,7 @@ mggdata.setWhere('Year=1965');
       mggdata.bindPopup(function (layer) {
         return L.Util.template("<b>Location Name:</b> {title}</br><b>Description:</b> {description}<br><b>City/State:</b> {city}, {state}<br><b>Type:</b> {type}<br><b>Amenity Features:</b> {amenityfeatures}", layer.feature.properties);
       });
-
+//form values
 const year = document.getElementById("map-viewby-year");
 const state = document.getElementById("map-viewby-state");
 const type = document.getElementById("map-viewby-type");
@@ -31,36 +31,44 @@ const amenities = document.getElementById("map-viewby-amenities");
 const runq = document.getElementById("runbutton");
 const resetBtn = document.getElementById("reset-btn")
 
+const conditions = [];
+const values = [];
 
-// year.addEventListener("change", function(){
-//   mggdata.setWhere("Year=" + year.value);
-// });
-// state.addEventListener("change", function(){
-//   mggdata.setWhere("state='" + state.value + "'");
-//   //mggdata.setWhere(params.toString());
-// });
-
-function query(){
-  var qvalue = "";
-  if (state.value != "All") {
-    console.log("query has a state value");
-    qvalue = "Year=" + year.value + " AND state='" + state.value + "'";
-    console.log(qvalue);
-
-  } if (type.value != "All") {
-    console.log("query has type value");
-    qvalue = qvalue + " AND type='" + type.value + "'";
-    console.log(qvalue);
-  }
-  if (amenities.value != "All") {
-    console.log("query has amenities value");
-    qvalue = qvalue + " AND amenityfeatures LIKE '%" + amenities.value + "%'";
-    console.log(qvalue);
-  }
+function query (){
+var qvalue = "";
+  if (year.value) {conditions.push('year=?'); values.push(year.value); }
+  console.log(values);
+  qvalue = conditions.length ? ("WHERE " + conditions.join(" AND ")) : "" + values;
+  console.log(qvalue);
   mggdata.setWhere(qvalue);
-};
 
+};
 runq.addEventListener('click', query);
+
+// function query(){
+//   var qvalue = "";
+//   if (state.value != "All") {
+//     console.log("query has a state value");
+//     qvalue = "Year=" + year.value + " AND state='" + state.value + "'";
+//     console.log(qvalue);
+//   } else {
+//     console.log("state is set at all");
+//     qvalue = "Year=" + year.value + " AND state=*";
+//   } if (type.value != "All") {
+//     console.log("query has type value");
+//     qvalue = qvalue + " AND type='" + type.value + "'";
+//     console.log(qvalue);
+//   }
+//   if (amenities.value != "All") {
+//     console.log("query has amenities value");
+//     qvalue = qvalue + " AND amenityfeatures LIKE '%" + amenities.value + "%'";
+//     console.log(qvalue);
+//   }
+//   mggdata.setWhere(qvalue);
+// };
+
+
+
 
 
 console.log('State is set at:' + state.value)
