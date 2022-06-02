@@ -5,8 +5,9 @@ const apiKey = "AAPK913fd73cbefa48b5929c8df63e95db270yZCsUIDQf_nRatPI26GP3cKLfeG
 
 
 const map = L.map('map', {
-  maxZoom: 18
-}).setView([0,0], 2);
+  maxZoom: 13,
+  minZoom: 3
+}).setView([37.45,-93.85], 3);
 
 L.esri.Vector.vectorBasemapLayer("ArcGIS:DarkGray", {
       apikey: apiKey
