@@ -31,42 +31,29 @@ const amenities = document.getElementById("map-viewby-amenities");
 const runq = document.getElementById("runbutton");
 const resetBtn = document.getElementById("reset-btn")
 
-const conditions = [];
-const values = [];
-
-function query (){
-var qvalue = "";
-  if (year.value) {conditions.push('year=?'); values.push(year.value); }
-  console.log(values);
-  qvalue = conditions.length ? ("WHERE " + conditions.join(" AND ")) : "" + values;
-  console.log(qvalue);
-  mggdata.setWhere(qvalue);
-
-};
 runq.addEventListener('click', query);
 
-// function query(){
-//   var qvalue = "";
-//   if (state.value != "All") {
-//     console.log("query has a state value");
-//     qvalue = "Year=" + year.value + " AND state='" + state.value + "'";
-//     console.log(qvalue);
-//   } else {
-//     console.log("state is set at all");
-//     qvalue = "Year=" + year.value + " AND state=*";
-//   } if (type.value != "All") {
-//     console.log("query has type value");
-//     qvalue = qvalue + " AND type='" + type.value + "'";
-//     console.log(qvalue);
-//   }
-//   if (amenities.value != "All") {
-//     console.log("query has amenities value");
-//     qvalue = qvalue + " AND amenityfeatures LIKE '%" + amenities.value + "%'";
-//     console.log(qvalue);
-//   }
-//   mggdata.setWhere(qvalue);
-// };
-
+function query(){
+  var qvalue = "";
+  if (state.value != "All") {
+    console.log("query has a state value");
+    qvalue = "Year=" + year.value + " AND state='" + state.value + "'";
+    console.log(qvalue);
+  } else {
+    console.log("state is set at all");
+    qvalue = "Year=" + year.value;
+  } if (type.value != "All") {
+    console.log("query has type value");
+    qvalue = qvalue + " AND type='" + type.value + "'";
+    console.log(qvalue);
+  }
+  if (amenities.value != "All") {
+    console.log("query has amenities value");
+    qvalue = qvalue + " AND amenityfeatures LIKE '%" + amenities.value + "%'";
+    console.log(qvalue);
+  }
+  mggdata.setWhere(qvalue);
+};
 
 
 
