@@ -95,12 +95,14 @@
   </div>
 </div>
 
-<div class="container alert alert-secondary controls" style ="margin-top: 30px;">
-  <b>Filter the Data</b>
-<form id="mggmapcontrols">
+<div class="container card" style ="margin-top: 30px;">
+<h4 style="margin-top:15px">Filter the Data</h4>
+<hr style="margin-top:0px;">
+<form id="mggmapcontrols" class="card-body" style="padding-top: 0px;">
 <div class="row">
   <div class="col-lg-9">
     <div class="form-floating">
+      <p>Year:</p>
       <input type="range" class="form-range" min="1965" max="1980" step="1" value="1965" id="map-viewby-year" width="100%" oninput="Year='rangeInput.value'" style="width:100%;">
       <label for="map-viewby-year" class="float-left form-label">1965</label>
       <label for="map-viewby-year" class="float-right form-label">1980</label><br>
@@ -233,14 +235,15 @@
         <option value="(YC)">(YC) - Young/Collegiate Types</option>
         <option value="Cruisy Area">Cruisy Areas</option>
       </select>
-      <button type="button" id="runbutton" class="btn btn-primary">Submit</button>
-      <button type="button" id="reset-btn" class="btn btn-primary">Reset</button>
+
     </div>
   </div>
-
 </div> <!-- end row -->
+<button style="margin-top:10px;" type="button" id="runbutton" class="btn btn-primary">Submit</button>
+<button style="margin-top:10px;" type="button" id="reset-btn" class="btn btn-primary">Reset</button>
 </form>
 </div>
+
 
 
   <small>Originally Published: {{ .PublishDate.Format "January 2, 2006"}}  |  Last modified: {{ .Lastmod.Format "January 2, 2006" }}</small>
