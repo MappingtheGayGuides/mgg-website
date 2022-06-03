@@ -51,7 +51,24 @@ function runcount (){
   });
 };
 
+function runcounterror (){
+  cquery.count(function (error, count, response) {
+    if (error) {
+    console.log(error);
+    return;
+    }
+    console.log('Found ' + count + ' features');
+    $( ".info-count").remove();
+    $( ".viz-info" ).append( "<p class='info-count alert alert-danger' role='alert'>The Damron Company did not publish a guide in 1967 therefore we have chosen not to display any data for this year.");
+  });
+};
+
 function query(){
+  if (year.value == 1967){
+    qvalue = "Year=" + year.value;
+    mggdata.setWhere(qvalue);
+    runcounterror();
+  } else {
   var qvalue = "";
   if (state.value != "All") {
     console.log("query has a state value");
@@ -72,10 +89,11 @@ function query(){
     qvalue = qvalue + " AND amenityfeatures LIKE '%" + amenities.value + "%'";
     console.log(qvalue);
   }
+
   mggdata.setWhere(qvalue);
   cquery.where(qvalue);
   runcount();
-};
+}};
 
 
 console.log(cquery);
@@ -85,6 +103,8 @@ console.log('State is set at:' + state.value)
 console.log('Year ' + year.value);
 
 resetBtn.addEventListener("click", function(){
-  document.getElementById("mgg-map-filters").reset();
+  document.getElementById("mggmapcontrols").reset();
+  $( ".info-count").remove();
+  query();
   console.log(year.value);
 });
