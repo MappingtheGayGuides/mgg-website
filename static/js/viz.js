@@ -90,6 +90,7 @@ function gentable(querycriteria){
     console.log(error);
     return;
     }
+    console.log(tabledeets.features.length);
     console.log(tabledeets.features[5].properties.title);
   });
 }
