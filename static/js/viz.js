@@ -56,11 +56,11 @@ function query(){
     console.log("query has a state value");
     qvalue = "Year=" + year.value + " AND state='" + state.value + "'";
     console.log(qvalue);
-    cquery.where('Year=' + year.value + " AND state='" + state.value + "'");
-    runcount();
   } else {
     console.log("state is set at all");
     qvalue = "Year=" + year.value;
+
+    runcount();
   } if (type.value != "All") {
     console.log("query has type value");
     qvalue = qvalue + " AND type='" + type.value + "'";
@@ -72,6 +72,8 @@ function query(){
     console.log(qvalue);
   }
   mggdata.setWhere(qvalue);
+  cquery.where(qvalue);
+  runcount();
 };
 
 
