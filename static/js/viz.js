@@ -84,6 +84,9 @@ function runcounterror (){
     $( ".viz-info" ).append( "<p class='info-count alert alert-danger' role='alert'>The Damron Company did not publish a guide in 1967 therefore we have chosen not to display any data for this year.");
   });
 };
+
+$('#example').DataTable();
+
 function gentable(querycriteria){
   tquery.where(querycriteria).run(function (error, tabledeets, response) {
     if (error) {
@@ -92,6 +95,13 @@ function gentable(querycriteria){
     }
     console.log(tabledeets.features.length);
     console.log(tabledeets.features[5].properties.title);
+    var mgg_table = "";
+    for (i=0; i < tabledeets.features.length; i++){
+      counter = i + 1
+      //console.log("counter is at " + counter);
+      $('#mggdatatablebody').append("<tr><td>" + tabledeets.features[i].properties.title + "</td><td>" + tabledeets.features[i].properties.description + "</td>");
+      //console.log("mgg_table value is: " + mgg_table);
+    }
   });
 }
 
