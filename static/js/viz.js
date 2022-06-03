@@ -38,25 +38,27 @@ runq.addEventListener('click', query);
 var cquery = L.esri.query({
     url: "https://services1.arcgis.com/x5wCko8UnSi4h0CB/arcgis/rest/services/mapping_the_gay_guides_data_19651980/FeatureServer/0"
 })
-
-function test (){
-L.esri.query({
+var tquery = L.esri.query({
     url: "https://services1.arcgis.com/x5wCko8UnSi4h0CB/arcgis/rest/services/mapping_the_gay_guides_data_19651980/FeatureServer/0"
-}).run(function (error, tablevalues) {
-  if (error) {
-    console.log("there has been an error retrieving table values");
-
-    return;
-  }
-  if (tablevalues.features.length > 0) {
-    console.log("got table values!");
-    console.log(tablevalues.features[0].properties.title);
-  } else {
-    console.log("found 0 table values");
-  }
-});
-};
-test();
+})
+// function test (){
+// L.esri.query({
+//     url: "https://services1.arcgis.com/x5wCko8UnSi4h0CB/arcgis/rest/services/mapping_the_gay_guides_data_19651980/FeatureServer/0"
+// }).run(function (error, tablevalues) {
+//   if (error) {
+//     console.log("there has been an error retrieving table values");
+//
+//     return;
+//   }
+//   if (tablevalues.features.length > 0) {
+//     console.log("got table values!");
+//     console.log(tablevalues.features[0].properties.title);
+//   } else {
+//     console.log("found 0 table values");
+//   }
+// });
+// };
+// test();
 
 
 function runcount (){
@@ -65,7 +67,7 @@ function runcount (){
     console.log(error);
     return;
     }
-    console.log('Found ' + count + ' features');
+    //console.log('Found ' + count + ' features');
     $( ".info-count").remove();
     $( ".viz-info" ).append( "<p class='info-count alert alert-info' role='alert'>In " + year.value + " there were " + count + " locations that match the query criteria.</p>");
   });
@@ -82,13 +84,16 @@ function runcounterror (){
     $( ".viz-info" ).append( "<p class='info-count alert alert-danger' role='alert'>The Damron Company did not publish a guide in 1967 therefore we have chosen not to display any data for this year.");
   });
 };
-cquery.ids(function (error, ids, response) {
+function gentable(querycriteria){
+  tquery.where(querycriteria).run(function (error, tabledeets, response) {
     if (error) {
     console.log(error);
     return;
     }
-    console.log(ids.join(', ') + 'match the provided parameters');
-});
+    console.log(tabledeets.features[5].properties.title);
+  });
+}
+
 function query(){
   if (year.value == 1967){
     qvalue = "Year=" + year.value;
@@ -119,7 +124,9 @@ function query(){
   mggdata.setWhere(qvalue);
   cquery.where(qvalue);
   runcount();
+  gentable(qvalue);
 }};
+
 
 
 console.log(cquery);
