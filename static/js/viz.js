@@ -39,6 +39,26 @@ var cquery = L.esri.query({
     url: "https://services1.arcgis.com/x5wCko8UnSi4h0CB/arcgis/rest/services/mapping_the_gay_guides_data_19651980/FeatureServer/0"
 })
 
+function test (){
+L.esri.query({
+    url: "https://services1.arcgis.com/x5wCko8UnSi4h0CB/arcgis/rest/services/mapping_the_gay_guides_data_19651980/FeatureServer/0"
+}).run(function (error, tablevalues) {
+  if (error) {
+    console.log("there has been an error retrieving table values");
+
+    return;
+  }
+  if (tablevalues.features.length > 0) {
+    console.log("got table values!");
+    console.log(tablevalues.features[0].properties.title);
+  } else {
+    console.log("found 0 table values");
+  }
+});
+};
+test();
+
+
 function runcount (){
   cquery.count(function (error, count, response) {
     if (error) {
@@ -62,7 +82,13 @@ function runcounterror (){
     $( ".viz-info" ).append( "<p class='info-count alert alert-danger' role='alert'>The Damron Company did not publish a guide in 1967 therefore we have chosen not to display any data for this year.");
   });
 };
-
+cquery.ids(function (error, ids, response) {
+    if (error) {
+    console.log(error);
+    return;
+    }
+    console.log(ids.join(', ') + 'match the provided parameters');
+});
 function query(){
   if (year.value == 1967){
     qvalue = "Year=" + year.value;
