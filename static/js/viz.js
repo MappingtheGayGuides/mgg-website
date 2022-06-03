@@ -46,7 +46,8 @@ function runcount (){
     return;
     }
     console.log('Found ' + count + ' features');
-    $( ".viz-info" ).append( "<p class='alert alert-info' role='alert'>In " + year.value + " there were " + count + " locations that match the query criteria.</p>");
+    $( ".info-count").remove();
+    $( ".viz-info" ).append( "<p class='info-count alert alert-info' role='alert'>In " + year.value + " there were " + count + " locations that match the query criteria.</p>");
   });
 };
 
