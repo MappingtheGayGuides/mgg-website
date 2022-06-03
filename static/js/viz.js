@@ -37,15 +37,17 @@ runq.addEventListener('click', query);
 //this is the start of the code needed to count the entries. Need to figure out how to tie it to the update function. See https://developers.arcgis.com/esri-leaflet/api-reference/tasks/query/ as reference
 var cquery = L.esri.query({
     url: "https://services1.arcgis.com/x5wCko8UnSi4h0CB/arcgis/rest/services/mapping_the_gay_guides_data_19651980/FeatureServer/0"
-}).where('Year=' + year.value);
+})
 
-cquery.count(function (error, count, response) {
+function runcount (){
+  cquery.count(function (error, count, response) {
     if (error) {
     console.log(error);
     return;
     }
     console.log('Found ' + count + ' features');
-});
+  });
+};
 
 function query(){
   var qvalue = "";
@@ -53,6 +55,8 @@ function query(){
     console.log("query has a state value");
     qvalue = "Year=" + year.value + " AND state='" + state.value + "'";
     console.log(qvalue);
+    cquery.where('Year=' + year.value + " AND state='" + state.value + "'");
+    runcount();
   } else {
     console.log("state is set at all");
     qvalue = "Year=" + year.value;
