@@ -17,8 +17,12 @@ const mggdata = L.esri.Cluster.featureLayer({
   url: "https://services1.arcgis.com/x5wCko8UnSi4h0CB/arcgis/rest/services/mapping_the_gay_guides_data_19651980/FeatureServer/0"
 })
 .addTo(map);
+$( document ).ready(function() {
+    console.log( "ready!" );
+    mggdata.setWhere('Year=1965');
+    gentable('Year=1965');
+});
 
-mggdata.setWhere('Year=1965');
 
 
 // Setup the Popup
@@ -41,24 +45,6 @@ var cquery = L.esri.query({
 var tquery = L.esri.query({
     url: "https://services1.arcgis.com/x5wCko8UnSi4h0CB/arcgis/rest/services/mapping_the_gay_guides_data_19651980/FeatureServer/0"
 })
-// function test (){
-// L.esri.query({
-//     url: "https://services1.arcgis.com/x5wCko8UnSi4h0CB/arcgis/rest/services/mapping_the_gay_guides_data_19651980/FeatureServer/0"
-// }).run(function (error, tablevalues) {
-//   if (error) {
-//     console.log("there has been an error retrieving table values");
-//
-//     return;
-//   }
-//   if (tablevalues.features.length > 0) {
-//     console.log("got table values!");
-//     console.log(tablevalues.features[0].properties.title);
-//   } else {
-//     console.log("found 0 table values");
-//   }
-// });
-// };
-// test();
 
 
 function runcount (){
