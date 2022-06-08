@@ -3,8 +3,8 @@ title: "My Year Working on Mapping the Gay Guides"
 author: "Dominick Bucca"
 description: "Dominick Bucca, a graduate student in the History MA program at Clemson University, reflects on their experience working on Mapping the Gay Guides during the 2021-2022 year."
 draft: TRUE
-date: "2022-05-22"
-lastmod: "2022-05-22"
+date: "2022-06-13"
+lastmod: "2022-06-13"
 category: "Project Blog"
 images: ["/images/Bucca-coverimage.png"]
 img: "Bucca-coverimage.png"
