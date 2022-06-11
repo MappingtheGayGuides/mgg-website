@@ -8,7 +8,7 @@
 <meta property="og:title" content="Mapping the Gay Guides" />
 <meta property="og:description" content="Each year Bob Damron&rsquo;s Address Book expanded and added new locations, updated entries, and provided readers with a refreshed guide exploring LGTBQ America. The interactive map below displays each of the locations listed in the Damron Guides by year. The filter controls below the map allow users to look at different years using the slider and filter the data according to the type of location as well as by the amenity categorizations that Damron used each year." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://dev.mappingthegayguides.org/viz/maptest/" /><meta property="article:section" content="viz" />
+<meta property="og:url" content="http://dev.mappingthegayguides.org/viz/map/" /><meta property="article:section" content="viz" />
 <meta property="article:published_time" content="2019-12-14T00:00:00+00:00" />
 <meta property="article:modified_time" content="2021-04-14T00:00:00+00:00" />
 
@@ -23,44 +23,42 @@
 
     
 <script type="application/ld+json">
-{
-  "@context": "http://schema.org",
-  "@type": "BlogPosting",
-  "headline": "Mapping the Gay Guides",
-  "url": "http:\/\/dev.mappingthegayguides.org\/viz\/maptest\/",
-  "wordCount": "93",
-  "datePublished": "2019-12-14T00:00:00\u002b00:00",
-  "dateModified": "2021-04-14T00:00:00\u002b00:00",
-  "author": {
-    "@type": "Person",
-    "name": "Amanda Regan"
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Mapping the Gay Guides",
+    "url": "http:\/\/dev.mappingthegayguides.org\/viz\/map\/",
+    "wordCount": "93",
+    "datePublished": "2019-12-14T00:00:00\u002b00:00",
+    "dateModified": "2021-04-14T00:00:00\u002b00:00",
+    "author": {
+      "@type": "Person",
+      "name": "Amanda Regan"
+    }
   }
-}
 </script>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css" crossorigin="">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
-<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js" crossorigin=""></script>
+
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" crossorigin="" />
 
-
-
  <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js" crossorigin=""></script>
+
  
  <script src="https://unpkg.com/esri-leaflet@^3.0.8/dist/esri-leaflet.js"></script>
+
  
  <script src="https://unpkg.com/esri-leaflet-vector@3.1.1/dist/esri-leaflet-vector.js" crossorigin=""></script>
+
 
  <link rel="stylesheet" type="text/css"
    href="https://unpkg.com/leaflet.markercluster@1.5.0/dist/MarkerCluster.Default.css"
    integrity="sha512-6ZCLMiYwTeli2rVh3XAPxy3YoR5fVxGdH/pz+KMCzRY2M65Emgkw00Yqmhh8qLGeYQ3LbVZGdmOX9KUjSKr0TA=="
-   crossorigin="">
- <link rel="stylesheet" type="text/css" href="https://unpkg.com/leaflet.markercluster@1.5.0/dist/MarkerCluster.css"
-   integrity="sha512-mQ77VzAakzdpWdgfL/lM1ksNy89uFgibRQANsNneSTMD/bj0Y/8+94XMwYhnbzx8eki2hrbPpDm0vD0CiT2lcg=="
    crossorigin="">
  <script src="https://unpkg.com/leaflet.markercluster@1.5.0/dist/leaflet.markercluster.js"
    integrity="sha512-pWPELjRaw2ZdoT0PDi7iRpRlk1XX3rtnfejJ/HwskyojpHei+9hKpwdphC4yssNt4FM0TjMQOmMrk6ZYSn274w=="
@@ -69,10 +67,15 @@
    integrity="sha512-fEdNFHisleVtEYdLhW4Z2RsR7TN6hLutE/+O4D+skfTNY2rlHm8HOZARPWkdrFFy/+i2KjFxcZAKTUWaVfbV0g=="
    crossorigin=""></script>
 
-viz/main-map.js
+
+   <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css" crossorigin="">
+   
+   <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js" crossorigin=""></script>
+
+viz/main-map/viz.js
 
 
-    <link rel="canonical" href="http://dev.mappingthegayguides.org/viz/maptest/">
+    <link rel="canonical" href="http://dev.mappingthegayguides.org/viz/map/">
 
     <title>Mapping the Gay Guides | Mapping the Gay Guides</title>
 
@@ -348,17 +351,28 @@ if (!doNotTrack) {
 
 <div class="row">
   <div class="col-lg-12" id="mggdata_table">
-    <table id="example" class="display" width="100%">
-      <thead></thead>
-
-  <tbody></tbody>
+    <table id="example" class="table table-striped table-bordered" width="100%">
+      <thead>
+              <tr>
+                  <th>Title</th>
+                  <th>Description</th>
+                  <th>City</th>
+                  <th>State</th>
+                  <th>Amenities</th>
+                  <th>Type</th>
+              </tr>
+          </thead>
+          <tbody>
+              </tbody>
 </table>
 
   </div>
 </div>
 
   <small>Originally Published: December 14, 2019  |  Last modified: April 14, 2021</small>
-  <script src="../../js/viz.js"></script>
+  
+  
+  <script type="module" src="http://dev.mappingthegayguides.org/viz/main-map/viz.961a7376a15ce9d38c7c6add88efaf7c728210114577d6efefddcabf01fa9acd.js" integrity="sha256-lhpzdqFc6dOMfGrdiO&#43;vfHKCEBFFd9bv793KvwH6ms0="></script>
   
   </div> <!-- /.blog-main -->
   

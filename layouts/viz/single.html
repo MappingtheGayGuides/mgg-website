@@ -291,7 +291,9 @@
 </div>
 
   <small>Originally Published: {{ .PublishDate.Format "January 2, 2006"}}  |  Last modified: {{ .Lastmod.Format "January 2, 2006" }}</small>
-  <script src="../../js/viz.js"></script>
+  <!-- <script src="../../js/viz.js"></script> -->
+  {{ $script := resources.Get .Params.script | js.Build (dict "target" "es2020") | resources.Fingerprint }}
+  <script type="module" src="{{ $script.Permalink }}" integrity="{{ $script.Data.Integrity }}"></script>
   {{ if .IsTranslated }}
   <h4>{{ i18n "translations" }}</h4>
   <ul>

@@ -7,8 +7,7 @@ var dataSet = [
   ]
 
 const t = $('#example').DataTable({
-  "pageLength": 25,
-  "recordsTotal": 8000
+  "pageLength": 25
 });
 
 
@@ -93,9 +92,9 @@ function gentable(querycriteria){
 
     //this clears any previous data in the table
     t.clear().draw();
-
+    var i;
     for (i=0; i < tabledeets.features.length; i++){
-      counter = i + 1
+      var counter = i + 1
 
       t.row.add([tabledeets.features[i].properties.title, tabledeets.features[i].properties.description, tabledeets.features[i].properties.city,tabledeets.features[i].properties.state,tabledeets.features[i].properties.amenityfeatures,tabledeets.features[i].properties.type]).draw(false);
 
