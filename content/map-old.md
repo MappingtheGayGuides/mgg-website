@@ -4,7 +4,7 @@ author: "Amanda Regan and Eric Gonzaba"
 description: "Explore the Damron Address Book from 1965 through 1980."
 date: "2020-02-11"
 lastmod: "2020-08-11"
-slug: map
+slug: mapold
 ---
 <small><i>This map may take a moment to load.</i></small>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/3.5.16/iframeResizer.min.js"></script>

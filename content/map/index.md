@@ -4,7 +4,6 @@ date: "2019-12-14"
 title: Mapping the Gay Guides
 lastmod: "2021-04-14"
 description: ""
-slug: "map"
 script: "viz/main-map/viz.js"
 ---
 
