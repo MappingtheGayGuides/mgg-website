@@ -1,7 +1,15 @@
 
 //ARC GIS JS
 const apiKey = "AAPK913fd73cbefa48b5929c8df63e95db270yZCsUIDQf_nRatPI26GP3cKLfeGycrnILpoxgllDSZpmcM8MXFR1SZ9mHcIcprX";
+var dataSet = [
+    ['Tiger Nixon', 'System Architect', 'Edinburgh', '5421', '2011/04/25', '$320,800'],
+    ['Garrett Winters', 'Accountant', 'Tokyo', '8422', '2011/07/25', '$170,750'],
+  ]
 
+const t = $('#example').DataTable({
+  "pageLength": 25,
+  "recordsTotal": 8000
+});
 
 
 const map = L.map('map', {
@@ -22,7 +30,6 @@ $( document ).ready(function() {
     mggdata.setWhere('Year=1965');
     gentable('Year=1965');
 });
-
 
 
 // Setup the Popup
@@ -71,8 +78,9 @@ function runcounterror (){
   });
 };
 
-$('#example').DataTable();
 
+
+//var dataSet = [];
 function gentable(querycriteria){
   tquery.where(querycriteria).run(function (error, tabledeets, response) {
     if (error) {
@@ -80,16 +88,28 @@ function gentable(querycriteria){
     return;
     }
     console.log(tabledeets.features.length);
-    console.log(tabledeets.features[5].properties.title);
+
     var mgg_table = "";
+
+    //this clears any previous data in the table
+    t.clear().draw();
+
     for (i=0; i < tabledeets.features.length; i++){
       counter = i + 1
-      //console.log("counter is at " + counter);
-      $('#mggdatatablebody').append("<tr><td>" + tabledeets.features[i].properties.title + "</td><td>" + tabledeets.features[i].properties.description + "</td>");
-      //console.log("mgg_table value is: " + mgg_table);
+
+      t.row.add([tabledeets.features[i].properties.title, tabledeets.features[i].properties.description, tabledeets.features[i].properties.city,tabledeets.features[i].properties.state,tabledeets.features[i].properties.amenityfeatures,tabledeets.features[i].properties.type]).draw(false);
+
     }
+
   });
+
 }
+console.log(dataSet);
+
+
+
+
+
 
 function query(){
   if (year.value == 1967){
@@ -135,6 +155,7 @@ console.log('Year ' + year.value);
 resetBtn.addEventListener("click", function(){
   document.getElementById("mggmapcontrols").reset();
   $( ".info-count").remove();
+  //$('#example').dataTable().clear();
   query();
   console.log(year.value);
 });

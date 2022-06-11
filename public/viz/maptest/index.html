@@ -38,14 +38,17 @@
 }
 </script>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css" crossorigin="">
 
-
+<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js" crossorigin=""></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
 
-
-
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" crossorigin="" />
+
+
+
  <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js" crossorigin=""></script>
  
  <script src="https://unpkg.com/esri-leaflet@^3.0.8/dist/esri-leaflet.js"></script>
@@ -66,6 +69,7 @@
    integrity="sha512-fEdNFHisleVtEYdLhW4Z2RsR7TN6hLutE/+O4D+skfTNY2rlHm8HOZARPWkdrFFy/+i2KjFxcZAKTUWaVfbV0g=="
    crossorigin=""></script>
 
+viz/main-map.js
 
 
     <link rel="canonical" href="http://dev.mappingthegayguides.org/viz/maptest/">
@@ -142,8 +146,8 @@ if (!doNotTrack) {
                 <li><a class="nav-link" href="/news">News</a></li>
                 
                 
-                <li><a class="nav-link" href="http://www.twitter.com/gayguides"><i class="fab fa-twitter fa-lg"></i></a></li>
-                <li><a class="nav-link" href="https://github.com/MappingtheGayGuides"><i class="fab fa-github fa-lg"></i></a></li>
+                <li><a class="nav-link" href="http://www.twitter.com/gayguides"><i class="fa-brands fa-twitter fa-lg"></i></a></li>
+                <li><a class="nav-link" href="https://github.com/MappingtheGayGuides"><i class="fa-brands fa-github fa-lg"></i></a></li>
       </div>
       
 
@@ -170,19 +174,39 @@ if (!doNotTrack) {
 
   <p>Each year Bob Damron&rsquo;s Address Book expanded and added new locations, updated entries, and provided readers with a refreshed guide exploring LGTBQ America. The interactive map below displays each of the locations listed in the Damron Guides by year. The filter controls below the map allow users to look at different years using the slider and filter the data according to the type of location as well as by the amenity categorizations that Damron used each year. For more details on the variables below, see our methodology which explains each category in depth.</p>
 
+<div class="row">
+  <div id="accordion" class="col-lg-12">
+    <div class="card">
+    <div class="card-header" id="headingTwo">
+      <h5 class="mb-0">
+        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+        <i class="fa-solid fa-angle-down"></i> How to Use this Map
+        </button>
+      </h5>
+    </div>
+    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+      <div class="card-body">
+        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+      </div>
+    </div>
+  </div>
+  </div>
+</div>
 
 <div class="row visualization">
   <div class="col-lg-12">
     <div id="map" style="height: 400px;"></div>
   </div>
 </div>
-
-<div class="container alert alert-secondary controls" style ="margin-top: 30px;">
-  <b>Filter the Data</b>
-<form id="mgg-map-filters">
+<div class="viz-info" style="margin-top: 15px;"></div>
+<div class="container card" style ="margin-top: 30px;">
+<h4 style="margin-top:15px">Filter the Data</h4>
+<hr style="margin-top:0px;">
+<form id="mggmapcontrols" class="card-body" style="padding-top: 0px;">
 <div class="row">
   <div class="col-lg-9">
     <div class="form-floating">
+      <p>Year:</p>
       <input type="range" class="form-range" min="1965" max="1980" step="1" value="1965" id="map-viewby-year" width="100%" oninput="Year='rangeInput.value'" style="width:100%;">
       <label for="map-viewby-year" class="float-left form-label">1965</label>
       <label for="map-viewby-year" class="float-right form-label">1980</label><br>
@@ -197,8 +221,6 @@ if (!doNotTrack) {
       </div>
     </div>
   </div>
-
-
 </div> 
 <hr>
 <div class="row">
@@ -208,8 +230,57 @@ if (!doNotTrack) {
       <label for="map-viewby-state">State:</label>
       <select class="form-control form-control" id="map-viewby-state">
         <option selected>All</option>
+        <option value="AK">Alaska</option>
+        <option value="AL">Alabama</option>
+        <option value="AR">Arkansas</option>
+        <option value="AZ">Arizona</option>
         <option value="CA">California</option>
+        <option value="CO">Colorado</option>
+        <option value="CT">Conneticut</option>
+        <option value="DE">Delaware</option>
+        <option value="FL">Florida</option>
+        <option value="GA">Georgia</option>
+        <option value="HI">Hawaii</option>
+        <option value="IA">Iowa</option>
+        <option value="ID">Idaho</option>
+        <option value="IL">Illinois</option>
+        <option value="IN">Indiana</option>
+        <option value="KS">Kansas</option>
+        <option value="KY">Kentucky</option>
+        <option value="LA">Louisiana</option>
+        <option value="MA">Massachusetts</option>
+        <option value="MD">Maryland</option>
+        <option value="ME">Maine</option>
+        <option value="Mexico">Mexico</option>
+        <option value="MI">Michigan</option>
+        <option value="MS">Mississippi</option>
+        <option value="MN">Minnesota</option>
+        <option value="MO">Missouri</option>
+        <option value="MT">Montana</option>
+        <option value="NE">Nebraska</option>
+        <option value="NH">New Hampshire</option>
+        <option value="NJ">New Jersey</option>
+        <option value="NC">North Carolina</option>
+        <option value="NV">Nevada</option>
+        <option value="NM">New Mexico</option>
+        <option value="NY">New York</option>
+        <option value="ND">North Dakota</option>
+        <option value="OH">Ohio</option>
+        <option value="OK">Oklahoma</option>
+        <option value="OR">Oregon</option>
+        <option value="PA">Pennsylvania</option>
+        <option value="RI">Rhode Island</option>
         <option value="SC">South Carolina</option>
+        <option value="SD">South Dakota</option>
+        <option value="TN">Tennessee</option>
+        <option value="TX">Texas</option>
+        <option value="UT">Utah</option>
+        <option value="VA">Virginia</option>
+        <option value="WA">Washington</option>
+        <option value="District of Columbia">Washington, D.C.</option>
+        <option value="WV">West Virginia</option>
+        <option value="WI">Wisconsin</option>
+        <option value="WY">Wyoming</option>
       </select>
     </div>
   </div>
@@ -219,9 +290,16 @@ if (!doNotTrack) {
     <div class="form-floating">
       <label for="map-viewby-type">Location Type:</label>
       <select class="form-control form-control" id="map-viewby-type">
-        <option selected>All</option>
-        <option value="bars/clubs">Bars or Clubs</option>
-        <option value="hotel">Hotels</option>
+        <option selected value="All">All</option>
+        <option value="Bars/Clubs">Bars or Clubs</option>
+        <option value="Baths">Baths</option>
+        <option value="Hotel">Hotels</option>
+        <option value="Cruising Areas">Crusing Areas</option>
+        <option value="Restaurant">Restaurants</option>
+        <option value="Book Store">Book Stores</option>
+        <option value="Theatre">Theatres</option>
+        <option value="Business">Businesses</option>
+        <option value="Church">Religious Institutions or Groups</option>
       </select>
     </div>
   </div>
@@ -232,18 +310,52 @@ if (!doNotTrack) {
       <label for="map-viewby-amenities">Location Amenities:</label>
       <select class="form-control form-control" id="map-viewby-amenities">
         <option selected>All</option>
-        <option value="(H)">(H) - Very Popular</option>
-        <option value="(HOT)">Hot or At Your Own Risk</option>
+        <option value="(*)">(*) - Very Popular</option>
+        <option value="(AH)">(AH) - After Hours</option>
+        <option value="(AYOR)">(AYOR) - At Your Own Risk - Dangerous - Usually Fuzz</option>
+        <option value="(B)">(B) - Blacks Frequent</option>
+        <option value="(BA)">(BA) - Bare-Ass (Usually nude beach)</option>
+        <option value="(BYOB)">(BYOB) - Bring Your Own Bottle</option>
+        <option value="(C)">(C) - Coffee, Soft Drinks, and Sometimes Snacks</option>
+        <option value="(D)">(D) - Dancing</option>
+        <option value="(HOT)">(HOT) - Dangerous - Usually Fuzz</option>
+        <option value="(E)">(E) - Entertainment</option>
+        <option value="(FFA)">(FFA) - Final Faith of America, or ask your friendly SM Serviceman</option>
+        <option value="(H)">(H) - Hotel, Motel, Resort, or other Overnight Accomodation</option>
+        <option value="(M)">(M) - Mixed - Some Straights</option>
+        <option value="(MCC)">(MCC) - Metropolitan Community Church</option>
+        <option value="(OC)">(OC) - Older/More Mature Crowd</option>
+        <option value="(P)">(P) - Private - Inquire Locally as to Admission</option>
+        <option value="(PE)">(PE) - Pretty Elegant - Often Coat or Tie</option>
+        <option value="(PT)">(PT) - Pool Table</option>
+        <option value="(R)">(R) - Restaurant</option>
+        <option value="(RT)">(RT) - Raunchy Types - Hustlers, Drags, and other 'Downtown Types'</option>
+        <option value="(S)">(S) - Shows - Impersonators or Pantomime Acts - Often Touristy</option>
+        <option value="(SM)">(SM) - Some Motorcycle & Leather</option>
+        <option value="(W)">(W) - Western or Cowboy Types</option>
+        <option value="(WE)">(WE) - Weekends</option>
+        <option value="(YC)">(YC) - Young/Collegiate Types</option>
+        <option value="Cruisy Area">Cruisy Areas</option>
       </select>
-      <button type="button" id="runbutton" class="btn btn-primary">Submit</button>
-      <button type="button" id="reset-btn" class="btn btn-primary">Reset</button>
+
     </div>
   </div>
-
 </div> 
+<button style="margin-top:10px;" type="button" id="runbutton" class="btn btn-primary">Submit</button>
+<button style="margin-top:10px;" type="button" id="reset-btn" class="btn btn-primary">Reset</button>
 </form>
 </div>
 
+<div class="row">
+  <div class="col-lg-12" id="mggdata_table">
+    <table id="example" class="display" width="100%">
+      <thead></thead>
+
+  <tbody></tbody>
+</table>
+
+  </div>
+</div>
 
   <small>Originally Published: December 14, 2019  |  Last modified: April 14, 2021</small>
   <script src="../../js/viz.js"></script>
@@ -280,8 +392,8 @@ if (!doNotTrack) {
           <img src="/images/ccby.png" style="height:30px;"><br>  This site is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">Creative Commons Attribution 4.0 International License.</a>
         </p>
       </div>
-      <script defer src="//use.fontawesome.com/releases/v5.1.0/js/all.js"></script>
-      <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+      <script src="https://kit.fontawesome.com/95be06f7ff.js" crossorigin="anonymous"></script>
+      
       <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     </footer>
