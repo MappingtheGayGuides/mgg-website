@@ -1,14 +1,17 @@
 ---
 title: "Mapping Out Resistance"
 author: "Sierra Rivera"
-description: "Sierra Rivera is an MA student in the Department of American Studies at California State University, Fullerton."
+description: "Sierra Rivera, a MA student a Cal State Fullerton, reflects on her experience working on Mapping the Gay Guides in Spring 2022."
 draft: false
-date: "2022-06-13"
+date: "2022-06-20"
 lastmod: "2022-06-20"
 category: "Project Blog"
 images: ["/images/logo-square.png"]
 img: "Rivera-thumbnail.png"
 ---
+_This is a guest post by Sierra Rivera, a MA student in the Department of American Studies at California State University. Fullerton. Over the course of a semester during the Spring of 2020, Rivera was a Graduate Research Assistant on MGG. She transcribed thousands of entries in the 1970s Damron guides. Here, she reflects on the Damron guides as a form of resistance and her experiences working on a digital history project._
+
+
 <figure>
 <img src="/images/Rivera-fig1.png" class="image-right" style="width:250px;">
 <figcaption class="caption-right alert-secondary" style="width:250px;"><p><small><b>Fig. 1</b> Advertisement for Melrose Baths in the 1979 edition of the Damron Guide.</p></small></figcaption>
@@ -30,5 +33,9 @@ Working on Mapping the Gay Guides with Dr. Amanda Regan and Dr. Eric Gonzaba, wa
 While working on this project, I found myself once again, criticizing how history is preserved and presented in the modern-day. Working on Damron’s guides in the years of 1965 to 1980, some features of the guides reveal that these guides are not for the universal queer audience. Rather with the amenities of (B) for Blacks, (L), or (G) for ladies and girls, the reader is assumed to be white and male. Though these amenities are markers of “others” to the readers, their inclusion provides an opportunity to create a more in-depth reflection on the community. Going through many listings throughout the guides, the ability to imagine how many locations contained a (B) feature is troublesome. However, with just a click of a button on Mapping the Gay Guides, the ability to view all locations with this feature is possible. The visual of the map, as well as the timeline, create a more compelling presentation of history that is accessible to anyone with internet access.
 
 In my experience, my first time seeing the website on launch day was amazing, as I had for the past few weeks worked through California in the 1979 guide. I had talked about the project with my mother, and it was a one-sided conversation. However, a few weeks later, I showed her the website, and we explored California together, both of us lifetime residents. With the amenities filters, and the ability to change the range of locations on the map, my mother now understood my excitement on the project. Talking further about the project, we continued to explore the map in areas we knew. Questions were asked about bookstores, amenity features, and cruisy areas, all while exploring the map. As fun as that day was, I remember my mother asking how she could have no idea about the existence of these guides or some of these locations. Again, the idea of these guides serving a selective audience became a discussion, but this question moved us from the project to what is considered history. Fourteen years of guides of locations and networking for the safety and entertainment of the queer community is unheard to the public because this history does not fit the master narrative. However, Mapping the Gay Guides opens years of information of a marginalized history to the public, which allows discussions of historic preservation in modern-day. Having my own experience, I know this website will be an amazing tool for all users to explore and question the preservation of history.
+
+---
+
+**Sierra Rivera** is a MA student in the [Department of American Studies](https://amst.fullerton.edu/) at California State University, Fullerton.
 
 [^1]: Advertisement for Melrose Baths, _Bob Damron's Address Book_, 1979, 39.
