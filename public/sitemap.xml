@@ -2,16 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://dev.mappingthegayguides.org/news/dominick-bucca-blog/</loc>
-    <lastmod>2022-04-22T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://dev.mappingthegayguides.org/news/</loc>
-    <lastmod>2022-04-22T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>http://dev.mappingthegayguides.org/regan/</loc>
     <lastmod>2021-07-23T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://dev.mappingthegayguides.org/news/neh-funding/</loc>
+    <lastmod>2021-04-14T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://dev.mappingthegayguides.org/news/</loc>
     <lastmod>2021-04-14T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://dev.mappingthegayguides.org/news/award-garfinkel/</loc>
@@ -71,7 +68,7 @@
     <loc>http://dev.mappingthegayguides.org/gonzaba/</loc>
     <lastmod>2020-02-11T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://dev.mappingthegayguides.org/map/</loc>
+    <loc>http://dev.mappingthegayguides.org/mapold/</loc>
     <lastmod>2020-08-11T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://dev.mappingthegayguides.org/methodology/</loc>
@@ -89,23 +86,17 @@
     <loc>http://dev.mappingthegayguides.org/</loc>
     <lastmod>2021-04-14T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://dev.mappingthegayguides.org/viz/map/</loc>
-    <lastmod>2021-04-14T00:00:00+00:00</lastmod>
+    <loc>http://dev.mappingthegayguides.org/viz/mainmap/</loc>
+    <lastmod>2022-06-11T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://dev.mappingthegayguides.org/subscribe/</loc>
     <lastmod>2021-04-14T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://dev.mappingthegayguides.org/viz/</loc>
-    <lastmod>2021-04-14T00:00:00+00:00</lastmod>
+    <lastmod>2022-06-11T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://dev.mappingthegayguides.org/articles/alabama/</loc>
     <lastmod>2019-12-18T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://dev.mappingthegayguides.org/maps/</loc>
-    <lastmod>2019-11-20T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://dev.mappingthegayguides.org/maps/alabama/</loc>
-    <lastmod>2019-11-20T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://dev.mappingthegayguides.org/interns/</loc>
     <lastmod>2020-02-11T00:00:00+00:00</lastmod>
