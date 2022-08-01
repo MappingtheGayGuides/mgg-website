@@ -12,7 +12,7 @@ slug: mainmap
 Each year Bob Damron's Address Book expanded and added new locations, updated entries, and provided readers with a refreshed guide exploring LGTBQ America. The interactive map below displays each of the locations listed in the Damron Guides by year. The filter controls below the map allow users to look at different years using the slider and filter the data according to the type of location as well as by the amenity categorizations that Damron used each year. For more details on the variables below, see our methodology which explains each category in depth.
 
 {{< rawhtml >}}
-<div class="row">
+<!-- <div class="row">
   <div id="accordion" class="col-lg-12">
     <div class="card">
     <div class="card-header" id="headingTwo">
@@ -29,7 +29,7 @@ Each year Bob Damron's Address Book expanded and added new locations, updated en
     </div>
   </div>
   </div>
-</div>
+</div> -->
 
 <div class="row visualization">
   <div class="col-lg-12">
@@ -45,27 +45,35 @@ Each year Bob Damron's Address Book expanded and added new locations, updated en
 
   <form id="mggmapcontrols" class="card-body" style="padding-top: 0px;">
     <div class="row">
-      <div class="col-lg-9">
-        <div class="form-floating">
-          <p>Year:</p>
-          <input type="range" class="form-range" min="1965" max="1980" step="1" value="1965" id="map-viewby-year" width="100%" oninput="Year='rangeInput.value'" style="width:100%;">
-          <label for="map-viewby-year" class="float-left form-label">1965</label>
-          <label for="map-viewby-year" class="float-right form-label">1980</label><br>
-        </div>
-      </div>
-        <div class="col-lg-3">
-            <div class="form-floating">
-              <div class="custom-control custom-switch">
-              <input type="checkbox" class="custom-control-input" id="verified-locations">
-              <label class="custom-control-label" for="verified-locations">Show only Verified Locations</label>
-            </div>
-            </div>
-        </div>
-    </div> <!-- end map controls row #1 -->
-    <hr>
-    <div class="row">
+    <div class="col-lg-3">
+      <label for="map-viewby-year">Year:</label>
+
+      <select class="form-control form-control" id="map-viewby-year">
+          <option selected value="1965">1965</option>
+          <option value="1966">1966</option>
+          <option selected value="1968">1968</option>
+          <option selected value="1969">1969</option>
+          <option selected value="1970">1970</option>
+          <option selected value="1971">1971</option>
+          <option selected value="1972">1972</option>
+          <option selected value="1973">1973</option>
+          <option selected value="1974">1974</option>
+          <option selected value="1975">1975</option>
+          <option selected value="1976">1976</option>
+          <option selected value="1977">1977</option>
+          <option selected value="1978">1978</option>
+          <option selected value="1979">1979</option>
+          <option selected value="1980">1980</option>
+          <option selected value="1981">1981</option>
+          <option selected value="1981">1982</option>
+          <option selected value="1981">1983</option>
+          <option selected value="1981">1984</option>
+          <option selected value="1981">1985</option>
+
+      </select>
+    </div>
       <!-- State dropdown -->
-      <div class="col-lg-4">
+      <div class="col-lg-3">
         <div class="form-floating">
           <label for="map-viewby-state">State:</label>
           <select class="form-control form-control" id="map-viewby-state">
@@ -126,7 +134,7 @@ Each year Bob Damron's Address Book expanded and added new locations, updated en
       </div>
 
       <!-- Type dropdown -->
-      <div class="col-lg-4">
+      <div class="col-lg-3">
         <div class="form-floating">
           <label for="map-viewby-type">Location Type:</label>
           <select class="form-control form-control" id="map-viewby-type">
@@ -145,7 +153,7 @@ Each year Bob Damron's Address Book expanded and added new locations, updated en
       </div>
 
       <!-- Amenities dropdown -->
-      <div class="col-lg-4">
+      <div class="col-lg-3">
         <div class="form-floating">
           <label for="map-viewby-amenities">Location Amenities:</label>
           <select class="form-control form-control" id="map-viewby-amenities">
@@ -181,6 +189,13 @@ Each year Bob Damron's Address Book expanded and added new locations, updated en
             </div>
           </div>
         </div> <!-- end row -->
+
+        <div class="form-floating">
+          <div class="custom-control custom-switch">
+          <input type="checkbox" class="custom-control-input" id="verified-locations">
+          <label class="custom-control-label" for="verified-locations">Show only Verified Locations</label>
+        </div>
+        </div>
 <button style="margin-top:10px;" type="button" id="runbutton" class="btn btn-primary">Submit</button>
 <button style="margin-top:10px;" type="button" id="reset-btn" class="btn btn-primary">Reset</button>
 </form>
