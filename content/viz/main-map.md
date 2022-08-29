@@ -192,7 +192,7 @@ Each year Bob Damron's Address Book expanded and added new locations, updated en
 
         <div class="form-floating">
           <div class="custom-control custom-switch">
-          <input type="checkbox" class="custom-control-input" id="verified-locations">
+          <input type="checkbox" class="custom-control-input"  id="verified-locations">
           <label class="custom-control-label" for="verified-locations">Show only Verified Locations</label>
         </div>
         </div>

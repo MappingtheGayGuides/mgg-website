@@ -42,6 +42,8 @@ const type = document.getElementById("map-viewby-type");
 const amenities = document.getElementById("map-viewby-amenities");
 const runq = document.getElementById("runbutton");
 const resetBtn = document.getElementById("reset-btn")
+const verifiedf = document.getElementById("verified-locations");
+
 
 runq.addEventListener('click', query);
 //this is the start of the code needed to count the entries. Need to figure out how to tie it to the update function. See https://developers.arcgis.com/esri-leaflet/api-reference/tasks/query/ as reference
@@ -150,6 +152,7 @@ console.log(cquery);
 
 console.log('State is set at:' + state.value)
 console.log('Year ' + year.value);
+console.log(verifiedf.value);
 
 resetBtn.addEventListener("click", function(){
   document.getElementById("mggmapcontrols").reset();
