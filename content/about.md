@@ -40,6 +40,7 @@ With the support of a grant from the [National Endowment for the Humanities,](ww
 * Lucas Avelar, Graduate Research Assistant, Clemson University, 2022-2023.
 * Camille Wise, Graduate Research Assistant, California State University Fullerton, 2022-2023.
 * Shannon Anderson, Graduate Research Assistant, California State University Fullerton, 2022-2023.
+* Austin Robles, Graduate Research Assistant, California State University Fullerton, 2022-2023.
 
 **Advisory Board:**
 * Darius Bost. Associate Professor of Ethnic Studies, University of Utah.
