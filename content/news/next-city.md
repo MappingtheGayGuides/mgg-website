@@ -10,5 +10,5 @@ img: "news-next-city.jpg"
 affiliatelink: "https://nextcity.org/urbanist-news/a-new-project-is-bringing-the-gay-green-book-online"
 affiliatename: "Next City"
 affiliatewebsite: "https://nextcity.org"
-affiliate: falso
+affiliate: true
 ---
