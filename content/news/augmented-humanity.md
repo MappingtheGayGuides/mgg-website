@@ -1,5 +1,5 @@
 ---
-title: "MGG on the Augmented Humanities Podcast"
+title: "MGG on the Augmented Humanity Podcast"
 author: "Craig Goldsmith and Ellen Dornan"
 description: "On this program we’re joined by Dr. Amanda Regan and Dr. Eric Gonzaba, co-creators of the NEH-funded digital history project Mapping the Gay Guides."
 draft: false
