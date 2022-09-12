@@ -1,10 +1,7 @@
 
 //ARC GIS JS
 const apiKey = "AAPK913fd73cbefa48b5929c8df63e95db270yZCsUIDQf_nRatPI26GP3cKLfeGycrnILpoxgllDSZpmcM8MXFR1SZ9mHcIcprX";
-var dataSet = [
-    ['Tiger Nixon', 'System Architect', 'Edinburgh', '5421', '2011/04/25', '$320,800'],
-    ['Garrett Winters', 'Accountant', 'Tokyo', '8422', '2011/07/25', '$170,750'],
-  ]
+
 
 const t = $('#example').DataTable({
   "pageLength": 25
@@ -43,7 +40,7 @@ const amenities = document.getElementById("map-viewby-amenities");
 const runq = document.getElementById("runbutton");
 const resetBtn = document.getElementById("reset-btn")
 const verifiedf = document.getElementById("verified-locations");
-console.log(verifiedf.checked);
+
 
 runq.addEventListener('click', query);
 //this is the start of the code needed to count the entries. Need to figure out how to tie it to the update function. See https://developers.arcgis.com/esri-leaflet/api-reference/tasks/query/ as reference
@@ -105,7 +102,7 @@ function gentable(querycriteria){
   });
 
 }
-console.log(dataSet);
+//console.log(dataSet);
 
 
 
@@ -150,12 +147,12 @@ function query(){
 
 
 
-console.log(cquery);
+// console.log(cquery);
 
 
-console.log('State is set at:' + state.value)
-console.log('Year ' + year.value);
-console.log(verifiedf.value);
+// console.log('State is set at:' + state.value)
+// console.log('Year ' + year.value);
+// console.log(verifiedf.value);
 
 resetBtn.addEventListener("click", function(){
   document.getElementById("mggmapcontrols").reset();
