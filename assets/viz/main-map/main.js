@@ -2,7 +2,6 @@
 //ARC GIS JS
 const apiKey = "AAPK913fd73cbefa48b5929c8df63e95db270yZCsUIDQf_nRatPI26GP3cKLfeGycrnILpoxgllDSZpmcM8MXFR1SZ9mHcIcprX";
 
-
 const t = $('#example').DataTable({
   "pageLength": 25
 });
