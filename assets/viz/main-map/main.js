@@ -43,7 +43,7 @@ const amenities = document.getElementById("map-viewby-amenities");
 const runq = document.getElementById("runbutton");
 const resetBtn = document.getElementById("reset-btn")
 const verifiedf = document.getElementById("verified-locations");
-
+console.log(verifiedf.checked);
 
 runq.addEventListener('click', query);
 //this is the start of the code needed to count the entries. Need to figure out how to tie it to the update function. See https://developers.arcgis.com/esri-leaflet/api-reference/tasks/query/ as reference
@@ -137,6 +137,9 @@ function query(){
     console.log("query has amenities value");
     qvalue = qvalue + " AND amenityfeatures LIKE '%" + amenities.value + "%'";
     console.log(qvalue);
+  }
+  if (verifiedf.checked == true ) {
+    qvalue = qvalue + " AND status='Google Verified Location' OR " + qvalue + "AND status='Verified Location'";
   }
 
   mggdata.setWhere(qvalue);
