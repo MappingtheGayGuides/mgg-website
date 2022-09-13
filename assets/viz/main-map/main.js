@@ -126,7 +126,7 @@ function query(){
     runcount();
   } if (type.value != "All") {
     console.log("query has type value");
-    qvalue = qvalue + " AND type='" + type.value + "'";
+    qvalue = qvalue + " AND type LIKE '%" + type.value + "%'";
     console.log(qvalue);
   }
   if (amenities.value != "All") {
