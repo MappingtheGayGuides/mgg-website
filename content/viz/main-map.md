@@ -147,7 +147,7 @@ Each year Bob Damron's Address Book expanded and added new locations, updated en
             <option value="Book Store">Book Stores</option>
             <option value="Theatre">Theatres</option>
             <option value="Business">Businesses</option>
-            <option value="Church">Religious Institutions or Groups</option>
+            <option value="Religious Institution">Religious Institutions or Groups</option>
           </select>
         </div>
       </div>
