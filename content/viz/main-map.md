@@ -75,7 +75,7 @@ Each year Bob Damron's Address Book expanded and added new locations, updated en
       <!-- State dropdown -->
       <div class="col-lg-3">
         <div class="form-floating">
-          <label for="map-viewby-state">State:</label>
+          <label for="map-viewby-state">State or Territory:</label>
           <select class="form-control form-control" id="map-viewby-state">
             <option selected>All</option>
             <option value="AK">Alaska</option>
@@ -88,6 +88,7 @@ Each year Bob Damron's Address Book expanded and added new locations, updated en
             <option value="DE">Delaware</option>
             <option value="FL">Florida</option>
             <option value="GA">Georgia</option>
+            <option value="GU">Guam</option>
             <option value="HI">Hawaii</option>
             <option value="IA">Iowa</option>
             <option value="ID">Idaho</option>
@@ -117,6 +118,7 @@ Each year Bob Damron's Address Book expanded and added new locations, updated en
             <option value="OK">Oklahoma</option>
             <option value="OR">Oregon</option>
             <option value="PA">Pennsylvania</option>
+            <option value="PR">Puerto Rico</option>
             <option value="RI">Rhode Island</option>
             <option value="SC">South Carolina</option>
             <option value="SD">South Dakota</option>
@@ -124,6 +126,7 @@ Each year Bob Damron's Address Book expanded and added new locations, updated en
             <option value="TX">Texas</option>
             <option value="UT">Utah</option>
             <option value="VA">Virginia</option>
+            <option value="VI">Virgin Islands</option>
             <option value="WA">Washington</option>
             <option value="District of Columbia">Washington, D.C.</option>
             <option value="WV">West Virginia</option>
