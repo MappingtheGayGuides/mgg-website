@@ -144,13 +144,21 @@ Each year Bob Damron's Address Book expanded and added new locations, updated en
             <option selected value="All">All</option>
             <option value="Bars/Clubs">Bars or Clubs</option>
             <option value="Baths">Baths</option>
-            <option value="Hotel">Hotels</option>
+            <option value="Bookstore">Bookstores</option>
+            <option value="Business">Business</option>
+            <option value="Community Center/Support Group">Community Center/Support Group</option>
             <option value="Cruising Areas">Crusing Areas</option>
-            <option value="Restaurant">Restaurants</option>
-            <option value="Book Store">Book Stores</option>
-            <option value="Theatre">Theatres</option>
-            <option value="Business">Businesses</option>
+            <option value="Escort and Model Services">Escort and Model Services</option>
+            <option value="Gym">Gym</option>
+            <option value="Health Clinic">Health Clinic</option>
+            <option value="Hotel">Hotels</option>
+            <option value="Hotline">Hotline</option>
+            <option value="Organization">Organization</option>
+            <option value="Publication">Publication</option>
             <option value="Religious Institution">Religious Institutions or Groups</option>
+            <option value="Restaurant">Restaurants</option>
+            <option value="Theatre">Theatres</option>
+            <option value="Travel Service">Travel Service</option>
           </select>
         </div>
       </div>
@@ -168,11 +176,15 @@ Each year Bob Damron's Address Book expanded and added new locations, updated en
             <option value="(BA)">(BA) - Bare-Ass (Usually nude beach)</option>
             <option value="(BYOB)">(BYOB) - Bring Your Own Bottle</option>
             <option value="(C)">(C) - Coffee, Soft Drinks, and Sometimes Snacks</option>
+            <option value="(CW)">(CW) - Cowboys and Westerns</option>
             <option value="(D)">(D) - Dancing</option>
             <option value="(HOT)">(HOT) - Dangerous - Usually Fuzz</option>
             <option value="(E)">(E) - Entertainment</option>
+            <option value="(F&S)">(FS) - Fun & Such</option>
             <option value="(FFA)">(FFA) - Final Faith of America, or ask your friendly SM Serviceman</option>
             <option value="(H)">(H) - Hotel, Motel, Resort, or other Overnight Accomodation</option>
+            <option value="(HIP)">(HIP) - Heads Frequent</option>
+            <option value="(L)">(L) - Ladies</option>
             <option value="(M)">(M) - Mixed - Some Straights</option>
             <option value="(MCC)">(MCC) - Metropolitan Community Church</option>
             <option value="(OC)">(OC) - Older/More Mature Crowd</option>
