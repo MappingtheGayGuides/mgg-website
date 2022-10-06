@@ -62,9 +62,9 @@ function runcount (){
     console.log(error);
     return;
     }
-    console.log('Found ' + count + ' features' + 'RUN COUNT FUNCTION');
+    console.log('Found ' + count + ' features');
     
-    $( ".viz-info" ).append( "<p class='info-count alert alert-info' role='alert'>RUNCOUNT In " + year.value + " there were " + count + " locations that match the query criteria.</p>");
+    $( ".viz-info" ).append( "<p class='info-count alert alert-info' role='alert'>In " + year.value + " there were " + count + " locations that match the query criteria.</p>");
   });
 };
 
