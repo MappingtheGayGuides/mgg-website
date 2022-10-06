@@ -1,4 +1,3 @@
-
 //ARC GIS JS
 const apiKey = "AAPK913fd73cbefa48b5929c8df63e95db270yZCsUIDQf_nRatPI26GP3cKLfeGycrnILpoxgllDSZpmcM8MXFR1SZ9mHcIcprX";
 
@@ -83,7 +82,7 @@ function runcounterror (){
 
 
 
-//var dataSet = [];
+
 function gentable(querycriteria){
   tquery.where(querycriteria).run(function (error, tabledeets, response) {
     if (error) {
@@ -107,9 +106,6 @@ function gentable(querycriteria){
   });
 
 }
-//console.log(dataSet);
-
-
 
 
 
@@ -128,7 +124,7 @@ function query(){
   } else {
     console.log("state is set at all");
     qvalue = "Year=" + year.value;
-    
+
   } if (type.value != "All") {
     console.log("query has type value");
     qvalue = qvalue + " AND type LIKE '%" + type.value + "%'";
@@ -150,13 +146,6 @@ function query(){
 }};
 
 
-
-// console.log(cquery);
-
-
-// console.log('State is set at:' + state.value)
-// console.log('Year ' + year.value);
-// console.log(verifiedf.value);
 
 resetBtn.addEventListener("click", function(){
   document.getElementById("mggmapcontrols").reset();
