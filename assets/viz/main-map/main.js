@@ -41,7 +41,13 @@ const resetBtn = document.getElementById("reset-btn")
 const verifiedf = document.getElementById("verified-locations");
 
 
-runq.addEventListener('click', query);
+runq.addEventListener('click', runnewquery);
+
+function runnewquery (){
+  $( ".info-count").remove();
+  t.clear().draw();
+  query();
+};
 //this is the start of the code needed to count the entries. Need to figure out how to tie it to the update function. See https://developers.arcgis.com/esri-leaflet/api-reference/tasks/query/ as reference
 var cquery = L.esri.query({
     url: "https://services1.arcgis.com/x5wCko8UnSi4h0CB/arcgis/rest/services/mapping_the_gay_guides_data_19651980/FeatureServer/0"
@@ -57,9 +63,9 @@ function runcount (){
     console.log(error);
     return;
     }
-    //console.log('Found ' + count + ' features');
-    $( ".info-count").remove();
-    $( ".viz-info" ).append( "<p class='info-count alert alert-info' role='alert'>In " + year.value + " there were " + count + " locations that match the query criteria.</p>");
+    console.log('Found ' + count + ' features' + 'RUN COUNT FUNCTION');
+    
+    $( ".viz-info" ).append( "<p class='info-count alert alert-info' role='alert'>RUNCOUNT In " + year.value + " there were " + count + " locations that match the query criteria.</p>");
   });
 };
 
@@ -69,7 +75,7 @@ function runcounterror (){
     console.log(error);
     return;
     }
-    console.log('Found ' + count + ' features');
+    console.log('Found ' + count + ' features' + 'RUNCOUNTERROR FUNCTION');
     $( ".info-count").remove();
     $( ".viz-info" ).append( "<p class='info-count alert alert-danger' role='alert'>The Damron Company did not publish a guide in 1967 therefore we have chosen not to display any data for this year.");
   });
@@ -122,8 +128,7 @@ function query(){
   } else {
     console.log("state is set at all");
     qvalue = "Year=" + year.value;
-
-    runcount();
+    
   } if (type.value != "All") {
     console.log("query has type value");
     qvalue = qvalue + " AND type LIKE '%" + type.value + "%'";
