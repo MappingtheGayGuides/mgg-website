@@ -70,16 +70,20 @@ Damron’s “explanation of listings” remained remarkably consistent over the
   * **`(BYOB)` – Bring Your Own Bottle**
     * The complications with restaurants securing liquor licenses meant that many locations allowed for outside alcohol to be brought into their premises.
   * **`(C)` – Coffee, Soft Drinks, Juices, Snacks**
+  * **`(CW)` - Cowboys and Westerns**
+    * This amenity was likely identical to the `(W )- Western or Cowboy Types` (see below).  It’s unclear why in some iterations of the guide (for example, in the 1985 guide) both `W` and `CW` are listed as amenities. 
   * **`(D)` – Dancing**
     * While it might seem obvious that many bars and clubs offered dancing, not all gay bars had the space for any dance floors. Upon Damron’s first publication in 1964, same-sex dancing in public was widely seen as taboo and, in many places including New York City, was outright illegal.
   * **`(E)` – Entertainment**
+  * **`(F&S)` - Fun & such – Men’s ‘Action’ Places**
+    * Damron likely used this this label to denote establishments that condoned sexual activity within their premises. While “cruising” locations were also listed in the Damron guides, it’s likely the use of `F&S` was more often used for sites where sexual activity was only tangential to the site’s main purpose (at a cinema, bar, a bookstore etc.) 
   * **`(FFA)` – Final Faith of America, or ask your friendly SM Serviceman**
     * This category is Damron’s attempt at subtlety. FFA actually has another acronym (which a quick Google search can reveal). The designation is reserved for bars or clubs where patrons can partake in a certain sexual act.
   * **`(H)` – Hotel, Motel, Resort, or other overnight accommodations**
   * **`(HIP)` – Heads Frequent**
     * This designation likely refers to the popularity of marijuana at a certain establishment.
-  * **`(L)` or `(G)` – Ladies/Ms, but seldom exclusively unless noted OR Girls/Ms but seldom exclusively**
-    * Damron used the (G) designation to denote “girls” until 1980 when he dropped the (G) in favor of (L). While many of the listings with the (L) or (G) might have been popular with lesbians, Damron also used the designation to describe places frequented by gay men that women (lesbian or straight) would also feel comfortable. Therefore, not all places listed with designation should be understood as “lesbian spaces.”
+  * **`(L)` or `(G)` – Ladies/Ms, but seldom exclusively unless noted OR Girls/Ms but seldom exclusively OR Lesbians, but not exclusively unless noted**
+    * Damron used the (G) designation to denote “girls” until 1980 when he dropped the (G) in favor of (L). While many of the listings with the (L) or (G) might have been popular with lesbians, Damron also used the designation to describe places frequented by gay men that women (lesbian or straight) would also feel comfortable. Therefore, not all places listed with designation should be understood as “lesbian spaces.” Beginning in the 1984 guide, Damron began using (L) to specifically mark lesbian spaces, though again, not always exclusively lesbian establishments. 
   * **`(M)` – Mixed – Some Straights**
     * This designation largely marked establishments that had a significant, if not a majority number of straight identified patrons, or persons who did not identify as gay. Damron likely used this designation to mark sites where gays and lesbians faced less hostility than at otherwise straight venues.
   * **`M.C.C.` – Metropolitan Community Church**
