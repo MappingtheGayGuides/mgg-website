@@ -7,7 +7,7 @@ const t = $('#example').DataTable({
 
 
 const map = L.map('map', {
-  maxZoom: 13,
+  maxZoom: 17,
   minZoom: 3
 }).setView([37.45,-93.85], 3);
 
