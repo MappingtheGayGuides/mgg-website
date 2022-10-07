@@ -34,7 +34,7 @@ googleAnalytics = "UA-151188328-1"
 
 [[menu.main]]
   name = "Who was Damron?"
-  url = "/who-was-damron"
+  url = "/who-was-bob-damron"
   weight = 4
 
 [[menu.main]]

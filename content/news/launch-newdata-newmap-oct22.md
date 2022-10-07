@@ -1,5 +1,5 @@
 ---
-title: "Announcing the Launch of Mapping the Gay Guides!"
+title: "MGG Launches New Data and a Redeveloped Mapping Visualization"
 author: "Amanda Regan and Eric Gonzaba"
 description: "Today we are releasing a new map and new data from 1981-1985."
 draft: false
