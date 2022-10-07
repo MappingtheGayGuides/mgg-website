@@ -224,6 +224,7 @@ Each year Bob Damron's Address Book expanded and added new locations, updated en
                   <th>Title</th>
                   <th>Year</th>
                   <th>Description</th>
+                  <th>Address</th>
                   <th>City</th>
                   <th>State</th>
                   <th>Amenities</th>

@@ -99,7 +99,7 @@ function gentable(querycriteria){
     for (i=0; i < tabledeets.features.length; i++){
       var counter = i + 1
 
-      t.row.add([tabledeets.features[i].properties.title, tabledeets.features[i].properties.Year, tabledeets.features[i].properties.description, tabledeets.features[i].properties.city,tabledeets.features[i].properties.state,tabledeets.features[i].properties.amenityfeatures,tabledeets.features[i].properties.type,tabledeets.features[i].properties.status]).draw(false);
+      t.row.add([tabledeets.features[i].properties.title, tabledeets.features[i].properties.Year, tabledeets.features[i].properties.description, tabledeets.features[i].properties.streetaddress,tabledeets.features[i].properties.city,tabledeets.features[i].properties.state,tabledeets.features[i].properties.amenityfeatures,tabledeets.features[i].properties.type,tabledeets.features[i].properties.status]).draw(false);
 
     }
 
