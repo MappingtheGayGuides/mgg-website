@@ -1,6 +1,6 @@
 # Hugo variables
 #
-baseurl = "http://dev.mappingthegayguides.org/"
+baseurl = "http://www.mappingthegayguides.org/"
 languageCode = "en-us"
 title = "Mapping the Gay Guides"
 theme = "hugo-theme-bootstrap4-blog"
