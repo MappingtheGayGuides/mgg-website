@@ -21,6 +21,6 @@ We are also releasing a [new mapping visualization](/viz/map) that has been rebu
 
 We'd be remiss to announce the release of this data without thanking all the people who made this possible. Our GRAs at CSU Fullerton, Justin Cesario, Darius Faulk, Marisol Rivera, and Dianna Barahona Carrillo did the amazing work of transcribing these 25k+ entries. At Clemson Unviersity Dominick Bucca, Daniel Byrd, and [Lucas Avelar](http://lucasavelar.org/) all contributed to making sure this data is as clean as possible and that the new visualization works as expected. The [Clemson Center for Geospatial Technologies](https://www.clemsongis.org/) offered support for hosting the MGG Data in ArcGIS. Finally, this project has been made possible due to the generous support of the National Endowment for the Humanities. 
 
-As always, you can interact with this new data in a couple ways. You can view the [new map](/viz/map) and examine the data through that visualizatin or you can view the [raw data](https://github.com/MappingtheGayGuides/MGG-Data) on our github repository.  
+As always, you can interact with this new data in a couple ways. You can view the [new map](/viz/map) and examine the data through that visualization or you can view the [raw data](https://github.com/MappingtheGayGuides/MGG-Data) on our github repository.  
 
 
