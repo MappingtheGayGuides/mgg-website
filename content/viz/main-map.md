@@ -9,7 +9,7 @@ layout: map
 slug: map
 ---
 
-Each year Bob Damron's Address Book expanded and added new locations, updated entries, and provided readers with a refreshed guide exploring LGTBQ America. The interactive map below displays each of the locations listed in the Damron Guides by year. The filter controls below the map allow users to look at different years using the slider and filter the data according to the type of location as well as by the amenity categorizations that Damron used each year. For more details on the variables below, see our methodology which explains each category in depth.
+Each year Bob Damron's Address Book expanded and added new locations, updated entries, and provided readers with a refreshed guide exploring LGTBQ America. The interactive map below displays each of the locations listed in the Damron Guides by year. The filter controls below the map allow users to filter the data by year, type of location, and by the amenity categorizations that Damron used each year. For more details on the variables below, see our methodology which explains each category in depth.
 
 {{< rawhtml >}}
 <!-- <div class="row">
