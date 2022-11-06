@@ -24,6 +24,6 @@
     "cookieconsent": "3.0.4",
     "font-awesome": "^4.7.0",
     "node-sass": "^7.0.0",
-    "rtlcss": "^2.4.0"
+    "rtlcss": "^4.0.0"
   }
 }
