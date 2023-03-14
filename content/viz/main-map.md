@@ -69,7 +69,10 @@ Each year Bob Damron's Address Book expanded and added new locations, updated en
           <option value="1983">1983</option>
           <option value="1984">1984</option>
           <option value="1985">1985</option>
-
+          <option value="1986">1986</option>
+          <option value="1987">1987</option>
+          <option value="1988">1988</option>
+          <option value="1989">1989</option>
       </select>
     </div>
       <!-- State dropdown -->
