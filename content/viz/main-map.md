@@ -131,7 +131,7 @@ Each year Bob Damron's Address Book expanded and added new locations, updated en
             <option value="VA">Virginia</option>
             <option value="VI">Virgin Islands</option>
             <option value="WA">Washington</option>
-            <option value="District of Columbia">Washington, D.C.</option>
+            <option value="DC">Washington, D.C.</option>
             <option value="WV">West Virginia</option>
             <option value="WI">Wisconsin</option>
             <option value="WY">Wyoming</option>
