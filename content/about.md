@@ -2,7 +2,7 @@
 author: Amanda Regan
 date: "2019-12-14"
 title: About this Project
-lastmod: "2024-01-02"
+lastmod: "2024-02-27"
 type: about
 layout: aboutpage
 description: "Mapping the Gay Guides aims to understand often ignored queer geographies using the Damron Guides, an early but longstanding travel guide aimed at gay men since the early 1960s."
@@ -44,9 +44,10 @@ With the support of a grant from the [National Endowment for the Humanities,](ww
 * Camille Wise, Graduate Research Assistant, California State University Fullerton, 2022-2023.
 * Shannon Anderson, Graduate Research Assistant, California State University Fullerton, 2022-2023.
 * Austin Robles, Graduate Research Assistant, California State University Fullerton, 2022-2023.
-* Taylor Marks, Creative Inquiry Student, Clemson University, Fall 2023 and Spring 2024.
+* Taylor Marks, Creative Inquiry Student, Clemson University, 2023-2024
 * Libby Hartung, Creative Inquiry Student, Clemson University, Spring 2024.
 * Bobbi Elmore, Creative Inquiry Student, Clemson University, Spring 2024. 
+* Gage Carlton, Undergraduate Research Assistant, Clemson University, Spring 2024
 
 **Advisory Board:**
 * Darius Bost. Associate Professor of Ethnic Studies, University of Utah.
