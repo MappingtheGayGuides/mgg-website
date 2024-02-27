@@ -2,7 +2,7 @@
 author: Amanda Regan
 date: "2019-12-14"
 title: About this Project
-lastmod: "2022-10-07"
+lastmod: "2024-01-02"
 type: about
 layout: aboutpage
 description: "Mapping the Gay Guides aims to understand often ignored queer geographies using the Damron Guides, an early but longstanding travel guide aimed at gay men since the early 1960s."
@@ -22,6 +22,9 @@ With the support of a grant from the [National Endowment for the Humanities,](ww
 * [Dr. Amanda Regan](/regan), Co-Project Director and Digital Lead
 * [Dr. Eric Gonzaba](/gonzaba), Co-Project Director
 
+**Data and Methods Manager:**
+* Lucas Avelar, Ph.D. Student in Digital History, Clemson University
+
 **Interns and Graduate Research Assistants:**
 * Liset Machado, Intern, Florida International University, Fall 2019.
 * Morgan Glover, Intern, 2019-2020.
@@ -38,10 +41,12 @@ With the support of a grant from the [National Endowment for the Humanities,](ww
 * Dominick Bucca, Graduate Research Assistant, Clemson University, 2021-2022.
 * Jillian Dillard, Undergraduate Research Assistant, Clemson University, Spring 2022.
 * Daniel Byrd, Graduate Research Assistant, Clemson University, Summer 2022.
-* Lucas Avelar, Graduate Research Assistant, Clemson University, 2022-2023.
 * Camille Wise, Graduate Research Assistant, California State University Fullerton, 2022-2023.
 * Shannon Anderson, Graduate Research Assistant, California State University Fullerton, 2022-2023.
 * Austin Robles, Graduate Research Assistant, California State University Fullerton, 2022-2023.
+* Taylor Marks, Creative Inquiry Student, Clemson University, Fall 2023 and Spring 2024.
+* Libby Hartung, Creative Inquiry Student, Clemson University, Spring 2024.
+* Bobbi Elmore, Creative Inquiry Student, Clemson University, Spring 2024. 
 
 **Advisory Board:**
 * Darius Bost. Associate Professor of Ethnic Studies, University of Utah.
@@ -52,6 +57,7 @@ With the support of a grant from the [National Endowment for the Humanities,](ww
 * Emily K. Hobson. Associate Professor of History, University of Nevada, Reno.
 * David Johnson. Professor of History, University of South Florida.
 * Michelle Moravec. Associate Professor of History, Rosemont College.
+* Brianna Pocratsky, Lecturer, Clemson University.
 * Stephen Robertson. Professor of History, George Mason University and Senior Scholar at the Roy Rosenzweig Center for History and New Media
 * Marc Robert Stein. Jamie and Phyllis Pasker Professor of History, San Francisco State University.
 * Amy Sueyoshi. Dean of the College of Ethnic Studies, San Francisco State University.
