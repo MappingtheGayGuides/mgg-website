@@ -19,7 +19,7 @@ Welcome to _Mapping the Gay Guides_!
 <figcaption class="caption-right alert-secondary" style="width:425px;"><small><p><b>Figure 1.</b> Covers from <i>Damron’s Address Book</i></p></small></figcaption>
 </figure>
 
-While operating one of his many gay bars in the 1960s, Bob Darmon started a side project publishing gay travel guides that featured bars like his. Called the Bob Damron Address Books, these guides proved popular and became a valuable resource for gay travelers looking for friends, companions, and safety. 
+While operating one of his many gay bars in the 1960s, Bob Damron started a side project publishing gay travel guides that featured bars like his. Called the Bob Damron Address Books, these guides proved popular and became a valuable resource for gay travelers looking for friends, companions, and safety. 
 
 First published in an era when most states banned same-sex intimacy both in public and private spaces, these travel guides helped gays (and to a lesser extent lesbians) find bars, cocktail lounges, bookstores, restaurants, bathhouses, cinemas, and cruising grounds that catered to people like themselves. Much like the Green Books of the 1950s and 1960s, which African Americans used to find friendly businesses that would cater to black citizens in the era of Jim Crow apartheid, Damron’s guidebooks aided a generation of queer people in identifying sites of community, pleasure, and politics.
 
