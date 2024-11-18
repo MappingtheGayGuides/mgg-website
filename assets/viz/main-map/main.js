@@ -135,8 +135,8 @@ function query(){
     qvalue = qvalue + " AND amenityfeatures LIKE '%" + amenities.value + "%'";
     console.log(qvalue);
   }
-  if (verifiedf.checked == true ) {
-    qvalue = qvalue + " AND status='Google Verified Location' OR " + qvalue + "AND status='Verified Location'";
+  if (verifiedf.checked) {
+      qvalue = qvalue + " AND status='Google Verified Location' OR " + qvalue + "AND status='Verified Location'";
   }
 
   mggdata.setWhere(qvalue);
