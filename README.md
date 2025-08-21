@@ -1,4 +1,4 @@
-# Mapping the Gay Guides - Flask Version
+p# Mapping the Gay Guides - Flask Version
 
 A digital history project exploring LGBTQ+ spaces through historical travel guides, built with Flask and SQLite.
 

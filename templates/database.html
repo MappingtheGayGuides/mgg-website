@@ -1,0 +1,310 @@
+{% extends "base.html" %}
+
+{% block title %}Database Browser - Mapping the Gay Guides{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto">
+    <!-- Page Header -->
+    <div class="text-center mb-8">
+        <h1 class="text-4xl font-bold text-primary mb-4">Database Browser</h1>
+        <p class="text-lg text-base-content/70">Explore the locations from the Gay Guides database</p>
+    </div>
+
+    <!-- Filters and Sorting -->
+    <div class="bg-base-200 rounded-lg p-6 mb-8">
+        <form method="GET" action="{{ url_for('main.database') }}" class="space-y-4">
+            <!-- Filter Row -->
+            <div class="flex flex-wrap gap-4 items-end">
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text font-medium">Filter by Year</span>
+                    </label>
+                    <select name="year" class="select select-bordered w-full">
+                        <option value="">All Years</option>
+                        {% for year in years %}
+                        <option value="{{ year }}" {% if year == selected_year %}selected{% endif %}>
+                            {{ year }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text font-medium">Filter by State</span>
+                    </label>
+                    <select name="state" class="select select-bordered w-full">
+                        <option value="">All States</option>
+                        {% for state in states %}
+                        <option value="{{ state }}" {% if state == selected_state %}selected{% endif %}>
+                            {{ state }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text font-medium">Filter by Amenity</span>
+                    </label>
+                    <select name="amenity" class="select select-bordered w-full">
+                        <option value="">All Amenities</option>
+                        {% for amenity in amenities %}
+                        <option value="{{ amenity }}" {% if amenity == selected_amenity %}selected{% endif %}>
+                            {{ amenity }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <div class="form-control">
+                    <button type="submit" class="btn btn-primary">Apply Filters</button>
+                </div>
+                
+                {% if selected_year or selected_state or selected_amenity %}
+                <div class="form-control">
+                    <a href="{{ url_for('main.database', sort=sort_by, order=sort_order) }}" class="btn btn-outline">Clear Filters</a>
+                </div>
+                {% endif %}
+            </div>
+            
+
+            
+            {% if selected_year or selected_state or selected_amenity %}
+            <div class="text-sm text-base-content/70">
+                Active filters: 
+                {% if selected_year %}<span class="font-medium">Year: {{ selected_year }}</span>{% endif %}
+                {% if selected_state %}{% if selected_year %} | {% endif %}<span class="font-medium">State: {{ selected_state }}</span>{% endif %}
+                {% if selected_amenity %}{% if selected_year or selected_state %} | {% endif %}<span class="font-medium">Amenity: {{ selected_amenity }}</span>{% endif %}
+            </div>
+            {% endif %}
+        </form>
+    </div>
+
+    <!-- Results Summary -->
+    <div class="flex justify-between items-center mb-6">
+        <div class="text-base-content/70">
+            {% if pagination.total > 0 %}
+            Showing {{ pagination.items|length }} of {{ pagination.total }} locations
+            {% if sort_by != 'year' or sort_order != 'desc' %}
+            <span class="ml-2 text-xs">
+                (sorted by {{ sort_by|title }} {{ sort_order|title }}ending)
+            </span>
+            {% endif %}
+            {% else %}
+            No locations found
+            {% endif %}
+        </div>
+        
+        {% if pagination.total > 0 %}
+        <div class="text-sm text-base-content/70">
+            Page {{ pagination.page }} of {{ pagination.pages }}
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Locations Table -->
+    {% if locations %}
+    <div class="overflow-x-auto border border-base-300 rounded-lg">
+        <table class="table table-zebra w-full mb-0">
+            <thead>
+                <tr class="bg-base-200 border-b border-base-300">
+                    <th class="text-left font-semibold text-base-content py-4">
+                        <a href="{{ url_for('main.database', year=selected_year, state=selected_state, amenity=selected_amenity, sort='title', order='asc' if sort_by == 'title' and sort_order == 'desc' else 'desc') }}" 
+                           class="flex items-center gap-2 hover:text-primary transition-colors cursor-pointer group">
+                            Title
+                            <svg class="w-4 h-4 text-base-content/40 group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"></path>
+                            </svg>
+                            {% if sort_by == 'title' %}
+                                {% if sort_order == 'asc' %}
+                                    <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
+                                    </svg>
+                                {% else %}
+                                    <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                {% endif %}
+                            {% endif %}
+                        </a>
+                    </th>
+                    <th class="text-left font-semibold text-base-content py-4">Description</th>
+                    <th class="text-left font-semibold text-base-content py-4">
+                        <a href="{{ url_for('main.database', year=selected_year, state=selected_state, amenity=selected_amenity, sort='city', order='asc' if sort_by == 'city' and sort_order == 'desc' else 'desc') }}" 
+                           class="flex items-center gap-2 hover:text-primary transition-colors cursor-pointer group">
+                            City
+                            <svg class="w-4 h-4 text-base-content/40 group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"></path>
+                            </svg>
+                            {% if sort_by == 'city' %}
+                                {% if sort_order == 'asc' %}
+                                    <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
+                                    </svg>
+                                {% else %}
+                                    <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                {% endif %}
+                            {% endif %}
+                        </a>
+                    </th>
+                    <th class="text-left font-semibold text-base-content py-4">
+                        <a href="{{ url_for('main.database', year=selected_year, state=selected_state, amenity=selected_amenity, sort='state', order='asc' if sort_by == 'state' and sort_order == 'desc' else 'desc') }}" 
+                           class="flex items-center gap-2 hover:text-primary transition-colors cursor-pointer group">
+                            State
+                            <svg class="w-4 h-4 text-base-content/40 group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"></path>
+                            </svg>
+                            {% if sort_by == 'state' %}
+                                {% if sort_order == 'asc' %}
+                                    <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
+                                    </svg>
+                                {% else %}
+                                    <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                {% endif %}
+                            {% endif %}
+                        </a>
+                    </th>
+                    <th class="text-left font-semibold text-base-content py-4">
+                        <a href="{{ url_for('main.database', year=selected_year, state=selected_state, amenity=selected_amenity, sort='year', order='asc' if sort_by == 'year' and sort_order == 'desc' else 'desc') }}" 
+                           class="flex items-center gap-2 hover:text-primary transition-colors cursor-pointer group">
+                            Year
+                            <svg class="w-4 h-4 text-base-content/40 group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"></path>
+                            </svg>
+                            {% if sort_by == 'year' %}
+                                {% if sort_order == 'asc' %}
+                                    <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
+                                    </svg>
+                                {% else %}
+                                    <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                {% endif %}
+                            {% endif %}
+                        </a>
+                    </th>
+                    <th class="text-left font-semibold text-base-content py-4">Amenity Features</th>
+                    <th class="text-left font-semibold text-base-content py-4">ID</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for location in locations %}
+                <tr class="hover:bg-base-100 transition-colors border-b border-base-200">
+                    <td class="max-w-xs py-4">
+                        {% if location.title %}
+                            <div class="font-medium">{{ location.title }}</div>
+                        {% else %}
+                            <span class="text-base-content/50 italic">Untitled Location</span>
+                        {% endif %}
+                    </td>
+                    <td class="max-w-md py-4">
+                        {% if location.description %}
+                            <div class="text-sm line-clamp-3">{{ location.description }}</div>
+                        {% else %}
+                            <span class="text-base-content/50 italic text-sm">No description</span>
+                        {% endif %}
+                    </td>
+                    <td class="py-4">
+                        {% if location.city %}
+                            <div class="text-sm font-medium">{{ location.city }}</div>
+                        {% else %}
+                            <span class="text-base-content/50 italic text-sm">No city</span>
+                        {% endif %}
+                    </td>
+                    <td class="py-4">
+                        {% if location.state %}
+                            <div class="text-sm font-medium">{{ location.state }}</div>
+                        {% else %}
+                            <span class="text-base-content/50 italic text-sm">No state</span>
+                        {% endif %}
+                    </td>
+                    <td class="py-4">
+                        {% if location.year %}
+                            <span class="badge badge-outline">{{ location.year }}</span>
+                        {% else %}
+                            <span class="text-base-content/50 italic text-sm">Unknown</span>
+                        {% endif %}
+                    </td>
+                    <td class="py-4 max-w-xs">
+                        {% if location.amenities %}
+                            <div class="flex flex-wrap gap-1">
+                                {% for amenity in location.amenities[:5] %}
+                                    <span class="badge badge-info badge-xs hover:badge-outline transition-all cursor-default" title="{{ amenity.name }}">
+                                        {{ amenity.name }}
+                                    </span>
+                                {% endfor %}
+                                {% if location.amenities|length > 5 %}
+                                    <span class="badge badge-neutral badge-xs" title="Click to see all amenities">
+                                        +{{ location.amenities|length - 5 }} more
+                                    </span>
+                                {% endif %}
+                            </div>
+                        {% else %}
+                            <span class="text-base-content/50 italic text-sm">None</span>
+                        {% endif %}
+                    </td>
+                    <td class="py-4">
+                        <div class="text-xs font-mono text-base-content/70">
+                            {{ location.unique_id }}
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination -->
+    {% if pagination.pages > 1 %}
+    <div class="flex justify-center mt-8">
+        <div class="join">
+            {% if pagination.has_prev %}
+            <a href="{{ url_for('main.database', page=pagination.prev_num, year=selected_year, state=selected_state, amenity=selected_amenity, sort=sort_by, order=sort_order) }}" 
+               class="join-item btn btn-outline">« Previous</a>
+            {% endif %}
+            
+            {% for page_num in pagination.iter_pages(left_edge=2, left_current=2, right_current=3, right_edge=2) %}
+                {% if page_num %}
+                    {% if page_num != pagination.page %}
+                    <a href="{{ url_for('main.database', page=page_num, year=selected_year, state=selected_state, amenity=selected_amenity, sort=sort_by, order=sort_order) }}" 
+                       class="join-item btn btn-outline">{{ page_num }}</a>
+                    {% else %}
+                    <button class="join-item btn btn-active">{{ page_num }}</button>
+                    {% endif %}
+                {% else %}
+                <span class="join-item btn btn-disabled">...</span>
+                {% endif %}
+            {% endfor %}
+            
+            {% if pagination.has_next %}
+            <a href="{{ url_for('main.database', page=pagination.next_num, year=selected_year, state=selected_state, amenity=selected_amenity, sort=sort_by, order=sort_order) }}" 
+               class="join-item btn btn-outline">Next »</a>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+    
+    {% else %}
+    <!-- No Results -->
+    <div class="text-center py-12">
+        <div class="text-6xl mb-4">🔍</div>
+        <h3 class="text-xl font-medium mb-2">No locations found</h3>
+        <p class="text-base-content/70 mb-6">
+            {% if selected_year %}
+            No locations were found for {{ selected_year }}. Try adjusting your filters.
+            {% else %}
+            No locations are currently available in the database.
+            {% endif %}
+        </p>
+        <a href="{{ url_for('main.database') }}" class="btn btn-primary">View All Locations</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
