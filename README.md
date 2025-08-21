@@ -15,41 +15,62 @@ A digital history project exploring LGBTQ+ spaces through historical travel guid
 ### Prerequisites
 
 - Python 3.8+
+- Node.js 16+ and npm
 - pip
 
 ### Installation
+
+#### Option 1: Automated Setup (Recommended)
+```bash
+# Make the setup script executable
+chmod +x setup.sh
+
+# Run the setup script
+./setup.sh
+```
+
+#### Option 2: Manual Setup
 
 1. Clone the repository and navigate to the project directory:
 ```bash
 cd MGG-Site
 ```
 
-2. Create a virtual environment (recommended):
+2. Install Python dependencies:
 ```bash
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+pip3 install -r requirements.txt
 ```
 
-3. Install dependencies:
+3. Install Node.js dependencies:
 ```bash
-pip install -r requirements.txt
+npm install
 ```
 
-4. Initialize the database:
+4. Build Tailwind CSS:
 ```bash
-python
->>> from app import app, db
->>> with app.app_context():
-...     db.create_all()
->>> exit()
+npm run build
 ```
 
-5. Run the application:
+5. Initialize the database:
 ```bash
-python app.py
+python3 init_db.py
+```
+
+6. Run the application:
+```bash
+python3 app.py
 ```
 
 The application will be available at `http://localhost:5000`
+
+### Development
+
+To watch for CSS changes during development:
+```bash
+npm run build
+```
+
+This will watch your template files and rebuild the CSS automatically.
 
 ## Project Structure
 

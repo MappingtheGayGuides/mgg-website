@@ -1,0 +1,14 @@
+{
+  "name": "mapping-gay-guides",
+  "version": "1.0.0",
+  "description": "Digital history project exploring LGBTQ+ spaces through historical travel guides",
+  "scripts": {
+    "build": "tailwindcss -i ./static/css/input.css -o ./static/css/style.css --watch",
+    "build-prod": "tailwindcss -i ./static/css/input.css -o ./static/css/style.css --minify"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.3.0",
+    "daisyui": "^4.4.0",
+    "@tailwindcss/typography": "^0.5.10"
+  }
+}

@@ -1,71 +1,101 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="mgg">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Mapping the Gay Guides{% endblock %}</title>
     
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     
     {% block extra_css %}{% endblock %}
 </head>
-<body>
+<body class="min-h-screen bg-base-100">
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="{{ url_for('main.index') }}">
+    <div class="navbar bg-base-100 shadow-lg">
+        <div class="navbar-start">
+            <div class="dropdown">
+                <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" />
+                    </svg>
+                </div>
+                <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+                    <li><a href="{{ url_for('main.index') }}" class="nav-link">Home</a></li>
+                    <li><a href="{{ url_for('main.map') }}" class="nav-link">Map</a></li>
+                    <li><a href="{{ url_for('main.articles') }}" class="nav-link">Articles</a></li>
+                    <li><a href="{{ url_for('main.about') }}" class="nav-link">About</a></li>
+                    <li><a href="{{ url_for('main.methodology') }}" class="nav-link">Methodology</a></li>
+                </ul>
+            </div>
+            <a href="{{ url_for('main.index') }}" class="btn btn-ghost text-xl font-bold text-primary">
                 Mapping the Gay Guides
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('main.index') }}">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('main.map') }}">Map</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('main.articles') }}">Articles</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('main.about') }}">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('main.methodology') }}">Methodology</a>
-                    </li>
+        </div>
+        <div class="navbar-center hidden lg:flex">
+            <ul class="menu menu-horizontal px-1">
+                <li><a href="{{ url_for('main.index') }}" class="nav-link">Home</a></li>
+                <li><a href="{{ url_for('main.map') }}" class="nav-link">Map</a></li>
+                <li><a href="{{ url_for('main.articles') }}" class="nav-link">Articles</a></li>
+                <li><a href="{{ url_for('main.about') }}" class="nav-link">About</a></li>
+                <li><a href="{{ url_for('main.methodology') }}" class="nav-link">Methodology</a></li>
+            </ul>
+        </div>
+        <div class="navbar-end">
+            <div class="dropdown dropdown-end">
+                <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                </div>
+                <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+                    <li><a data-set-theme="mgg" data-act-class="active">Default</a></li>
+                    <li><a data-set-theme="light" data-act-class="active">Light</a></li>
+                    <li><a data-set-theme="dark" data-act-class="active">Dark</a></li>
                 </ul>
             </div>
         </div>
-    </nav>
+    </div>
 
     <!-- Main Content -->
-    <main class="container my-4">
+    <main class="container mx-auto px-4 py-8">
         {% block content %}{% endblock %}
     </main>
 
     <!-- Footer -->
-    <footer class="bg-dark text-light py-4 mt-5">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <p>&copy; 2024 Mapping the Gay Guides. All rights reserved.</p>
-                </div>
-                <div class="col-md-6 text-md-end">
-                    <p>Digital History Project</p>
-                </div>
+    <footer class="footer footer-center p-10 bg-base-200 text-base-content">
+        <div>
+            <p class="font-bold text-lg">Mapping the Gay Guides</p> 
+            <p>Digital History Project</p>
+            <p>&copy; 2024 - All rights reserved</p>
+        </div> 
+        <div>
+            <div class="grid grid-flow-col gap-4">
+                <a class="link link-hover">About</a>
+                <a class="link link-hover">Contact</a>
+                <a class="link link-hover">Privacy</a>
             </div>
         </div>
     </footer>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- DaisyUI Theme Switcher -->
+    <script>
+        // Simple theme switcher
+        document.querySelectorAll('[data-set-theme]').forEach(button => {
+            button.addEventListener('click', () => {
+                const theme = button.getAttribute('data-set-theme');
+                document.documentElement.setAttribute('data-theme', theme);
+                localStorage.setItem('theme', theme);
+            });
+        });
+        
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme') || 'mgg';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+    </script>
     
     <!-- Custom JS -->
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>

@@ -3,41 +3,107 @@
 {% block title %}Home - Mapping the Gay Guides{% endblock %}
 
 {% block content %}
-<div class="row">
-    <div class="col-lg-8">
-        <h1 class="display-4">Mapping the Gay Guides</h1>
-        <p class="lead">A digital history project exploring LGBTQ+ spaces through historical travel guides.</p>
-        
-        <div class="row mt-4">
-            <div class="col-md-6">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">Interactive Map</h5>
-                        <p class="card-text">Explore historical LGBTQ+ spaces across the United States through our interactive mapping project.</p>
-                        <a href="{{ url_for('main.map') }}" class="btn btn-primary">View Map</a>
+<div class="max-w-7xl mx-auto">
+    <!-- Hero Section -->
+    <div class="text-center mb-16">
+        <h1 class="text-5xl font-bold text-primary mb-6">
+            Mapping the Gay Guides
+        </h1>
+        <p class="text-xl text-base-content/80 max-w-3xl mx-auto leading-relaxed">
+            A digital history project exploring LGBTQ+ spaces through historical travel guides, 
+            from the 1960s to the present day.
+        </p>
+    </div>
+
+    <!-- Main Content Grid -->
+    <div class="grid lg:grid-cols-3 gap-8 mb-16">
+        <!-- Left Column - Main Features -->
+        <div class="lg:col-span-2 space-y-8">
+            <!-- Interactive Map Card -->
+            <div class="card bg-base-100 shadow-xl card-hover">
+                <div class="card-body">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mr-4">
+                            <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-1.447-.894L15 4m0 13V4m-6 3l6-3"></path>
+                            </svg>
+                        </div>
+                        <h2 class="card-title text-2xl">Interactive Map</h2>
+                    </div>
+                    <p class="text-base-content/70 mb-6 leading-relaxed">
+                        Explore historical LGBTQ+ spaces across the United States through our interactive mapping project. 
+                        Filter by location, time period, and venue type to discover the rich history of queer spaces.
+                    </p>
+                    <div class="card-actions">
+                        <a href="{{ url_for('main.map') }}" class="btn btn-primary">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-1.447-.894L15 4m0 13V4m-6 3l6-3"></path>
+                            </svg>
+                            Explore Map
+                        </a>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">Research Articles</h5>
-                        <p class="card-text">Read about our findings and research methodology for understanding queer spaces and history.</p>
-                        <a href="{{ url_for('main.articles') }}" class="btn btn-primary">Read Articles</a>
+
+            <!-- Research Articles Card -->
+            <div class="card bg-base-100 shadow-xl card-hover">
+                <div class="card-body">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-secondary/10 rounded-lg flex items-center justify-center mr-4">
+                            <svg class="w-6 h-6 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 5.477 5.754 5 7.5 5c1.747 0 3.332.477 4.5 1.253zm0 0C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.523 18.246 19 16.5 19c-1.746 0-3.332-.477-4.5-1.253"></path>
+                            </svg>
+                        </div>
+                        <h2 class="card-title text-2xl">Research Articles</h2>
+                    </div>
+                    <p class="text-base-content/70 mb-6 leading-relaxed">
+                        Read about our findings and research methodology for understanding queer spaces and history. 
+                        Explore academic articles, case studies, and digital humanities approaches.
+                    </p>
+                    <div class="card-actions">
+                        <a href="{{ url_for('main.articles') }}" class="btn btn-secondary">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 5.477 5.754 5 7.5 5c1.747 0 3.332.477 4.5 1.253zm0 0C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.523 18.246 19 16.5 19c-1.746 0-3.332-.477-4.5-1.253"></path>
+                            </svg>
+                            Read Articles
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    
-    <div class="col-lg-4">
-        <div class="card">
-            <div class="card-header">
-                <h5>About the Project</h5>
+
+        <!-- Right Column - About Project -->
+        <div class="space-y-6">
+            <div class="card bg-base-100 shadow-xl">
+                <div class="card-body">
+                    <h3 class="card-title text-xl mb-4 flex items-center">
+                        <svg class="w-5 h-5 mr-2 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        About the Project
+                    </h3>
+                    <p class="text-base-content/70 mb-6 leading-relaxed">
+                        Mapping the Gay Guides is a digital humanities project that visualizes and analyzes 
+                        historical LGBTQ+ spaces documented in travel guides from the 1960s to the present.
+                    </p>
+                    <div class="card-actions">
+                        <a href="{{ url_for('main.about') }}" class="btn btn-outline btn-sm">Learn More</a>
+                    </div>
+                </div>
             </div>
-            <div class="card-body">
-                <p>Mapping the Gay Guides is a digital humanities project that visualizes and analyzes historical LGBTQ+ spaces documented in travel guides from the 1960s to the present.</p>
-                <a href="{{ url_for('main.about') }}" class="btn btn-outline-secondary">Learn More</a>
+
+            <!-- Quick Stats -->
+            <div class="stats stats-vertical shadow">
+                <div class="stat">
+                    <div class="stat-title">Locations Mapped</div>
+                    <div class="stat-value text-primary">500+</div>
+                    <div class="stat-desc">Historical LGBTQ+ spaces</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-title">Time Period</div>
+                    <div class="stat-value text-secondary">1960s-2020s</div>
+                    <div class="stat-desc">Six decades of history</div>
+                </div>
             </div>
         </div>
     </div>

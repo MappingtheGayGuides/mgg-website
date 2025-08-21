@@ -8,96 +8,141 @@
     #map {
         height: 600px;
         width: 100%;
-        border-radius: 8px;
-    }
-    .map-controls {
-        margin-bottom: 20px;
-    }
-    .filter-panel {
-        background: #f8f9fa;
-        padding: 20px;
-        border-radius: 8px;
-        margin-bottom: 20px;
+        border-radius: 12px;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
     }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="row">
-    <div class="col-12">
-        <h1>Interactive Map</h1>
-        <p class="lead">Explore historical LGBTQ+ spaces across the United States</p>
+<div class="max-w-7xl mx-auto">
+    <!-- Header -->
+    <div class="text-center mb-8">
+        <h1 class="text-4xl font-bold text-primary mb-4">Interactive Map</h1>
+        <p class="text-xl text-base-content/70 max-w-3xl mx-auto">
+            Explore historical LGBTQ+ spaces across the United States through our interactive mapping project
+        </p>
     </div>
-</div>
 
-<div class="filter-panel">
-    <div class="row">
-        <div class="col-md-3">
-            <label for="category-filter" class="form-label">Category</label>
-            <select class="form-select" id="category-filter">
-                <option value="">All Categories</option>
-                <option value="bar">Bars</option>
-                <option value="hotel">Hotels</option>
-                <option value="restaurant">Restaurants</option>
-                <option value="club">Clubs</option>
-            </select>
-        </div>
-        <div class="col-md-3">
-            <label for="year-filter" class="form-label">Year</label>
-            <select class="form-select" id="year-filter">
-                <option value="">All Years</option>
-                <option value="1960s">1960s</option>
-                <option value="1970s">1970s</option>
-                <option value="1980s">1980s</option>
-                <option value="1990s">1990s</option>
-                <option value="2000s">2000s</option>
-            </select>
-        </div>
-        <div class="col-md-3">
-            <label for="state-filter" class="form-label">State</label>
-            <select class="form-select" id="state-filter">
-                <option value="">All States</option>
-                <!-- Will be populated dynamically -->
-            </select>
-        </div>
-        <div class="col-md-3">
-            <label class="form-label">&nbsp;</label>
-            <button class="btn btn-primary d-block w-100" id="apply-filters">Apply Filters</button>
-        </div>
-    </div>
-</div>
-
-<div id="map"></div>
-
-<div class="row mt-3">
-    <div class="col-md-6">
-        <div class="card">
-            <div class="card-header">
-                <h5>Map Legend</h5>
+    <!-- Filter Panel -->
+    <div class="card bg-base-100 shadow-xl mb-8">
+        <div class="card-body">
+            <h3 class="card-title text-xl mb-6 flex items-center">
+                <svg class="w-5 h-5 mr-2 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.207A1 1 0 013 6.5V4z"></path>
+                </svg>
+                Filter Locations
+            </h3>
+            
+            <div class="grid md:grid-cols-4 gap-4">
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text font-medium">Category</span>
+                    </label>
+                    <select class="select select-bordered w-full" id="category-filter">
+                        <option value="">All Categories</option>
+                        <option value="bar">Bars & Clubs</option>
+                        <option value="hotel">Hotels</option>
+                        <option value="restaurant">Restaurants</option>
+                        <option value="community">Community Centers</option>
+                    </select>
+                </div>
+                
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text font-medium">Decade</span>
+                    </label>
+                    <select class="select select-bordered w-full" id="year-filter">
+                        <option value="">All Decades</option>
+                        <option value="1960s">1960s</option>
+                        <option value="1970s">1970s</option>
+                        <option value="1980s">1980s</option>
+                        <option value="1990s">1990s</option>
+                        <option value="2000s">2000s</option>
+                    </select>
+                </div>
+                
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text font-medium">State</span>
+                    </label>
+                    <select class="select select-bordered w-full" id="state-filter">
+                        <option value="">All States</option>
+                        <!-- Will be populated dynamically -->
+                    </select>
+                </div>
+                
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text">&nbsp;</span>
+                    </label>
+                    <button class="btn btn-primary w-full" id="apply-filters">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.207A1 1 0 013 6.5V4z"></path>
+                        </svg>
+                        Apply Filters
+                    </button>
+                </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Map Container -->
+    <div class="mb-8">
+        <div id="map"></div>
+    </div>
+
+    <!-- Info Panels -->
+    <div class="grid md:grid-cols-2 gap-6">
+        <!-- Map Legend -->
+        <div class="card bg-base-100 shadow-xl">
             <div class="card-body">
-                <div class="d-flex align-items-center mb-2">
-                    <span class="badge bg-primary me-2" style="width: 20px; height: 20px;"></span>
-                    <span>Bars & Clubs</span>
-                </div>
-                <div class="d-flex align-items-center mb-2">
-                    <span class="badge bg-success me-2" style="width: 20px; height: 20px;"></span>
-                    <span>Hotels</span>
-                </div>
-                <div class="d-flex align-items-center mb-2">
-                    <span class="badge bg-warning me-2" style="width: 20px; height: 20px;"></span>
-                    <span>Restaurants</span>
+                <h3 class="card-title text-xl mb-4 flex items-center">
+                    <svg class="w-5 h-5 mr-2 text-info" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-1.447-.894L15 4m0 13V4m-6 3l6-3"></path>
+                    </svg>
+                    Map Legend
+                </h3>
+                <div class="space-y-3">
+                    <div class="flex items-center">
+                        <div class="w-4 h-4 bg-primary rounded-full mr-3"></div>
+                        <span class="text-base-content/70">Bars & Clubs</span>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-4 h-4 bg-success rounded-full mr-3"></div>
+                        <span class="text-base-content/70">Hotels</span>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-4 h-4 bg-warning rounded-full mr-3"></div>
+                        <span class="text-base-content/70">Restaurants</span>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-4 h-4 bg-info rounded-full mr-3"></div>
+                        <span class="text-base-content/70">Community Centers</span>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="col-md-6">
-        <div class="card">
-            <div class="card-header">
-                <h5>Location Details</h5>
-            </div>
-            <div class="card-body" id="location-details">
-                <p class="text-muted">Click on a marker to see location details</p>
+
+        <!-- Location Details -->
+        <div class="card bg-base-100 shadow-xl">
+            <div class="card-body">
+                <h3 class="card-title text-xl mb-4 flex items-center">
+                    <svg class="w-5 h-5 mr-2 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    </svg>
+                    Location Details
+                </h3>
+                <div id="location-details" class="text-base-content/70">
+                    <p class="text-center py-8">
+                        <svg class="w-12 h-12 mx-auto mb-4 text-base-content/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                        Click on a marker to see location details
+                    </p>
+                </div>
             </div>
         </div>
     </div>
