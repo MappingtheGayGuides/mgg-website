@@ -1,0 +1,53 @@
+/* Custom styles for Mapping the Gay Guides */
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+}
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.card {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+.card:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.btn {
+    border-radius: 6px;
+    font-weight: 500;
+}
+
+.display-4 {
+    color: #2c3e50;
+}
+
+.lead {
+    color: #7f8c8d;
+}
+
+/* Map specific styles */
+#map {
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.filter-panel {
+    border: 1px solid #dee2e6;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .display-4 {
+        font-size: 2rem;
+    }
+    
+    #map {
+        height: 400px;
+    }
+}

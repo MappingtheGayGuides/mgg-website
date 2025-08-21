@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Mapping the Gay Guides{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8">
+        <h1 class="display-4">Mapping the Gay Guides</h1>
+        <p class="lead">A digital history project exploring LGBTQ+ spaces through historical travel guides.</p>
+        
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Interactive Map</h5>
+                        <p class="card-text">Explore historical LGBTQ+ spaces across the United States through our interactive mapping project.</p>
+                        <a href="{{ url_for('main.map') }}" class="btn btn-primary">View Map</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Research Articles</h5>
+                        <p class="card-text">Read about our findings and research methodology for understanding queer spaces and history.</p>
+                        <a href="{{ url_for('main.articles') }}" class="btn btn-primary">Read Articles</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-header">
+                <h5>About the Project</h5>
+            </div>
+            <div class="card-body">
+                <p>Mapping the Gay Guides is a digital humanities project that visualizes and analyzes historical LGBTQ+ spaces documented in travel guides from the 1960s to the present.</p>
+                <a href="{{ url_for('main.about') }}" class="btn btn-outline-secondary">Learn More</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
