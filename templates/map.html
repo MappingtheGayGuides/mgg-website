@@ -57,6 +57,11 @@
         right: 0;
     }
     
+    /* Hidden utility class */
+    .hidden {
+        display: none !important;
+    }
+    
 
 </style>
 {% endblock %}
@@ -69,6 +74,10 @@
         <p class="text-xl text-base-content/70 max-w-3xl mx-auto">
             Explore historical LGBTQ+ spaces across the United States through our interactive mapping project
         </p>
+        <div class="text-sm text-base-content/50 mt-2">
+            <span id="data-size-info">Loading data...</span>
+            <span class="ml-4 text-xs">💡 Tip: Use filters to reduce the number of markers for better performance</span>
+        </div>
     </div>
 
     <!-- Filter Panel -->
@@ -81,44 +90,61 @@
                 Filter Locations
             </h3>
             
-                        <div class="grid md:grid-cols-3 gap-4 mb-6">
-                <div class="form-control">
-                    <label class="label">
-                        <span class="label-text font-medium">Location Type</span>
-                    </label>
-                    <select class="select select-bordered w-full" id="type-filter">
-                        <option value="">All Types</option>
-                        <!-- Will be populated dynamically -->
-                    </select>
-                </div>
+                                                <div class="grid md:grid-cols-4 gap-4 mb-6">
+                            <div class="form-control">
+                                <label class="label">
+                                    <span class="label-text font-medium">Amenity Feature</span>
+                                </label>
+                                <select class="select select-bordered w-full" id="amenity-filter">
+                                    <option value="">All Amenities</option>
+                                    <!-- Will be populated dynamically -->
+                                </select>
+                            </div>
 
-                <div class="form-control">
-                    <label class="label">
-                        <span class="label-text font-medium">State</span>
-                    </label>
-                    <select class="select select-bordered w-full" id="state-filter">
-                        <option value="">All States</option>
-                        <!-- Will be populated dynamically -->
-                    </select>
-                </div>
-                
-                <div class="form-control">
-                    <label class="label">
-                        <span class="label-text">&nbsp;</span>
-                    </label>
-                    <button class="btn btn-primary w-full" id="apply-filters">
-                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.207A1 1 0 013 6.5V4z"></path>
-                        </svg>
-                        Apply Filters
-                    </button>
-                </div>
-            </div>
+                            <div class="form-control">
+                                <label class="label">
+                                    <span class="label-text font-medium">State</span>
+                                </label>
+                                <select class="select select-bordered w-full" id="state-filter">
+                                    <option value="">All States</option>
+                                    <!-- Will be populated dynamically -->
+                                </select>
+                            </div>
+                            
+                            <div class="form-control">
+                                <label class="label">
+                                    <span class="label-text font-medium">Remove unclear addresses</span>
+                                </label>
+                                <div class="flex items-center">
+                                    <input type="checkbox" class="checkbox checkbox-primary" id="clear-addresses-checkbox" />
+                                </div>
+                            </div>
+
+                            <div class="form-control">
+                                <label class="label">
+                                    <span class="label-text">&nbsp;</span>
+                                </label>
+                                <div class="flex gap-2">
+                                    <button class="btn btn-primary flex-1" id="apply-filters">
+                                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.207A1 1 0 013 6.5V4z"></path>
+                                        </svg>
+                                        Apply Filters
+                                    </button>
+                                    <button class="btn btn-accent" id="reset-filters">
+                                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                                        </svg>
+                                        Reset
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
             
             <!-- Year Slider Section -->
             <div class="form-control">
                 <label class="label">
-                    <span class="label-text font-medium">Year: <span id="year-display">1965</span></span>
+                    <span class="label-text font-medium">Year: <span id="year-display">1965</span><span id="year-loading" class="loading loading-spinner loading-sm ml-2 hidden"></span></span>
                 </label>
                 <input type="range" min="1965" max="2003" value="1965" 
                        class="range text-primary [--range-bg:theme(colors.base-300)] [--range-thumb:theme(colors.primary)] [--range-fill:0]" 

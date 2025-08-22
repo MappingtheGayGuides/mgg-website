@@ -3,7 +3,6 @@
 let map;
 let markerClusterGroup;
 let currentData = [];
-let locationTypes = [];
 let currentYear = 1965;
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -21,55 +20,79 @@ function initializeMap() {
         attribution: '© OpenStreetMap contributors'
     }).addTo(map);
     
-    // Initialize marker cluster group
+    // Initialize marker cluster group with performance optimizations
     markerClusterGroup = L.markerClusterGroup({
         chunkedLoading: true,
-        maxClusterRadius: 60,
-        spiderfyOnMaxZoom: true,
-        showCoverageOnHover: true,
+        maxClusterRadius: 80,
+        spiderfyOnMaxZoom: false, // Disable for better performance
+        showCoverageOnHover: false, // Disable for better performance
         zoomToBoundsOnClick: true,
-        animate: true,
-        animateAddingMarkers: true,
-        chunkInterval: 200,
-        chunkDelay: 50
+        animate: false, // Disable animations for better performance
+        animateAddingMarkers: false,
+        chunkInterval: 100, // Faster chunking
+        chunkDelay: 25, // Faster delays
+        maxZoom: 18, // Limit max zoom for clustering
+        disableClusteringAtZoom: 16 // Stop clustering at high zoom levels
     });
     map.addLayer(markerClusterGroup);
 }
 
 function loadData() {
-    // Load locations and types in parallel
-    Promise.all([
-        fetch('/api/locations').then(response => response.json()),
-        fetch('/api/location-types').then(response => response.json())
-    ])
-    .then(([locationsData, typesData]) => {
-        currentData = locationsData;
-        locationTypes = typesData;
-        
-        // Filter by current year and display
-        const filteredData = filterByYear(currentData, currentYear);
-        displayLocations(filteredData);
-        populateFilters();
-        
-        // Update year display
-        document.getElementById('year-display').textContent = currentYear;
-    })
-    .catch(error => {
-        console.error('Error loading data:', error);
-        document.getElementById('location-details').innerHTML = 
-            '<p class="text-danger">Error loading map data. Please try again later.</p>';
-    });
+    // Load locations data
+    fetch('/api/locations')
+        .then(response => response.json())
+        .then(locationsData => {
+            currentData = locationsData;
+            
+            // Update data size info
+            const dataSizeInfo = document.getElementById('data-size-info');
+            dataSizeInfo.textContent = `Total locations: ${currentData.length.toLocaleString()}`;
+            
+            // Filter by current year and display
+            const filteredData = getCachedYearData(currentYear);
+            displayLocations(filteredData);
+            populateFilters();
+            
+            // Update year display
+            document.getElementById('year-display').textContent = currentYear;
+        })
+        .catch(error => {
+            console.error('Error loading data:', error);
+            document.getElementById('location-details').innerHTML = 
+                '<p class="text-danger">Error loading map data. Please try again later.</p>';
+        });
 }
 
 function filterByYear(locations, year) {
     // Use a more efficient filter with early return for better performance
     const filtered = [];
-    for (let i = 0; i < locations.length; i++) {
+    const len = locations.length;
+    for (let i = 0; i < len; i++) {
         const location = locations[i];
-        if (location.year && location.year === year) {
+        if (location.year === year) { // Simplified check
             filtered.push(location);
         }
     }
+    return filtered;
+}
+
+// Cache filtered data by year for better performance
+const yearCache = new Map();
+
+function getCachedYearData(year) {
+    if (yearCache.has(year)) {
+        return yearCache.get(year);
+    }
+    
+    const filtered = filterByYear(currentData, year);
+    yearCache.set(year, filtered);
+    
+    // Limit cache size to prevent memory issues
+    if (yearCache.size > 20) {
+        const firstKey = yearCache.keys().next().value;
+        yearCache.delete(firstKey);
+    }
+    
     return filtered;
 }
 
@@ -82,18 +105,22 @@ function displayLocations(locations) {
         return;
     }
     
-    // Clear existing markers from cluster group
-    markerClusterGroup.clearLayers();
+    // Batch marker operations for better performance
+    const markers = [];
+    const len = locations.length;
     
-    // Add new markers to cluster group
-    locations.forEach(location => {
+    for (let i = 0; i < len; i++) {
+        const location = locations[i];
         if (location.latitude && location.longitude) {
             const marker = L.marker([location.latitude, location.longitude]);
-
             marker.on('click', () => showLocationDetails(location));
-            markerClusterGroup.addLayer(marker);
+            markers.push(marker);
         }
-    });
+    }
+    
+    // Clear and add all markers at once
+    markerClusterGroup.clearLayers();
+    markerClusterGroup.addLayers(markers);
     
     // Update location count display
     updateLocationCount(locations.length);
@@ -130,15 +157,24 @@ function showLocationDetails(location) {
 }
 
 function populateFilters() {
-    // Populate type filter
-    const typeFilter = document.getElementById('type-filter');
-    typeFilter.innerHTML = '<option value="">All Types</option>';
+    // Populate amenity filter
+    const amenityFilter = document.getElementById('amenity-filter');
+    amenityFilter.innerHTML = '<option value="">All Amenities</option>';
     
-    locationTypes.forEach(type => {
+    // Get unique amenities from all locations
+    const allAmenities = new Set();
+    currentData.forEach(location => {
+        if (location.amenities && Array.isArray(location.amenities)) {
+            location.amenities.forEach(amenity => allAmenities.add(amenity));
+        }
+    });
+    
+    // Sort and populate amenities
+    [...allAmenities].sort().forEach(amenity => {
         const option = document.createElement('option');
-        option.value = type.name;
-        option.textContent = type.name;
-        typeFilter.appendChild(option);
+        option.value = amenity;
+        option.textContent = amenity;
+        amenityFilter.appendChild(option);
     });
     
     // Populate state filter
@@ -163,58 +199,124 @@ function setupEventListeners() {
         const newYear = parseInt(this.value);
         document.getElementById('year-display').textContent = newYear;
         
+        // Show loading indicator
+        const loadingIndicator = document.getElementById('year-loading');
+        loadingIndicator.classList.remove('hidden');
+        
         // Clear previous timeout
         clearTimeout(sliderTimeout);
         
-        // Debounce the actual filtering to 150ms after user stops moving
+        // Debounce the actual filtering to 300ms after user stops moving (increased for better performance)
         sliderTimeout = setTimeout(() => {
             if (newYear !== currentYear) {
                 currentYear = newYear;
-                const filteredData = filterByYear(currentData, currentYear);
+                const filteredData = getCachedYearData(currentYear);
                 displayLocations(filteredData);
             }
-        }, 150);
+            // Hide loading indicator after filtering is complete
+            loadingIndicator.classList.add('hidden');
+        }, 300);
     });
     
     // Apply filters button
     document.getElementById('apply-filters').addEventListener('click', applyFilters);
+    
+    // Reset filters button
+    document.getElementById('reset-filters').addEventListener('click', resetFilters);
 }
 
-function applyFilters() {
-    const type = document.getElementById('type-filter').value;
+function applyFiltersAndGetData() {
+    const amenity = document.getElementById('amenity-filter').value;
     const state = document.getElementById('state-filter').value;
+    const removeUnclearAddresses = document.getElementById('clear-addresses-checkbox').checked;
     
-    let filteredData = filterByYear(currentData, currentYear);
+    let filteredData = getCachedYearData(currentYear);
     
-    if (type) {
-        // Filter by type using the types array
-        filteredData = filteredData.filter(loc => loc.types && loc.types.includes(type));
+    if (amenity) {
+        // Filter by amenity using the amenities array
+        filteredData = filteredData.filter(loc => loc.amenities && loc.amenities.includes(amenity));
     }
     
     if (state) {
         filteredData = filteredData.filter(loc => loc.state === state);
     }
     
-    displayLocations(filteredData);
-    
-    // Update location details if no locations found
-    if (filteredData.length === 0) {
-        document.getElementById('location-details').innerHTML = 
-            '<p class="text-muted">No locations match the selected filters</p>';
+    if (removeUnclearAddresses) {
+        // Filter out locations with unclear/unverified status
+        filteredData = filteredData.filter(loc => {
+            const status = loc.status ? loc.status : '';
+            return status !== 'Location could not be verified. General city or location coordinates used.';
+        });
     }
+    
+    return filteredData;
+}
+
+function applyFilters() {
+    // Show loading state on button
+    const applyButton = document.getElementById('apply-filters');
+    const originalContent = applyButton.innerHTML;
+    applyButton.innerHTML = '<span class="loading loading-spinner loading-sm"></span> Applying...';
+    applyButton.disabled = true;
+    
+    // Use setTimeout to allow the UI to update before processing
+    setTimeout(() => {
+        const filteredData = applyFiltersAndGetData();
+        displayLocations(filteredData);
+        
+        // Restore button state
+        applyButton.innerHTML = originalContent;
+        applyButton.disabled = false;
+    }, 50);
+}
+
+function resetFilters() {
+    // Show loading state on button
+    const resetButton = document.getElementById('reset-filters');
+    const originalContent = resetButton.innerHTML;
+    resetButton.innerHTML = '<span class="loading loading-spinner loading-sm"></span> Resetting...';
+    resetButton.disabled = true;
+    
+    // Use setTimeout to allow the UI to update before processing
+    setTimeout(() => {
+        // Reset year to 1965
+        currentYear = 1965;
+        document.getElementById('year-slider').value = currentYear;
+        document.getElementById('year-display').textContent = currentYear;
+        
+        // Reset all filter dropdowns and checkboxes
+        document.getElementById('amenity-filter').value = '';
+        document.getElementById('state-filter').value = '';
+        document.getElementById('clear-addresses-checkbox').checked = false;
+        
+        // Apply the reset filters and display results
+        const filteredData = getCachedYearData(currentYear);
+        displayLocations(filteredData);
+        
+        // Restore button state
+        resetButton.innerHTML = originalContent;
+        resetButton.disabled = false;
+    }, 50);
 }
 
 
 
 function dismissLocationDetails() {
-    // Get the current filtered data to show the count
-    const filteredData = filterByYear(currentData, currentYear);
+    // Get the current filtered data (including all filters) to show the count
+    const filteredData = applyFiltersAndGetData();
     updateLocationCount(filteredData.length);
 }
 
 function updateLocationCount(count) {
     // Update the location details panel with count
     const detailsDiv = document.getElementById('location-details');
+    
+    // Check if any filters are currently applied
+    const amenity = document.getElementById('amenity-filter').value;
+    const state = document.getElementById('state-filter').value;
+    const removeUnclearAddresses = document.getElementById('clear-addresses-checkbox').checked;
+    const hasFilters = amenity || state || removeUnclearAddresses;
+    
     if (count === 0) {
         detailsDiv.innerHTML = `
             <div class="text-center py-6">
@@ -222,14 +324,14 @@ function updateLocationCount(count) {
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
                 </svg>
-                <p class="text-sm text-base-content/70">No locations found for ${currentYear}</p>
+                <p class="text-sm text-base-content/70">No locations found for ${currentYear}${hasFilters ? ' with current filters' : ''}</p>
             </div>
         `;
     } else {
         detailsDiv.innerHTML = `
             <div class="text-center py-4">
                 <span class="text-3xl font-bold text-primary">${count.toLocaleString()}</span>
-                <p class="text-sm text-base-content/70 mt-1">locations in ${currentYear}</p>
+                <p class="text-sm text-base-content/70 mt-1">locations in ${currentYear}${hasFilters ? ' with current filters' : ''}</p>
                 <p class="text-xs text-base-content/50 mt-3">
                     Click on a marker to see location details
                 </p>
