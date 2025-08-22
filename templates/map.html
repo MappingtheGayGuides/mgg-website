@@ -4,13 +4,44 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
 <style>
     #map {
-        height: 600px;
+        height: 800px;
         width: 100%;
         border-radius: 12px;
         box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
     }
+    
+    .map-container {
+        min-height: 800px;
+        width: 100%;
+    }
+    
+    /* Force side-by-side layout on larger screens */
+    @media (min-width: 1200px) {
+        .map-details-grid {
+            display: grid !important;
+            grid-template-columns: 1fr 400px !important;
+            gap: 1.5rem !important;
+        }
+    }
+    
+    /* On small screens, show details first, then map */
+    @media (max-width: 1199px) {
+        .map-details-grid {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 1.5rem !important;
+        }
+        
+        .details-first {
+            order: -1 !important;
+        }
+    }
+    
+
 </style>
 {% endblock %}
 
@@ -34,34 +65,17 @@
                 Filter Locations
             </h3>
             
-            <div class="grid md:grid-cols-4 gap-4">
+                        <div class="grid md:grid-cols-3 gap-4 mb-6">
                 <div class="form-control">
                     <label class="label">
-                        <span class="label-text font-medium">Category</span>
+                        <span class="label-text font-medium">Location Type</span>
                     </label>
-                    <select class="select select-bordered w-full" id="category-filter">
-                        <option value="">All Categories</option>
-                        <option value="bar">Bars & Clubs</option>
-                        <option value="hotel">Hotels</option>
-                        <option value="restaurant">Restaurants</option>
-                        <option value="community">Community Centers</option>
+                    <select class="select select-bordered w-full" id="type-filter">
+                        <option value="">All Types</option>
+                        <!-- Will be populated dynamically -->
                     </select>
                 </div>
-                
-                <div class="form-control">
-                    <label class="label">
-                        <span class="label-text font-medium">Decade</span>
-                    </label>
-                    <select class="select select-bordered w-full" id="year-filter">
-                        <option value="">All Decades</option>
-                        <option value="1960s">1960s</option>
-                        <option value="1970s">1970s</option>
-                        <option value="1980s">1980s</option>
-                        <option value="1990s">1990s</option>
-                        <option value="2000s">2000s</option>
-                    </select>
-                </div>
-                
+
                 <div class="form-control">
                     <label class="label">
                         <span class="label-text font-medium">State</span>
@@ -84,64 +98,54 @@
                     </button>
                 </div>
             </div>
-        </div>
-    </div>
-
-    <!-- Map Container -->
-    <div class="mb-8">
-        <div id="map"></div>
-    </div>
-
-    <!-- Info Panels -->
-    <div class="grid md:grid-cols-2 gap-6">
-        <!-- Map Legend -->
-        <div class="card bg-base-100 shadow-xl">
-            <div class="card-body">
-                <h3 class="card-title text-xl mb-4 flex items-center">
-                    <svg class="w-5 h-5 mr-2 text-info" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-1.447-.894L15 4m0 13V4m-6 3l6-3"></path>
-                    </svg>
-                    Map Legend
-                </h3>
-                <div class="space-y-3">
-                    <div class="flex items-center">
-                        <div class="w-4 h-4 bg-primary rounded-full mr-3"></div>
-                        <span class="text-base-content/70">Bars & Clubs</span>
-                    </div>
-                    <div class="flex items-center">
-                        <div class="w-4 h-4 bg-success rounded-full mr-3"></div>
-                        <span class="text-base-content/70">Hotels</span>
-                    </div>
-                    <div class="flex items-center">
-                        <div class="w-4 h-4 bg-warning rounded-full mr-3"></div>
-                        <span class="text-base-content/70">Restaurants</span>
-                    </div>
-                    <div class="flex items-center">
-                        <div class="w-4 h-4 bg-info rounded-full mr-3"></div>
-                        <span class="text-base-content/70">Community Centers</span>
-                    </div>
+            
+            <!-- Year Slider Section -->
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text font-medium">Year: <span id="year-display">1965</span></span>
+                </label>
+                <input type="range" min="1965" max="2003" value="1965" 
+                       class="range text-primary [--range-bg:theme(colors.base-300)] [--range-thumb:theme(colors.primary)] [--range-fill:0]" 
+                       id="year-slider" />
+                <div class="flex justify-between text-xs text-base-content/50 mt-2">
+                    <span>1965</span>
+                    <span>2003</span>
                 </div>
             </div>
         </div>
+    </div>
 
+
+
+    <!-- Map and Details Container -->
+    <div class="map-details-grid mb-8">
+        <!-- Map Container -->
+        <div>
+            <div class="map-container">
+                <div id="map"></div>
+            </div>
+        </div>
+        
         <!-- Location Details -->
-        <div class="card bg-base-100 shadow-xl">
-            <div class="card-body">
-                <h3 class="card-title text-xl mb-4 flex items-center">
-                    <svg class="w-5 h-5 mr-2 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                    </svg>
-                    Location Details
-                </h3>
-                <div id="location-details" class="text-base-content/70">
-                    <p class="text-center py-8">
-                        <svg class="w-12 h-12 mx-auto mb-4 text-base-content/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="details-first">
+            <div class="card bg-base-100 shadow-xl h-full">
+                <div class="card-body">
+                    <h3 class="card-title text-lg mb-4 flex items-center">
+                        <svg class="w-5 h-5 mr-2 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
                         </svg>
-                        Click on a marker to see location details
-                    </p>
+                        Location Details
+                    </h3>
+                    <div id="location-details" class="text-base-content/70">
+                        <div class="text-center py-6">
+                            <svg class="w-10 h-10 mx-auto mb-3 text-base-content/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            </svg>
+                            <p class="text-sm text-base-content/70">Click on a marker to see location details</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -151,5 +155,6 @@
 
 {% block extra_js %}
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
 <script src="{{ url_for('static', filename='js/map.js') }}"></script>
 {% endblock %}
