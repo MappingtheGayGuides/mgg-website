@@ -62,27 +62,38 @@ function loadData() {
 }
 
 function filterByYear(locations, year) {
-    return locations.filter(location => {
-        if (!location.year) return false;
-        return location.year === year;
-    });
+    // Use a more efficient filter with early return for better performance
+    const filtered = [];
+    for (let i = 0; i < locations.length; i++) {
+        const location = locations[i];
+        if (location.year && location.year === year) {
+            filtered.push(location);
+        }
+    }
+    return filtered;
 }
 
 function displayLocations(locations) {
+    // Only update if we have a different number of locations or if it's the first load
+    const currentMarkerCount = markerClusterGroup.getLayers().length;
+    if (currentMarkerCount === locations.length && currentMarkerCount > 0) {
+        // Same number of locations, just update the count display
+        updateLocationCount(locations.length);
+        return;
+    }
+    
     // Clear existing markers from cluster group
     markerClusterGroup.clearLayers();
     
     // Add new markers to cluster group
     locations.forEach(location => {
-                if (location.latitude && location.longitude) {
+        if (location.latitude && location.longitude) {
             const marker = L.marker([location.latitude, location.longitude]);
 
             marker.on('click', () => showLocationDetails(location));
             markerClusterGroup.addLayer(marker);
         }
     });
-    
-    
     
     // Update location count display
     updateLocationCount(locations.length);
@@ -144,15 +155,25 @@ function populateFilters() {
 }
 
 function setupEventListeners() {
-    // Year slider
+    // Year slider with debouncing
     const yearSlider = document.getElementById('year-slider');
+    let sliderTimeout;
+    
     yearSlider.addEventListener('input', function() {
-        currentYear = parseInt(this.value);
-        document.getElementById('year-display').textContent = currentYear;
+        const newYear = parseInt(this.value);
+        document.getElementById('year-display').textContent = newYear;
         
-        // Auto-filter by year
-        const filteredData = filterByYear(currentData, currentYear);
-        displayLocations(filteredData);
+        // Clear previous timeout
+        clearTimeout(sliderTimeout);
+        
+        // Debounce the actual filtering to 150ms after user stops moving
+        sliderTimeout = setTimeout(() => {
+            if (newYear !== currentYear) {
+                currentYear = newYear;
+                const filteredData = filterByYear(currentData, currentYear);
+                displayLocations(filteredData);
+            }
+        }, 150);
     });
     
     // Apply filters button

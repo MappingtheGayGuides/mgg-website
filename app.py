@@ -15,8 +15,7 @@ db = SQLAlchemy()
 # Initialize the app with extensions FIRST
 db.init_app(app)
 
-# Import models to register them with SQLAlchemy
-from models import Location, UniqueLocation, LocationType, AmenityFeature, LocationTypeAssignment, LocationAmenityAssignment
+# Models are now handled directly in the API routes
 
 # Import routes after db initialization to avoid circular imports
 from routes import main, api

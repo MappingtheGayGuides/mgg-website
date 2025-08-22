@@ -41,6 +41,22 @@
         }
     }
     
+    /* Ensure year slider labels are properly positioned */
+    .year-labels {
+        position: relative;
+        width: 100%;
+    }
+    
+    .year-labels span:first-child {
+        position: absolute;
+        left: 0;
+    }
+    
+    .year-labels span:last-child {
+        position: absolute;
+        right: 0;
+    }
+    
 
 </style>
 {% endblock %}
@@ -107,7 +123,7 @@
                 <input type="range" min="1965" max="2003" value="1965" 
                        class="range text-primary [--range-bg:theme(colors.base-300)] [--range-thumb:theme(colors.primary)] [--range-fill:0]" 
                        id="year-slider" />
-                <div class="flex justify-between text-xs text-base-content/50 mt-2">
+                <div class="year-labels flex justify-between text-xs text-base-content/50 mt-2 w-full">
                     <span>1965</span>
                     <span>2003</span>
                 </div>
