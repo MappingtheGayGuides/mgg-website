@@ -40,6 +40,7 @@ def database():
     year = request.args.get('year', type=int)
     state = request.args.get('state', type=str)
     amenity = request.args.get('amenity', type=str)
+    search = request.args.get('search', type=str)  # Add search parameter
     sort_by = request.args.get('sort', 'year')  # Default sort by year
     sort_order = request.args.get('order', 'desc')  # Default descending
     per_page = 20
@@ -60,6 +61,19 @@ def database():
     if amenity:
         # Filter by amenity feature
         query = query.join(Location.amenities).filter(AmenityFeature.name == amenity)
+    
+    # Apply search if provided
+    if search and search.strip():
+        search_term = f"%{search.strip()}%"
+        query = query.filter(
+            db.or_(
+                Location.title.ilike(search_term),
+                Location.description.ilike(search_term),
+                Location.city.ilike(search_term),
+                Location.state.ilike(search_term),
+                Location.year.cast(db.String).ilike(search_term)
+            )
+        )
     
     # Apply sorting
     if sort_by == 'city':
@@ -112,6 +126,7 @@ def database():
                          selected_year=year,
                          selected_state=state,
                          selected_amenity=amenity,
+                         search=search,  # Pass search to template
                          sort_by=sort_by,
                          sort_order=sort_order,
                          cities=cities,

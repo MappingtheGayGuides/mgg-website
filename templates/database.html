@@ -13,6 +13,7 @@
     <!-- Filters and Sorting -->
     <div class="bg-base-200 rounded-lg p-6 mb-8">
         <form method="GET" action="{{ url_for('main.database') }}" class="space-y-4">
+            <input type="hidden" name="page" value="1" />
             <!-- Filter Row -->
             <div class="flex flex-wrap gap-4 items-end">
                 <div class="form-control">
@@ -55,6 +56,16 @@
                         </option>
                         {% endfor %}
                     </select>
+                </div>
+                
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text font-medium">Search Locations</span>
+                    </label>
+                    <input type="text" name="search" id="search-input" 
+                           placeholder="Search titles, cities, descriptions..." 
+                           value="{{ search or '' }}"
+                           class="input input-bordered w-full" />
                 </div>
                 
                 <div class="form-control">
@@ -120,7 +131,7 @@
             <thead>
                 <tr class="bg-base-200 border-b border-base-300">
                     <th class="text-left font-semibold text-base-content py-4">
-                        <a href="{{ url_for('main.database', year=selected_year, state=selected_state, amenity=selected_amenity, sort='title', order='asc' if sort_by == 'title' and sort_order == 'desc' else 'desc') }}" 
+                        <a href="{{ url_for('main.database', year=selected_year, state=selected_state, amenity=selected_amenity, search=search, sort='title', order='asc' if sort_by == 'title' and sort_order == 'desc' else 'desc') }}" 
                            class="flex items-center gap-2 hover:text-primary transition-colors cursor-pointer group">
                             Title
                             <svg class="w-4 h-4 text-base-content/40 group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -141,7 +152,7 @@
                     </th>
                     <th class="text-left font-semibold text-base-content py-4">Description</th>
                     <th class="text-left font-semibold text-base-content py-4">
-                        <a href="{{ url_for('main.database', year=selected_year, state=selected_state, amenity=selected_amenity, sort='city', order='asc' if sort_by == 'city' and sort_order == 'desc' else 'desc') }}" 
+                        <a href="{{ url_for('main.database', year=selected_year, state=selected_state, amenity=selected_amenity, search=search, sort='city', order='asc' if sort_by == 'city' and sort_order == 'desc' else 'desc') }}" 
                            class="flex items-center gap-2 hover:text-primary transition-colors cursor-pointer group">
                             City
                             <svg class="w-4 h-4 text-base-content/40 group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -276,14 +287,14 @@
     <div class="flex justify-center mt-8">
         <div class="join">
             {% if pagination.has_prev %}
-            <a href="{{ url_for('main.database', page=pagination.prev_num, year=selected_year, state=selected_state, amenity=selected_amenity, sort=sort_by, order=sort_order) }}" 
+            <a href="{{ url_for('main.database', page=pagination.prev_num, year=selected_year, state=selected_state, amenity=selected_amenity, search=search, sort=sort_by, order=sort_order) }}" 
                class="join-item btn btn-outline">« Previous</a>
             {% endif %}
             
             {% for page_num in pagination.iter_pages(left_edge=2, left_current=2, right_current=3, right_edge=2) %}
                 {% if page_num %}
                     {% if page_num != pagination.page %}
-                    <a href="{{ url_for('main.database', page=page_num, year=selected_year, state=selected_state, amenity=selected_amenity, sort=sort_by, order=sort_order) }}" 
+                    <a href="{{ url_for('main.database', page=page_num, year=selected_year, state=selected_state, amenity=selected_amenity, search=search, sort=sort_by, order=sort_order) }}" 
                        class="join-item btn btn-outline">{{ page_num }}</a>
                     {% else %}
                     <button class="join-item btn btn-active">{{ page_num }}</button>
@@ -294,7 +305,7 @@
             {% endfor %}
             
             {% if pagination.has_next %}
-            <a href="{{ url_for('main.database', page=pagination.next_num, year=selected_year, state=selected_state, amenity=selected_amenity, sort=sort_by, order=sort_order) }}" 
+            <a href="{{ url_for('main.database', page=pagination.next_num, year=selected_year, state=selected_state, amenity=selected_amenity, search=search, sort=sort_by, order=sort_order) }}" 
                class="join-item btn btn-outline">Next »</a>
             {% endif %}
         </div>
@@ -317,4 +328,42 @@
     </div>
     {% endif %}
 </div>
+
+<!-- Search functionality script -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('search-input');
+    const form = document.querySelector('form');
+    
+    // Auto-submit form when search changes (with debouncing)
+    let searchTimeout;
+    searchInput.addEventListener('input', function() {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+            // Reset to page 1 when searching
+            const pageInput = form.querySelector('input[name="page"]');
+            if (pageInput) {
+                pageInput.value = '1';
+            }
+            form.submit();
+        }, 500);
+    });
+    
+    // Clear search when filters are applied or reset
+    const applyButton = document.querySelector('button[type="submit"]');
+    const resetButton = document.querySelector('a[href*="database"]');
+    
+    if (applyButton) {
+        applyButton.addEventListener('click', function() {
+            searchInput.value = '';
+        });
+    }
+    
+    if (resetButton) {
+        resetButton.addEventListener('click', function() {
+            searchInput.value = '';
+        });
+    }
+});
+</script>
 {% endblock %}
