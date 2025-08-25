@@ -30,6 +30,8 @@
                     <li><a href="{{ url_for('main.about') }}" class="nav-link">About</a></li>
                     <li><a href="{{ url_for('main.methodology') }}" class="nav-link">Methodology</a></li>
                     <li><a href="{{ url_for('main.database') }}" class="nav-link">Database</a></li>
+                    <li><a href="{{ url_for('main.amenity_cleanup') }}" class="nav-link">Amenity Cleanup</a></li>
+                    <li><a href="{{ url_for('main.smart_split') }}" class="nav-link">Smart Split</a></li>
                 </ul>
             </div>
             <a href="{{ url_for('main.index') }}" class="btn btn-ghost text-xl font-bold text-primary">
@@ -39,11 +41,13 @@
         <div class="navbar-center hidden lg:flex">
             <ul class="menu menu-horizontal px-1">
                 <li><a href="{{ url_for('main.index') }}" class="nav-link">Home</a></li>
+                <li><a href="{{ url_for('main.database') }}" class="nav-link">Database</a></li>
+                <li><a href="{{ url_for('main.amenity_cleanup') }}" class="nav-link">Amenity Cleanup</a></li>
+                <li><a href="{{ url_for('main.smart_split') }}" class="nav-link">Smart Split</a></li>
                 <li><a href="{{ url_for('main.map') }}" class="nav-link">Map</a></li>
                 <li><a href="{{ url_for('main.articles') }}" class="nav-link">Articles</a></li>
                 <li><a href="{{ url_for('main.about') }}" class="nav-link">About</a></li>
                 <li><a href="{{ url_for('main.methodology') }}" class="nav-link">Methodology</a></li>
-                <li><a href="{{ url_for('main.database') }}" class="nav-link">Database</a></li>
             </ul>
         </div>
         <div class="navbar-end">

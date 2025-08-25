@@ -1,0 +1,1437 @@
+{% extends "base.html" %}
+
+{% block title %}Amenity Cleanup - Mapping the Gay Guides{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Custom modal scrolling fixes */
+    .modal {
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+    
+    .modal-box {
+        margin: 1rem auto;
+        max-height: calc(100vh - 2rem);
+    }
+    
+    /* Ensure content areas can scroll */
+    .modal-content-scrollable {
+        overflow-y: auto;
+        overflow-x: hidden;
+        max-height: 60vh;
+    }
+    
+    /* Better table scrolling */
+    .table-container {
+        overflow-x: auto;
+        overflow-y: auto;
+        max-height: 50vh;
+    }
+    
+    /* Enhanced modal visibility and contrast */
+    .modal {
+        background-color: rgba(0, 0, 0, 0.5) !important; /* Medium background opacity */
+        backdrop-filter: blur(1px); /* Very subtle blur effect */
+    }
+    
+    .modal-box {
+        background-color: white !important; /* Pure white modal background */
+        color: #1f2937 !important; /* Dark gray text for good contrast */
+        border: 2px solid #e5e7eb !important; /* Light gray border */
+        box-shadow: 
+            0 25px 50px -12px rgba(0, 0, 0, 0.25),
+            0 0 0 1px rgba(0, 0, 0, 0.05); /* Clean shadow */
+    }
+    
+    /* Ensure modal content is highly visible with dark text */
+    .modal-box h3,
+    .modal-box label,
+    .modal-box .label-text,
+    .modal-box p,
+    .modal-box div {
+        color: #1f2937 !important; /* Dark gray text */
+        font-weight: 500; /* Medium weight text */
+    }
+    
+    /* Enhanced form controls in modals */
+    .modal-box .input,
+    .modal-box .select,
+    .modal-box .textarea {
+        background-color: #f9fafb !important; /* Light gray background */
+        border: 1px solid #d1d5db !important; /* Medium gray border */
+        color: #1f2937 !important; /* Dark text */
+    }
+    
+    /* Better button contrast in modals */
+    .modal-box .btn {
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        border: 1px solid #d1d5db;
+    }
+    
+    /* Enhanced content areas in modals */
+    .modal-box .bg-base-200 {
+        background-color: #f3f4f6 !important; /* Light gray background */
+        border: 1px solid #e5e7eb;
+        color: #1f2937 !important;
+    }
+    
+    /* Ensure all text in modals is dark and readable */
+    .modal-box * {
+        color: inherit;
+    }
+    
+    /* Responsive modal sizing */
+    @media (max-height: 600px) {
+        .modal-box {
+            max-height: calc(100vh - 1rem);
+            margin: 0.5rem auto;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .modal-box {
+            margin: 0.5rem;
+            max-width: calc(100vw - 1rem);
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto">
+    <!-- Page Header -->
+    <div class="text-center mb-8">
+        <h1 class="text-4xl font-bold text-primary mb-4">Amenity Cleanup</h1>
+        <p class="text-lg text-base-content/70">Review and clean up amenity features in the database</p>
+    </div>
+
+    <!-- Statistics -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div class="bg-base-200 rounded-lg p-6 text-center">
+            <div class="text-3xl font-bold text-primary">{{ amenities|length }}</div>
+            <div class="text-base-content/70">Total Amenities</div>
+        </div>
+        <div class="bg-base-200 rounded-lg p-6 text-center">
+            <div class="text-3xl font-bold text-accent">{{ locations|length }}</div>
+            <div class="text-base-content/70">Total Locations</div>
+        </div>
+        <div class="bg-base-200 rounded-lg p-6 text-center">
+            <div class="text-3xl font-bold text-secondary">
+                {% set total_usage = amenities|sum(attribute='usage_count') %}
+                {{ total_usage }}
+            </div>
+            <div class="text-base-content/70">Total Assignments</div>
+        </div>
+    </div>
+
+    <!-- Search and Filter -->
+    <div class="bg-base-200 rounded-lg p-6 mb-8">
+        <div class="flex flex-wrap gap-4 items-center">
+            <div class="form-control flex-1">
+                <input type="text" id="search-input" placeholder="Search amenities..." 
+                       class="input input-bordered w-full" />
+            </div>
+            <div class="form-control">
+                <select id="sort-select" class="select select-bordered">
+                    <option value="name">Sort by Name</option>
+                    <option value="usage">Sort by Usage</option>
+                    <option value="id">Sort by ID</option>
+                </select>
+            </div>
+            <button id="refresh-btn" class="btn btn-primary">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                </svg>
+                Refresh
+            </button>
+            <button onclick="testModal()" class="btn btn-accent">
+                🧪 Test Modal
+            </button>
+            <button onclick="testDatabase()" class="btn btn-secondary">
+                🗄️ Test DB
+            </button>
+            <button onclick="testAPI()" class="btn btn-info">
+                🌐 Test API
+            </button>
+            <button onclick="findSimilarAmenities()" class="btn btn-success">
+                🔍 Find Similar
+            </button>
+            <button onclick="showSmartSplitModal()" class="btn btn-primary">
+                ✂️ Smart Split
+            </button>
+        </div>
+    </div>
+
+    <!-- Amenities Table -->
+    <div class="bg-base-100 rounded-lg border border-base-300">
+        <div class="overflow-x-auto">
+            <table class="table table-zebra w-full">
+                <thead>
+                    <tr class="bg-base-200">
+                        <th class="text-left">
+                            <input type="checkbox" id="select-all" class="checkbox" />
+                        </th>
+                        <th class="text-left">ID</th>
+                        <th class="text-left">Name</th>
+                        <th class="text-left">Usage Count</th>
+                        <th class="text-left">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="amenities-tbody">
+                    {% for amenity in amenities %}
+                    <tr class="amenity-row" data-id="{{ amenity.id }}" data-name="{{ amenity.name }}">
+                        <td>
+                            <input type="checkbox" class="amenity-checkbox checkbox" value="{{ amenity.id }}" />
+                        </td>
+                        <td class="font-mono text-sm">{{ amenity.id }}</td>
+                        <td>
+                            <span class="amenity-name">{{ amenity.name }}</span>
+                            <button class="btn btn-xs btn-ghost ml-2 rename-btn" 
+                                    onclick="showRenameModal({{ amenity.id }}, '{{ amenity.name }}')">
+                                ✏️
+                            </button>
+                        </td>
+                        <td>
+                            <span class="badge badge-outline">{{ amenity.usage_count }}</span>
+                            <button class="btn btn-xs btn-ghost ml-2" 
+                                    onclick="showUsageModal({{ amenity.id }}, '{{ amenity.name }}')">
+                                👁️
+                            </button>
+                        </td>
+                        <td>
+                            <button class="btn btn-xs btn-outline" 
+                                    onclick="showUsageModal({{ amenity.id }}, '{{ amenity.name }}')">
+                                View Usage
+                            </button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Bulk Actions -->
+    <div class="mt-6 p-4 bg-base-200 rounded-lg" id="bulk-actions" style="display: none;">
+        <div class="flex flex-wrap gap-4 items-center">
+            <span class="text-sm text-base-content/70">
+                <span id="selected-count">0</span> amenities selected
+            </span>
+            <button id="merge-selected-btn" class="btn btn-warning" disabled>
+                Merge Selected
+            </button>
+            <button id="clear-selection-btn" class="btn btn-ghost">
+                Clear Selection
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Rename Modal -->
+<div id="rename-modal" class="modal">
+    <div class="modal-box">
+        <h3 class="font-bold text-lg mb-4">Rename Amenity</h3>
+        <div class="form-control">
+            <label class="label">
+                <span class="label-text">Current Name</span>
+            </label>
+            <input type="text" id="current-name" class="input input-bordered" readonly />
+        </div>
+        <div class="form-control mt-4">
+            <label class="label">
+                <span class="label-text">New Name</span>
+            </label>
+            <input type="text" id="new-name" class="input input-bordered" placeholder="Enter new name..." />
+        </div>
+        <div class="modal-action">
+            <button class="btn btn-ghost" onclick="closeRenameModal()">Cancel</button>
+            <button class="btn btn-primary" id="rename-submit-btn" onclick="renameAmenity()">Rename</button>
+        </div>
+    </div>
+</div>
+
+<!-- Usage Modal -->
+<div id="usage-modal" class="modal">
+    <div class="modal-box max-w-4xl max-h-[90vh] flex flex-col">
+        <h3 class="font-bold text-lg mb-4 flex-shrink-0">
+            Locations Using: <span id="usage-amenity-name"></span>
+        </h3>
+        <div class="flex-1 min-h-0 overflow-auto">
+            <table class="table table-zebra w-full">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>City</th>
+                        <th>State</th>
+                        <th>Year</th>
+                    </tr>
+                </thead>
+                <tbody id="usage-tbody">
+                    <!-- Populated by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-action flex-shrink-0">
+            <button class="btn btn-ghost" onclick="closeUsageModal()">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- Merge Modal -->
+<div id="merge-modal" class="modal">
+    <div class="modal-box max-w-2xl max-h-[90vh] flex flex-col">
+        <h3 class="font-bold text-lg mb-4 flex-shrink-0">Merge Amenities</h3>
+        <div class="form-control flex-shrink-0">
+            <label class="label">
+                <span class="label-text">Keep this amenity (others will be merged into it)</span>
+            </label>
+            <select id="keep-amenity-select" class="select select-bordered">
+                <!-- Populated by JavaScript -->
+            </select>
+        </div>
+        <div class="mt-4 flex-1 min-h-0">
+            <label class="label">
+                <span class="label-text">Amenities to merge (will be deleted)</span>
+            </label>
+            <div id="merge-amenities-list" class="bg-base-200 p-4 rounded-lg h-full overflow-y-auto">
+                <!-- Populated by JavaScript -->
+            </div>
+        </div>
+        <div class="modal-action flex-shrink-0">
+            <button class="btn btn-ghost" onclick="closeMergeModal()">Cancel</button>
+            <button class="btn btn-warning" onclick="mergeAmenities()">Merge Amenities</button>
+        </div>
+    </div>
+</div>
+
+<!-- Smart Merge Modal -->
+<div id="smart-merge-modal" class="modal">
+    <div class="modal-box max-w-4xl max-h-[90vh] flex flex-col">
+        <h3 class="font-bold text-lg mb-4 flex-shrink-0">Smart Merge Similar Amenities</h3>
+        <div class="form-control flex-shrink-0">
+            <label class="label">
+                <span class="label-text">Target Name (what you want to call the merged amenity)</span>
+            </label>
+            <input type="text" id="smart-merge-target-name" class="input input-bordered" placeholder="Enter the final name..." />
+        </div>
+        <div class="mt-4 flex-1 min-h-0">
+            <label class="label">
+                <span class="label-text">Similar Amenities Found (select which ones to merge)</span>
+            </label>
+            <div id="similar-amenities-list" class="bg-base-200 p-4 rounded-lg h-full overflow-y-auto">
+                <!-- Populated by JavaScript -->
+            </div>
+        </div>
+        <div class="modal-action flex-shrink-0">
+            <button class="btn btn-ghost" onclick="closeSmartMergeModal()">Cancel</button>
+            <button class="btn btn-success" onclick="smartMergeAmenities()">Smart Merge</button>
+        </div>
+    </div>
+</div>
+
+<!-- Smart Split Modal -->
+<div id="smart-split-modal" class="modal">
+    <div class="modal-box max-w-6xl max-h-[90vh] flex flex-col">
+        <h3 class="font-bold text-lg mb-4 flex-shrink-0">Smart Split by Year</h3>
+        
+        <!-- Step 1: Select Source Amenity -->
+        <div class="form-control flex-shrink-0">
+            <label class="label">
+                <span class="label-text">Source Amenity (the broad category to split)</span>
+            </label>
+            <select id="source-amenity-select" class="select select-bordered" onchange="loadSourceAmenityData()">
+                <option value="">Select source amenity...</option>
+                <!-- Populated by JavaScript -->
+            </select>
+        </div>
+        
+        <!-- Step 2: Year Distribution Preview -->
+        <div id="year-distribution-section" class="mt-4 flex-1 min-h-0" style="display: none;">
+            <label class="label">
+                <span class="label-text">Year Distribution Preview</span>
+            </label>
+            <div id="year-distribution-preview" class="bg-base-200 p-4 rounded-lg h-32 overflow-y-auto">
+                <!-- Populated by JavaScript -->
+            </div>
+        </div>
+        
+        <!-- Step 3: Target Categories -->
+        <div id="target-mappings-section" class="mt-4 flex-1 min-h-0" style="display: none;">
+            <label class="label">
+                <span class="label-text">Target Categories</span>
+            </label>
+            <div id="target-mappings-list" class="bg-base-200 p-4 rounded-lg h-32 overflow-y-auto">
+                <!-- Populated by JavaScript -->
+            </div>
+            <button onclick="addTargetMapping()" class="btn btn-outline btn-sm mt-2">
+                ➕ Add Target Category
+            </button>
+        </div>
+        
+        <!-- Step 4: Manual Location Assignment -->
+        <div id="manual-assignment-section" class="mt-4 flex-1 min-h-0" style="display: none;">
+            <label class="label">
+                <span class="label-text">Manual Location Assignment - Select which locations go to which categories</span>
+            </label>
+            <div class="flex gap-2 mb-2">
+                <button onclick="selectAllLocations()" class="btn btn-xs btn-outline">Select All</button>
+                <button onclick="clearAllSelections()" class="btn btn-xs btn-outline">Clear All</button>
+                <button onclick="autoAssignByYear()" class="btn btn-xs btn-outline">Auto-Assign by Year</button>
+            </div>
+            <div id="locations-assignment-list" class="bg-base-200 p-4 rounded-lg h-64 overflow-y-auto">
+                <!-- Populated by JavaScript -->
+            </div>
+        </div>
+        
+        <!-- Step 5: Preview Results -->
+        <div id="preview-section" class="mt-4 flex-1 min-h-0" style="display: none;">
+            <label class="label">
+                <span class="label-text">Preview: How locations will be redistributed</span>
+            </label>
+            <div id="preview-results" class="bg-base-200 p-4 rounded-lg h-32 overflow-y-auto">
+                <!-- Populated by JavaScript -->
+            </div>
+        </div>
+        
+        <div class="modal-action flex-shrink-0">
+            <button class="btn btn-ghost" onclick="closeSmartSplitModal()">Cancel</button>
+            <button id="smart-split-btn" class="btn btn-primary" onclick="executeSmartSplit()" disabled>
+                ✂️ Execute Smart Split
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript for the interface -->
+<script>
+let selectedAmenities = new Set();
+let currentAmenities = [];
+
+// Initialize the interface
+document.addEventListener('DOMContentLoaded', function() {
+    initializeInterface();
+    setupEventListeners();
+});
+
+function initializeInterface() {
+    // Store current amenities data
+    currentAmenities = Array.from(document.querySelectorAll('.amenity-row')).map(row => ({
+        id: parseInt(row.dataset.id),
+        name: row.dataset.name,
+        usageCount: parseInt(row.querySelector('.badge').textContent)
+    }));
+}
+
+function setupEventListeners() {
+    // Search functionality
+    document.getElementById('search-input').addEventListener('input', filterAmenities);
+    
+    // Sort functionality
+    document.getElementById('sort-select').addEventListener('change', sortAmenities);
+    
+    // Select all checkbox
+    document.getElementById('select-all').addEventListener('change', toggleSelectAll);
+    
+    // Individual checkboxes
+    document.querySelectorAll('.amenity-checkbox').forEach(checkbox => {
+        checkbox.addEventListener('change', updateSelection);
+    });
+    
+    // Bulk action buttons
+    document.getElementById('merge-selected-btn').addEventListener('click', showMergeModal);
+    document.getElementById('clear-selection-btn').addEventListener('click', clearSelection);
+    document.getElementById('refresh-btn').addEventListener('click', refreshData);
+    
+    // Add backup event listener for rename button
+    document.addEventListener('click', function(e) {
+        if (e.target && e.target.id === 'rename-submit-btn') {
+            console.log('Rename button clicked via event listener');
+            renameAmenity();
+        }
+    });
+}
+
+function filterAmenities() {
+    const searchTerm = document.getElementById('search-input').value.toLowerCase();
+    const rows = document.querySelectorAll('.amenity-row');
+    
+    rows.forEach(row => {
+        const name = row.dataset.name.toLowerCase();
+        const isVisible = name.includes(searchTerm);
+        row.style.display = isVisible ? '' : 'none';
+    });
+}
+
+function sortAmenities() {
+    const sortBy = document.getElementById('sort-select').value;
+    const tbody = document.getElementById('amenities-tbody');
+    const rows = Array.from(tbody.querySelectorAll('.amenity-row'));
+    
+    rows.sort((a, b) => {
+        const aId = parseInt(a.dataset.id);
+        const bId = parseInt(b.dataset.id);
+        const aName = a.dataset.name;
+        const bName = b.dataset.name;
+        const aUsage = parseInt(a.querySelector('.badge').textContent);
+        const bUsage = parseInt(b.querySelector('.badge').textContent);
+        
+        switch (sortBy) {
+            case 'name':
+                return aName.localeCompare(bName);
+            case 'usage':
+                return bUsage - aUsage; // Descending
+            case 'id':
+                return aId - bId;
+            default:
+                return 0;
+        }
+    });
+    
+    // Reorder rows in the table
+    rows.forEach(row => tbody.appendChild(row));
+}
+
+function toggleSelectAll() {
+    const selectAll = document.getElementById('select-all');
+    const checkboxes = document.querySelectorAll('.amenity-checkbox:not([style*="display: none"])');
+    
+    checkboxes.forEach(checkbox => {
+        checkbox.checked = selectAll.checked;
+        if (selectAll.checked) {
+            selectedAmenities.add(parseInt(checkbox.value));
+        } else {
+            selectedAmenities.delete(parseInt(checkbox.value));
+        }
+    });
+    
+    updateBulkActions();
+}
+
+function updateSelection() {
+    const checkboxes = document.querySelectorAll('.amenity-checkbox');
+    selectedAmenities.clear();
+    
+    checkboxes.forEach(checkbox => {
+        if (checkbox.checked) {
+            selectedAmenities.add(parseInt(checkbox.value));
+        }
+    });
+    
+    // Update select all checkbox
+    const visibleCheckboxes = document.querySelectorAll('.amenity-checkbox:not([style*="display: none"])');
+    const checkedVisible = document.querySelectorAll('.amenity-checkbox:not([style*="display: none"]):checked');
+    document.getElementById('select-all').checked = checkedVisible.length === visibleCheckboxes.length;
+    
+    updateBulkActions();
+}
+
+function updateBulkActions() {
+    const bulkActions = document.getElementById('bulk-actions');
+    const selectedCount = document.getElementById('selected-count');
+    const mergeBtn = document.getElementById('merge-selected-btn');
+    
+    if (selectedAmenities.size > 0) {
+        bulkActions.style.display = 'block';
+        selectedCount.textContent = selectedAmenities.size;
+        mergeBtn.disabled = selectedAmenities.size < 2;
+    } else {
+        bulkActions.style.display = 'none';
+    }
+}
+
+function clearSelection() {
+    selectedAmenities.clear();
+    document.querySelectorAll('.amenity-checkbox').forEach(checkbox => {
+        checkbox.checked = false;
+    });
+    document.getElementById('select-all').checked = false;
+    updateBulkActions();
+}
+
+function showRenameModal(amenityId, currentName) {
+    console.log('showRenameModal called with:', { amenityId, currentName });
+    
+    // Store the amenity ID for the rename operation
+    const modal = document.getElementById('rename-modal');
+    modal.dataset.amenityId = amenityId;
+    
+    document.getElementById('current-name').value = currentName;
+    document.getElementById('new-name').value = currentName;
+    document.getElementById('new-name').focus();
+    
+    // Open the modal
+    modal.classList.add('modal-open');
+    
+    console.log('Modal opened, amenity ID stored:', modal.dataset.amenityId);
+}
+
+function closeRenameModal() {
+    document.getElementById('rename-modal').classList.remove('modal-open');
+}
+
+function renameAmenity() {
+    const currentName = document.getElementById('current-name').value;
+    const newName = document.getElementById('new-name').value.trim();
+    
+    console.log('renameAmenity called with:', { currentName, newName });
+    
+    if (!newName) {
+        showNotification('Please enter a new name', 'warning');
+        return;
+    }
+    
+    if (newName === currentName) {
+        closeRenameModal();
+        return;
+    }
+    
+    // Get the amenity ID from the modal's dataset
+    const amenityId = parseInt(document.getElementById('rename-modal').dataset.amenityId);
+    
+    console.log('Amenity ID from modal:', amenityId);
+    
+    if (!amenityId) {
+        showNotification('Error: Could not find amenity ID', 'error');
+        return;
+    }
+    
+    // Show loading state
+    const renameBtn = document.querySelector('#rename-modal .btn-primary');
+    const originalText = renameBtn.textContent;
+    renameBtn.textContent = 'Renaming...';
+    renameBtn.disabled = true;
+    
+    // Add timeout to prevent hanging
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+    
+    fetch('/api/amenity-cleanup/rename', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            amenity_id: amenityId,
+            new_name: newName
+        }),
+        signal: controller.signal
+    })
+    .then(response => {
+        clearTimeout(timeoutId);
+        console.log('Response status:', response.status);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        return response.json();
+    })
+    .then(data => {
+        console.log('Response data:', data);
+        if (data.success) {
+            // Update the UI
+            const amenityRow = document.querySelector(`[data-id="${amenityId}"]`);
+            if (amenityRow) {
+                amenityRow.dataset.name = newName;
+                amenityRow.querySelector('.amenity-name').textContent = newName;
+            }
+            closeRenameModal();
+            showNotification('Amenity renamed successfully!', 'success');
+        } else {
+            showNotification(data.error || 'Error renaming amenity', 'error');
+        }
+    })
+    .catch(error => {
+        clearTimeout(timeoutId);
+        console.error('Error:', error);
+        
+        if (error.name === 'AbortError') {
+            showNotification('Request timed out. Please try again.', 'error');
+        } else {
+            showNotification(`Error renaming amenity: ${error.message}`, 'error');
+        }
+    })
+    .finally(() => {
+        // Reset button state
+        renameBtn.textContent = originalText;
+        renameBtn.disabled = false;
+    });
+}
+
+function showUsageModal(amenityId, amenityName) {
+    document.getElementById('usage-amenity-name').textContent = amenityName;
+    document.getElementById('usage-tbody').innerHTML = '<tr><td colspan="4" class="text-center">Loading...</td></tr>';
+    const modal = document.getElementById('usage-modal');
+    modal.classList.add('modal-open');
+    
+    fetch(`/api/amenity-cleanup/usage/${amenityId}`)
+        .then(response => response.json())
+        .then(locations => {
+            const tbody = document.getElementById('usage-tbody');
+            
+            if (locations.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" class="text-center text-base-content/70">No locations use this amenity</td></tr>';
+            } else {
+                tbody.innerHTML = locations.map(location => `
+                    <tr>
+                        <td>${location.title || 'Untitled'}</td>
+                        <td>${location.city || 'Unknown'}</td>
+                        <td>${location.state || 'Unknown'}</td>
+                        <td>${location.year || 'Unknown'}</td>
+                    </tr>
+                `).join('');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('usage-tbody').innerHTML = '<tr><td colspan="4" class="text-center text-error">Error loading locations</td></tr>';
+        });
+    
+    // Ensure modal is properly positioned and scrollable
+    setTimeout(() => {
+        const modalBox = modal.querySelector('.modal-box');
+        if (modalBox) {
+            modalBox.scrollTop = 0;
+        }
+    }, 100);
+}
+
+function closeUsageModal() {
+    document.getElementById('usage-modal').classList.remove('modal-open');
+}
+
+function showMergeModal() {
+    if (selectedAmenities.size < 2) {
+        showNotification('Please select at least 2 amenities to merge', 'warning');
+        return;
+    }
+    
+    const keepSelect = document.getElementById('keep-amenity-select');
+    const mergeList = document.getElementById('merge-amenities-list');
+    
+    // Populate keep select
+    keepSelect.innerHTML = '';
+    selectedAmenities.forEach(id => {
+        const amenity = currentAmenities.find(a => a.id === id);
+        if (amenity) {
+            const option = document.createElement('option');
+            option.value = id;
+            option.textContent = `${amenity.name} (${amenity.usageCount} locations)`;
+            keepSelect.appendChild(option);
+        }
+    });
+    
+    // Populate merge list
+    mergeList.innerHTML = '';
+    selectedAmenities.forEach(id => {
+        const amenity = currentAmenities.find(a => a.id === id);
+        if (amenity) {
+            const div = document.createElement('div');
+            div.className = 'flex items-center gap-2 mb-2';
+            div.innerHTML = `
+                <input type="checkbox" class="checkbox" value="${id}" checked />
+                <span>${amenity.name} (${amenity.usageCount} locations)</span>
+            `;
+            mergeList.appendChild(div);
+        }
+    });
+    
+    document.getElementById('merge-modal').classList.add('modal-open');
+}
+
+function closeMergeModal() {
+    document.getElementById('merge-modal').classList.remove('modal-open');
+}
+
+function mergeAmenities() {
+    const keepId = parseInt(document.getElementById('keep-amenity-select').value);
+    const mergeCheckboxes = document.querySelectorAll('#merge-amenities-list .checkbox:checked');
+    const mergeIds = Array.from(mergeCheckboxes).map(cb => parseInt(cb.value)).filter(id => id !== keepId);
+    
+    if (mergeIds.length === 0) {
+        showNotification('Please select amenities to merge', 'warning');
+        return;
+    }
+    
+    fetch('/api/amenity-cleanup/merge', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            keep_id: keepId,
+            merge_ids: mergeIds
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Remove merged amenities from UI
+            mergeIds.forEach(id => {
+                const row = document.querySelector(`[data-id="${id}"]`);
+                if (row) row.remove();
+            });
+            
+            // Update the kept amenity usage count
+            const keptRow = document.querySelector(`[data-id="${keepId}"]`);
+            if (keptRow) {
+                const badge = keptRow.querySelector('.badge');
+                const currentCount = parseInt(badge.textContent);
+                const mergedCount = mergeIds.reduce((sum, id) => {
+                    const amenity = currentAmenities.find(a => a.id === id);
+                    return sum + (amenity ? amenity.usageCount : 0);
+                }, 0);
+                badge.textContent = currentCount + mergedCount;
+            }
+            
+            closeMergeModal();
+            clearSelection();
+            showNotification(data.message, 'success');
+            
+            // Refresh the data
+            setTimeout(refreshData, 1000);
+        } else {
+            showNotification(data.error || 'Error merging amenities', 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showNotification('Error merging amenities', 'error');
+    });
+}
+
+function refreshData() {
+    location.reload();
+}
+
+function showNotification(message, type = 'info') {
+    // Create a simple notification
+    const notification = document.createElement('div');
+    notification.className = `alert alert-${type} fixed top-4 right-4 z-50 max-w-sm`;
+    notification.innerHTML = `
+        <span>${message}</span>
+        <button class="btn btn-sm btn-ghost" onclick="this.parentElement.remove()">✕</button>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Auto-remove after 5 seconds
+    setTimeout(() => {
+        if (notification.parentElement) {
+            notification.remove();
+        }
+    }, 5000);
+}
+
+// Test function to debug modal functionality
+function testModal() {
+    console.log('Testing modal functionality...');
+    showRenameModal(999, 'Test Amenity');
+}
+
+// Test function to check database connectivity
+function testDatabase() {
+    console.log('Testing database connectivity...');
+    
+    fetch('/api/amenity-features')
+        .then(response => {
+            console.log('DB test response status:', response.status);
+            return response.json();
+        })
+        .then(data => {
+            console.log('DB test response data:', data);
+            if (Array.isArray(data)) {
+                showNotification(`Database connection successful! Found ${data.length} amenities.`, 'success');
+            } else {
+                showNotification('Database response format unexpected', 'warning');
+            }
+        })
+        .catch(error => {
+            console.error('DB test error:', error);
+            showNotification(`Database connection failed: ${error.message}`, 'error');
+        });
+}
+
+// Test function to check basic API connectivity
+function testAPI() {
+    console.log('Testing basic API connectivity...');
+    
+    fetch('/api/test')
+        .then(response => {
+            console.log('API test response status:', response.status);
+            return response.json();
+        })
+        .then(data => {
+            console.log('API test response data:', data);
+            showNotification(`API test successful: ${data.message}`, 'success');
+        })
+        .catch(error => {
+            console.error('API test error:', error);
+            showNotification(`API test failed: ${error.message}`, 'error');
+        });
+}
+
+// Smart merge functionality
+function findSimilarAmenities() {
+    console.log('Finding similar amenities...');
+    
+    fetch('/api/amenity-cleanup/find-similar')
+        .then(response => response.json())
+        .then(similarGroups => {
+            console.log('Similar groups found:', similarGroups);
+            
+            if (similarGroups.length === 0) {
+                showNotification('No similar amenities found!', 'info');
+                return;
+            }
+            
+            showSmartMergeModal(similarGroups);
+        })
+        .catch(error => {
+            console.error('Error finding similar amenities:', error);
+            showNotification('Error finding similar amenities', 'error');
+        });
+}
+
+function showSmartMergeModal(similarGroups) {
+    const modal = document.getElementById('smart-merge-modal');
+    const targetNameInput = document.getElementById('smart-merge-target-name');
+    const similarList = document.getElementById('similar-amenities-list');
+    
+    // Set default target name from first group
+    if (similarGroups.length > 0 && similarGroups[0].length > 0) {
+        targetNameInput.value = similarGroups[0][0].name;
+    }
+    
+    // Populate similar amenities list
+    similarList.innerHTML = '';
+    
+    similarGroups.forEach((group, groupIndex) => {
+        const groupDiv = document.createElement('div');
+        groupDiv.className = 'border-b border-base-300 pb-4 mb-4';
+        
+        const groupHeader = document.createElement('div');
+        groupHeader.className = 'font-medium text-sm text-base-content/70 mb-2';
+        groupHeader.textContent = `Group ${groupIndex + 1} - Similar Amenities:`;
+        
+        const groupContent = document.createElement('div');
+        groupContent.className = 'space-y-2';
+        
+        group.forEach(amenity => {
+            const amenityDiv = document.createElement('div');
+            amenityDiv.className = 'flex items-center gap-3 p-2 bg-base-100 rounded';
+            
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.className = 'checkbox';
+            checkbox.value = amenity.id;
+            checkbox.checked = true; // Default to selected
+            
+            const label = document.createElement('label');
+            label.className = 'flex-1';
+            label.innerHTML = `
+                <span class="font-medium">${amenity.name}</span>
+                <span class="text-sm text-base-content/70 ml-2">(${amenity.usage_count} locations)</span>
+            `;
+            
+            amenityDiv.appendChild(checkbox);
+            amenityDiv.appendChild(label);
+            groupContent.appendChild(amenityDiv);
+        });
+        
+        groupDiv.appendChild(groupHeader);
+        groupDiv.appendChild(groupContent);
+        similarList.appendChild(groupDiv);
+    });
+    
+    modal.classList.add('modal-open');
+    
+    // Ensure modal is properly positioned and scrollable
+    setTimeout(() => {
+        const modalBox = modal.querySelector('.modal-box');
+        if (modalBox) {
+            modalBox.scrollTop = 0;
+        }
+    }, 100);
+}
+
+function closeSmartMergeModal() {
+    document.getElementById('smart-merge-modal').classList.remove('modal-open');
+}
+
+function smartMergeAmenities() {
+    const targetName = document.getElementById('smart-merge-target-name').value.trim();
+    const checkboxes = document.querySelectorAll('#similar-amenities-list input[type="checkbox"]:checked');
+    
+    if (!targetName) {
+        showNotification('Please enter a target name', 'warning');
+        return;
+    }
+    
+    if (checkboxes.length === 0) {
+        showNotification('Please select at least one amenity to merge', 'warning');
+        return;
+    }
+    
+    const sourceIds = Array.from(checkboxes).map(cb => parseInt(cb.value));
+    
+    // Show loading state
+    const mergeBtn = document.querySelector('#smart-merge-modal .btn-success');
+    const originalText = mergeBtn.textContent;
+    mergeBtn.textContent = 'Merging...';
+    mergeBtn.disabled = true;
+    
+    fetch('/api/amenity-cleanup/smart-merge', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            target_name: targetName,
+            source_ids: sourceIds
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showNotification(data.message, 'success');
+            closeSmartMergeModal();
+            
+                    // Refresh the page to show updated data
+        setTimeout(() => {
+            location.reload();
+        }, 1000);
+    } else {
+        showNotification(data.error || 'Error merging amenities', 'error');
+    }
+})
+.catch(error => {
+    console.error('Error:', error);
+    showNotification('Error merging amenities', 'error');
+})
+.finally(() => {
+    // Reset button state
+    mergeBtn.textContent = originalText;
+    mergeBtn.disabled = false;
+});
+}
+
+// Smart Split functionality
+let targetMappings = [];
+let sourceAmenityData = null;
+let locationAssignments = new Map(); // Track which locations are assigned to which targets
+
+function showSmartSplitModal() {
+    const modal = document.getElementById('smart-split-modal');
+    const sourceSelect = document.getElementById('source-amenity-select');
+    
+    // Populate source amenity select
+    sourceSelect.innerHTML = '<option value="">Select source amenity...</option>';
+    currentAmenities.forEach(amenity => {
+        const option = document.createElement('option');
+        option.value = amenity.id;
+        option.textContent = `${amenity.name} (${amenity.usageCount} locations)`;
+        sourceSelect.appendChild(option);
+    });
+    
+    // Reset state
+    targetMappings = [];
+    sourceAmenityData = null;
+    locationAssignments.clear();
+    hideAllSections();
+    
+    modal.classList.add('modal-open');
+}
+
+function closeSmartSplitModal() {
+    document.getElementById('smart-split-modal').classList.remove('modal-open');
+}
+
+function hideAllSections() {
+    document.getElementById('year-distribution-section').style.display = 'none';
+    document.getElementById('target-mappings-section').style.display = 'none';
+    document.getElementById('manual-assignment-section').style.display = 'none';
+    document.getElementById('preview-section').style.display = 'none';
+    document.getElementById('smart-split-btn').disabled = true;
+}
+
+function loadSourceAmenityData() {
+    const sourceId = document.getElementById('source-amenity-select').value;
+    if (!sourceId) {
+        hideAllSections();
+        return;
+    }
+    
+    fetch(`/api/amenity-cleanup/get-location-years/${sourceId}`)
+        .then(response => response.json())
+        .then(data => {
+            sourceAmenityData = data;
+            showYearDistribution(data);
+            showTargetMappingsSection();
+        })
+        .catch(error => {
+            console.error('Error loading source amenity data:', error);
+            showNotification('Error loading amenity data', 'error');
+        });
+}
+
+function showYearDistribution(data) {
+    const section = document.getElementById('year-distribution-section');
+    const preview = document.getElementById('year-distribution-preview');
+    
+    const { year_stats, locations } = data;
+    
+    let html = `
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-3">
+            <div class="text-center">
+                <div class="text-lg font-bold">${year_stats.total_locations}</div>
+                <div class="text-xs text-base-content/70">Total Locations</div>
+            </div>
+            <div class="text-center">
+                <div class="text-lg font-bold">${year_stats.locations_with_years}</div>
+                <div class="text-xs text-base-content/70">With Years</div>
+            </div>
+            <div class="text-center">
+                <div class="text-lg font-bold">${year_stats.min_year || 'N/A'}</div>
+                <div class="text-xs text-base-content/70">Min Year</div>
+            </div>
+            <div class="text-center">
+                <div class="text-lg font-bold">${year_stats.max_year || 'N/A'}</div>
+                <div class="text-xs text-base-content/70">Max Year</div>
+            </div>
+        </div>
+        <div class="text-sm">
+            <strong>Year Distribution:</strong><br>
+    `;
+    
+    // Show top 10 years by count
+    const sortedYears = Object.entries(year_stats.year_distribution)
+        .sort(([,a], [,b]) => b - a)
+        .slice(0, 10);
+    
+    sortedYears.forEach(([year, count]) => {
+        html += `${year}: ${count} locations<br>`;
+    });
+    
+    if (Object.keys(year_stats.year_distribution).length > 10) {
+        html += `... and ${Object.keys(year_stats.year_distribution).length - 10} more years`;
+    }
+    
+    html += '</div>';
+    preview.innerHTML = html;
+    section.style.display = 'block';
+}
+
+function showTargetMappingsSection() {
+    document.getElementById('target-mappings-section').style.display = 'block';
+    updateTargetMappingsList();
+    showManualAssignmentSection();
+}
+
+function addTargetMapping() {
+    const mapping = {
+        id: Date.now(), // Temporary ID
+        target_id: '',
+        target_name: ''
+    };
+    
+    targetMappings.push(mapping);
+    updateTargetMappingsList();
+}
+
+function removeTargetMapping(mappingId) {
+    targetMappings = targetMappings.filter(m => m.id !== mappingId);
+    updateTargetMappingsList();
+}
+
+function updateTargetMappingsList() {
+    const list = document.getElementById('target-mappings-list');
+    
+    if (targetMappings.length === 0) {
+        list.innerHTML = '<p class="text-base-content/70 text-center">No target categories defined yet. Click "Add Target Category" to start.</p>';
+        return;
+    }
+    
+    list.innerHTML = targetMappings.map((mapping, index) => `
+        <div class="border border-base-300 rounded-lg p-3 mb-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="font-medium">Target Category ${index + 1}</span>
+                <button onclick="removeTargetMapping(${mapping.id})" class="btn btn-xs btn-ghost text-error">✕</button>
+            </div>
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text text-xs">Target Amenity</span>
+                </label>
+                <select onchange="updateTargetMapping(${mapping.id}, 'target_id', this.value)" class="select select-bordered select-sm">
+                    <option value="">Select target...</option>
+                    ${currentAmenities.map(amenity => 
+                        `<option value="${amenity.id}" ${amenity.id == mapping.target_id ? 'selected' : ''}>${amenity.name}</option>`
+                    ).join('')}
+                </select>
+            </div>
+        </div>
+    `).join('');
+    
+    // Show preview section if we have mappings
+    if (targetMappings.some(m => m.target_id)) {
+        showPreviewSection();
+    }
+}
+
+function updateTargetMapping(mappingId, field, value) {
+    const mapping = targetMappings.find(m => m.id === mappingId);
+    if (!mapping) return;
+    
+    if (field === 'target_id') {
+        mapping.target_id = parseInt(value);
+        const amenity = currentAmenities.find(a => a.id === mapping.target_id);
+        mapping.target_name = amenity ? amenity.name : '';
+    }
+    
+    if (targetMappings.some(m => m.target_id)) {
+        updateLocationsAssignmentList();
+    }
+}
+
+function showManualAssignmentSection() {
+    document.getElementById('manual-assignment-section').style.display = 'block';
+    updateLocationsAssignmentList();
+}
+
+function updateLocationsAssignmentList() {
+    const list = document.getElementById('locations-assignment-list');
+    
+    if (!sourceAmenityData || targetMappings.length === 0) {
+        list.innerHTML = '<p class="text-base-content/70 text-center">Please add target categories first.</p>';
+        return;
+    }
+    
+    const { locations } = sourceAmenityData;
+    const validMappings = targetMappings.filter(m => m.target_id);
+    
+    if (validMappings.length === 0) {
+        list.innerHTML = '<p class="text-base-content/70 text-center">Please select target categories first.</p>';
+        return;
+    }
+    
+    let html = '<div class="space-y-2">';
+    
+    locations.forEach((location, index) => {
+        const locationId = location.id;
+        const isAssigned = locationAssignments.has(locationId);
+        const currentTarget = locationAssignments.get(locationId);
+        
+        html += `
+            <div class="border border-base-300 rounded-lg p-3 ${isAssigned ? 'bg-accent/10' : 'bg-base-100'}">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="flex-1">
+                        <div class="font-medium">${location.title || 'Untitled'}</div>
+                        <div class="text-sm text-base-content/70">
+                            ${location.city || 'Unknown City'}, ${location.state || 'Unknown State'}
+                            ${location.year ? ` • Year: ${location.year}` : ' • No Year'}
+                        </div>
+                        <div class="text-xs text-base-content/50">ID: ${locationId}</div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <select onchange="assignLocation(${locationId}, this.value)" 
+                                class="select select-bordered select-sm min-w-[200px]">
+                            <option value="">-- Unassigned --</option>
+                            ${validMappings.map(mapping => 
+                                `<option value="${mapping.target_id}" ${currentTarget === mapping.target_id ? 'selected' : ''}>
+                                    ${mapping.target_name}
+                                </option>`
+                            ).join('')}
+                        </select>
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+    
+    html += '</div>';
+    list.innerHTML = html;
+    
+    // Show preview section
+    showPreviewSection();
+}
+
+function assignLocation(locationId, targetId) {
+    if (targetId === '') {
+        locationAssignments.delete(locationId);
+    } else {
+        locationAssignments.set(locationId, parseInt(targetId));
+    }
+    updateLocationsAssignmentList();
+}
+
+function selectAllLocations() {
+    if (targetMappings.length === 0) {
+        showNotification('Please add target categories first', 'warning');
+        return;
+    }
+    
+    const firstTarget = targetMappings.find(m => m.target_id);
+    if (!firstTarget) {
+        showNotification('Please select at least one target category', 'warning');
+        return;
+    }
+    
+    sourceAmenityData.locations.forEach(location => {
+        locationAssignments.set(location.id, firstTarget.target_id);
+    });
+    
+    updateLocationsAssignmentList();
+    showNotification(`Assigned all ${sourceAmenityData.locations.length} locations to "${firstTarget.target_name}"`, 'success');
+}
+
+function clearAllSelections() {
+    locationAssignments.clear();
+    updateLocationsAssignmentList();
+    showNotification('Cleared all location assignments', 'info');
+}
+
+function autoAssignByYear() {
+    if (targetMappings.length === 0) {
+        showNotification('Please add target categories first', 'warning');
+        return;
+    }
+    
+    const validMappings = targetMappings.filter(m => m.target_id);
+    if (validMappings.length === 0) {
+        showNotification('Please select at least one target category', 'warning');
+        return;
+    }
+    
+    // Clear existing assignments
+    locationAssignments.clear();
+    
+    // Auto-assign based on year ranges if they exist
+    let assignedCount = 0;
+    sourceAmenityData.locations.forEach(location => {
+        if (location.year) {
+            for (const mapping of validMappings) {
+                if (mapping.year_range && mapping.year_range.min && mapping.year_range.max) {
+                    if (location.year >= mapping.year_range.min && location.year <= mapping.year_range.max) {
+                        locationAssignments.set(location.id, mapping.target_id);
+                        assignedCount++;
+                        break;
+                    }
+                }
+            }
+        }
+    });
+    
+    updateLocationsAssignmentList();
+    showNotification(`Auto-assigned ${assignedCount} locations by year`, 'success');
+}
+
+function showPreviewSection() {
+    const section = document.getElementById('preview-section');
+    const preview = document.getElementById('preview-results');
+    
+    if (!sourceAmenityData) return;
+    
+    let html = '<div class="space-y-2">';
+    
+    // Count locations assigned to each target
+    targetMappings.forEach((mapping, index) => {
+        if (!mapping.target_id) return;
+        
+        const assignedCount = Array.from(locationAssignments.values()).filter(targetId => targetId === mapping.target_id).length;
+        
+        html += `
+            <div class="bg-base-100 p-2 rounded">
+                <strong>${mapping.target_name || 'Unknown'}</strong>: 
+                <span class="text-accent">${assignedCount} locations</span>
+            </div>
+        `;
+    });
+    
+    // Count unassigned locations
+    const { locations } = sourceAmenityData;
+    const assignedCount = locationAssignments.size;
+    const unassignedCount = locations.length - assignedCount;
+    
+    html += `
+        <div class="bg-warning/20 p-2 rounded border border-warning">
+            <strong>Unassigned:</strong> <span class="text-warning">${unassignedCount} locations</span> 
+            (locations you haven't assigned to any category)
+        </div>
+    `;
+    
+    html += '</div>';
+    preview.innerHTML = html;
+    section.style.display = 'block';
+    
+    // Enable execute button if we have valid mappings and some assignments
+    const executeBtn = document.getElementById('smart-split-btn');
+    executeBtn.disabled = !targetMappings.some(m => m.target_id) || locationAssignments.size === 0;
+}
+
+function executeSmartSplit() {
+    const sourceId = document.getElementById('source-amenity-select').value;
+    if (!sourceId || targetMappings.length === 0) {
+        showNotification('Please configure the split properly', 'warning');
+        return;
+    }
+    
+    // Validate mappings
+    const validMappings = targetMappings.filter(m => m.target_id);
+    if (validMappings.length === 0) {
+        showNotification('Please select at least one target category', 'warning');
+        return;
+    }
+    
+    // Show loading state
+    const executeBtn = document.getElementById('smart-split-btn');
+    const originalText = executeBtn.textContent;
+    executeBtn.textContent = 'Processing...';
+    executeBtn.disabled = true;
+    
+    // Convert manual assignments to the format expected by the API
+    const manualAssignments = [];
+    locationAssignments.forEach((targetId, locationId) => {
+        manualAssignments.push({
+            location_id: locationId,
+            target_amenity_id: targetId
+        });
+    });
+    
+    fetch('/api/amenity-cleanup/smart-split', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            source_amenity_id: parseInt(sourceId),
+            target_mappings: validMappings,
+            manual_assignments: manualAssignments
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showNotification(data.message, 'success');
+            closeSmartSplitModal();
+            
+            // Refresh the page to show updated data
+            setTimeout(() => {
+                location.reload();
+            }, 1000);
+        } else {
+            showNotification(data.error || 'Error executing smart split', 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showNotification('Error executing smart split', 'error');
+    })
+    .finally(() => {
+        // Reset button state
+        executeBtn.textContent = originalText;
+        executeBtn.disabled = false;
+    });
+}
+</script>
+{% endblock %} 

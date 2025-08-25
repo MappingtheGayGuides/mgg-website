@@ -8,6 +8,11 @@
     <div class="text-center mb-8">
         <h1 class="text-4xl font-bold text-primary mb-4">Database Browser</h1>
         <p class="text-lg text-base-content/70">Explore the locations from the Gay Guides database</p>
+        <div class="mt-4">
+            <a href="{{ url_for('main.amenity_cleanup') }}" class="btn btn-outline btn-sm">
+                🧹 Clean Up Amenities
+            </a>
+        </div>
     </div>
 
     <!-- Filters and Sorting -->
@@ -21,7 +26,7 @@
                         <span class="label-text font-medium">Filter by Year</span>
                     </label>
                     <select name="year" class="select select-bordered w-full">
-                        <option value="">All Years</option>
+                        <option value="" {% if selected_year is none %}selected{% endif %}>All Years</option>
                         {% for year in years %}
                         <option value="{{ year }}" {% if year == selected_year %}selected{% endif %}>
                             {{ year }}
