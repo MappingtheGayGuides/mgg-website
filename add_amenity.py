@@ -14,11 +14,12 @@ from app import app, db
 from models import Location, AmenityFeature, LocationAmenityAssignment
 
 def list_all_locations():
-    """List all locations with their IDs and titles"""
+    """List all locations with their unique IDs and titles"""
     locations = db.session.query(Location).all()
     print("\n=== Available Locations ===")
     for loc in locations:
-        print(f"ID: {loc.id} | {loc.title} | {loc.city}, {loc.state} | Year: {loc.year}")
+        print(f"Unique ID: {loc.unique_id} | {loc.title} | {loc.city}, {loc.state} | Year: {loc.year}")
+        print(f"    Database ID: {loc.id}")
     return locations
 
 def list_all_amenities():
@@ -49,11 +50,16 @@ def search_amenities_by_name(search_term):
     
     return amenities
 
-def list_location_amenities(location_id):
+def get_location_by_unique_id(unique_id):
+    """Get a location by its unique ID (e.g., d-1998-01297)"""
+    location = db.session.query(Location).filter_by(unique_id=unique_id).first()
+    return location
+
+def list_location_amenities(unique_id):
     """List all amenities for a specific location"""
-    location = db.session.get(Location, location_id)
+    location = get_location_by_unique_id(unique_id)
     if not location:
-        print(f"Location with ID {location_id} not found!")
+        print(f"Location with unique ID '{unique_id}' not found!")
         return
     
     print(f"\n=== Amenities for: {location.title} ===")
@@ -65,14 +71,14 @@ def list_location_amenities(location_id):
     
     return location
 
-def add_amenity_to_location(location_id, amenity_id):
+def add_amenity_to_location(unique_id, amenity_id):
     """Add an amenity to a location"""
     # Check if both exist
-    location = db.session.get(Location, location_id)
+    location = get_location_by_unique_id(unique_id)
     amenity = db.session.get(AmenityFeature, amenity_id)
     
     if not location:
-        print(f"Error: Location with ID {location_id} not found!")
+        print(f"Error: Location with unique ID '{unique_id}' not found!")
         return False
     
     if not amenity:
@@ -81,7 +87,7 @@ def add_amenity_to_location(location_id, amenity_id):
     
     # Check if this assignment already exists
     existing = db.session.query(LocationAmenityAssignment).filter_by(
-        location_id=location_id, 
+        location_id=location.id, 
         amenity_id=amenity_id
     ).first()
     
@@ -91,7 +97,7 @@ def add_amenity_to_location(location_id, amenity_id):
     
     # Create the assignment
     assignment = LocationAmenityAssignment(
-        location_id=location_id,
+        location_id=location.id,
         amenity_id=amenity_id
     )
     
@@ -105,14 +111,14 @@ def add_amenity_to_location(location_id, amenity_id):
         db.session.rollback()
         return False
 
-def remove_amenity_from_location(location_id, amenity_id):
+def remove_amenity_from_location(unique_id, amenity_id):
     """Remove an amenity from a location"""
     # Check if both exist
-    location = db.session.get(Location, location_id)
+    location = get_location_by_unique_id(unique_id)
     amenity = db.session.get(AmenityFeature, amenity_id)
     
     if not location:
-        print(f"Error: Location with ID {location_id} not found!")
+        print(f"Error: Location with unique ID '{unique_id}' not found!")
         return False
     
     if not amenity:
@@ -121,7 +127,7 @@ def remove_amenity_from_location(location_id, amenity_id):
     
     # Find the assignment
     assignment = db.session.query(LocationAmenityAssignment).filter_by(
-        location_id=location_id, 
+        location_id=location.id, 
         amenity_id=amenity_id
     ).first()
     
@@ -232,6 +238,7 @@ def create_new_amenity(name, description=None):
 def interactive_mode():
     """Run the script in interactive mode"""
     print("=== Mapping Gay Guides - Amenity Management ===")
+    print("Note: Use unique IDs (e.g., d-1998-01297) for locations, database IDs for amenities")
     
     while True:
         print("\nOptions:")
@@ -255,19 +262,22 @@ def interactive_mode():
             list_all_amenities()
         
         elif choice == '3':
-            try:
-                location_id = int(input("Enter location ID: "))
-                list_location_amenities(location_id)
-            except ValueError:
-                print("Please enter a valid number!")
+            unique_id = input("Enter location unique ID (e.g., d-1998-01297): ").strip()
+            if unique_id:
+                list_location_amenities(unique_id)
+            else:
+                print("Unique ID cannot be empty!")
         
         elif choice == '4':
-            try:
-                location_id = int(input("Enter location ID: "))
-                amenity_id = int(input("Enter amenity ID: "))
-                add_amenity_to_location(location_id, amenity_id)
-            except ValueError:
-                print("Please enter valid numbers!")
+            unique_id = input("Enter location unique ID (e.g., d-1998-01297): ").strip()
+            if unique_id:
+                try:
+                    amenity_id = int(input("Enter amenity ID: "))
+                    add_amenity_to_location(unique_id, amenity_id)
+                except ValueError:
+                    print("Please enter a valid amenity ID number!")
+            else:
+                print("Unique ID cannot be empty!")
         
         elif choice == '5':
             name = input("Enter amenity name: ").strip()
@@ -278,12 +288,15 @@ def interactive_mode():
                 print("Amenity name cannot be empty!")
         
         elif choice == '6':
-            try:
-                location_id = int(input("Enter location ID: "))
-                amenity_id = int(input("Enter amenity ID: "))
-                remove_amenity_from_location(location_id, amenity_id)
-            except ValueError:
-                print("Please enter valid numbers!")
+            unique_id = input("Enter location unique ID (e.g., d-1998-01297): ").strip()
+            if unique_id:
+                try:
+                    amenity_id = int(input("Enter amenity ID: "))
+                    remove_amenity_from_location(unique_id, amenity_id)
+                except ValueError:
+                    print("Please enter a valid amenity ID number!")
+            else:
+                print("Unique ID cannot be empty!")
         
         elif choice == '7':
             try:

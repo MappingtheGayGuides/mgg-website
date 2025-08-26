@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
 Quick script to add an amenity to a location
-Usage: python quick_add_amenity.py <location_id> <amenity_name>
-Example: python quick_add_amenity.py 123 "Dance Floor"
+Usage: python quick_add_amenity.py <unique_id> <amenity_name>
+Example: python quick_add_amenity.py d-1998-01297 "Dance Floor"
 """
 
 import sys
@@ -14,7 +14,7 @@ sys.path.append(str(Path(__file__).parent))
 from app import app, db
 from models import Location, AmenityFeature, LocationAmenityAssignment
 
-def quick_add_amenity(location_id, amenity_name):
+def quick_add_amenity(unique_id, amenity_name):
     """Quickly add an amenity to a location"""
     with app.app_context():
         # Test database connection first
@@ -24,10 +24,10 @@ def quick_add_amenity(location_id, amenity_name):
         except Exception as e:
             print(f"Database connection failed: {e}")
             return False
-        # Get the location
-        location = db.session.get(Location, location_id)
+        # Get the location by unique ID
+        location = db.session.query(Location).filter_by(unique_id=unique_id).first()
         if not location:
-            print(f"Error: Location with ID {location_id} not found!")
+            print(f"Error: Location with unique ID '{unique_id}' not found!")
             return False
         
         # Get or create the amenity
@@ -41,7 +41,7 @@ def quick_add_amenity(location_id, amenity_name):
         
         # Check if this assignment already exists
         existing = db.session.query(LocationAmenityAssignment).filter_by(
-            location_id=location_id, 
+            location_id=location.id, 
             amenity_id=amenity.id
         ).first()
         
@@ -51,7 +51,7 @@ def quick_add_amenity(location_id, amenity_name):
         
         # Create the assignment
         assignment = LocationAmenityAssignment(
-            location_id=location_id,
+            location_id=location.id,
             amenity_id=amenity.id
         )
         
@@ -67,22 +67,22 @@ def quick_add_amenity(location_id, amenity_name):
 
 def main():
     if len(sys.argv) != 3:
-        print("Usage: python quick_add_amenity.py <location_id> <amenity_name>")
-        print("Example: python quick_add_amenity.py 123 'Dance Floor'")
+        print("Usage: python quick_add_amenity.py <unique_id> <amenity_name>")
+        print("Example: python quick_add_amenity.py d-1998-01297 'Dance Floor'")
         sys.exit(1)
     
     try:
-        location_id = int(sys.argv[1])
+        unique_id = sys.argv[1]
         amenity_name = sys.argv[2]
         
-        success = quick_add_amenity(location_id, amenity_name)
+        success = quick_add_amenity(unique_id, amenity_name)
         if success:
             sys.exit(0)
         else:
             sys.exit(1)
             
-    except ValueError:
-        print("Error: location_id must be a number")
+    except Exception as e:
+        print(f"Error: {e}")
         sys.exit(1)
 
 if __name__ == '__main__':
