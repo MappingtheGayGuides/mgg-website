@@ -35,9 +35,9 @@ def ensure_database_exists():
 # Route for static content pages using Flask-FlatPages
 @app.route('/')
 def index():
-    """Serve the homepage from markdown"""
+    """Serve the homepage with hero section"""
     page = pages.get_or_404('index')
-    return render_template('page.html', page=page)
+    return render_template('homepage.html', page=page)
 
 # Generic route for any markdown page
 @app.route('/<path:path>/')

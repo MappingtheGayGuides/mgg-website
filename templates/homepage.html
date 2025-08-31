@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page.meta.title }}{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="hero min-h-[60vh] bg-base-100 text-base-content mb-12">
+    <div class="hero-content">
+        <div class="grid lg:grid-cols-2 gap-8 items-center max-w-6xl w-full">
+            <!-- Left Column: Text Content -->
+            <div class="text-left">
+                <h1 class="text-5xl font-bold mb-6 text-primary">Mapping the Gay Guides</h1>
+                <p class="text-xl mb-8 leading-relaxed text-base-content">
+                    A digital history project exploring LGBTQ+ spaces and communities through historical travel guides. Discover the rich history of queer spaces across America through interactive maps and comprehensive databases.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="{{ url_for('main.map') }}" class="btn btn-primary btn-lg">
+                        Explore the Map
+                    </a>
+                    <a href="{{ url_for('main.database') }}" class="btn btn-outline btn-lg">
+                        Browse Database
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Right Column: Image -->
+            <div class="flex justify-center lg:justify-end">
+                <img src="{{ url_for('static', filename='images/home-damroncovers.png') }}" 
+                     alt="Damron Travel Guides Covers" 
+                     class="max-w-full h-auto rounded-lg shadow-lg">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Markdown Content -->
+<div class="prose prose-lg max-w-none prose-headings:text-primary prose-h1:text-3xl prose-h1:font-bold prose-h2:text-2xl prose-h2:font-semibold prose-h3:text-xl prose-h3:font-medium prose-p:text-base-content prose-p:leading-relaxed prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-strong:text-base-content prose-ul:text-base-content prose-ol:text-base-content prose-li:text-base-content prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:pl-4 prose-blockquote:italic prose-code:bg-base-200 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-code:text-sm">
+    {{ page.html | safe }}
+</div>
+{% endblock %}
