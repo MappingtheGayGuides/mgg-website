@@ -1,69 +1,96 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="mgg">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Mapping the Gay Guides{% endblock %}</title>
     
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gothic+A1&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Outfit:wght@100..900&display=swap" rel="stylesheet">
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    <!-- Custom Modern Theme -->
+    <style>
+        :root {
+            /* Fallback colors for browsers that don't support Oklch */
+            --fallback-p: #2A6F97;
+            --fallback-s: #FF6B6B;
+            --fallback-a: #FFB347;
+            --fallback-n: #2D3748;
+            --fallback-nc: #ffffff;
+            --fallback-b1: #F5F7FA;
+            --fallback-b2: #E2E8F0;
+            --fallback-b3: #CBD5E0;
+            --fallback-bc: #2D3748;
+            --fallback-pc: #ffffff;
+            --fallback-sc: #ffffff;
+            --fallback-ac: #ffffff;
+            
+            /* Oklch format for modern browsers */
+            --p: 42.111% 0.3096 275.75;
+            --s: 69.71% 0.329 342.55;
+            --a: 76.76% 0.184 183.61;
+            --n: 32.1785% 0.02476 255.701624;
+            --nc: 89.4994% 0.011585 252.096176;
+            --b1: 96.1151% 0 0;
+            --b2: 92.4169% 0.00108 197.137559;
+            --b3: 88.4169% 0.00108 197.137559;
+            --bc: 27.8078% 0.029596 256.847952;
+            --pc: 89.824% 0.06192 275.75;
+            --sc: 98.71% 0.0106 342.55;
+            --ac: 15.352% 0.0368 183.61;
+        }
+    </style>
     
     {% block extra_css %}{% endblock %}
 </head>
 <body class="min-h-screen bg-base-100">
     <!-- Navigation -->
-    <div class="navbar bg-base-100 shadow-lg">
+    <div class="navbar bg-black text-white shadow-lg">
         <div class="navbar-start">
             <div class="dropdown">
-                <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
+                <div tabindex="0" role="button" class="btn btn-ghost lg:hidden text-white hover:bg-gray-800">
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" />
                     </svg>
                 </div>
-                <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-                    <li><a href="{{ url_for('main.index') }}" class="nav-link">Home</a></li>
-                    <li><a href="{{ url_for('main.map') }}" class="nav-link">Map</a></li>
-                    <li><a href="{{ url_for('main.articles') }}" class="nav-link">Articles</a></li>
-                    <li><a href="{{ url_for('main.about') }}" class="nav-link">About</a></li>
-                    <li><a href="{{ url_for('main.methodology') }}" class="nav-link">Methodology</a></li>
-                    <li><a href="{{ url_for('main.database') }}" class="nav-link">Database</a></li>
-                    <li><a href="{{ url_for('main.amenity_cleanup') }}" class="nav-link">Amenity Cleanup</a></li>
-                    <li><a href="{{ url_for('main.smart_split') }}" class="nav-link">Smart Split</a></li>
+                <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-black rounded-box w-52">
+                    <li><a href="{{ url_for('index') }}" class="text-white hover:bg-gray-800 text-lg">Home</a></li>
+                    <li><a href="{{ url_for('main.map') }}" class="text-white hover:bg-gray-800 text-lg">Map</a></li>
+                    <li><a href="{{ url_for('page', path='articles') }}" class="text-white hover:bg-gray-800 text-lg">Articles</a></li>
+                    <li><a href="{{ url_for('page', path='about') }}" class="text-white hover:bg-gray-800 text-lg">About</a></li>
+                    <li><a href="{{ url_for('page', path='methodology') }}" class="text-white hover:bg-gray-800 text-lg">Methodology</a></li>
+                    <li><a href="{{ url_for('main.database') }}" class="text-white hover:bg-gray-800 text-lg">Database</a></li>
                 </ul>
             </div>
-            <a href="{{ url_for('main.index') }}" class="btn btn-ghost text-xl font-bold text-primary">
-                Mapping the Gay Guides
-            </a>
+            
+            <!-- Logo Space -->
+            <div class="flex items-center">
+                <div class="w-[300px] h-[68px] mr-4">
+                    <a href="{{ url_for('index') }}">
+                    <img src="{{ url_for('static', filename='images/logo_white_500.png') }}" 
+                         alt="Mapping the Gay Guides Logo" 
+                         class="h-full object-contain">
+                </div>
+                </a>
+            </div>
         </div>
+        
         <div class="navbar-center hidden lg:flex">
             <ul class="menu menu-horizontal px-1">
-                <li><a href="{{ url_for('main.index') }}" class="nav-link">Home</a></li>
-                <li><a href="{{ url_for('main.database') }}" class="nav-link">Database</a></li>
-                <li><a href="{{ url_for('main.amenity_cleanup') }}" class="nav-link">Amenity Cleanup</a></li>
-                <li><a href="{{ url_for('main.smart_split') }}" class="nav-link">Smart Split</a></li>
-                <li><a href="{{ url_for('main.map') }}" class="nav-link">Map</a></li>
-                <li><a href="{{ url_for('main.articles') }}" class="nav-link">Articles</a></li>
-                <li><a href="{{ url_for('main.about') }}" class="nav-link">About</a></li>
-                <li><a href="{{ url_for('main.methodology') }}" class="nav-link">Methodology</a></li>
+                <li><a href="{{ url_for('index') }}" class="text-white hover:bg-gray-800 text-lg font-medium">Home</a></li>
+                <li><a href="{{ url_for('main.database') }}" class="text-white hover:bg-gray-800 text-lg font-medium">Database</a></li>
+                <li><a href="{{ url_for('main.map') }}" class="text-white hover:bg-gray-800 text-lg font-medium">Map</a></li>
+                <li><a href="{{ url_for('page', path='articles') }}" class="text-white hover:bg-gray-800 text-lg font-medium">Articles</a></li>
+                <li><a href="{{ url_for('page', path='about') }}" class="text-white hover:bg-gray-800 text-lg font-medium">About</a></li>
+                <li><a href="{{ url_for('page', path='methodology') }}" class="text-white hover:bg-gray-800 text-lg font-medium">Methodology</a></li>
             </ul>
         </div>
-        <div class="navbar-end">
-            <div class="dropdown dropdown-end">
-                <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
-                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                    </svg>
-                </div>
-                <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
-                    <li><a data-set-theme="mgg" data-act-class="active">Default</a></li>
-                    <li><a data-set-theme="light" data-act-class="active">Light</a></li>
-                    <li><a data-set-theme="dark" data-act-class="active">Dark</a></li>
-                </ul>
-            </div>
-        </div>
+
     </div>
 
     <!-- Main Content -->
@@ -83,29 +110,15 @@
                 <a class="link link-hover">About</a>
                 <a class="link link-hover">Contact</a>
                 <a class="link link-hover">Privacy</a>
+
             </div>
         </div>
     </footer>
 
-    <!-- DaisyUI Theme Switcher -->
-    <script>
-        // Simple theme switcher
-        document.querySelectorAll('[data-set-theme]').forEach(button => {
-            button.addEventListener('click', () => {
-                const theme = button.getAttribute('data-set-theme');
-                document.documentElement.setAttribute('data-theme', theme);
-                localStorage.setItem('theme', theme);
-            });
-        });
-        
-        // Load saved theme
-        const savedTheme = localStorage.getItem('theme') || 'mgg';
-        document.documentElement.setAttribute('data-theme', savedTheme);
-    </script>
-    
     <!-- Custom JS -->
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
     
     {% block extra_js %}{% endblock %}
 </body>
 </html>
+

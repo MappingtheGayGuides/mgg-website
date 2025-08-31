@@ -6,42 +6,81 @@ let currentData = [];
 let currentYear = 1965;
 
 document.addEventListener('DOMContentLoaded', function() {
-    initializeMap();
-    loadData();
-    setupEventListeners();
+    console.log('Map.js loaded, initializing...');
+    
+    try {
+        initializeMap();
+        loadData();
+        setupEventListeners();
+    } catch (error) {
+        console.error('Error during map initialization:', error);
+        document.getElementById('location-details').innerHTML = 
+            '<p class="text-danger">Error initializing map. Please check console for details.</p>';
+    }
 });
 
 function initializeMap() {
+    console.log('Initializing map...');
+    
+    // Check if Leaflet is available
+    if (typeof L === 'undefined') {
+        console.error('Leaflet library not loaded!');
+        return;
+    }
+    console.log('Leaflet library available:', L);
+    
+    // Check if map container exists
+    const mapContainer = document.getElementById('map');
+    if (!mapContainer) {
+        console.error('Map container not found!');
+        return;
+    }
+    console.log('Map container found:', mapContainer);
+    
     // Initialize the map centered on the US
     map = L.map('map').setView([39.8283, -98.5795], 4);
+    console.log('Map initialized:', map);
     
     // Add OpenStreetMap tiles
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© OpenStreetMap contributors'
     }).addTo(map);
+    console.log('Tiles added to map');
     
     // Initialize marker cluster group with performance optimizations
-    markerClusterGroup = L.markerClusterGroup({
-        chunkedLoading: true,
-        maxClusterRadius: 80,
-        spiderfyOnMaxZoom: false, // Disable for better performance
-        showCoverageOnHover: false, // Disable for better performance
-        zoomToBoundsOnClick: true,
-        animate: false, // Disable animations for better performance
-        animateAddingMarkers: false,
-        chunkInterval: 100, // Faster chunking
-        chunkDelay: 25, // Faster delays
-        maxZoom: 18, // Limit max zoom for clustering
-        disableClusteringAtZoom: 16 // Stop clustering at high zoom levels
-    });
+    if (typeof L.markerClusterGroup === 'undefined') {
+        console.error('MarkerCluster plugin not loaded!');
+        // Fallback to regular marker group
+        markerClusterGroup = L.layerGroup();
+    } else {
+        markerClusterGroup = L.markerClusterGroup({
+            chunkedLoading: true,
+            maxClusterRadius: 80,
+            spiderfyOnMaxZoom: false, // Disable for better performance
+            showCoverageOnHover: false, // Disable for better performance
+            zoomToBoundsOnClick: true,
+            animate: false, // Disable animations for better performance
+            animateAddingMarkers: false,
+            chunkInterval: 100, // Faster chunking
+            chunkDelay: 25, // Faster delays
+            maxZoom: 18, // Limit max zoom for clustering
+            disableClusteringAtZoom: 16 // Stop clustering at high zoom levels
+        });
+    }
     map.addLayer(markerClusterGroup);
+    console.log('Marker cluster group added to map');
 }
 
 function loadData() {
+    console.log('Loading data from /api/locations...');
     // Load locations data
     fetch('/api/locations')
-        .then(response => response.json())
+        .then(response => {
+            console.log('Response received:', response.status, response.ok);
+            return response.json();
+        })
         .then(locationsData => {
+            console.log('Data loaded, locations count:', locationsData.length);
             currentData = locationsData;
             
             // Update data size info
@@ -50,6 +89,7 @@ function loadData() {
             
             // Filter by current year and display
             const filteredData = getCachedYearData(currentYear);
+            console.log('Filtered data for year', currentYear, ':', filteredData.length, 'locations');
             displayLocations(filteredData);
             populateFilters();
             
@@ -97,6 +137,8 @@ function getCachedYearData(year) {
 }
 
 function displayLocations(locations) {
+    console.log('Displaying locations:', locations.length);
+    
     // Only update if we have a different number of locations or if it's the first load
     const currentMarkerCount = markerClusterGroup.getLayers().length;
     if (currentMarkerCount === locations.length && currentMarkerCount > 0) {
@@ -108,22 +150,47 @@ function displayLocations(locations) {
     // Batch marker operations for better performance
     const markers = [];
     const len = locations.length;
+    let validCoordinates = 0;
     
     for (let i = 0; i < len; i++) {
         const location = locations[i];
         if (location.latitude && location.longitude) {
-            const marker = L.marker([location.latitude, location.longitude]);
-            marker.on('click', () => showLocationDetails(location));
-            markers.push(marker);
+            // Ensure coordinates are numbers
+            const lat = parseFloat(location.latitude);
+            const lng = parseFloat(location.longitude);
+            
+            if (!isNaN(lat) && !isNaN(lng)) {
+                const marker = L.marker([lat, lng]);
+                marker.on('click', () => showLocationDetails(location));
+                markers.push(marker);
+                validCoordinates++;
+            } else {
+                console.log('Invalid coordinates for location:', location.id, 'lat:', location.latitude, 'lng:', location.longitude);
+            }
         }
     }
     
+    console.log('Created markers:', markers.length, 'out of', len, 'locations (valid coordinates:', validCoordinates, ')');
+    
     // Clear and add all markers at once
-    markerClusterGroup.clearLayers();
-    markerClusterGroup.addLayers(markers);
+    if (markerClusterGroup && typeof markerClusterGroup.clearLayers === 'function') {
+        markerClusterGroup.clearLayers();
+        markerClusterGroup.addLayers(markers);
+    } else {
+        console.error('Marker cluster group not properly initialized');
+    }
     
     // Update location count display
     updateLocationCount(locations.length);
+}
+
+function updateLocationCount(count) {
+    console.log('Updating location count to:', count);
+    // This function might be missing, so let's implement it
+    const dataSizeInfo = document.getElementById('data-size-info');
+    if (dataSizeInfo) {
+        dataSizeInfo.textContent = `Total locations: ${count.toLocaleString()}`;
+    }
 }
 
 

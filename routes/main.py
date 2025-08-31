@@ -3,30 +3,10 @@ from models import db
 
 bp = Blueprint('main', __name__)
 
-@bp.route('/')
-def index():
-    """Home page"""
-    return render_template('index.html')
-
-@bp.route('/about')
-def about():
-    """About page"""
-    return render_template('about.html')
-
 @bp.route('/map')
 def map():
     """Main map visualization"""
     return render_template('map.html')
-
-@bp.route('/articles')
-def articles():
-    """Articles listing page"""
-    return render_template('articles.html')
-
-@bp.route('/methodology')
-def methodology():
-    """Methodology page"""
-    return render_template('methodology.html')
 
 @bp.route('/database')
 def database():
@@ -187,67 +167,5 @@ def database():
     finally:
         conn.close()
 
-@bp.route('/amenity-cleanup')
-def amenity_cleanup():
-    """Amenity cleanup interface page"""
-    import sqlite3
-    import os
-    
-    # Connect to database
-    db_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'mgg.db')
-    conn = sqlite3.connect(db_path)
-    conn.row_factory = sqlite3.Row
-    cursor = conn.cursor()
-    
-    try:
-        # Get all amenities with usage counts
-        cursor.execute("""
-            SELECT af.id, af.name, COUNT(laa.location_id) as usage_count
-            FROM amenity_features af
-            LEFT JOIN location_amenity_assignments laa ON af.id = laa.amenity_id
-            GROUP BY af.id, af.name
-            ORDER BY af.name ASC
-        """)
-        amenities = [dict(row) for row in cursor.fetchall()]
-        
-        # Get all locations for reference
-        cursor.execute("SELECT id, title, city, state FROM locations")
-        locations = [dict(row) for row in cursor.fetchall()]
-        
-        return render_template('amenity_cleanup.html', 
-                             amenities=amenities,
-                             locations=locations)
-    
-    finally:
-        conn.close()
-
-@bp.route('/smart-split')
-def smart_split():
-    """Smart Split page for manually assigning locations to amenity categories"""
-    import sqlite3
-    import os
-    
-    try:
-        db_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'mgg.db')
-        conn = sqlite3.connect(db_path)
-        conn.row_factory = sqlite3.Row
-        cursor = conn.cursor()
-        
-        # Get all amenities with usage counts
-        cursor.execute("""
-            SELECT af.id, af.name, COUNT(laa.location_id) as usage_count
-            FROM amenity_features af
-            LEFT JOIN location_amenity_assignments laa ON af.id = laa.amenity_id
-            GROUP BY af.id, af.name
-            ORDER BY af.name ASC
-        """)
-        
-        amenities = [dict(row) for row in cursor.fetchall()]
-        
-        conn.close()
-        
-        return render_template('smart_split.html', amenities=amenities)
-        
-    except Exception as e:
-        print(f"Error in smart_split route: {e}")
-        return "Error loading page", 500
+# Utility pages moved to admin section
+# See routes/admin.py for amenity-cleanup and smart-split routes

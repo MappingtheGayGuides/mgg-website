@@ -4,106 +4,111 @@
 
 {% block content %}
 <div class="max-w-7xl mx-auto">
-    <!-- Hero Section -->
-    <div class="text-center mb-16">
-        <h1 class="text-5xl font-bold text-primary mb-6">
-            Mapping the Gay Guides
-        </h1>
-        <p class="text-xl text-base-content/80 max-w-3xl mx-auto leading-relaxed">
-            A digital history project exploring LGBTQ+ spaces through historical travel guides, 
-            from the 1960s to the present day.
-        </p>
-    </div>
-
-    <!-- Main Content Grid -->
-    <div class="grid lg:grid-cols-3 gap-8 mb-16">
-        <!-- Left Column - Main Features -->
-        <div class="lg:col-span-2 space-y-8">
-            <!-- Interactive Map Card -->
-            <div class="card bg-base-100 shadow-xl card-hover">
-                <div class="card-body">
-                    <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mr-4">
-                            <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-1.447-.894L15 4m0 13V4m-6 3l6-3"></path>
-                            </svg>
-                        </div>
-                        <h2 class="card-title text-2xl">Interactive Map</h2>
-                    </div>
-                    <p class="text-base-content/70 mb-6 leading-relaxed">
-                        Explore historical LGBTQ+ spaces across the United States through our interactive mapping project. 
-                        Filter by location, time period, and venue type to discover the rich history of queer spaces.
+    <!-- Hero Section with Left Text + Right Image -->
+    <div class="grid lg:grid-cols-2 gap-12 items-center mb-16">
+        <!-- Left Column - Text Content -->
+        <div class="space-y-6">
+            <h1 class="text-5xl font-bold text-primary mb-6">
+                Mapping the Gay Guides
+            </h1>
+            <h2 class="text-2xl font-semibold text-secondary mb-4">
+                Visualizing Queer Space and American Life
+            </h2>
+            
+            <div class="space-y-4">
+                <p class="text-lg text-base-content/70 leading-relaxed">
+                    <strong>Welcome to Mapping the Gay Guides!</strong>
+                </p>
+                
+                <p class="text-lg text-base-content/70 leading-relaxed">
+                    While operating one of his many gay bars in the 1960s, Bob Damron started a side project publishing gay travel guides that featured bars like his. Called the Bob Damron Address Books, these guides proved popular and became a valuable resource for gay travelers looking for friends, companions, and safety.
+                </p>
+                
+                <p class="text-lg text-base-content/70 leading-relaxed">
+                    First published in an era when most states banned same-sex intimacy both in public and private spaces, these travel guides helped gays (and to a lesser extent lesbians) find bars, cocktail lounges, bookstores, restaurants, bathhouses, cinemas, and cruising grounds that catered to people like themselves. Much like the Green Books of the 1950s and 1960s, which African Americans used to find friendly businesses that would cater to black citizens in the era of Jim Crow apartheid, Damron's guidebooks aided a generation of queer people in identifying sites of community, pleasure, and politics.
+                </p>
+            </div>
+        </div>
+        
+        <!-- Right Column - Image -->
+        <div class="flex justify-center lg:justify-end">
+            <div class="bg-gradient-to-br from-primary/10 to-secondary/10 rounded-2xl p-8 w-full max-w-md shadow-lg border border-primary/20">
+                <div class="text-center">
+                    <div class="text-6xl mb-4">📚</div>
+                    <h3 class="text-xl font-semibold text-primary mb-2">Damron's Address Books</h3>
+                    <p class="text-base-content/70 text-sm">
+                        Historical gay travel guides from 1964-2021
                     </p>
-                    <div class="card-actions">
-                        <a href="{{ url_for('main.map') }}" class="btn btn-primary">
-                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-1.447-.894L15 4m0 13V4m-6 3l6-3"></path>
-                            </svg>
-                            Explore Map
-                        </a>
-                    </div>
+                    <!-- Replace this placeholder with your actual image -->
+                    <!-- <img src="/static/images/damron-guides.jpg" alt="Covers from Damron's Address Book" class="rounded-lg shadow-lg w-full"> -->
                 </div>
             </div>
+        </div>
+    </div>
 
-            <!-- Research Articles Card -->
-            <div class="card bg-base-100 shadow-xl card-hover">
-                <div class="card-body">
-                    <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 bg-secondary/10 rounded-lg flex items-center justify-center mr-4">
-                            <svg class="w-6 h-6 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 5.477 5.754 5 7.5 5c1.747 0 3.332.477 4.5 1.253zm0 0C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.523 18.246 19 16.5 19c-1.746 0-3.332-.477-4.5-1.253"></path>
-                            </svg>
-                        </div>
-                        <h2 class="card-title text-2xl">Research Articles</h2>
-                    </div>
-                    <p class="text-base-content/70 mb-6 leading-relaxed">
-                        Read about our findings and research methodology for understanding queer spaces and history. 
-                        Explore academic articles, case studies, and digital humanities approaches.
+    <!-- Main Content Sections -->
+    <div class="space-y-12">
+        <!-- Historical Context Section -->
+        <div class="bg-gradient-to-r from-primary/5 to-secondary/5 rounded-2xl p-8 shadow-lg border border-primary/20">
+            <h2 class="text-3xl font-semibold text-primary mb-6">Historical Context</h2>
+            <div class="space-y-4">
+                <p class="text-lg text-base-content/70 leading-relaxed">
+                    Damron's guidebooks were part of a growing interest in gay travel guide publications that began in the early 1960s. Bob Damron wasn't the only entrepreneur looking to offer gay consumers listings of queer friendly places. Guy Strait published the first edition of <em>The Lavender Baedeker</em> in 1963, an extension to his already popular newspaper in San Francisco entitled <em>Citizen's Guide</em>. Other publishers followed suit, including <em>Guild Guide to the Gay Scene</em> and <em>World Report Travel Guide</em>, published not in the gay mecca of San Francisco but rather in New York.
+                </p>
+                <p class="text-lg text-base-content/70 leading-relaxed">
+                    Despite stiff competition from these early publishers and later "copycats" (as Damron often saw them), Damron's guidebooks were perhaps the most extensive and long running of any of the early gay travel guides. In fact, unlike all his initial competition, Damron's guides lasted until 2021. While the internet age ultimately contributed to the downfall of the guides (with much of the guidebook's information inside easily accessible on the web for free), it's worth highlighting that the <em>Bob Damron Address Books</em> existed for nearly six decades. It suggests an enduring and active queer travel community that never was strictly confined to a closet.
+                </p>
+            </div>
+        </div>
+
+        <!-- Project Purpose Section -->
+        <div class="bg-gradient-to-r from-secondary/5 to-accent/5 rounded-2xl p-8 shadow-lg border border-secondary/20">
+            <h2 class="text-3xl font-semibold text-secondary mb-6">Our Project's Purpose</h2>
+            <div class="space-y-4">
+                <p class="text-lg text-base-content/70 leading-relaxed">
+                    <em>Mapping the Gay Guides</em> believes that mapping Damron's guidebooks can offer valuable insight into the queer world beginning in the 1960s and into the present. Our research team has begun turning the thousands of listings within the guides into usable, functioning data to allow researchers to make connections between historical queer communities.
+                </p>
+                <p class="text-lg text-base-content/70 leading-relaxed">
+                    Mapping this data allows us to display the distribution of locations and explore the growth of the queer communities over time. In the U.S. South, for example, you can explore 154 queer spots across twelve states in 1965 to over a thousand locations in those same states by 1980. Damron's use of letters and symbols to designate certain features of bars (the "B" for "blacks frequent," for example) allows users to navigate through nuances in queer geography.
+                </p>
+            </div>
+        </div>
+
+        <!-- How to Use Section -->
+        <div class="bg-gradient-to-r from-accent/5 to-primary/5 rounded-2xl p-8 shadow-lg border border-accent/20">
+            <h2 class="text-3xl font-semibold text-accent mb-6">How to Use This Site</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-base-100 rounded-xl p-6 shadow-md border border-base-200">
+                    <h3 class="text-xl font-semibold text-primary mb-3">Interactive Map</h3>
+                    <p class="text-base-content/70 leading-relaxed mb-4">
+                        Explore our map which displays the location of each entry in <em>Bob Damron's Address Books</em> between 1965 and 1985. Use drop-down menus and a date slider to filter by state, amenity feature, location type, or year.
                     </p>
-                    <div class="card-actions">
-                        <a href="{{ url_for('main.articles') }}" class="btn btn-secondary">
-                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 5.477 5.754 5 7.5 5c1.747 0 3.332.477 4.5 1.253zm0 0C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.523 18.246 19 16.5 19c-1.746 0-3.332-.477-4.5-1.253"></path>
-                            </svg>
-                            Read Articles
-                        </a>
-                    </div>
+                    <a href="{{ url_for('main.map') }}" class="btn btn-primary">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-1.447-.894L15 4m0 13V4m-6 3l6-3"></path>
+                        </svg>
+                        Explore Map
+                    </a>
+                </div>
+                <div class="bg-base-100 rounded-xl p-6 shadow-md border border-base-200">
+                    <h3 class="text-xl font-semibold text-secondary mb-3">Research Vignettes</h3>
+                    <p class="text-base-content/70 leading-relaxed mb-4">
+                        Explore our "Vignettes," short case studies based on the visualizations. Each Vignette explores aspects of LGBTQ+ space history in the United States with historical context and analysis.
+                    </p>
+                    <a href="#" class="btn btn-secondary">Read Vignettes</a>
                 </div>
             </div>
         </div>
 
-        <!-- Right Column - About Project -->
-        <div class="space-y-6">
-            <div class="card bg-base-100 shadow-xl">
-                <div class="card-body">
-                    <h3 class="card-title text-xl mb-4 flex items-center">
-                        <svg class="w-5 h-5 mr-2 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                        About the Project
-                    </h3>
-                    <p class="text-base-content/70 mb-6 leading-relaxed">
-                        Mapping the Gay Guides is a digital humanities project that visualizes and analyzes 
-                        historical LGBTQ+ spaces documented in travel guides from the 1960s to the present.
-                    </p>
-                    <div class="card-actions">
-                        <a href="{{ url_for('main.about') }}" class="btn btn-outline btn-sm">Learn More</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Quick Stats -->
-            <div class="stats stats-vertical shadow">
-                <div class="stat">
-                    <div class="stat-title">Locations Mapped</div>
-                    <div class="stat-value text-primary">500+</div>
-                    <div class="stat-desc">Historical LGBTQ+ spaces</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-title">Time Period</div>
-                    <div class="stat-value text-secondary">1960s-2020s</div>
-                    <div class="stat-desc">Six decades of history</div>
-                </div>
+        <!-- Call to Action -->
+        <div class="text-center bg-gradient-to-r from-primary/5 to-secondary/5 rounded-2xl p-8 shadow-lg border border-primary/20">
+            <h2 class="text-3xl font-semibold text-primary mb-4">Stay Updated</h2>
+            <p class="text-lg text-base-content/70 leading-relaxed mb-6">
+                We've recently released another 25,000+ entries from 1981-1985 and have more releases planned soon. Sign up to receive updates when new data and materials launch!
+            </p>
+            <div class="flex justify-center space-x-4">
+                <a href="{{ url_for('main.about') }}" class="btn btn-outline">Learn More</a>
+                <a href="#" class="btn btn-primary">Sign Up for Updates</a>
             </div>
         </div>
     </div>
