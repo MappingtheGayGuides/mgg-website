@@ -958,3 +958,57 @@ def delete_amenity():
         return jsonify({'error': str(e)}), 500
 
 
+@bp.route('/amenities-trends')
+def get_amenities_trends():
+    """Get amenities trends data for visualization"""
+    db_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'mgg.db')
+    
+    try:
+        conn = sqlite3.connect(db_path)
+        conn.row_factory = sqlite3.Row
+        cursor = conn.cursor()
+        
+        # Get all available years
+        cursor.execute("SELECT DISTINCT year FROM locations WHERE year IS NOT NULL ORDER BY year")
+        years_result = cursor.fetchall()
+        years = [row['year'] for row in years_result] if years_result else []
+        
+        # Get all amenities
+        cursor.execute("SELECT DISTINCT name FROM amenity_features ORDER BY name")
+        amenities_result = cursor.fetchall()
+        amenities = [row['name'] for row in amenities_result] if amenities_result else []
+        
+        # Calculate trends for each amenity
+        trends = {}
+        for amenity in amenities:
+            amenity_trend = []
+            for year in years:
+                cursor.execute("""
+                    SELECT COUNT(DISTINCT l.id) 
+                    FROM locations l
+                    JOIN location_amenity_assignments laa ON l.id = laa.location_id
+                    JOIN amenity_features af ON laa.amenity_id = af.id
+                    WHERE af.name = ? AND l.year = ?
+                """, (amenity, year))
+                count_result = cursor.fetchone()
+                count = count_result[0] if count_result else 0
+                amenity_trend.append(count)
+            trends[amenity] = amenity_trend
+        
+        conn.close()
+        
+        print(f"API Response: {len(amenities)} amenities, {len(years)} years")
+        
+        return jsonify({
+            'amenities': amenities,
+            'years': years,
+            'trends': trends
+        })
+        
+    except Exception as e:
+        print(f"Error getting amenities trends: {e}")
+        import traceback
+        traceback.print_exc()
+        return jsonify({'error': f'Failed to load amenities trends: {str(e)}'}), 500
+
+

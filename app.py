@@ -71,6 +71,12 @@ def article(path):
     article = pages.get_or_404(path)
     return render_template('article.html', article=article)
 
+# Amenities visualization route
+@app.route('/amenities/')
+def amenities():
+    """Serve the amenities visualization page"""
+    return render_template('amenities.html')
+
 # Generic route for any markdown page
 @app.route('/<path:path>/')
 def page(path):
