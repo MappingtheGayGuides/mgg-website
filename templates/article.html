@@ -7,20 +7,22 @@
     <!-- Article Header -->
     <div class="mb-8">
         <!-- Breadcrumb -->
-        <nav class="text-sm breadcrumbs mb-4">
-            <ul>
-                <li><a href="{{ url_for('articles') }}" class="text-primary hover:underline">Articles</a></li>
-                <li>{{ article.meta.title }}</li>
-            </ul>
+        <nav class="text-sm mb-4" aria-label="Breadcrumb">
+            <ol class="flex items-center space-x-2">
+                <li>
+                    <a href="{{ url_for('articles') }}" class="text-primary hover:underline">Articles</a>
+                </li>
+                <li class="flex items-center">
+                    <svg class="w-4 h-4 text-gray-400 mx-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                    </svg>
+                    <span class="text-gray-600">{{ article.meta.title }}</span>
+                </li>
+            </ol>
         </nav>
         
         <!-- Article Meta -->
-        <div class="flex items-center gap-2 mb-4">
-            <span class="badge badge-outline">{{ article.meta.category }}</span>
-            {% if article.meta.featured %}
-            <span class="badge badge-primary">Featured</span>
-            {% endif %}
-        </div>
+       
         
         <!-- Title -->
         <h1 class="text-4xl font-bold text-primary mb-4">{{ article.meta.title }}</h1>
@@ -33,14 +35,7 @@
             {% endif %}
         </div>
         
-        <!-- Tags -->
-        {% if article.meta.tags %}
-        <div class="flex flex-wrap gap-2 mb-6">
-            {% for tag in article.meta.tags %}
-            <span class="badge badge-neutral">{{ tag }}</span>
-            {% endfor %}
-        </div>
-        {% endif %}
+      
     </div>
 
     <!-- Article Content -->
