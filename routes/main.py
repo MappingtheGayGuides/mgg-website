@@ -115,7 +115,7 @@ def database():
                 location['amenities'] = []
         
         # Get available years for filter dropdown
-        cursor.execute("SELECT DISTINCT year FROM locations WHERE year IS NOT NULL ORDER BY year DESC")
+        cursor.execute("SELECT DISTINCT year FROM locations WHERE year IS NOT NULL ORDER BY year ASC")
         years = [row[0] for row in cursor.fetchall()]
         
         # Get available cities and states for sorting context
