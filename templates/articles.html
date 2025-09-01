@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}Articles - Mapping the Gay Guides{% endblock %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto">
+    <!-- Page Header -->
+    <div class="text-center mb-12">
+        <h1 class="text-4xl font-bold text-primary mb-4">Articles & Research</h1>
+        <p class="text-xl text-base-content/70 max-w-3xl mx-auto">
+            Explore our latest research, methodology insights, and historical perspectives on LGBTQ+ spaces and communities.
+        </p>
+    </div>
+
+    <!-- Articles Section -->
+    <div>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for article in articles %}
+            <div class="card bg-base-100 w-full shadow-lg hover:shadow-xl transition-shadow">
+                <figure>
+                    <img src="{{ url_for('static', filename='images/' + article.img) }}" 
+                         alt="{{ article.title }}"
+                         class="w-full h-48 object-cover" />
+                </figure>
+                <div class="card-body">
+                    <div class="flex items-center gap-2 mb-2">
+                        {% if article.draft %}
+                        <span class="badge badge-warning">Draft</span>
+                        {% endif %}
+                    </div>
+                    <h2 class="card-title text-xl">{{ article.title }}</h2>
+                    <p class="text-base-content/70">{{ article.description }}</p>
+                    
+                    <!-- Tags -->
+                    {% if article.tags %}
+                    <div class="flex flex-wrap gap-1 mb-2">
+                        {% for tag in article.tags %}
+                        <span class="badge badge-neutral badge-sm">{{ tag }}</span>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    
+                    <div class="card-actions justify-end">
+                        <a href="{{ url_for('article', path=article.url) }}" class="btn btn-primary">Read More</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- No Articles Message -->
+    {% if not articles %}
+    <div class="text-center py-12">
+        <div class="text-6xl mb-4">📝</div>
+        <h3 class="text-xl font-medium mb-2">No articles yet</h3>
+        <p class="text-base-content/70">
+            We're working on creating content for this section. Check back soon!
+        </p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

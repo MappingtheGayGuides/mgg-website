@@ -1,0 +1,241 @@
+{% extends "base.html" %}
+
+{% block title %}{{ article.meta.title }} - Mapping the Gay Guides{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <!-- Article Header -->
+    <div class="mb-8">
+        <!-- Breadcrumb -->
+        <nav class="text-sm breadcrumbs mb-4">
+            <ul>
+                <li><a href="{{ url_for('articles') }}" class="text-primary hover:underline">Articles</a></li>
+                <li>{{ article.meta.title }}</li>
+            </ul>
+        </nav>
+        
+        <!-- Article Meta -->
+        <div class="flex items-center gap-2 mb-4">
+            <span class="badge badge-outline">{{ article.meta.category }}</span>
+            {% if article.meta.featured %}
+            <span class="badge badge-primary">Featured</span>
+            {% endif %}
+        </div>
+        
+        <!-- Title -->
+        <h1 class="text-4xl font-bold text-primary mb-4">{{ article.meta.title }}</h1>
+        
+        <!-- Author and Excerpt -->
+        <div class="mb-6">
+            <p class="text-lg text-base-content/70 mb-2">By {{ article.meta.author }}</p>
+            {% if article.meta.excerpt %}
+            <p class="text-lg text-base-content/80 italic">{{ article.meta.excerpt }}</p>
+            {% endif %}
+        </div>
+        
+        <!-- Tags -->
+        {% if article.meta.tags %}
+        <div class="flex flex-wrap gap-2 mb-6">
+            {% for tag in article.meta.tags %}
+            <span class="badge badge-neutral">{{ tag }}</span>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Article Content -->
+    <div class="prose prose-lg max-w-none prose-headings:text-primary prose-h1:text-3xl prose-h1:font-black prose-h2:text-2xl prose-h2:font-black prose-h3:text-xl prose-h3:font-black prose-p:text-base-content prose-p:leading-relaxed prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-strong:text-base-content prose-ul:text-base-content prose-ol:text-base-content prose-li:text-base-content prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:pl-4 prose-blockquote:italic prose-code:bg-base-200 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-code:text-sm">
+        <style>
+            /* Figure container styles */
+            figure {
+                margin: 1.5rem 0 !important;
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
+            }
+            
+            /* Left-aligned figure */
+            figure.left {
+                float: left !important;
+                margin-right: 2rem !important;
+                margin-bottom: 1rem !important;
+                max-width: 45% !important;
+            }
+            
+            /* Right-aligned figure */
+            figure.right {
+                float: right !important;
+                margin-left: 2rem !important;
+                margin-bottom: 1rem !important;
+                max-width: 45% !important;
+            }
+            
+            /* Image styles */
+            figure img {
+                display: block !important;
+                max-width: 100% !important;
+                height: auto !important;
+                border-radius: 0.5rem !important;
+            }
+            
+            /* Caption styles */
+            figcaption {
+                margin-top: 0.75rem !important;
+                font-size: 0.875rem !important;
+                color: #6b7280 !important;
+                text-align: center !important;
+                font-style: italic !important;
+                line-height: 1.4 !important;
+                max-width: 100% !important;
+            }
+            
+            /* Clear floats */
+            .prose::after {
+                content: "";
+                display: table;
+                clear: both;
+            }
+            
+            /* Iframe styles */
+            iframe {
+                border-radius: 0.5rem !important;
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
+                max-width: 100% !important;
+                height: auto !important;
+            }
+            
+            /* Responsive iframe container */
+            figure iframe {
+                aspect-ratio: 16/9 !important;
+                width: 100% !important;
+                height: auto !important;
+            }
+            
+            /* Ensure iframe figures have proper width */
+            figure.left iframe,
+            figure.right iframe {
+                max-width: 100% !important;
+                width: 100% !important;
+            }
+            
+            /* Responsive adjustments */
+            @media (max-width: 768px) {
+                figure.left, figure.right {
+                    float: none !important;
+                    margin: 1rem 0 !important;
+                    max-width: 100% !important;
+                }
+            }
+            
+            /* Footnote styles */
+            .footnotes {
+                margin-top: 2rem !important;
+                padding-top: 1rem !important;
+                border-top: 1px solid #e5e7eb !important;
+                font-size: 0.875rem !important;
+                color: #6b7280 !important;
+            }
+            
+            .footnotes ol {
+                padding-left: 1.5rem !important;
+            }
+            
+            .footnotes li {
+                margin-bottom: 0.5rem !important;
+                line-height: 1.5 !important;
+            }
+            
+            .footnotes a {
+                color: #3b82f6 !important;
+                text-decoration: underline !important;
+            }
+            
+            .footnotes a:hover {
+                color: #1d4ed8 !important;
+            }
+            
+            /* Footnote reference in text */
+            .footnote-ref {
+                font-size: 0.75rem !important;
+                vertical-align: super !important;
+                color: #3b82f6 !important;
+                text-decoration: none !important;
+                cursor: pointer !important;
+                transition: color 0.2s ease !important;
+            }
+            
+            .footnote-ref:hover {
+                color: #1d4ed8 !important;
+                text-decoration: underline !important;
+            }
+            
+            /* Footnote back reference */
+            .footnote-backref {
+                color: #3b82f6 !important;
+                text-decoration: none !important;
+                cursor: pointer !important;
+                transition: color 0.2s ease !important;
+            }
+            
+            .footnote-backref:hover {
+                color: #1d4ed8 !important;
+                text-decoration: underline !important;
+            }
+        </style>
+        {{ article.html | safe }}
+    </div>
+
+    <!-- Footnote JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Make footnote references clickable
+            const footnoteRefs = document.querySelectorAll('.footnote-ref');
+            footnoteRefs.forEach(function(ref) {
+                ref.style.cursor = 'pointer';
+                ref.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const footnoteId = this.getAttribute('href').substring(1);
+                    const footnote = document.getElementById(footnoteId);
+                    if (footnote) {
+                        footnote.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        footnote.style.backgroundColor = '#fef3c7';
+                        setTimeout(() => {
+                            footnote.style.backgroundColor = '';
+                        }, 2000);
+                    }
+                });
+            });
+
+            // Make footnote back-references clickable
+            const footnoteBackRefs = document.querySelectorAll('.footnote-backref');
+            footnoteBackRefs.forEach(function(backRef) {
+                backRef.style.cursor = 'pointer';
+                backRef.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const refId = this.getAttribute('href').substring(1);
+                    const refElement = document.getElementById(refId);
+                    if (refElement) {
+                        refElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        refElement.style.backgroundColor = '#fef3c7';
+                        setTimeout(() => {
+                            refElement.style.backgroundColor = '';
+                        }, 2000);
+                    }
+                });
+            });
+        });
+    </script>
+
+    <!-- Article Footer -->
+    <div class="mt-12 pt-8 border-t border-base-300">
+        <div class="flex justify-between items-center">
+            <div class="text-sm text-base-content/60">
+                Published on {{ article.meta.date }}
+            </div>
+            <a href="{{ url_for('articles') }}" class="btn btn-outline btn-sm">
+                ← Back to Articles
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
