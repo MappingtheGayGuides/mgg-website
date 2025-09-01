@@ -146,7 +146,19 @@ def database():
                 self.next_num = page + 1 if has_next else None
                 self.has_prev = has_prev
                 self.has_next = has_next
-                self.iter_pages = lambda left_edge=2, left_current=2, right_current=3, right_edge=2: range(1, total_pages + 1)
+                def iter_pages(self, left_edge=2, left_current=2, right_current=3, right_edge=2):
+                    # Calculate the range of 5 pages to show
+                    start_page = max(1, page - 2)
+                    end_page = min(total_pages, start_page + 4)
+                    
+                    # Adjust start if we're near the end
+                    if end_page - start_page < 4:
+                        start_page = max(1, end_page - 4)
+                    
+                    # Yield the 5 sequential pages
+                    for num in range(start_page, end_page + 1):
+                        yield num
+                self.iter_pages = iter_pages.__get__(self)
         
         pagination = Pagination(locations, page, per_page, total_count, total_pages, has_prev, has_next)
         

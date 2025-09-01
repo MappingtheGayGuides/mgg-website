@@ -218,7 +218,6 @@
                         </a>
                     </th>
                     <th class="text-left font-semibold text-base-content py-4">Amenity Features</th>
-                    <th class="text-left font-semibold text-base-content py-4">ID</th>
                 </tr>
             </thead>
             <tbody>
@@ -230,6 +229,9 @@
                         {% else %}
                             <span class="text-base-content/50 italic">Untitled Location</span>
                         {% endif %}
+                        <div class="text-xs font-mono text-base-content/70 mt-2">
+                            Location ID: {{ location.unique_id }}
+                        </div>
                     </td>
                     <td class="max-w-md py-4">
                         {% if location.description %}
@@ -259,28 +261,23 @@
                             <span class="text-base-content/50 italic text-sm">Unknown</span>
                         {% endif %}
                     </td>
-                    <td class="py-4 max-w-xs">
+                    <td class="py-4 max-w-md">
                         {% if location.amenities %}
-                            <div class="flex flex-wrap gap-1">
-                                {% for amenity in location.amenities[:5] %}
-                                    <span class="badge badge-info badge-xs hover:badge-outline transition-all cursor-default" title="{{ amenity.name }}">
+                            <div class="flex flex-wrap gap-2">
+                                {% for amenity in location.amenities[:8] %}
+                                    <span class="badge badge-info badge-sm px-3 py-1 text-xs font-medium cursor-default" title="{{ amenity.name }}">
                                         {{ amenity.name }}
                                     </span>
                                 {% endfor %}
-                                {% if location.amenities|length > 5 %}
-                                    <span class="badge badge-neutral badge-xs" title="Click to see all amenities">
-                                        +{{ location.amenities|length - 5 }} more
+                                {% if location.amenities|length > 8 %}
+                                    <span class="badge badge-neutral badge-sm px-3 py-1 text-xs font-medium" title="Click to see all amenities">
+                                        +{{ location.amenities|length - 8 }} more
                                     </span>
                                 {% endif %}
                             </div>
                         {% else %}
                             <span class="text-base-content/50 italic text-sm">None</span>
                         {% endif %}
-                    </td>
-                    <td class="py-4">
-                        <div class="text-xs font-mono text-base-content/70">
-                            {{ location.unique_id }}
-                        </div>
                     </td>
                 </tr>
                 {% endfor %}
@@ -292,27 +289,38 @@
     {% if pagination.pages > 1 %}
     <div class="flex justify-center mt-8">
         <div class="join">
+            <!-- First Page -->
+            {% if pagination.page > 1 %}
+            <a href="{{ url_for('main.database', page=1, year=selected_year, state=selected_state, amenity=selected_amenity, search=search, sort=sort_by, order=sort_order) }}" 
+               class="join-item btn btn-outline">«« First</a>
+            {% endif %}
+            
+            <!-- Previous Page -->
             {% if pagination.has_prev %}
             <a href="{{ url_for('main.database', page=pagination.prev_num, year=selected_year, state=selected_state, amenity=selected_amenity, search=search, sort=sort_by, order=sort_order) }}" 
                class="join-item btn btn-outline">« Previous</a>
             {% endif %}
             
-            {% for page_num in pagination.iter_pages(left_edge=2, left_current=2, right_current=3, right_edge=2) %}
-                {% if page_num %}
-                    {% if page_num != pagination.page %}
-                    <a href="{{ url_for('main.database', page=page_num, year=selected_year, state=selected_state, amenity=selected_amenity, search=search, sort=sort_by, order=sort_order) }}" 
-                       class="join-item btn btn-outline">{{ page_num }}</a>
-                    {% else %}
-                    <button class="join-item btn btn-active">{{ page_num }}</button>
-                    {% endif %}
+            <!-- Page Numbers -->
+            {% for page_num in pagination.iter_pages() %}
+                {% if page_num != pagination.page %}
+                <a href="{{ url_for('main.database', page=page_num, year=selected_year, state=selected_state, amenity=selected_amenity, search=search, sort=sort_by, order=sort_order) }}" 
+                   class="join-item btn btn-outline">{{ page_num }}</a>
                 {% else %}
-                <span class="join-item btn btn-disabled">...</span>
+                <button class="join-item btn btn-active">{{ page_num }}</button>
                 {% endif %}
             {% endfor %}
             
+            <!-- Next Page -->
             {% if pagination.has_next %}
             <a href="{{ url_for('main.database', page=pagination.next_num, year=selected_year, state=selected_state, amenity=selected_amenity, search=search, sort=sort_by, order=sort_order) }}" 
                class="join-item btn btn-outline">Next »</a>
+            {% endif %}
+            
+            <!-- Last Page -->
+            {% if pagination.page < pagination.pages %}
+            <a href="{{ url_for('main.database', page=pagination.pages, year=selected_year, state=selected_state, amenity=selected_amenity, search=search, sort=sort_by, order=sort_order) }}" 
+               class="join-item btn btn-outline">Last »»</a>
             {% endif %}
         </div>
     </div>
