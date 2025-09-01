@@ -8,15 +8,18 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
 <style>
     #map {
-        height: 800px;
+        height: 600px;
         width: 100%;
         border-radius: 12px;
         box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        position: relative;
+        z-index: 1;
     }
     
     .map-container {
-        min-height: 800px;
+        min-height: 600px;
         width: 100%;
+        position: relative;
     }
     
     /* Force side-by-side layout on larger screens */

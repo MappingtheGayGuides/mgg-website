@@ -69,21 +69,21 @@
 </head>
 <body class="min-h-screen bg-base-100">
     <!-- Navigation -->
-    <div class="navbar bg-black text-white shadow-lg">
+    <div class="navbar bg-black text-white shadow-lg" style="z-index: 9999;">
         <div class="navbar-start">
             <div class="dropdown">
-                <div tabindex="0" role="button" class="btn btn-ghost lg:hidden text-white hover:bg-gray-800">
+                <div tabindex="0" role="button" class="btn btn-ghost lg:hidden text-white hover:bg-gray-800" style="color: white !important;">
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" />
                     </svg>
                 </div>
                 <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-black rounded-box w-52">
-                    <li><a href="{{ url_for('index') }}" class="text-white hover:bg-gray-800 text-lg">Home</a></li>
-                    <li><a href="{{ url_for('main.map') }}" class="text-white hover:bg-gray-800 text-lg">Map</a></li>
-                    <li><a href="{{ url_for('page', path='articles') }}" class="text-white hover:bg-gray-800 text-lg">Articles</a></li>
-                    <li><a href="{{ url_for('page', path='about') }}" class="text-white hover:bg-gray-800 text-lg">About</a></li>
-                    <li><a href="{{ url_for('page', path='methodology') }}" class="text-white hover:bg-gray-800 text-lg">Methodology</a></li>
-                    <li><a href="{{ url_for('main.database') }}" class="text-white hover:bg-gray-800 text-lg">Database</a></li>
+                    <li><a href="{{ url_for('index') }}" class="text-white hover:bg-gray-800 text-lg" style="color: white !important;">Home</a></li>
+                    <li><a href="{{ url_for('main.map') }}" class="text-white hover:bg-gray-800 text-lg" style="color: white !important;">Map</a></li>
+                    <li><a href="{{ url_for('page', path='articles') }}" class="text-white hover:bg-gray-800 text-lg" style="color: white !important;">Articles</a></li>
+                    <li><a href="{{ url_for('page', path='about') }}" class="text-white hover:bg-gray-800 text-lg" style="color: white !important;">About</a></li>
+                    <li><a href="{{ url_for('page', path='methodology') }}" class="text-white hover:bg-gray-800 text-lg" style="color: white !important;">Methodology</a></li>
+                    <li><a href="{{ url_for('main.database') }}" class="text-white hover:bg-gray-800 text-lg" style="color: white !important;">Database</a></li>
                 </ul>
             </div>
             
@@ -99,14 +99,14 @@
             </div>
         </div>
         
-        <div class="navbar-center hidden lg:flex">
+        <div class="navbar-center flex">
             <ul class="menu menu-horizontal px-1">
-                <li><a href="{{ url_for('index') }}" class="text-white hover:bg-gray-800 text-lg font-medium">Home</a></li>
-                <li><a href="{{ url_for('main.database') }}" class="text-white hover:bg-gray-800 text-lg font-medium">Database</a></li>
-                <li><a href="{{ url_for('main.map') }}" class="text-white hover:bg-gray-800 text-lg font-medium">Map</a></li>
-                <li><a href="{{ url_for('page', path='articles') }}" class="text-white hover:bg-gray-800 text-lg font-medium">Articles</a></li>
-                <li><a href="{{ url_for('page', path='about') }}" class="text-white hover:bg-gray-800 text-lg font-medium">About</a></li>
-                <li><a href="{{ url_for('page', path='methodology') }}" class="text-white hover:bg-gray-800 text-lg font-medium">Methodology</a></li>
+                <li><a href="{{ url_for('index') }}" class="text-white hover:bg-gray-800 text-lg font-medium" style="color: white !important;">Home</a></li>
+                <li><a href="{{ url_for('main.database') }}" class="text-white hover:bg-gray-800 text-lg font-medium" style="color: white !important;">Database</a></li>
+                <li><a href="{{ url_for('main.map') }}" class="text-white hover:bg-gray-800 text-lg font-medium" style="color: white !important;">Map</a></li>
+                <li><a href="{{ url_for('page', path='articles') }}" class="text-white hover:bg-gray-800 text-lg font-medium" style="color: white !important;">Articles</a></li>
+                <li><a href="{{ url_for('page', path='about') }}" class="text-white hover:bg-gray-800 text-lg font-medium" style="color: white !important;">About</a></li>
+                <li><a href="{{ url_for('page', path='methodology') }}" class="text-white hover:bg-gray-800 text-lg font-medium" style="color: white !important;">Methodology</a></li>
             </ul>
         </div>
 
