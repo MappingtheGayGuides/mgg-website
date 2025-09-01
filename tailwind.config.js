@@ -10,6 +10,9 @@ module.exports = {
       fontFamily: {
         sans: ['Gothic A1', 'Outfit', 'Inter', 'system-ui', 'sans-serif'],
         serif: ['Georgia', 'serif']
+      },
+      fontWeight: {
+        'bold': '700',
       }
     },
   },
@@ -22,23 +25,23 @@ module.exports = {
       "light", 
       "dark",
       {
-        "mgg-modern": {
-          "primary": "#2A6F97",
+        "mgg-vibrant": {
+          "primary": "#6B46C1",
           "primary-content": "#ffffff",
-          "secondary": "#FF6B6B",
+          "secondary": "#E67E22",
           "secondary-content": "#ffffff", 
-          "accent": "#FFB347",
+          "accent": "#2563EB",
           "accent-content": "#ffffff",
-          "neutral": "#2D3748",
+          "neutral": "#374151",
           "neutral-content": "#ffffff",
-          "base-100": "#F5F7FA",
-          "base-200": "#E2E8F0",
-          "base-300": "#CBD5E0",
-          "base-content": "#2D3748",
-          "info": "#3182CE",
-          "success": "#38A169",
-          "warning": "#D69E2E",
-          "error": "#E53E3E",
+          "base-100": "#f8fafc",
+          "base-200": "#e2e8f0",
+          "base-300": "#cbd5e1",
+          "base-content": "#1e293b",
+          "info": "#2563EB",
+          "success": "#10B981",
+          "warning": "#F59E0B",
+          "error": "#DC2626",
         }
       }
     ],

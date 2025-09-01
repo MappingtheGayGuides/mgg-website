@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+    <html lang="en" data-theme="mgg-vibrant">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,41 +8,60 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Gothic+A1&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@100;200;300;400;500;600;700;800;900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Outfit:wght@100..900&display=swap" rel="stylesheet">
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     
-    <!-- Custom Modern Theme -->
+    <!-- Custom Vibrant Theme -->
     <style>
         :root {
             /* Fallback colors for browsers that don't support Oklch */
-            --fallback-p: #2A6F97;
-            --fallback-s: #FF6B6B;
-            --fallback-a: #FFB347;
-            --fallback-n: #2D3748;
+            --fallback-p: #6B46C1;
+            --fallback-s: #E67E22;
+            --fallback-a: #2563EB;
+            --fallback-n: #374151;
             --fallback-nc: #ffffff;
-            --fallback-b1: #F5F7FA;
-            --fallback-b2: #E2E8F0;
-            --fallback-b3: #CBD5E0;
-            --fallback-bc: #2D3748;
+            --fallback-b1: #f8fafc;
+            --fallback-b2: #e2e8f0;
+            --fallback-b3: #cbd5e1;
+            --fallback-bc: #1e293b;
             --fallback-pc: #ffffff;
             --fallback-sc: #ffffff;
             --fallback-ac: #ffffff;
             
             /* Oklch format for modern browsers */
-            --p: 42.111% 0.3096 275.75;
-            --s: 69.71% 0.329 342.55;
-            --a: 76.76% 0.184 183.61;
-            --n: 32.1785% 0.02476 255.701624;
-            --nc: 89.4994% 0.011585 252.096176;
-            --b1: 96.1151% 0 0;
-            --b2: 92.4169% 0.00108 197.137559;
-            --b3: 88.4169% 0.00108 197.137559;
-            --bc: 27.8078% 0.029596 256.847952;
-            --pc: 89.824% 0.06192 275.75;
-            --sc: 98.71% 0.0106 342.55;
-            --ac: 15.352% 0.0368 183.61;
+            --p: 45% 0.25 300;
+            --s: 65% 0.25 50;
+            --a: 55% 0.25 250;
+            --n: 30% 0.02 250;
+            --nc: 95% 0.01 250;
+            --b1: 98% 0.005 250;
+            --b2: 92% 0.01 250;
+            --b3: 85% 0.015 250;
+            --bc: 20% 0.03 250;
+            --pc: 95% 0.01 300;
+            --sc: 95% 0.01 50;
+            --ac: 95% 0.01 250;
+        }
+        
+        /* Custom font weight overrides */
+        .font-black {
+            font-weight: 900 !important;
+        }
+        .font-bold {
+            font-weight: 700 !important;
+        }
+        .font-semibold {
+            font-weight: 600 !important;
+        }
+        .font-medium {
+            font-weight: 500 !important;
+        }
+        
+        /* Prose heading font weights */
+        .prose h1, .prose h2, .prose h3 {
+            font-weight: 900 !important;
         }
     </style>
     
