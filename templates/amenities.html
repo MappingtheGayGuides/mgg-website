@@ -4,16 +4,36 @@
 
 {% block extra_css %}
 <script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://unpkg.com/topojson@3"></script>
 <style>
     .chart-container {
-        min-height: 350px;
+        min-height: 450px;
         width: 100%;
-        border-radius: 12px;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
         background: white;
         padding: 1rem;
         margin-top: 1rem;
+        position: relative;
+        border: 1px solid #e5e7eb;
+        overflow: visible;
     }
+    
+    .chart-container svg {
+        width: 100%;
+        height: auto;
+        max-width: 100%;
+        overflow: visible;
+    }
+    
+    /* Specific styling for map container - maximize space */
+    .map-container {
+        min-height: 700px; /* Much taller for larger map */
+        padding: 0.05rem; /* Minimal padding for maximum map space */
+        overflow: visible;
+        width: 100%;
+    }
+    
+    /* Remove the grid-specific CSS since we're not using grid anymore */
     
     .loading {
         display: flex;
@@ -30,7 +50,35 @@
         transform: translateY(-2px);
         box-shadow: 0 8px 25px -5px rgba(0, 0, 0, 0.1);
     }
+    
+    /* Tooltip styling */
+    .chart-tooltip .tooltip-content {
+        line-height: 1.4;
+    }
+    
+    .chart-tooltip .tooltip-title {
+        margin-bottom: 6px;
+        font-size: 13px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        padding-bottom: 4px;
+    }
+    
+    .chart-tooltip .tooltip-item {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 2px;
+    }
+    
+    .chart-tooltip .tooltip-label {
+        margin-right: 8px;
+    }
+    
+    .chart-tooltip .tooltip-value {
+        font-weight: bold;
+    }
+    
 </style>
+
 {% endblock %}
 
 {% block content %}
@@ -82,66 +130,82 @@
         </div>
     </div>
 
-    <!-- Charts Container -->
-    <div class="grid lg:grid-cols-2 gap-8">
-        <!-- Percentage Chart -->
-        <div class="card bg-base-100 shadow-xl">
-            <div class="card-body">
-                <h3 class="card-title text-lg mb-4 flex items-center">
-                    <svg class="w-5 h-5 mr-2 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-                    </svg>
-                    Relative Percentage
-                </h3>
-                
-                <div id="percentage-chart" class="chart-container">
-                    <div class="loading">
-                        <div class="text-center">
-                            <div class="loading loading-spinner loading-lg mb-4"></div>
-                            <p class="text-base-content/70">Select an amenity to view percentage trends</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Raw Count Chart -->
-        <div class="card bg-base-100 shadow-xl">
-            <div class="card-body">
-                <h3 class="card-title text-lg mb-4 flex items-center">
-                    <svg class="w-5 h-5 mr-2 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-                    </svg>
-                    Raw Counts
-                </h3>
-                
-                <div id="count-chart" class="chart-container">
-                    <div class="loading">
-                        <div class="text-center">
-                            <div class="loading loading-spinner loading-lg mb-4"></div>
-                            <p class="text-base-content/70">Select an amenity to view count trends</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Insights Panel -->
-    <div class="card bg-base-100 shadow-xl mt-8">
-        <div class="card-body">
-            <h3 class="card-title text-lg mb-4 flex items-center">
-                <svg class="w-5 h-5 mr-2 text-info" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+    <!-- Chart and Map Container -->
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <!-- Header with View Controls -->
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="text-xl font-semibold text-gray-800 flex items-center">
+                <svg class="w-6 h-6 mr-3 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
                 </svg>
-                Insights
+                Amenity Analysis
             </h3>
             
-            <div id="insights" class="text-base-content/70">
-                <p>Select amenities to see insights about their historical trends and patterns.</p>
+            <div class="flex items-center gap-3">
+                <span class="text-sm font-medium text-gray-600">View:</span>
+                <div class="btn-group">
+                    <button class="btn btn-sm btn-primary" id="percentage-view">Percentage</button>
+                    <button class="btn btn-sm btn-outline" id="count-view">Raw Count</button>
+                </div>
             </div>
         </div>
+
+        <!-- Chart Section -->
+        <div class="space-y-4 mb-8">
+            <h4 class="text-lg font-semibold text-gray-700 flex items-center">
+                <svg class="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                </svg>
+                Chart Analysis
+            </h4>
+            <div id="combined-chart" class="chart-container">
+                <div class="loading">
+                    <div class="text-center">
+                        <div class="loading loading-spinner loading-lg mb-4"></div>
+                        <p class="text-base-content/70">Loading amenities data...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+            <!-- Map Section -->
+            <div class="space-y-4">
+                <div class="flex justify-between items-center">
+                    <h4 class="text-lg font-semibold text-gray-700 flex items-center">
+                        <svg class="w-5 h-5 mr-2 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                        Geographic Distribution
+                    </h4>
+                    
+                    <!-- Time Slider -->
+                    <div class="flex items-center gap-3">
+                        <span class="text-sm font-medium text-gray-600">Year:</span>
+                        <div class="flex items-center gap-2">
+                            <span id="current-year" class="text-sm font-semibold text-primary min-w-[3rem]">1965</span>
+                            <input type="range" 
+                                   min="1965" 
+                                   max="2003" 
+                                   value="1965" 
+                                   class="range range-primary range-sm w-40" 
+                                   id="year-slider"
+                                   step="1">
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="density-map" class="chart-container map-container">
+                    <div class="loading">
+                        <div class="text-center">
+                            <div class="loading loading-spinner loading-lg mb-4"></div>
+                            <p class="text-base-content/70">Loading map with all amenities data...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
     </div>
+
 </div>
 {% endblock %}
 

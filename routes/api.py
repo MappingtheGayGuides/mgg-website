@@ -958,9 +958,67 @@ def delete_amenity():
         return jsonify({'error': str(e)}), 500
 
 
+@bp.route('/all-amenities-city-data/<int:year>')
+def get_all_amenities_city_data_by_year(year):
+    """Get city-level data for all amenities combined in a specific year"""
+    db_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'mgg.db')
+    
+    try:
+        conn = sqlite3.connect(db_path)
+        conn.row_factory = sqlite3.Row
+        cursor = conn.cursor()
+        
+        # Get city-level counts for all amenities combined in the specific year
+        cursor.execute("""
+            SELECT 
+                l.city,
+                l.state,
+                COUNT(DISTINCT l.id) as count,
+                AVG(l.latitude) as avg_lat,
+                AVG(l.longitude) as avg_lng
+            FROM locations l
+            WHERE l.year = ?
+            AND l.latitude IS NOT NULL 
+            AND l.longitude IS NOT NULL
+            GROUP BY l.city, l.state
+            HAVING COUNT(DISTINCT l.id) > 0
+            ORDER BY count DESC
+        """, (year,))
+        
+        city_data = cursor.fetchall()
+        
+        # Convert to list of dictionaries
+        cities = []
+        for row in city_data:
+            cities.append({
+                'city': row['city'],
+                'state': row['state'],
+                'count': row['count'],
+                'latitude': float(row['avg_lat']) if row['avg_lat'] else None,
+                'longitude': float(row['avg_lng']) if row['avg_lng'] else None
+            })
+        
+        conn.close()
+        
+        return jsonify({
+            'amenity': 'All Amenities',
+            'year': year,
+            'cities': cities,
+            'total_cities': len(cities)
+        })
+        
+    except Exception as e:
+        print(f"Error getting all amenities city data for year {year}: {e}")
+        return jsonify({'error': f'Failed to load city data: {str(e)}'}), 500
+
+
+
+
+
+
 @bp.route('/amenities-trends')
 def get_amenities_trends():
-    """Get amenities trends data for visualization"""
+    """Get amenities trends data for visualization - OPTIMIZED VERSION"""
     db_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'mgg.db')
     
     try:
@@ -978,31 +1036,58 @@ def get_amenities_trends():
         amenities_result = cursor.fetchall()
         amenities = [row['name'] for row in amenities_result] if amenities_result else []
         
-        # Calculate trends for each amenity
+        # Calculate total locations per year in one optimized query
+        cursor.execute("""
+            SELECT year, COUNT(*) as total_count 
+            FROM locations 
+            WHERE year IS NOT NULL 
+            GROUP BY year 
+            ORDER BY year
+        """)
+        total_locations_data = cursor.fetchall()
+        total_locations_per_year = [0] * len(years)
+        for row in total_locations_data:
+            year_index = years.index(row['year'])
+            total_locations_per_year[year_index] = row['total_count']
+        
+        # Calculate trends for all amenities in one optimized query
+        cursor.execute("""
+            SELECT af.name as amenity_name, l.year, COUNT(DISTINCT l.id) as count
+            FROM locations l
+            JOIN location_amenity_assignments laa ON l.id = laa.location_id
+            JOIN amenity_features af ON laa.amenity_id = af.id
+            WHERE l.year IS NOT NULL
+            GROUP BY af.name, l.year
+            ORDER BY af.name, l.year
+        """)
+        
+        trends_data = cursor.fetchall()
         trends = {}
+        
+        # Initialize all amenities with zeros
         for amenity in amenities:
-            amenity_trend = []
-            for year in years:
-                cursor.execute("""
-                    SELECT COUNT(DISTINCT l.id) 
-                    FROM locations l
-                    JOIN location_amenity_assignments laa ON l.id = laa.location_id
-                    JOIN amenity_features af ON laa.amenity_id = af.id
-                    WHERE af.name = ? AND l.year = ?
-                """, (amenity, year))
-                count_result = cursor.fetchone()
-                count = count_result[0] if count_result else 0
-                amenity_trend.append(count)
-            trends[amenity] = amenity_trend
+            trends[amenity] = [0] * len(years)
+        
+        # Fill in the actual counts
+        for row in trends_data:
+            amenity_name = row['amenity_name']
+            year = row['year']
+            count = row['count']
+            
+            if amenity_name in trends and year in years:
+                year_index = years.index(year)
+                trends[amenity_name][year_index] = count
         
         conn.close()
         
-        print(f"API Response: {len(amenities)} amenities, {len(years)} years")
+        print(f"OPTIMIZED API Response: {len(amenities)} amenities, {len(years)} years")
+        print(f"Total locations per year: {total_locations_per_year[:5]}...")  # Show first 5 years
         
         return jsonify({
             'amenities': amenities,
             'years': years,
-            'trends': trends
+            'trends': trends,
+            'totalLocations': total_locations_per_year
         })
         
     except Exception as e:
