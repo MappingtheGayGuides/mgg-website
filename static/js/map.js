@@ -72,13 +72,9 @@ function initializeMap() {
 }
 
 function loadData() {
-    console.log('Loading data from /api/locations...');
-    // Load locations data
-    fetch('/api/locations')
-        .then(response => {
-            console.log('Response received:', response.status, response.ok);
-            return response.json();
-        })
+    console.log(`Loading data for year ${currentYear} from /api/locations...`);
+    // Load locations data for current year only
+    loadYearData(currentYear)
         .then(locationsData => {
             console.log('Data loaded, locations count:', locationsData.length);
             currentData = locationsData;
@@ -87,10 +83,8 @@ function loadData() {
             const dataSizeInfo = document.getElementById('data-size-info');
             dataSizeInfo.textContent = `Total locations: ${currentData.length.toLocaleString()}`;
             
-            // Filter by current year and display
-            const filteredData = getCachedYearData(currentYear);
-            console.log('Filtered data for year', currentYear, ':', filteredData.length, 'locations');
-            displayLocations(filteredData);
+            // Display the data (already filtered by year from API)
+            displayLocations(currentData);
             populateFilters();
             
             // Update year display
@@ -103,49 +97,60 @@ function loadData() {
         });
 }
 
-function filterByYear(locations, year) {
-    // Use a more efficient filter with early return for better performance
-    const filtered = [];
-    const len = locations.length;
-    for (let i = 0; i < len; i++) {
-        const location = locations[i];
-        if (location.year === year) { // Simplified check
-            filtered.push(location);
-        }
-    }
-    return filtered;
-}
-
-// Cache filtered data by year for better performance
+// Cache data by year for better performance
 const yearCache = new Map();
 
-function getCachedYearData(year) {
+function loadYearData(year) {
+    // Check cache first
     if (yearCache.has(year)) {
-        return yearCache.get(year);
+        console.log(`Using cached data for year ${year}`);
+        return Promise.resolve(yearCache.get(year));
     }
     
-    const filtered = filterByYear(currentData, year);
-    yearCache.set(year, filtered);
-    
-    // Limit cache size to prevent memory issues
-    if (yearCache.size > 20) {
-        const firstKey = yearCache.keys().next().value;
-        yearCache.delete(firstKey);
+    // Show loading indicator
+    const loadingIndicator = document.getElementById('year-loading');
+    if (loadingIndicator) {
+        loadingIndicator.classList.remove('hidden');
     }
     
-    return filtered;
+    // Fetch from API
+    console.log(`Fetching data for year ${year} from API...`);
+    return fetch(`/api/locations?year=${year}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(`Data fetched for year ${year}:`, data.length, 'locations');
+            yearCache.set(year, data);
+            
+            // Limit cache size to prevent memory issues
+            if (yearCache.size > 20) {
+                const firstKey = yearCache.keys().next().value;
+                yearCache.delete(firstKey);
+                console.log(`Removed year ${firstKey} from cache`);
+            }
+            
+            // Hide loading indicator
+            if (loadingIndicator) {
+                loadingIndicator.classList.add('hidden');
+            }
+            
+            return data;
+        })
+        .catch(error => {
+            console.error(`Error loading data for year ${year}:`, error);
+            if (loadingIndicator) {
+                loadingIndicator.classList.add('hidden');
+            }
+            throw error;
+        });
 }
 
 function displayLocations(locations) {
     console.log('Displaying locations:', locations.length);
-    
-    // Only update if we have a different number of locations or if it's the first load
-    const currentMarkerCount = markerClusterGroup.getLayers().length;
-    if (currentMarkerCount === locations.length && currentMarkerCount > 0) {
-        // Same number of locations, just update the count display
-        updateLocationCount(locations.length);
-        return;
-    }
     
     // Batch marker operations for better performance
     const markers = [];
@@ -266,22 +271,34 @@ function setupEventListeners() {
         const newYear = parseInt(this.value);
         document.getElementById('year-display').textContent = newYear;
         
-        // Show loading indicator
-        const loadingIndicator = document.getElementById('year-loading');
-        loadingIndicator.classList.remove('hidden');
-        
         // Clear previous timeout
         clearTimeout(sliderTimeout);
         
-        // Debounce the actual filtering to 300ms after user stops moving (increased for better performance)
+        // Debounce the actual fetching to 300ms after user stops moving
         sliderTimeout = setTimeout(() => {
             if (newYear !== currentYear) {
                 currentYear = newYear;
-                const filteredData = getCachedYearData(currentYear);
-                displayLocations(filteredData);
+                
+                // Load data for the new year
+                loadYearData(currentYear)
+                    .then(locationsData => {
+                        console.log('Loaded data for year', currentYear, ':', locationsData.length, 'locations');
+                        currentData = locationsData;
+                        
+                        // Update data size info
+                        const dataSizeInfo = document.getElementById('data-size-info');
+                        dataSizeInfo.textContent = `Total locations: ${currentData.length.toLocaleString()}`;
+                        
+                        // Display the new data
+                        displayLocations(currentData);
+                        
+                        // Update filters
+                        populateFilters();
+                    })
+                    .catch(error => {
+                        console.error('Error loading year data:', error);
+                    });
             }
-            // Hide loading indicator after filtering is complete
-            loadingIndicator.classList.add('hidden');
         }, 300);
     });
     
@@ -297,7 +314,7 @@ function applyFiltersAndGetData() {
     const state = document.getElementById('state-filter').value;
     const removeUnclearAddresses = document.getElementById('clear-addresses-checkbox').checked;
     
-    let filteredData = getCachedYearData(currentYear);
+    let filteredData = currentData;  // Use currentData directly
     
     if (amenity) {
         // Filter by amenity using the amenities array
@@ -356,13 +373,28 @@ function resetFilters() {
         document.getElementById('state-filter').value = '';
         document.getElementById('clear-addresses-checkbox').checked = false;
         
-        // Apply the reset filters and display results
-        const filteredData = getCachedYearData(currentYear);
-        displayLocations(filteredData);
-        
-        // Restore button state
-        resetButton.innerHTML = originalContent;
-        resetButton.disabled = false;
+        // Load data for the reset year and display results
+        loadYearData(currentYear)
+            .then(locationsData => {
+                currentData = locationsData;
+                
+                // Update data size info
+                const dataSizeInfo = document.getElementById('data-size-info');
+                dataSizeInfo.textContent = `Total locations: ${currentData.length.toLocaleString()}`;
+                
+                // Display the data
+                displayLocations(currentData);
+                populateFilters();
+                
+                // Restore button state
+                resetButton.innerHTML = originalContent;
+                resetButton.disabled = false;
+            })
+            .catch(error => {
+                console.error('Error loading reset data:', error);
+                resetButton.innerHTML = originalContent;
+                resetButton.disabled = false;
+            });
     }, 50);
 }
 

@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request
 import os
 import json
 import time
+from sqlalchemy.orm import joinedload
 from models import (
     db, Location, LocationType, AmenityFeature, UniqueLocation, 
     LocationTypeAssignment, LocationAmenityAssignment,
@@ -14,7 +15,20 @@ bp = Blueprint('api', __name__)
 def get_locations():
     """Get all locations for the map with their types and amenities"""
     try:
-        locations = Location.query.all()
+        # Get optional year filter
+        year = request.args.get('year', type=int)
+        
+        # Build query with eager loading to avoid N+1 queries
+        query = Location.query.options(
+            db.joinedload(Location.types),
+            db.joinedload(Location.amenities)
+        )
+        
+        # Apply year filter if provided
+        if year:
+            query = query.filter(Location.year == year)
+        
+        locations = query.all()
         location_data = []
         
         for location in locations:

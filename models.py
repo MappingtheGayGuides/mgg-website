@@ -130,6 +130,9 @@ class Location(db.Model):
             'status': self.status,
             'unique_location_id': self.unique_location_id
         }
+    
+    def __repr__(self):
+        return f'<Location {self.id}: {self.title}>'
 
 class SplitLogging(db.Model):
     """Model for tracking amenity split operations"""
