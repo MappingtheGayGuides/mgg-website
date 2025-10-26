@@ -27,9 +27,9 @@ pip3 install -r requirements.txt
 echo "📦 Installing Node.js dependencies..."
 npm install
 
-# Build Tailwind CSS
+# Build Tailwind CSS (production build, no watch mode)
 echo "🎨 Building Tailwind CSS..."
-npm run build
+npm run build-prod
 
 # Initialize database
 echo "🗄️  Initializing database..."
@@ -39,4 +39,9 @@ echo ""
 echo "🎉 Setup complete! You can now run:"
 echo "   python3 app.py"
 echo ""
-echo "The app will be available at: http://localhost:5000"
+echo "The main app will be available at: http://localhost:5001"
+echo ""
+echo "For development tools, run:"
+echo "   cd utilities"
+echo "   python utility_app.py"
+echo "   (Available at: http://localhost:5002)"

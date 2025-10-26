@@ -6,48 +6,34 @@
 <div class="max-w-6xl mx-auto">
     <!-- Page Header -->
     <div class="text-center mb-12">
-        <h1 class="text-4xl font-bold text-primary mb-4">Articles & Research</h1>
-        <p class="text-xl text-base-content/70 max-w-3xl mx-auto">
-            Explore our latest research, methodology insights, and historical perspectives on LGBTQ+ spaces and communities.
-        </p>
+        <h1 class="text-4xl font-bold text-primary mb-4">What can we learn from mapping Damron's Address Books?</h1>
+       
     </div>
 
     <!-- Articles Section -->
-    <div>
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {% for article in articles %}
-            <div class="card bg-base-100 w-full shadow-lg hover:shadow-xl transition-shadow">
-                <figure>
-                    <img src="{{ url_for('static', filename='images/' + article.img) }}" 
-                         alt="{{ article.title }}"
-                         class="w-full h-48 object-cover" />
-                </figure>
-                <div class="card-body">
-                    <div class="flex items-center gap-2 mb-2">
-                        {% if article.draft %}
-                        <span class="badge badge-warning">Draft</span>
-                        {% endif %}
-                    </div>
-                    <h2 class="card-title text-xl">{{ article.title }}</h2>
-                    <p class="text-base-content/70">{{ article.description }}</p>
-                    
-                    <!-- Tags -->
-                    {% if article.tags %}
-                    <div class="flex flex-wrap gap-1 mb-2">
-                        {% for tag in article.tags %}
-                        <span class="badge badge-neutral badge-sm">{{ tag }}</span>
-                        {% endfor %}
-                    </div>
-                    {% endif %}
-                    
-                    <div class="card-actions justify-end">
-                        <a href="{{ url_for('article', path=article.url) }}" class="btn btn-primary">Read More</a>
-                    </div>
-                </div>
+    <ul class="list bg-base-100 rounded-box shadow-md">
+        {% for article in articles %}
+        <li class="flex items-center border-b border-base-300 last:border-b-0 hover:bg-base-200 transition-colors">
+            <div class="shrink-0 flex items-center justify-center p-6" style="min-width: 120px;">
+                <img src="{{ url_for('static', filename='images/' + article.img) }}" 
+                     alt="{{ article.title }}"
+                     class="w-full h-full object-cover rounded-lg" 
+                     style="max-width: 120px; max-height: 120px;" />
             </div>
-            {% endfor %}
-        </div>
-    </div>
+            <div class="flex-1 py-4 pr-6">
+                <div class="flex items-center gap-3 mb-2">
+                    <a href="{{ url_for('article', path=article.url) }}" class="hover:text-primary">
+                        <h2 class="text-xl font-semibold">{{ article.title }}</h2>
+                    </a>
+                    {% if article.draft %}
+                    <span class="badge badge-warning text-xs">Draft</span>
+                    {% endif %}
+                </div>
+                <p class="text-base-content/70 text-sm">{{ article.description }}</p>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
 
     <!-- No Articles Message -->
     {% if not articles %}

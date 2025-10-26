@@ -1,4 +1,4 @@
-p# Mapping the Gay Guides - Flask Version
+# Mapping the Gay Guides - Flask Version
 
 A digital history project exploring LGBTQ+ spaces through historical travel guides, built with Flask and SQLite.
 
@@ -14,9 +14,9 @@ A digital history project exploring LGBTQ+ spaces through historical travel guid
 
 ### Prerequisites
 
-- Python 3.8+
+- Python 3.8+ (or Python 3)
 - Node.js 16+ and npm
-- pip
+- pip (usually comes with Python)
 
 ### Installation
 
@@ -61,16 +61,44 @@ python3 init_db.py
 python3 app.py
 ```
 
-The application will be available at `http://localhost:5000`
+The main application will be available at `http://localhost:5001`
 
-### Development
+### Running the Application
 
-To watch for CSS changes during development:
+#### Start the Main App
+```bash
+python3 app.py
+```
+Access at: `http://localhost:5001`
+
+#### Development Mode (with auto-reload on changes)
+The app runs in debug mode by default, so it will auto-reload when you make changes to Python files.
+
+#### CSS Development
+For development with CSS watching:
 ```bash
 npm run build
 ```
-
 This will watch your template files and rebuild the CSS automatically.
+
+For production builds:
+```bash
+npm run build-prod
+```
+This creates a minified, optimized CSS file.
+
+#### Utility Tools
+
+Development tools are available in the `utilities/` directory:
+
+```bash
+cd utilities
+python utility_app.py
+```
+
+Access utility tools at: http://localhost:5002
+
+> **Important:** Utility tools are for local development only. Do not deploy them to production.
 
 ## Project Structure
 
@@ -88,12 +116,31 @@ MGG-Site/
 │   └── map.html         # Map page
 ├── static/               # Static assets
 │   ├── css/
-│   │   └── style.css    # Custom styles
+│   │   ├── input.css   # Tailwind input
+│   │   └── style.css   # Compiled CSS
 │   └── js/
 │       ├── main.js      # General JavaScript
-│       └── map.js       # Map functionality
-└── requirements.txt      # Python dependencies
+│       ├── map.js       # Map functionality
+│       ├── viz.js       # Visualizations
+│       └── amenities.js
+├── utilities/            # Development tools (NOT for production)
+│   ├── utility_app.py   # Utility Flask app (port 5002)
+│   ├── templates/       # Utility templates
+│   ├── add_amenity.py   # Utility scripts
+│   └── README.md        # Utility documentation
+├── content/              # Markdown content
+│   └── markdown/        # Article files
+├── data/                # Data files
+├── routes/              # Route blueprints
+│   ├── main.py         # Main routes
+│   └── api.py          # API endpoints
+├── mgg.db              # Database file
+├── models.py            # Database models
+├── requirements.txt     # Python dependencies
+└── package.json         # Node.js dependencies
 ```
+
+> **Note:** The `utilities/` directory contains development tools for data management. These should **NOT** be deployed to production. Keep them local for development use only.
 
 ## Database Models
 
@@ -128,7 +175,10 @@ flask db upgrade
 ```
 
 ### Styling
-Custom CSS is in `static/css/style.css`. The site uses Bootstrap 5 for the base framework.
+The site uses **Tailwind CSS** with **DaisyUI** for styling. 
+- Source CSS: `static/css/input.css`
+- Compiled CSS: `static/css/style.css`
+- To rebuild CSS: `npm run build-prod` (production) or `npm run build` (dev with watch)
 
 ## Contributing
 

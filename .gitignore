@@ -340,3 +340,6 @@ $RECYCLE.BIN/
 # Data files (uncomment if you don't want to track data)
 # data/raw/*.csv
 # data/processed/*.csv
+
+# Development utilities (NOT for production deployment)
+utilities/
