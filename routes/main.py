@@ -1,5 +1,6 @@
-from flask import Blueprint, render_template
-from models import db
+from flask import Blueprint, render_template, request
+from models import db, Location, LocationType, AmenityFeature, LocationAmenityAssignment
+from sqlalchemy import or_, func
 
 bp = Blueprint('main', __name__)
 
@@ -11,123 +12,118 @@ def map():
 @bp.route('/database')
 def database():
     """Database browser page"""
-    import sqlite3
-    import os
-    from flask import request
-    
     # Get query parameters
     page = request.args.get('page', 1, type=int)
-    year = request.args.get('year', type=str)  # Get as string to handle empty value for "All Years"
+    year = request.args.get('year', type=str)
     # Set default year to 1965 if no year is specified
     if year is None:
         year = 1965
     elif year == '':
         year = None  # User selected "All Years"
     else:
-        year = int(year)  # Convert to int for filtering
+        year = int(year)
     state = request.args.get('state', type=str)
     amenity = request.args.get('amenity', type=str)
-    search = request.args.get('search', type=str)  # Add search parameter
-    sort_by = request.args.get('sort', 'year')  # Default sort by year
-    sort_order = request.args.get('order', 'desc')  # Default descending
+    search = request.args.get('search', type=str)
+    sort_by = request.args.get('sort', 'year')
+    sort_order = request.args.get('order', 'desc')
     per_page = 20
-    
-    # Connect to database
-    db_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'mgg.db')
-    conn = sqlite3.connect(db_path)
-    conn.row_factory = sqlite3.Row
-    cursor = conn.cursor()
     
     try:
         # Build base query
-        base_query = "FROM locations l"
-        where_conditions = []
-        params = []
+        query = Location.query
         
         # Apply filters
         if year:
-            where_conditions.append("l.year = ?")
-            params.append(year)
+            query = query.filter(Location.year == year)
         
         if state:
-            where_conditions.append("l.state = ?")
-            params.append(state)
+            query = query.filter(Location.state == state)
         
         if amenity:
             # Filter by amenity feature
-            base_query += " JOIN location_amenity_assignments laa ON l.id = laa.location_id"
-            base_query += " JOIN amenity_features af ON laa.amenity_id = af.id"
-            where_conditions.append("af.name = ?")
-            params.append(amenity)
+            query = query.join(LocationAmenityAssignment).join(AmenityFeature).filter(
+                AmenityFeature.name == amenity
+            ).distinct()
         
         # Apply search if provided
         if search and search.strip():
             search_term = f"%{search.strip()}%"
-            where_conditions.append("(l.title LIKE ? OR l.description LIKE ? OR l.city LIKE ? OR l.state LIKE ?)")
-            params.extend([search_term, search_term, search_term, search_term])
-        
-        # Build WHERE clause
-        if where_conditions:
-            base_query += " WHERE " + " AND ".join(where_conditions)
+            query = query.filter(
+                or_(
+                    Location.title.like(search_term),
+                    Location.description.like(search_term),
+                    Location.city.like(search_term),
+                    Location.state.like(search_term)
+                )
+            )
         
         # Apply sorting
-        order_clause = "ORDER BY "
         if sort_by == 'city':
-            order_clause += f"l.city {'DESC' if sort_order == 'desc' else 'ASC'}, l.title"
-        elif sort_by == 'state':
-            order_clause += f"l.state {'DESC' if sort_order == 'desc' else 'ASC'}, l.title"
-        elif sort_by == 'title':
-            order_clause += f"l.title {'DESC' if sort_order == 'desc' else 'ASC'}"
-        else:  # Default: sort by year
-            order_clause += f"l.year {'DESC' if sort_order == 'desc' else 'ASC'}, l.title"
-        
-        # Get total count for pagination (use COUNT(DISTINCT l.id) to avoid counting duplicates from JOINs)
-        count_query = f"SELECT COUNT(DISTINCT l.id) {base_query}"
-        cursor.execute(count_query, params)
-        total_count = cursor.fetchone()[0]
-        
-        # Get paginated results with amenities
-        offset = (page - 1) * per_page
-        
-        # First get the basic location data without JOINs to avoid duplicates
-        select_query = f"SELECT DISTINCT l.* {base_query} {order_clause} LIMIT ? OFFSET ?"
-        cursor.execute(select_query, params + [per_page, offset])
-        locations = [dict(row) for row in cursor.fetchall()]
-        
-        # Now fetch amenities for each location separately to avoid JOIN issues
-        for location in locations:
-            location_id = location['id']
-            
-            # Get amenities for this specific location
-            cursor.execute("""
-                SELECT af.name 
-                FROM amenity_features af
-                JOIN location_amenity_assignments laa ON af.id = laa.amenity_id
-                WHERE laa.location_id = ?
-                ORDER BY af.name
-            """, (location_id,))
-            
-            amenity_names = [row[0] for row in cursor.fetchall()]
-            if amenity_names:
-                # Convert to list of objects with 'name' property as template expects
-                location['amenities'] = [{'name': name} for name in amenity_names]
+            if sort_order == 'desc':
+                query = query.order_by(Location.city.desc(), Location.title)
             else:
-                location['amenities'] = []
+                query = query.order_by(Location.city, Location.title)
+        elif sort_by == 'state':
+            if sort_order == 'desc':
+                query = query.order_by(Location.state.desc(), Location.title)
+            else:
+                query = query.order_by(Location.state, Location.title)
+        elif sort_by == 'title':
+            if sort_order == 'desc':
+                query = query.order_by(Location.title.desc())
+            else:
+                query = query.order_by(Location.title)
+        else:  # Default: sort by year
+            if sort_order == 'desc':
+                query = query.order_by(Location.year.desc(), Location.title)
+            else:
+                query = query.order_by(Location.year, Location.title)
+        
+        # Get total count for pagination
+        total_count = query.count()
+        
+        # Get paginated results
+        offset = (page - 1) * per_page
+        locations = query.offset(offset).limit(per_page).all()
+        
+        # Convert to dictionaries and add amenities
+        location_dicts = []
+        for loc in locations:
+            loc_dict = loc.to_dict()
+            
+            # Get amenities for this location
+            amenity_list = db.session.query(AmenityFeature.name).join(
+                LocationAmenityAssignment
+            ).filter(
+                LocationAmenityAssignment.location_id == loc.id
+            ).order_by(AmenityFeature.name).all()
+            
+            loc_dict['amenities'] = [{'name': name[0]} for name in amenity_list]
+            location_dicts.append(loc_dict)
         
         # Get available years for filter dropdown
-        cursor.execute("SELECT DISTINCT year FROM locations WHERE year IS NOT NULL ORDER BY year ASC")
-        years = [row[0] for row in cursor.fetchall()]
+        years = db.session.query(Location.year).filter(
+            Location.year.isnot(None)
+        ).distinct().order_by(Location.year).all()
+        years = [row[0] for row in years]
         
-        # Get available cities and states for sorting context
-        cursor.execute("SELECT DISTINCT city FROM locations WHERE city IS NOT NULL ORDER BY city")
-        cities = [row[0] for row in cursor.fetchall() if row[0]]
+        # Get available cities and states
+        cities = db.session.query(Location.city).filter(
+            Location.city.isnot(None)
+        ).distinct().order_by(Location.city).all()
+        cities = [row[0] for row in cities if row[0]]
         
-        cursor.execute("SELECT DISTINCT state FROM locations WHERE state IS NOT NULL ORDER BY state")
-        states = [row[0] for row in cursor.fetchall() if row[0]]
+        states = db.session.query(Location.state).filter(
+            Location.state.isnot(None)
+        ).distinct().order_by(Location.state).all()
+        states = [row[0] for row in states if row[0]]
         
         # Get available amenity features
-        cursor.execute("SELECT DISTINCT name FROM amenity_features ORDER BY name")
-        amenities = [row[0] for row in cursor.fetchall() if row[0]]
+        amenities = db.session.query(AmenityFeature.name).distinct().order_by(
+            AmenityFeature.name
+        ).all()
+        amenities = [row[0] for row in amenities if row[0]]
         
         # Calculate pagination info
         total_pages = (total_count + per_page - 1) // per_page
@@ -147,23 +143,18 @@ def database():
                 self.has_prev = has_prev
                 self.has_next = has_next
                 def iter_pages(self, left_edge=2, left_current=2, right_current=3, right_edge=2):
-                    # Calculate the range of 5 pages to show
                     start_page = max(1, page - 2)
                     end_page = min(total_pages, start_page + 4)
-                    
-                    # Adjust start if we're near the end
                     if end_page - start_page < 4:
                         start_page = max(1, end_page - 4)
-                    
-                    # Yield the 5 sequential pages
                     for num in range(start_page, end_page + 1):
                         yield num
                 self.iter_pages = iter_pages.__get__(self)
         
-        pagination = Pagination(locations, page, per_page, total_count, total_pages, has_prev, has_next)
+        pagination = Pagination(location_dicts, page, per_page, total_count, total_pages, has_prev, has_next)
         
         return render_template('database.html', 
-                             locations=locations, 
+                             locations=location_dicts, 
                              pagination=pagination, 
                              years=years, 
                              selected_year=year,
@@ -176,8 +167,11 @@ def database():
                              states=states,
                              amenities=amenities)
     
-    finally:
-        conn.close()
+    except Exception as e:
+        print(f"Database error: {e}")
+        import traceback
+        traceback.print_exc()
+        return render_template('database.html', error=str(e))
 
 # Utility pages moved to admin section
 # See routes/admin.py for amenity-cleanup and smart-split routes

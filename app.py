@@ -9,7 +9,12 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'dev-key-change-in-production')
 # Database URI: Use DATABASE_URL from environment (e.g., PostgreSQL from Digital Ocean)
 # Fallback to local SQLite for development
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///mgg.db')
+if os.environ.get('DATABASE_URL'):
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
+else:
+    # Use absolute path to the actual database file
+    db_path = os.path.join(os.path.dirname(__file__), 'mgg.db')
+    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Flask-FlatPages configuration

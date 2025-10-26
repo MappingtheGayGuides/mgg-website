@@ -130,3 +130,41 @@ class Location(db.Model):
             'status': self.status,
             'unique_location_id': self.unique_location_id
         }
+
+class SplitLogging(db.Model):
+    """Model for tracking amenity split operations"""
+    __tablename__ = 'split_logging'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    source_amenity_id = db.Column(db.Integer)
+    source_amenity_name = db.Column(db.String(200))
+    operation_timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+    operation_type = db.Column(db.String(50))  # 'split', 'delete', etc.
+    target_amenities = db.Column(db.Text)  # JSON string
+    locations_processed = db.Column(db.Integer, default=0)
+    locations_reassigned = db.Column(db.Integer, default=0)
+    locations_unassigned = db.Column(db.Integer, default=0)
+    source_removed = db.Column(db.Boolean, default=False)
+    user_notes = db.Column(db.Text)
+    operation_status = db.Column(db.String(50))  # 'success', 'failed'
+    error_message = db.Column(db.Text)
+    execution_time_ms = db.Column(db.Integer)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+class SplitLocationDetail(db.Model):
+    """Model for detailed logging of location reassignments during splits"""
+    __tablename__ = 'split_location_details'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    split_log_id = db.Column(db.Integer, db.ForeignKey('split_logging.id'), nullable=False)
+    location_id = db.Column(db.Integer, db.ForeignKey('locations.id'), nullable=False)
+    location_title = db.Column(db.String(500))
+    location_city = db.Column(db.String(100))
+    location_state = db.Column(db.String(50))
+    location_year = db.Column(db.Integer)
+    old_amenity_id = db.Column(db.Integer)
+    old_amenity_name = db.Column(db.String(200))
+    new_amenity_id = db.Column(db.Integer)
+    new_amenity_name = db.Column(db.String(200))
+    reassignment_type = db.Column(db.String(50))  # 'manual', 'deleted', etc.
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)

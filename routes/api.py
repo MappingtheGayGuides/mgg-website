@@ -1,103 +1,66 @@
 from flask import Blueprint, jsonify, request
-import sqlite3
 import os
+import json
+import time
+from models import (
+    db, Location, LocationType, AmenityFeature, UniqueLocation, 
+    LocationTypeAssignment, LocationAmenityAssignment,
+    SplitLogging, SplitLocationDetail
+)
 
 bp = Blueprint('api', __name__)
 
 @bp.route('/locations')
 def get_locations():
     """Get all locations for the map with their types and amenities"""
-    db_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'mgg.db')
-    
     try:
-        conn = sqlite3.connect(db_path)
-        conn.row_factory = sqlite3.Row  # This enables column access by name
-        cursor = conn.cursor()
-        
-        # Get all locations
-        cursor.execute("""
-            SELECT id, unique_id, title, description, street_address, city, state, year, 
-                   notes, full_address, latitude, longitude, geo_address, unclear_address, 
-                   status, unique_location_id
-            FROM locations
-        """)
-        locations = cursor.fetchall()
-        
+        locations = Location.query.all()
         location_data = []
+        
         for location in locations:
-            loc_dict = dict(location)
+            loc_dict = location.to_dict()
             
-            # Get types for this location
-            cursor.execute("""
-                SELECT lt.name 
-                FROM location_type_assignments lta
-                JOIN location_types lt ON lta.type_id = lt.id
-                WHERE lta.location_id = ?
-            """, (location['id'],))
-            types = [row['name'] for row in cursor.fetchall()]
-            loc_dict['types'] = types
+            # Get types for this location using the many-to-many relationship
+            loc_dict['types'] = [t.name for t in location.types]
             
-            # Get amenities for this location
-            cursor.execute("""
-                SELECT af.name 
-                FROM location_amenity_assignments laa
-                JOIN amenity_features af ON laa.amenity_id = af.id
-                WHERE laa.location_id = ?
-            """, (location['id'],))
-            amenities = [row['name'] for row in cursor.fetchall()]
-            loc_dict['amenities'] = amenities
+            # Get amenities for this location using the many-to-many relationship
+            loc_dict['amenities'] = [a.name for a in location.amenities]
             
             location_data.append(loc_dict)
-        
-        conn.close()
+    
         return jsonify(location_data)
         
     except Exception as e:
         print(f"Database error: {e}")
+        import traceback
+        traceback.print_exc()
         return jsonify({'error': str(e)}), 500
 
 @bp.route('/locations/<int:location_id>')
 def get_location(location_id):
     """Get a specific location"""
-    db_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'mgg.db')
-    
     try:
-        conn = sqlite3.connect(db_path)
-        conn.row_factory = sqlite3.Row
-        cursor = conn.cursor()
-        
-        cursor.execute("""
-            SELECT id, unique_id, title, description, street_address, city, state, year, 
-                   notes, full_address, latitude, longitude, geo_address, unclear_address, 
-                   status, unique_location_id
-            FROM locations WHERE id = ?
-        """, (location_id,))
-        
-        location = cursor.fetchone()
+        location = Location.query.get(location_id)
         if not location:
             return jsonify({'error': 'Location not found'}), 404
-            
-        conn.close()
-        return jsonify(dict(location))
         
+        loc_dict = location.to_dict()
+        
+        # Add types and amenities
+        loc_dict['types'] = [t.name for t in location.types]
+        loc_dict['amenities'] = [a.name for a in location.amenities]
+        
+        return jsonify(loc_dict)
+            
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
 @bp.route('/unique-locations')
 def get_unique_locations():
     """Get all unique locations for the map (no duplicates)"""
-    db_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'mgg.db')
-    
     try:
-        conn = sqlite3.connect(db_path)
-        conn.row_factory = sqlite3.Row
-        cursor = conn.cursor()
-        
-        cursor.execute("SELECT * FROM unique_locations")
-        unique_locations = cursor.fetchall()
-        
-        conn.close()
-        return jsonify([dict(loc) for loc in unique_locations])
+        unique_locations = UniqueLocation.query.all()
+        return jsonify([loc.to_dict() for loc in unique_locations])
         
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -105,40 +68,22 @@ def get_unique_locations():
 @bp.route('/unique-locations/<int:location_id>')
 def get_unique_location(location_id):
     """Get a specific unique location"""
-    db_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'mgg.db')
-    
     try:
-        conn = sqlite3.connect(db_path)
-        conn.row_factory = sqlite3.Row
-        cursor = conn.cursor()
-        
-        cursor.execute("SELECT * FROM unique_locations WHERE id = ?", (location_id,))
-        unique_location = cursor.fetchone()
-        
+        unique_location = UniqueLocation.query.get(location_id)
         if not unique_location:
             return jsonify({'error': 'Unique location not found'}), 404
             
-        conn.close()
-        return jsonify(dict(unique_location))
-        
+        return jsonify(unique_location.to_dict())
+            
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
 @bp.route('/location-types')
 def get_location_types():
     """Get all location types"""
-    db_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'mgg.db')
-    
     try:
-        conn = sqlite3.connect(db_path)
-        conn.row_factory = sqlite3.Row
-        cursor = conn.cursor()
-        
-        cursor.execute("SELECT * FROM location_types ORDER BY name")
-        types = cursor.fetchall()
-        
-        conn.close()
-        return jsonify([dict(type_obj) for type_obj in types])
+        types = LocationType.query.order_by(LocationType.name).all()
+        return jsonify([t.to_dict() for t in types])
         
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -146,18 +91,9 @@ def get_location_types():
 @bp.route('/amenity-features')
 def get_amenity_features():
     """Get all amenity features"""
-    db_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'mgg.db')
-    
     try:
-        conn = sqlite3.connect(db_path)
-        conn.row_factory = sqlite3.Row
-        cursor = conn.cursor()
-        
-        cursor.execute("SELECT * FROM amenity_features ORDER BY name")
-        features = cursor.fetchall()
-        
-        conn.close()
-        return jsonify([dict(feature) for feature in features])
+        features = AmenityFeature.query.order_by(AmenityFeature.name).all()
+        return jsonify([f.to_dict() for f in features])
         
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -173,23 +109,19 @@ def merge_amenities():
         if not keep_id or not merge_ids:
             return jsonify({'error': 'Missing required parameters'}), 400
         
-        db_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'mgg.db')
-        conn = sqlite3.connect(db_path)
-        cursor = conn.cursor()
+        # Get the amenities
+        keep_amenity = AmenityFeature.query.get_or_404(keep_id)
         
         # Update all assignments to use the kept amenity
         for merge_id in merge_ids:
-            cursor.execute("""
-                UPDATE location_amenity_assignments 
-                SET amenity_id = ? 
-                WHERE amenity_id = ?
-            """, (keep_id, merge_id))
+            LocationAmenityAssignment.query.filter_by(amenity_id=merge_id).update(
+                {'amenity_id': keep_id}
+            )
             
             # Delete the merged amenity
-            cursor.execute("DELETE FROM amenity_features WHERE id = ?", (merge_id,))
+            AmenityFeature.query.filter_by(id=merge_id).delete()
         
-        conn.commit()
-        conn.close()
+        db.session.commit()
         
         return jsonify({'success': True, 'message': f'Merged {len(merge_ids)} amenities'})
         
@@ -204,43 +136,21 @@ def rename_amenity():
         amenity_id = data.get('amenity_id')
         new_name = data.get('new_name')
         
-        print(f"Rename request: amenity_id={amenity_id}, new_name={new_name}")
-        
         if not amenity_id or not new_name:
             return jsonify({'error': 'Missing required parameters'}), 400
         
-        db_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'mgg.db')
-        print(f"Database path: {db_path}")
-        print(f"Database exists: {os.path.exists(db_path)}")
-        
-        if not os.path.exists(db_path):
-            return jsonify({'error': 'Database not found'}), 500
-        
-        conn = sqlite3.connect(db_path)
-        cursor = conn.cursor()
-        
         # Check if the amenity exists
-        cursor.execute("SELECT id, name FROM amenity_features WHERE id = ?", (amenity_id,))
-        amenity = cursor.fetchone()
-        if not amenity:
-            conn.close()
-            return jsonify({'error': 'Amenity not found'}), 404
-        
-        print(f"Found amenity: {amenity}")
+        amenity = AmenityFeature.query.get_or_404(amenity_id)
         
         # Check if the new name already exists
-        cursor.execute("SELECT id FROM amenity_features WHERE name = ? AND id != ?", (new_name, amenity_id))
-        if cursor.fetchone():
-            conn.close()
+        existing = AmenityFeature.query.filter_by(name=new_name).first()
+        if existing and existing.id != amenity_id:
             return jsonify({'error': 'An amenity with that name already exists'}), 400
         
         # Update the amenity name
-        cursor.execute("UPDATE amenity_features SET name = ? WHERE id = ?", (new_name, amenity_id))
+        amenity.name = new_name
+        db.session.commit()
         
-        conn.commit()
-        conn.close()
-        
-        print(f"Amenity {amenity_id} renamed from '{amenity[1]}' to '{new_name}'")
         return jsonify({'success': True, 'message': 'Amenity renamed successfully'})
         
     except Exception as e:
@@ -251,23 +161,24 @@ def rename_amenity():
 def get_amenity_usage(amenity_id):
     """Get all locations that use a specific amenity"""
     try:
-        db_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'mgg.db')
-        conn = sqlite3.connect(db_path)
-        conn.row_factory = sqlite3.Row
-        cursor = conn.cursor()
+        amenity = AmenityFeature.query.get_or_404(amenity_id)
+        locations = db.session.query(Location).join(
+            LocationAmenityAssignment
+        ).filter(
+            LocationAmenityAssignment.amenity_id == amenity_id
+        ).order_by(Location.title).all()
         
-        cursor.execute("""
-            SELECT l.id, l.title, l.city, l.state, l.year
-            FROM locations l
-            JOIN location_amenity_assignments laa ON l.id = laa.location_id
-            WHERE laa.amenity_id = ?
-            ORDER BY l.title
-        """, (amenity_id,))
+        result = []
+        for loc in locations:
+            result.append({
+                'id': loc.id,
+                'title': loc.title,
+                'city': loc.city,
+                'state': loc.state,
+                'year': loc.year
+            })
         
-        locations = [dict(row) for row in cursor.fetchall()]
-        conn.close()
-        
-        return jsonify(locations)
+        return jsonify(result)
         
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -961,29 +872,21 @@ def delete_amenity():
 @bp.route('/amenity-first-year/<amenity_name>')
 def get_amenity_first_year(amenity_name):
     """Get the first year where a specific amenity has data"""
-    db_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'mgg.db')
-    
     try:
-        conn = sqlite3.connect(db_path)
-        conn.row_factory = sqlite3.Row
-        cursor = conn.cursor()
+        first_year_row = db.session.query(
+            db.func.min(Location.year)
+        ).join(
+            LocationAmenityAssignment, Location.id == LocationAmenityAssignment.location_id
+        ).join(
+            AmenityFeature, LocationAmenityAssignment.amenity_id == AmenityFeature.id
+        ).filter(
+            AmenityFeature.name == amenity_name,
+            Location.latitude.isnot(None),
+            Location.longitude.isnot(None)
+        ).first()
         
-        # Get the earliest year where this amenity has data
-        cursor.execute("""
-            SELECT MIN(l.year) as first_year
-            FROM locations l
-            JOIN location_amenity_assignments laa ON l.id = laa.location_id
-            JOIN amenity_features af ON laa.amenity_id = af.id
-            WHERE af.name = ?
-            AND l.latitude IS NOT NULL 
-            AND l.longitude IS NOT NULL
-        """, (amenity_name,))
-        
-        result = cursor.fetchone()
-        first_year = result['first_year'] if result and result['first_year'] else None
-        
-        conn.close()
-        
+        first_year = first_year_row[0] if first_year_row and first_year_row[0] else None
+    
         return jsonify({
             'amenity': amenity_name,
             'first_year': first_year
@@ -997,47 +900,37 @@ def get_amenity_first_year(amenity_name):
 @bp.route('/amenity-city-data/<amenity_name>/<int:year>')
 def get_amenity_city_data_by_year(amenity_name, year):
     """Get city-level data for a specific amenity and year"""
-    db_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'mgg.db')
-    
     try:
-        conn = sqlite3.connect(db_path)
-        conn.row_factory = sqlite3.Row
-        cursor = conn.cursor()
+        results = db.session.query(
+            Location.city,
+            Location.state,
+            db.func.count(db.func.distinct(Location.id)).label('count'),
+            db.func.avg(Location.latitude).label('avg_lat'),
+            db.func.avg(Location.longitude).label('avg_lng')
+        ).join(
+            LocationAmenityAssignment, Location.id == LocationAmenityAssignment.location_id
+        ).join(
+            AmenityFeature, LocationAmenityAssignment.amenity_id == AmenityFeature.id
+        ).filter(
+            AmenityFeature.name == amenity_name,
+            Location.year == year,
+            Location.latitude.isnot(None),
+            Location.longitude.isnot(None)
+        ).group_by(
+            Location.city, Location.state
+        ).having(
+            db.func.count(db.func.distinct(Location.id)) > 0
+        ).order_by(db.func.count(db.func.distinct(Location.id)).desc()).all()
         
-        # Get city-level counts for the amenity in the specific year
-        cursor.execute("""
-            SELECT 
-                l.city,
-                l.state,
-                COUNT(DISTINCT l.id) as count,
-                AVG(l.latitude) as avg_lat,
-                AVG(l.longitude) as avg_lng
-            FROM locations l
-            JOIN location_amenity_assignments laa ON l.id = laa.location_id
-            JOIN amenity_features af ON laa.amenity_id = af.id
-            WHERE af.name = ? 
-            AND l.year = ?
-            AND l.latitude IS NOT NULL 
-            AND l.longitude IS NOT NULL
-            GROUP BY l.city, l.state
-            HAVING COUNT(DISTINCT l.id) > 0
-            ORDER BY count DESC
-        """, (amenity_name, year))
-        
-        city_data = cursor.fetchall()
-        
-        # Convert to list of dictionaries
         cities = []
-        for row in city_data:
+        for row in results:
             cities.append({
-                'city': row['city'],
-                'state': row['state'],
-                'count': row['count'],
-                'latitude': float(row['avg_lat']) if row['avg_lat'] else None,
-                'longitude': float(row['avg_lng']) if row['avg_lng'] else None
+                'city': row.city,
+                'state': row.state,
+                'count': row.count,
+                'latitude': float(row.avg_lat) if row.avg_lat else None,
+                'longitude': float(row.avg_lng) if row.avg_lng else None
             })
-        
-        conn.close()
         
         return jsonify({
             'amenity': amenity_name,
@@ -1054,44 +947,32 @@ def get_amenity_city_data_by_year(amenity_name, year):
 @bp.route('/all-amenities-city-data/<int:year>')
 def get_all_amenities_city_data_by_year(year):
     """Get city-level data for all amenities combined in a specific year"""
-    db_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'mgg.db')
-    
     try:
-        conn = sqlite3.connect(db_path)
-        conn.row_factory = sqlite3.Row
-        cursor = conn.cursor()
+        results = db.session.query(
+            Location.city,
+            Location.state,
+            db.func.count(db.func.distinct(Location.id)).label('count'),
+            db.func.avg(Location.latitude).label('avg_lat'),
+            db.func.avg(Location.longitude).label('avg_lng')
+        ).filter(
+            Location.year == year,
+            Location.latitude.isnot(None),
+            Location.longitude.isnot(None)
+        ).group_by(
+            Location.city, Location.state
+        ).having(
+            db.func.count(db.func.distinct(Location.id)) > 0
+        ).order_by(db.func.count(db.func.distinct(Location.id)).desc()).all()
         
-        # Get city-level counts for all amenities combined in the specific year
-        cursor.execute("""
-            SELECT 
-                l.city,
-                l.state,
-                COUNT(DISTINCT l.id) as count,
-                AVG(l.latitude) as avg_lat,
-                AVG(l.longitude) as avg_lng
-            FROM locations l
-            WHERE l.year = ?
-            AND l.latitude IS NOT NULL 
-            AND l.longitude IS NOT NULL
-            GROUP BY l.city, l.state
-            HAVING COUNT(DISTINCT l.id) > 0
-            ORDER BY count DESC
-        """, (year,))
-        
-        city_data = cursor.fetchall()
-        
-        # Convert to list of dictionaries
         cities = []
-        for row in city_data:
+        for row in results:
             cities.append({
-                'city': row['city'],
-                'state': row['state'],
-                'count': row['count'],
-                'latitude': float(row['avg_lat']) if row['avg_lat'] else None,
-                'longitude': float(row['avg_lng']) if row['avg_lng'] else None
+                'city': row.city,
+                'state': row.state,
+                'count': row.count,
+                'latitude': float(row.avg_lat) if row.avg_lat else None,
+                'longitude': float(row.avg_lng) if row.avg_lng else None
             })
-        
-        conn.close()
         
         return jsonify({
             'amenity': 'All Amenities',
@@ -1111,70 +992,64 @@ def get_all_amenities_city_data_by_year(year):
 
 @bp.route('/amenities-trends')
 def get_amenities_trends():
-    """Get amenities trends data for visualization - OPTIMIZED VERSION"""
-    db_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'mgg.db')
-    
+    """Get amenities trends data for visualization - SQLAlchemy version"""
     try:
-        conn = sqlite3.connect(db_path)
-        conn.row_factory = sqlite3.Row
-        cursor = conn.cursor()
-        
         # Get all available years
-        cursor.execute("SELECT DISTINCT year FROM locations WHERE year IS NOT NULL ORDER BY year")
-        years_result = cursor.fetchall()
-        years = [row['year'] for row in years_result] if years_result else []
+        years = db.session.query(Location.year).filter(
+            Location.year.isnot(None)
+        ).distinct().order_by(Location.year).all()
+        years = [row[0] for row in years]
         
         # Get all amenities
-        cursor.execute("SELECT DISTINCT name FROM amenity_features ORDER BY name")
-        amenities_result = cursor.fetchall()
-        amenities = [row['name'] for row in amenities_result] if amenities_result else []
+        amenities = db.session.query(AmenityFeature.name).order_by(
+            AmenityFeature.name
+        ).distinct().all()
+        amenities = [row[0] for row in amenities]
         
-        # Calculate total locations per year in one optimized query
-        cursor.execute("""
-            SELECT year, COUNT(*) as total_count 
-            FROM locations 
-            WHERE year IS NOT NULL 
-            GROUP BY year 
-            ORDER BY year
-        """)
-        total_locations_data = cursor.fetchall()
+        # Calculate total locations per year
+        total_locations_data = db.session.query(
+            Location.year, db.func.count(Location.id).label('total_count')
+        ).filter(
+            Location.year.isnot(None)
+        ).group_by(Location.year).order_by(Location.year).all()
+        
         total_locations_per_year = [0] * len(years)
         for row in total_locations_data:
-            year_index = years.index(row['year'])
-            total_locations_per_year[year_index] = row['total_count']
+            year_index = years.index(row.year)
+            total_locations_per_year[year_index] = row.total_count
         
-        # Calculate trends for all amenities in one optimized query
-        cursor.execute("""
-            SELECT af.name as amenity_name, l.year, COUNT(DISTINCT l.id) as count
-            FROM locations l
-            JOIN location_amenity_assignments laa ON l.id = laa.location_id
-            JOIN amenity_features af ON laa.amenity_id = af.id
-            WHERE l.year IS NOT NULL
-            GROUP BY af.name, l.year
-            ORDER BY af.name, l.year
-        """)
-        
-        trends_data = cursor.fetchall()
+        # Calculate trends for all amenities
         trends = {}
-        
-        # Initialize all amenities with zeros
         for amenity in amenities:
             trends[amenity] = [0] * len(years)
         
-        # Fill in the actual counts
-        for row in trends_data:
-            amenity_name = row['amenity_name']
-            year = row['year']
-            count = row['count']
+        # Get amenity counts per year using SQLAlchemy
+        results = db.session.query(
+            AmenityFeature.name.label('amenity_name'),
+            Location.year,
+            db.func.count(db.func.distinct(Location.id)).label('count')
+        ).join(
+            LocationAmenityAssignment, Location.id == LocationAmenityAssignment.location_id
+        ).join(
+            AmenityFeature, LocationAmenityAssignment.amenity_id == AmenityFeature.id
+        ).filter(
+            Location.year.isnot(None)
+        ).group_by(
+            AmenityFeature.name, Location.year
+        ).order_by(AmenityFeature.name, Location.year).all()
+        
+        # Fill in the trends
+        for row in results:
+            amenity_name = row.amenity_name
+            year = row.year
+            count = row.count
             
             if amenity_name in trends and year in years:
                 year_index = years.index(year)
                 trends[amenity_name][year_index] = count
         
-        conn.close()
-        
         print(f"OPTIMIZED API Response: {len(amenities)} amenities, {len(years)} years")
-        print(f"Total locations per year: {total_locations_per_year[:5]}...")  # Show first 5 years
+        print(f"Total locations per year: {total_locations_per_year[:5]}...")
         
         return jsonify({
             'amenities': amenities,
