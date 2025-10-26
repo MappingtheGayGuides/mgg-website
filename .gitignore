@@ -51,6 +51,7 @@ cover/
 # Django stuff:
 *.log
 local_settings.py
+db.sqlite3
 db.sqlite3-journal
 
 # Flask stuff:
@@ -273,6 +274,10 @@ Temporary Items
 .apdisk
 
 # Project specific
+*.db
+*.sqlite
+*.sqlite3
+mgg.db
 instance/
 
 # Flask session files
