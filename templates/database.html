@@ -355,22 +355,6 @@ document.addEventListener('DOMContentLoaded', function() {
             form.submit();
         }, 500);
     });
-    
-    // Clear search when filters are applied or reset
-    const applyButton = document.querySelector('button[type="submit"]');
-    const resetButton = document.querySelector('a[href*="database"]');
-    
-    if (applyButton) {
-        applyButton.addEventListener('click', function() {
-            searchInput.value = '';
-        });
-    }
-    
-    if (resetButton) {
-        resetButton.addEventListener('click', function() {
-            searchInput.value = '';
-        });
-    }
 });
 </script>
 {% endblock %}

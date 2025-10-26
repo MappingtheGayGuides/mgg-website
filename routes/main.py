@@ -81,8 +81,8 @@ def database():
         else:  # Default: sort by year
             order_clause += f"l.year {'DESC' if sort_order == 'desc' else 'ASC'}, l.title"
         
-        # Get total count for pagination
-        count_query = f"SELECT COUNT(*) {base_query}"
+        # Get total count for pagination (use COUNT(DISTINCT l.id) to avoid counting duplicates from JOINs)
+        count_query = f"SELECT COUNT(DISTINCT l.id) {base_query}"
         cursor.execute(count_query, params)
         total_count = cursor.fetchone()[0]
         
@@ -90,7 +90,7 @@ def database():
         offset = (page - 1) * per_page
         
         # First get the basic location data without JOINs to avoid duplicates
-        select_query = f"SELECT l.* {base_query} {order_clause} LIMIT ? OFFSET ?"
+        select_query = f"SELECT DISTINCT l.* {base_query} {order_clause} LIMIT ? OFFSET ?"
         cursor.execute(select_query, params + [per_page, offset])
         locations = [dict(row) for row in cursor.fetchall()]
         
