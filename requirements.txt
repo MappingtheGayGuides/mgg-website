@@ -5,3 +5,4 @@ Werkzeug==2.3.7
 python-dotenv==1.0.0
 flask-assets==2.0
 Flask-FlatPages==0.8.2
+psycopg2-binary==2.9.9
