@@ -1,7 +1,7 @@
 from flask import Flask, render_template, jsonify
-from flask_sqlalchemy import SQLAlchemy
 from flask_flatpages import FlatPages
 import os
+from models import db  # Import db from models
 
 app = Flask(__name__)
 
@@ -18,7 +18,6 @@ app.config['FLATPAGES_EXTENSION'] = '.md'
 app.config['FLATPAGES_MARKDOWN_EXTENSIONS'] = ['codehilite', 'fenced_code', 'tables', 'toc', 'attr_list', 'footnotes']
 
 # Initialize extensions
-db = SQLAlchemy()
 pages = FlatPages(app)
 
 # Initialize the app with extensions FIRST
@@ -27,12 +26,13 @@ db.init_app(app)
 # Models are now handled directly in the API routes
 
 def ensure_database_exists():
-    """Ensure the database exists"""
-    if not os.path.exists('mgg.db'):
-        print("Database not found. Please run create_database.py first!")
-        return False
-    print("Database found and ready!")
-    return True
+    """Ensure the database exists and create tables if needed"""
+    from models import Location, LocationType, AmenityFeature, UniqueLocation
+    with app.app_context():
+        # This will create tables if they don't exist
+        db.create_all()
+        print("✓ Database ready!")
+        return True
 
 # Route for static content pages using Flask-FlatPages
 @app.route('/')
@@ -95,4 +95,10 @@ app.register_blueprint(api.bp, url_prefix='/api')
 
 if __name__ == '__main__':
     ensure_database_exists()
-    app.run(debug=True, port=5001)
+    
+    # Get port from environment variable (for production) or default to 5001 (for local dev)
+    port = int(os.environ.get('PORT', 5001))
+    # Only run in debug mode if not in production
+    debug = os.environ.get('FLASK_ENV') != 'production'
+    
+    app.run(debug=debug, host='0.0.0.0', port=port)
