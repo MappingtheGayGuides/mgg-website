@@ -6,6 +6,9 @@ let currentView = 'percentage'; // 'percentage' or 'count'
 let currentAmenity = null;
 let currentYear = 1965; // Track current year
 let yearSlider = null;
+let selectedState = ''; // Track selected state filter
+let selectedCity = ''; // Track selected city filter
+let allCityData = []; // Store all city data for filtering
 
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Amenities.js loaded, initializing...');
@@ -198,6 +201,71 @@ function populateAmenityDropdowns() {
             dropdown.appendChild(option);
         });
     }
+    
+    // State and city dropdowns will be populated after map data loads
+}
+
+function populateStateDropdown() {
+    const stateFilter = document.getElementById('state-filter');
+    if (!stateFilter) return;
+    
+    // Save current selection
+    const currentSelection = stateFilter.value;
+    
+    // Get unique states from all city data
+    const states = [...new Set(allCityData.map(city => city.state).filter(Boolean))].sort();
+    
+    stateFilter.innerHTML = '<option value="">All States</option>';
+    
+    states.forEach(state => {
+        const option = document.createElement('option');
+        option.value = state;
+        option.textContent = state;
+        stateFilter.appendChild(option);
+    });
+    
+    // Restore selection if it's still valid
+    if (currentSelection && states.includes(currentSelection)) {
+        stateFilter.value = currentSelection;
+        selectedState = currentSelection;
+    }
+}
+
+function updateCityFilter() {
+    const cityFilter = document.getElementById('city-filter');
+    const stateFilter = document.getElementById('state-filter');
+    
+    if (!cityFilter || !stateFilter) return;
+    
+    // Save current selection
+    const currentSelection = cityFilter.value;
+    
+    const selectedState = stateFilter.value;
+    
+    // Clear existing options
+    cityFilter.innerHTML = '<option value="">All Cities</option>';
+    
+    // Filter cities by selected state
+    const cities = selectedState 
+        ? [...new Set(allCityData
+            .filter(city => city.state === selectedState)
+            .map(city => city.city)
+            .filter(Boolean))].sort()
+        : [...new Set(allCityData.map(city => city.city).filter(Boolean))].sort();
+    
+    // Populate city dropdown
+    cities.forEach(city => {
+        const option = document.createElement('option');
+        option.value = city;
+        option.textContent = city;
+        cityFilter.appendChild(option);
+    });
+    
+    // Restore selection if it's still valid
+    if (currentSelection && cities.includes(currentSelection)) {
+        cityFilter.value = currentSelection;
+        selectedCity = currentSelection;
+    }
 }
 
 function setupEventListeners() {
@@ -240,7 +308,39 @@ function setupEventListeners() {
         countButton.addEventListener('click', () => switchView('count'));
     }
     
-    // No longer need tab functionality
+    // State filter
+    const stateFilter = document.getElementById('state-filter');
+    if (stateFilter) {
+        stateFilter.addEventListener('change', function() {
+            selectedState = this.value;
+            updateCityFilter(); // Update city dropdown based on selected state
+            applyFilters();
+        });
+    }
+    
+    // City filter
+    const cityFilter = document.getElementById('city-filter');
+    if (cityFilter) {
+        cityFilter.addEventListener('change', function() {
+            selectedCity = this.value;
+            applyFilters();
+        });
+    }
+}
+
+function updateYearSlider() {
+    const slider = document.getElementById('year-slider');
+    const yearDisplay = document.getElementById('current-year');
+    
+    if (slider) {
+        slider.value = currentYear;
+    }
+    
+    if (yearDisplay) {
+        yearDisplay.textContent = currentYear;
+    }
+    
+    console.log('Updated year slider to:', currentYear);
 }
 
 function updateYear() {
@@ -254,8 +354,14 @@ function updateYear() {
     }
     
     // Update chart and map if an amenity is selected
+    // Don't call updateChart() as it resets the year - just update the visualizations
     if (currentAmenity) {
-        updateChart();
+        createSingleViewChart(currentAmenity, currentView);
+        createDensityMapForYear(currentAmenity, currentYear);
+    } else {
+        // If no amenity selected, just update the map with the new year
+        // Don't recreate the entire chart, just update the map
+        createDensityMapForYear('All Amenities', currentYear);
     }
 }
 
@@ -268,17 +374,46 @@ function updateChart() {
     if (!selectedAmenity) {
         showDefaultCharts();
         currentAmenity = null;
+        // Reset slider to 1965 for all amenities view
+        currentYear = 1965;
+        updateYearSlider();
         return;
     }
 
     currentAmenity = selectedAmenity;
     const selectedAmenities = [selectedAmenity];
 
-    // Create chart based on current view
-    createSingleViewChart(selectedAmenity, currentView);
-    
-    // Create density map for current year
-    createDensityMapForYear(selectedAmenity, currentYear);
+    // Get the first year with data for this amenity
+    fetch(`/api/amenity-first-year/${encodeURIComponent(selectedAmenity)}`)
+        .then(response => response.json())
+        .then(data => {
+            console.log('First year data:', data);
+            
+            if (data.error) {
+                console.error('Error getting first year:', data.error);
+                // Fallback to current year
+                createSingleViewChart(selectedAmenity, currentView);
+                createDensityMapForYear(selectedAmenity, currentYear);
+                return;
+            }
+            
+            // Jump to the first year with data
+            if (data.first_year) {
+                currentYear = data.first_year;
+                updateYearSlider();
+                console.log(`Jumping to first year with data: ${currentYear}`);
+            }
+            
+            // Create chart and map with the new year
+            createSingleViewChart(selectedAmenity, currentView);
+            createDensityMapForYear(selectedAmenity, currentYear);
+        })
+        .catch(error => {
+            console.error('Error fetching first year:', error);
+            // Fallback to current year
+            createSingleViewChart(selectedAmenity, currentView);
+            createDensityMapForYear(selectedAmenity, currentYear);
+        });
 
     currentChart = true;
 
@@ -326,7 +461,25 @@ function createSingleViewChart(selectedAmenity, view) {
         .append('g')
         .attr('transform', `translate(${margin.left},${margin.top})`);
 
+    // Check if we need to fetch filtered data for the chart
+    const needsFilteredData = selectedState || selectedCity;
+    
     let data, yScale, yAxis, lineColor, yAxisLabel, legendText, totalData, totalYScale;
+    
+    if (needsFilteredData) {
+        // Show loading message while fetching filtered data
+        svg.append('text')
+            .attr('text-anchor', 'middle')
+            .attr('x', width / 2)
+            .attr('y', height / 2)
+            .style('font-size', '14px')
+            .style('fill', '#6b7280')
+            .text('Loading filtered data...');
+        
+        // Fetch filtered data for chart
+        fetchFilteredChartData(selectedAmenity, view, svg, width, height, margin);
+        return;
+    }
 
     if (view === 'percentage') {
         // Calculate percentage data
@@ -620,6 +773,78 @@ function hideTooltip() {
         .duration(200)
         .style('opacity', 0)
         .remove();
+}
+
+function showFilteredTooltip(event, d, yearData, selectedAmenity, view) {
+    // Find the data point for this year
+    const yearDataPoint = yearData.find(item => item.year === d.year);
+    
+    if (!yearDataPoint) {
+        console.error('Could not find data point for year:', d.year);
+        return;
+    }
+    
+    // Calculate all the values we need
+    const year = d.year;
+    const totalLocations = yearDataPoint.totalCount;
+    const amenityCount = yearDataPoint.amenityCount;
+    const percentage = totalLocations > 0 ? (amenityCount / totalLocations * 100).toFixed(1) : 0;
+    
+    // Create tooltip content
+    let tooltipContent = `
+        <div class="tooltip-content">
+            <div class="tooltip-title"><strong>${year}</strong></div>
+            <div class="tooltip-item">
+                <span class="tooltip-label">Total Locations:</span>
+                <span class="tooltip-value">${totalLocations.toLocaleString()}</span>
+            </div>
+            <div class="tooltip-item">
+                <span class="tooltip-label">${selectedAmenity}:</span>
+                <span class="tooltip-value">${amenityCount.toLocaleString()}</span>
+            </div>
+            <div class="tooltip-item">
+                <span class="tooltip-label">Percentage:</span>
+                <span class="tooltip-value">${percentage}%</span>
+            </div>
+        </div>
+    `;
+    
+    // Add filter info if filters are applied
+    if (selectedState || selectedCity) {
+        const filterParts = [];
+        if (selectedState) filterParts.push(`State: ${selectedState}`);
+        if (selectedCity) filterParts.push(`City: ${selectedCity}`);
+        tooltipContent += `<div class="tooltip-item" style="margin-top: 4px; padding-top: 4px; border-top: 1px solid rgba(255, 255, 255, 0.2);">
+            <span class="tooltip-label" style="font-size: 11px;">Filter:</span>
+            <span class="tooltip-value" style="font-size: 11px;">${filterParts.join(', ')}</span>
+        </div>`;
+    }
+    
+    tooltipContent += '</div>';
+    
+    // Create or update tooltip
+    let tooltip = d3.select('body').select('.chart-tooltip');
+    if (tooltip.empty()) {
+        tooltip = d3.select('body').append('div')
+            .attr('class', 'chart-tooltip')
+            .style('position', 'absolute')
+            .style('background', 'rgba(0, 0, 0, 0.8)')
+            .style('color', 'white')
+            .style('padding', '8px 12px')
+            .style('border-radius', '6px')
+            .style('font-size', '12px')
+            .style('pointer-events', 'none')
+            .style('z-index', '1000')
+            .style('box-shadow', '0 4px 6px rgba(0, 0, 0, 0.1)')
+            .style('opacity', 0);
+    }
+    
+    tooltip.html(tooltipContent)
+        .style('left', (event.pageX + 10) + 'px')
+        .style('top', (event.pageY - 10) + 'px')
+        .transition()
+        .duration(200)
+        .style('opacity', 1);
 }
 
 function createPercentageChart(selectedAmenity) {
@@ -1320,6 +1545,8 @@ function showDefaultCharts() {
     createDefaultCombinedChart();
     showDefaultMap();
     updateDefaultInsights();
+    
+    // Dropdowns will be populated by createDensityMapForYear after data loads
 }
 
 function updateDefaultInsights() {
@@ -1448,6 +1675,295 @@ function updateInsights(selectedAmenities) {
     insightsContainer.innerHTML = insightsHTML;
 }
 
+function applyFilters() {
+    console.log('Applying filters...', { selectedState, selectedCity, currentYear });
+    
+    // Update the chart if an amenity is selected
+    if (currentAmenity) {
+        createSingleViewChart(currentAmenity, currentView);
+    }
+    
+    // Update the map with current filters
+    if (currentAmenity) {
+        createDensityMapForYear(currentAmenity, currentYear);
+    } else {
+        createDensityMapForYear('All Amenities', currentYear);
+    }
+}
+
+async function fetchFilteredChartData(selectedAmenity, view, svg, width, height, margin) {
+    try {
+        // Fetch both total counts and amenity counts for each year
+        const yearPromises = amenitiesData.years.map(async year => {
+            const params = new URLSearchParams();
+            if (selectedState) params.append('state', selectedState);
+            if (selectedCity) params.append('city', selectedCity);
+            
+            const queryString = params.toString() ? `?${params}` : '';
+            
+            const [amenityResponse, totalResponse] = await Promise.all([
+                fetch(`/api/filtered-amenity-counts/${encodeURIComponent(selectedAmenity)}/${year}${queryString}`),
+                fetch(`/api/filtered-location-counts/${year}${queryString}`)
+            ]);
+            
+            const [amenityData, totalData] = await Promise.all([
+                amenityResponse.json(),
+                totalResponse.json()
+            ]);
+            
+            return {
+                year,
+                amenityCount: amenityData.count || 0,
+                totalCount: totalData.count || 0
+            };
+        });
+        
+        const yearData = await Promise.all(yearPromises);
+        
+        // Clear loading text
+        svg.selectAll('text').remove();
+        
+        // Now draw the chart with filtered data
+        drawChartWithData(svg, yearData, view, width, height, margin, selectedAmenity);
+        
+    } catch (error) {
+        console.error('Error fetching filtered chart data:', error);
+        svg.selectAll('text').remove();
+        svg.append('text')
+            .attr('text-anchor', 'middle')
+            .attr('x', width / 2)
+            .attr('y', height / 2)
+            .style('font-size', '14px')
+            .style('fill', '#ef4444')
+            .text('Error loading filtered chart data');
+    }
+}
+
+function drawChartWithData(svg, yearData, view, width, height, margin, selectedAmenity) {
+    // Clear existing chart
+    svg.selectAll('*').remove();
+    
+    // Store yearData in a closure so hover handlers can access it
+    const hoverData = yearData;
+    
+    let data, yScale, yAxis, lineColor, yAxisLabel, legendText, totalData, totalYScale;
+    
+    if (view === 'percentage') {
+        // Calculate percentage data
+        data = yearData.map(d => ({
+            year: d.year,
+            value: d.totalCount > 0 ? (d.amenityCount / d.totalCount * 100) : 0
+        }));
+        
+        // Prepare total data for reference
+        totalData = yearData.map(d => ({
+            year: d.year,
+            value: d.totalCount
+        }));
+        
+        // Create separate scales for percentage (left axis) and total count (right axis)
+        yScale = d3.scaleLinear()
+            .domain([0, d3.max(data, d => d.value) * 1.1])
+            .range([height, 0]);
+            
+        totalYScale = d3.scaleLinear()
+            .domain([0, d3.max(totalData, d => d.value) * 1.1])
+            .range([height, 0]);
+            
+        yAxis = d3.axisLeft(yScale).tickFormat(d => d + '%');
+        lineColor = '#3b82f6';
+        yAxisLabel = 'Percentage of Total Locations';
+        legendText = 'Percentage';
+    } else {
+        // Prepare count data
+        data = yearData.map(d => ({
+            year: d.year,
+            value: d.amenityCount
+        }));
+        
+        // Prepare total data for reference
+        totalData = yearData.map(d => ({
+            year: d.year,
+            value: d.totalCount
+        }));
+        
+        yScale = d3.scaleLinear()
+            .domain([0, d3.max([...data, ...totalData], d => d.value) * 1.1])
+            .range([height, 0]);
+            
+        totalYScale = yScale;
+            
+        yAxis = d3.axisLeft(yScale);
+        lineColor = '#ef4444';
+        yAxisLabel = 'Number of Locations';
+        legendText = 'Raw Count';
+    }
+    
+    // Scales
+    const xScale = d3.scaleLinear()
+        .domain(d3.extent(yearData, d => d.year))
+        .range([0, width]);
+    
+    // Line generators
+    const line = d3.line()
+        .x(d => xScale(d.year))
+        .y(d => yScale(d.value))
+        .curve(d3.curveMonotoneX);
+        
+    const totalLine = d3.line()
+        .x(d => xScale(d.year))
+        .y(d => totalYScale(d.value))
+        .curve(d3.curveMonotoneX);
+    
+    // Add axes
+    const xAxis = d3.axisBottom(xScale).tickFormat(d => d.toString());
+    const yTotalAxis = view === 'percentage' ? d3.axisRight(totalYScale) : null;
+    
+    svg.append('g')
+        .attr('class', 'x-axis')
+        .attr('transform', `translate(0,${height})`)
+        .call(xAxis);
+    
+    svg.append('g')
+        .attr('class', 'y-axis')
+        .call(yAxis);
+    
+    // Add right Y-axis for total count in percentage view
+    if (view === 'percentage' && yTotalAxis) {
+        svg.append('g')
+            .attr('class', 'y-axis-right')
+            .attr('transform', `translate(${width},0)`)
+            .call(yTotalAxis);
+    }
+    
+    // Add axis labels
+    svg.append('text')
+        .attr('class', 'axis-label')
+        .attr('text-anchor', 'middle')
+        .attr('x', width / 2)
+        .attr('y', height + margin.bottom - 10)
+        .style('font-size', '12px')
+        .style('fill', '#6b7280')
+        .text('Year');
+    
+    svg.append('text')
+        .attr('class', 'axis-label')
+        .attr('text-anchor', 'middle')
+        .attr('transform', 'rotate(-90)')
+        .attr('x', -height / 2)
+        .attr('y', -margin.left + 20)
+        .style('font-size', '12px')
+        .style('fill', '#6b7280')
+        .text(yAxisLabel);
+    
+    // Add grid lines
+    svg.append('g')
+        .attr('class', 'grid')
+        .attr('transform', `translate(0,${height})`)
+        .call(d3.axisBottom(xScale).tickSize(-height).tickFormat('').tickSizeOuter(0))
+        .style('stroke-dasharray', '3,3')
+        .style('opacity', 0.3);
+    
+    svg.append('g')
+        .attr('class', 'grid')
+        .call(d3.axisLeft(yScale).tickSize(-width).tickFormat('').tickSizeOuter(0))
+        .style('stroke-dasharray', '3,3')
+        .style('opacity', 0.3);
+    
+    // Add the total reference line
+    svg.append('path')
+        .datum(totalData)
+        .attr('class', 'line-total-reference')
+        .attr('d', totalLine)
+        .style('fill', 'none')
+        .style('stroke', '#10b981')
+        .style('stroke-width', 2)
+        .style('stroke-dasharray', '5,5')
+        .style('opacity', 0.6);
+    
+    // Add the main line
+    svg.append('path')
+        .datum(data)
+        .attr('class', 'line-main')
+        .attr('d', line)
+        .style('fill', 'none')
+        .style('stroke', lineColor)
+        .style('stroke-width', 3)
+        .style('opacity', 0.8);
+    
+    // Add dots for data points
+    svg.selectAll('.dot-main')
+        .data(data)
+        .enter().append('circle')
+        .attr('class', 'dot-main')
+        .attr('cx', d => xScale(d.year))
+        .attr('cy', d => yScale(d.value))
+        .attr('r', 4)
+        .style('fill', lineColor)
+        .style('opacity', 0.8);
+    
+    // Add invisible hover areas for better interaction
+    svg.selectAll('.hover-area')
+        .data(data)
+        .enter().append('circle')
+        .attr('class', 'hover-area')
+        .attr('cx', d => xScale(d.year))
+        .attr('cy', d => yScale(d.value))
+        .attr('r', 8)
+        .style('fill', 'transparent')
+        .style('cursor', 'pointer')
+        .on('mouseover', function(event, d) {
+            showFilteredTooltip(event, d, hoverData, selectedAmenity, view);
+        })
+        .on('mouseout', function() {
+            hideTooltip();
+        });
+    
+    // Add legend
+    const legend = svg.append('g')
+        .attr('class', 'legend')
+        .attr('transform', `translate(${width - 150}, 20)`);
+    
+    legend.append('line')
+        .attr('x1', 0)
+        .attr('x2', 20)
+        .attr('y1', 0)
+        .attr('y2', 0)
+        .style('stroke', lineColor)
+        .style('stroke-width', 3);
+    
+    legend.append('circle')
+        .attr('cx', 10)
+        .attr('cy', 0)
+        .attr('r', 3)
+        .style('fill', lineColor);
+    
+    legend.append('text')
+        .attr('x', 25)
+        .attr('y', 4)
+        .style('font-size', '11px')
+        .style('fill', '#374151')
+        .text(legendText);
+    
+    // Total reference legend
+    legend.append('line')
+        .attr('x1', 0)
+        .attr('x2', 20)
+        .attr('y1', 15)
+        .attr('y2', 15)
+        .style('stroke', '#10b981')
+        .style('stroke-width', 2)
+        .style('stroke-dasharray', '5,5')
+        .style('opacity', 0.6);
+    
+    legend.append('text')
+        .attr('x', 25)
+        .attr('y', 19)
+        .style('font-size', '11px')
+        .style('fill', '#374151')
+        .text('Total Locations');
+}
+
 function resetFilters() {
     console.log('Resetting filters...');
     
@@ -1455,6 +1971,18 @@ function resetFilters() {
     const dropdown = document.getElementById('amenity-1');
     if (dropdown) {
         dropdown.value = '';
+    }
+    
+    // Reset state and city filters
+    const stateFilter = document.getElementById('state-filter');
+    const cityFilter = document.getElementById('city-filter');
+    if (stateFilter) {
+        stateFilter.value = '';
+        selectedState = '';
+    }
+    if (cityFilter) {
+        cityFilter.value = '';
+        selectedCity = '';
     }
     
     // Reset year slider
@@ -1570,6 +2098,38 @@ function createDensityMapForYear(selectedAmenity, year) {
                 throw new Error('Invalid data structure from API');
             }
             
+            // Store all city data for filtering dropdowns (only once)
+            if (allCityData.length === 0) {
+                allCityData = data.cities;
+                
+                // Populate state and city dropdowns on first load
+                if (allCityData.length > 0) {
+                    populateStateDropdown();
+                    updateCityFilter();
+                }
+            }
+            
+            // Filter by state and city if selected
+            let filteredCities = data.cities;
+            console.log('Before filtering:', filteredCities.length, 'cities');
+            if (selectedState) {
+                filteredCities = filteredCities.filter(city => city.state === selectedState);
+                console.log('After state filter:', filteredCities.length, 'cities');
+            }
+            if (selectedCity) {
+                filteredCities = filteredCities.filter(city => city.city === selectedCity);
+                console.log('After city filter:', filteredCities.length, 'cities');
+            }
+            
+            // Update data object with filtered cities
+            data.cities = filteredCities;
+            
+            // Add filter info to data for display
+            data.filterInfo = {
+                state: selectedState || 'All States',
+                city: selectedCity || 'All Cities'
+            };
+            
             // Clear loading text
             svg.selectAll('text').remove();
             
@@ -1619,8 +2179,8 @@ function createMapVisualization(svg, data, width, height) {
                 .datum(topojson.feature(us, us.objects.states))
                 .attr("class", "states")
                 .attr("d", path)
-                .style("fill", "#f8f9fa")
-                .style("stroke", "#dee2e6")
+                .style("fill", "#dee2e6")  // Darker background for better contrast
+                .style("stroke", "#adb5bd")
                 .style("stroke-width", 1);
 
             // Add state borders
@@ -1629,8 +2189,8 @@ function createMapVisualization(svg, data, width, height) {
                 .attr("class", "state-borders")
                 .attr("d", path)
                 .style("fill", "none")
-                .style("stroke", "#adb5bd")
-                .style("stroke-width", 0.5);
+                .style("stroke", "#868e96")
+                .style("stroke-width", 0.75);
 
             // Now add the city circles on top of the map
             addCityCircles(svg, data, projection, width, height);
@@ -1648,13 +2208,25 @@ function addCityCircles(svg, data, projection, width, height) {
     // Check if we have valid data
     if (!data.cities || data.cities.length === 0) {
         console.log('No cities data available');
+        
+        // Build filter message
+        const filterParts = [];
+        if (data.filterInfo && data.filterInfo.state !== 'All States') {
+            filterParts.push(`State: ${data.filterInfo.state}`);
+        }
+        if (data.filterInfo && data.filterInfo.city !== 'All Cities') {
+            filterParts.push(`City: ${data.filterInfo.city}`);
+        }
+        
+        const filterText = filterParts.length > 0 ? ` (${filterParts.join(', ')})` : '';
+        
         svg.append('text')
             .attr('text-anchor', 'middle')
             .attr('x', width / 2)
             .attr('y', height / 2)
             .style('font-size', '14px')
             .style('fill', '#6b7280')
-            .text(`No data available for ${data.amenity} in ${data.year}`);
+            .text(`No data available for ${data.amenity} in ${data.year}${filterText}`);
         return;
     }
     
@@ -1674,13 +2246,21 @@ function addCityCircles(svg, data, projection, width, height) {
         return;
     }
     
-    const colorScale = d3.scaleSequential(d3.interpolateBlues)
-        .domain([0, maxCount]);
+    // Use a blue color scheme (medium blue to navy)
+    // Custom interpolation to ensure lightest dots are visible against darker background
+    const colorScale = d3.scaleSequential()
+        .domain([0, maxCount])
+        .interpolator((t) => {
+            // Start with a medium blue and go to navy
+            // Use a cubic ease-out to push lighter colors to be darker
+            const eased = 1 - Math.pow(1 - t, 3);
+            return d3.interpolate("#4d88c7", "#003366")(eased);
+        });
 
-    // Create radius scale for circle sizes - smaller circles for better visibility on larger map
+    // Create radius scale for circle sizes - adjust range for better visibility
     const radiusScale = d3.scaleSqrt()
         .domain([0, maxCount])
-        .range([2, 12]); // Smaller range for better proportion on larger map
+        .range([3, 15]); // Slightly larger range for better visibility and interaction
 
     // Add circles for each city
     svg.selectAll('.city-circle')
@@ -1697,20 +2277,35 @@ function addCityCircles(svg, data, projection, width, height) {
         })
         .attr('r', d => radiusScale(d.count))
         .style('fill', d => colorScale(d.count))
-        .style('opacity', 0.8) // Increased opacity for better visibility
-        .style('stroke', '#fff')
-        .style('stroke-width', 1) // Thinner stroke for smaller circles
+        .style('opacity', 0.75) // Semi-transparent to show stacked dots
+        .style('stroke', 'rgba(255, 255, 255, 0.3)')  // Very light border, mostly invisible
+        .style('stroke-width', 0.5)
+        .style('cursor', 'pointer') // Show pointer cursor on hover
         .on('mouseover', function(event, d) {
-            showMapTooltip(event, d, selectedAmenity);
+            showMapTooltip(event, d, data.amenity);
         })
         .on('mouseout', function() {
             hideMapTooltip();
         });
 
-    // Add title with year - positioned closer to top
-    const mapTitle = data.amenity === 'All Amenities' 
-        ? `All Amenities Distribution - ${data.year} - ${data.total_cities} Cities`
-        : `${data.amenity} Distribution - ${data.year} - ${data.total_cities} Cities`;
+    // Add title with year and filter info - positioned closer to top
+    let mapTitle = data.amenity === 'All Amenities' 
+        ? `All Amenities Distribution - ${data.year}`
+        : `${data.amenity} Distribution - ${data.year}`;
+    
+    // Add filter info to title if filters are applied
+    if (data.filterInfo) {
+        const filterParts = [];
+        if (data.filterInfo.state !== 'All States') {
+            filterParts.push(data.filterInfo.state);
+        }
+        if (data.filterInfo.city !== 'All Cities') {
+            filterParts.push(data.filterInfo.city);
+        }
+        if (filterParts.length > 0) {
+            mapTitle += ` (${filterParts.join(', ')})`;
+        }
+    }
     
     svg.append('text')
         .attr('text-anchor', 'middle')
@@ -1747,9 +2342,9 @@ function addCityCircles(svg, data, projection, width, height) {
             .attr('cy', (d, i) => i * 15)
             .attr('r', d => radiusScale(d))
             .style('fill', d => colorScale(d))
-            .style('opacity', 0.8)
-            .style('stroke', '#fff')
-            .style('stroke-width', 1); // Thinner stroke for smaller circles
+            .style('opacity', 0.75)
+            .style('stroke', 'rgba(255, 255, 255, 0.3)')
+            .style('stroke-width', 0.5); // Light stroke to match map dots
 
         // Legend labels
         legend.selectAll('.legend-label')
@@ -1769,12 +2364,14 @@ function showMapTooltip(event, d, selectedAmenity) {
         ? selectedAmenity 
         : 'All Amenities';
     
+    const locationCount = d.count === 1 ? 'location' : 'locations';
+    
     const tooltipContent = `
-        <div class="tooltip-content">
-            <div class="tooltip-title"><strong>${d.city}, ${d.state}</strong></div>
-            <div class="tooltip-item">
-                <span class="tooltip-label">${amenityLabel}:</span>
-                <span class="tooltip-value">${d.count} locations</span>
+        <div style="line-height: 1.6;">
+            <div style="font-size: 15px; font-weight: 700; margin-bottom: 6px; border-bottom: 1px solid rgba(255, 255, 255, 0.3); padding-bottom: 4px;">${d.city}, ${d.state}</div>
+            <div style="display: flex; justify-content: space-between; gap: 12px;">
+                <span style="font-weight: 500;">Locations:</span>
+                <span style="font-weight: 700;">${d.count}</span>
             </div>
         </div>
     `;
@@ -1784,14 +2381,15 @@ function showMapTooltip(event, d, selectedAmenity) {
         tooltip = d3.select('body').append('div')
             .attr('class', 'map-tooltip')
             .style('position', 'absolute')
-            .style('background', 'rgba(0, 0, 0, 0.8)')
+            .style('background', 'rgba(0, 0, 0, 0.85)')
             .style('color', 'white')
-            .style('padding', '8px 12px')
-            .style('border-radius', '6px')
-            .style('font-size', '12px')
+            .style('padding', '10px 14px')
+            .style('border-radius', '8px')
+            .style('font-size', '13px')
+            .style('font-weight', '500')
             .style('pointer-events', 'none')
             .style('z-index', '1000')
-            .style('box-shadow', '0 4px 6px rgba(0, 0, 0, 0.1)')
+            .style('box-shadow', '0 4px 12px rgba(0, 0, 0, 0.3)')
             .style('opacity', 0);
     }
     

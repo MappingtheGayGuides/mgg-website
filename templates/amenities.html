@@ -86,9 +86,6 @@
     <!-- Page Header -->
     <div class="text-center mb-8">
         <h1 class="text-4xl font-bold text-primary mb-4">Amenities Analysis</h1>
-        <p class="text-xl text-base-content/70 max-w-3xl mx-auto">
-            Explore how different amenities and features evolved over time in LGBTQ+ spaces across the United States.
-        </p>
     </div>
 
     <!-- Filter Panel -->
@@ -98,16 +95,36 @@
                 <svg class="w-5 h-5 mr-2 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.207A1 1 0 013 6.5V4z"></path>
                 </svg>
-                Select Amenities to Analyze
+                Filters
             </h3>
             
-            <div class="grid md:grid-cols-1 gap-4 mb-6">
+            <div class="grid md:grid-cols-3 gap-4 mb-6">
                 <div class="form-control">
                     <label class="label">
                         <span class="label-text font-medium">Select Amenity</span>
                     </label>
                     <select class="select select-bordered w-full" id="amenity-1">
                         <option value="">Select an amenity...</option>
+                        <!-- Will be populated dynamically -->
+                    </select>
+                </div>
+                
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text font-medium">Filter by State</span>
+                    </label>
+                    <select class="select select-bordered w-full" id="state-filter">
+                        <option value="">All States</option>
+                        <!-- Will be populated dynamically -->
+                    </select>
+                </div>
+                
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text font-medium">Filter by City</span>
+                    </label>
+                    <select class="select select-bordered w-full" id="city-filter">
+                        <option value="">All Cities</option>
                         <!-- Will be populated dynamically -->
                     </select>
                 </div>
@@ -138,7 +155,7 @@
                 <svg class="w-6 h-6 mr-3 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
                 </svg>
-                Amenity Analysis
+                Amenity Categorizations Over Time
             </h3>
             
             <div class="flex items-center gap-3">
@@ -152,12 +169,6 @@
 
         <!-- Chart Section -->
         <div class="space-y-4 mb-8">
-            <h4 class="text-lg font-semibold text-gray-700 flex items-center">
-                <svg class="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-                </svg>
-                Chart Analysis
-            </h4>
             <div id="combined-chart" class="chart-container">
                 <div class="loading">
                     <div class="text-center">

@@ -958,6 +958,99 @@ def delete_amenity():
         return jsonify({'error': str(e)}), 500
 
 
+@bp.route('/amenity-first-year/<amenity_name>')
+def get_amenity_first_year(amenity_name):
+    """Get the first year where a specific amenity has data"""
+    db_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'mgg.db')
+    
+    try:
+        conn = sqlite3.connect(db_path)
+        conn.row_factory = sqlite3.Row
+        cursor = conn.cursor()
+        
+        # Get the earliest year where this amenity has data
+        cursor.execute("""
+            SELECT MIN(l.year) as first_year
+            FROM locations l
+            JOIN location_amenity_assignments laa ON l.id = laa.location_id
+            JOIN amenity_features af ON laa.amenity_id = af.id
+            WHERE af.name = ?
+            AND l.latitude IS NOT NULL 
+            AND l.longitude IS NOT NULL
+        """, (amenity_name,))
+        
+        result = cursor.fetchone()
+        first_year = result['first_year'] if result and result['first_year'] else None
+        
+        conn.close()
+        
+        return jsonify({
+            'amenity': amenity_name,
+            'first_year': first_year
+        })
+        
+    except Exception as e:
+        print(f"Error getting first year for amenity {amenity_name}: {e}")
+        return jsonify({'error': f'Failed to get first year: {str(e)}'}), 500
+
+
+@bp.route('/amenity-city-data/<amenity_name>/<int:year>')
+def get_amenity_city_data_by_year(amenity_name, year):
+    """Get city-level data for a specific amenity and year"""
+    db_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'mgg.db')
+    
+    try:
+        conn = sqlite3.connect(db_path)
+        conn.row_factory = sqlite3.Row
+        cursor = conn.cursor()
+        
+        # Get city-level counts for the amenity in the specific year
+        cursor.execute("""
+            SELECT 
+                l.city,
+                l.state,
+                COUNT(DISTINCT l.id) as count,
+                AVG(l.latitude) as avg_lat,
+                AVG(l.longitude) as avg_lng
+            FROM locations l
+            JOIN location_amenity_assignments laa ON l.id = laa.location_id
+            JOIN amenity_features af ON laa.amenity_id = af.id
+            WHERE af.name = ? 
+            AND l.year = ?
+            AND l.latitude IS NOT NULL 
+            AND l.longitude IS NOT NULL
+            GROUP BY l.city, l.state
+            HAVING COUNT(DISTINCT l.id) > 0
+            ORDER BY count DESC
+        """, (amenity_name, year))
+        
+        city_data = cursor.fetchall()
+        
+        # Convert to list of dictionaries
+        cities = []
+        for row in city_data:
+            cities.append({
+                'city': row['city'],
+                'state': row['state'],
+                'count': row['count'],
+                'latitude': float(row['avg_lat']) if row['avg_lat'] else None,
+                'longitude': float(row['avg_lng']) if row['avg_lng'] else None
+            })
+        
+        conn.close()
+        
+        return jsonify({
+            'amenity': amenity_name,
+            'year': year,
+            'cities': cities,
+            'total_cities': len(cities)
+        })
+        
+    except Exception as e:
+        print(f"Error getting city data for amenity {amenity_name} in year {year}: {e}")
+        return jsonify({'error': f'Failed to load city data: {str(e)}'}), 500
+
+
 @bp.route('/all-amenities-city-data/<int:year>')
 def get_all_amenities_city_data_by_year(year):
     """Get city-level data for all amenities combined in a specific year"""
@@ -1095,5 +1188,100 @@ def get_amenities_trends():
         import traceback
         traceback.print_exc()
         return jsonify({'error': f'Failed to load amenities trends: {str(e)}'}), 500
+
+
+@bp.route('/filtered-amenity-counts/<amenity_name>/<int:year>')
+def get_filtered_amenity_counts(amenity_name, year):
+    """Get amenity counts filtered by state and/or city for a specific year"""
+    db_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'mgg.db')
+    
+    try:
+        # Get filter parameters from query string
+        state = request.args.get('state', None)
+        city = request.args.get('city', None)
+        
+        conn = sqlite3.connect(db_path)
+        conn.row_factory = sqlite3.Row
+        cursor = conn.cursor()
+        
+        # Build query to get amenity count with filters
+        query = """
+            SELECT COUNT(DISTINCT l.id) as count 
+            FROM locations l
+            JOIN location_amenity_assignments laa ON l.id = laa.location_id
+            JOIN amenity_features af ON laa.amenity_id = af.id
+            WHERE af.name = ? AND l.year = ?
+        """
+        params = [amenity_name, year]
+        
+        if state:
+            query += " AND l.state = ?"
+            params.append(state)
+        
+        if city:
+            query += " AND l.city = ?"
+            params.append(city)
+        
+        cursor.execute(query, tuple(params))
+        result = cursor.fetchone()
+        count = result['count'] if result else 0
+        
+        conn.close()
+        
+        return jsonify({
+            'amenity': amenity_name,
+            'year': year,
+            'state': state,
+            'city': city,
+            'count': count
+        })
+        
+    except Exception as e:
+        print(f"Error getting filtered amenity counts: {e}")
+        return jsonify({'error': f'Failed to get filtered amenity counts: {str(e)}'}), 500
+
+
+@bp.route('/filtered-location-counts/<int:year>')
+def get_filtered_location_counts(year):
+    """Get location counts filtered by state and/or city for a specific year"""
+    db_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'mgg.db')
+    
+    try:
+        # Get filter parameters from query string
+        state = request.args.get('state', None)
+        city = request.args.get('city', None)
+        
+        conn = sqlite3.connect(db_path)
+        conn.row_factory = sqlite3.Row
+        cursor = conn.cursor()
+        
+        # Build query with filters
+        query = "SELECT COUNT(DISTINCT l.id) as count FROM locations l WHERE l.year = ?"
+        params = [year]
+        
+        if state:
+            query += " AND l.state = ?"
+            params.append(state)
+        
+        if city:
+            query += " AND l.city = ?"
+            params.append(city)
+        
+        cursor.execute(query, tuple(params))
+        result = cursor.fetchone()
+        count = result['count'] if result else 0
+        
+        conn.close()
+        
+        return jsonify({
+            'year': year,
+            'state': state,
+            'city': city,
+            'count': count
+        })
+        
+    except Exception as e:
+        print(f"Error getting filtered location counts: {e}")
+        return jsonify({'error': f'Failed to get filtered counts: {str(e)}'}), 500
 
 
