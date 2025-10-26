@@ -1,89 +1,115 @@
 ---
-title: "Methodology - Mapping the Gay Guides"
-subtitle: "Digital History Project"
-layout: "methodology"
+author: Amanda Regan
+date: "2020-02-11"
+title: Methodology
+description: "A description of the methodology behind Mapping the Gay Guides. On this page we discuss how we digitized the data and the decisions made during that process."
+tag: digital history, dataset, methodology, damron gay guides, lgbtq history
+lastmod: "2022-10-07"
+images: ["/images/1976ExplanationofListings.png"]
 ---
+# Methodology 
 
-# Methodology
+## Creating a Dataset
 
-## Data Collection
+Turning a historical document, such as the Damron Address Books, into data that can be used for mapping is a process fraught with methodological decisions that shape the resulting dataset. The goal of this page is to make visible the choices that were made and clarify our categorization of the data.
 
-Our data collection process involves several stages:
+<figure class="right">
+<img src="/static/images/methodology-typicallisting.png" style="width:350px;">
+<figcaption><small><p><b>Figure 1.</b> Example of typical listings in the <i>Damron Address Book</i>.</p></small></figcaption>
+</figure>
 
-### 1. Source Material Digitization
-- Scanning and OCR processing of original Gay Guides publications
-- Manual verification and correction of automated text recognition
-- Cross-referencing with multiple editions for accuracy
+The Damron Guides have historically been scarce and hard to access. Only one library in the United States has an entire run and although the Damron Guides have been digitized up until 1980 they are only available via an academic subscription to the Alexander Street LGBT Thought and Culture database. The MGG Team has worked in collaboartion with the ONE Archives at the University of Southern California to digitize the guides from 1981 through 2005. These guides will soon be available through USC's library. However, digitization is only one step toward mapping this data. In order to generate maps and visualizations based on the Damron Guides it is necessary to first transcribe the data included in the digitized images of the guide into text that is machine readable.
 
-### 2. Data Extraction and Standardization
-- Systematic extraction of location data, amenities, and descriptive information
-- Standardization of place names, addresses, and categorization
-- Geocoding of locations for mapping and spatial analysis
+Listings in the Damron Guides are grouped by state and then by city. A typical entry in the guide (figure 1) includes the name of the establishment, an address, sometimes notes or warnings, and often an “Explanation of Listings” which were lettered designations describing Damron’s categorization of the location. For example, a location may contain a “(D)” next to it indicating that it is a popular location for Dancing. Our data mirrors the information included in each listing as closely as possible. The amenities changed over time and Damron regularly added, removed, or changed the amenity for pariticular categories. One notable change is the amenity (G) for "Girls, but seldome exclusively" which appears in the 1960s guides but is later changed to (L) for "Ladies" and eventually (W) for "Women." This presents a unique challenge for displaying this data.
 
-### 3. Quality Control
-- Peer review of data extraction methods
-- Validation against known historical records
-- Community feedback and corrections
+<figure class="left">
+<img src="/static/images/1976ExplanationofListings.png" style="width:350px;">
+<figcaption><small><p><b>Figure 2.</b> Explanation of Listings in the <i>Damron Address Book</i>. On this site we refer to these categories as "Amenity Features."</p></small></figcaption>
+</figure>
 
-## Data Processing
+We have chosen to maintain the categorization assigned by Damron and we use the term "Amenity Feature" to describe these categories. [(Read more about each of Damron's categories at the bottom of this page)](/methodology/#damron-s-establishment-features) However, we have also added our own classification in the "Type" field. The type field goes beyond Damron's categorization by describing locations as one or more of the following types: Bars/Clubs, Hotels, Church, Theatre, Restaurant, Business, Baths, Book Stores or Cruising Area. While some of our type designations overlap with Damron's categorization, we note that locations can often function as multiple types. For example, many bars were located inside hotels and in order to track this unique kind of space we've made these locations both bars and hotels. Likewise, in the cases where a straight establishment (like a mall) is noted for being "Cruisy" but is not listed under Cruising Areas in the guide, we've assigned the type of location as Cruising Area. As the guides grow in length the diversity of business types increases but Damron’s own classification system doesn’t account for the rise in bookstores, theaters, or escort services listed in the guides. We’ve added categories to account for such locations making the type classification more robust and nuanced than Damron's.
+After transcribing and categorizing the data contained in the guide, it was necessary to associate the location's address with spatial longitude and latitude coordinates so that they could be plotted onto a map. This process is known as [geocoding](https://en.wikipedia.org/wiki/Geocoding).
 
-### Location Data
-- **Venue Names**: Preserved as originally published
-- **Addresses**: Standardized to modern formats where possible
-- **Geographic Coordinates**: Added through geocoding services
-- **Categories**: Standardized amenity classifications
+<figure class="right">
+<img src="/static/images/methodology-unclearaddresses.png" style="width:350px;">
+<figcaption><small><p><b>Figure 3.</b> Example of an unclear address in the <i>Damron Address Book</i>.</p></small></figcaption>
+</figure>
 
-### Temporal Data
-- **Publication Years**: Tracked by guide edition
-- **Operational Periods**: Noted where available
-- **Historical Context**: Added for significant events or changes
+Roughly 34% of the entries included in the Damron Address Books between 1965 and 1985 were addresses that we deemed "unclear." This meant that the addresses were either vague and un-mappable locations (i.e. "Inquire Locally" or "U.S. Hwy 67") or were locations that had descriptive street addresses that required us to identify them by hand (i.e. Rice Park or ‘Primrose Path’ – Senate St. near Capitol). Of these "unclear locations" we were able to identify correct locations for more than half. Addresses listed as "Verified Locations" denote the locations that were found by hand and make up about 22% of the dataset.
 
-## Analysis Methods
 
-### Spatial Analysis
-- Geographic distribution patterns
-- Cluster analysis of LGBTQ+ spaces
-- Distance and accessibility metrics
+<figure class="left">
+<img src="/static/images/methodology-status-plot-revised-65-85.png" style="width:450px;">
+<figcaption><small><p><b>Figure 4.</b> Chart showing the breakdown between verified (22%), google verified (66%), and locations that could not be verified (12%).</p></small></figcaption>
+</figure>
 
-### Temporal Analysis
-- Changes in venue types over time
-- Geographic expansion patterns
-- Impact of historical events on community spaces
+However, there were many locations that we were unable to associate a geographical location with. Often these were locations that simply stated "Inquire locally" or where the location was simply too vague to confidently identify. These locations make up 12% of the dataset and are marked by a note in the status column that reads: "Location could not be verified. General city or location coordinates used." Rather than ignoring these locations, we have opted to use general city coordinates for them. This means, however, that the default map shows all locations and there are frequently clusters of locations with general coordinates mixed with verified locations. We've opted to include these locations by default to demonstrate the growth of LGBTQ spaces in the South over time however were recognize that these locations can be somewhat misleading. Therefore we have included a checkbox on the map controls that will filter the map to show only verified locations.
 
-### Network Analysis
-- Connections between venues and communities
-- Travel patterns and regional networks
-- Community formation and development
+<br>
 
-## Ethical Considerations
+* **Google Verified Location:** A location that was able to be verified using Google's Geocoding API.
 
-### Privacy and Sensitivity
-- Respect for historical privacy concerns
-- Careful handling of sensitive information
-- Community consultation on data presentation
+* **Verified Location:** If a location was not a standard address that could be geocoded, we attempted to verify it manually. A "verified location" means that the location was verified manually by a member of the MGG team.
 
-### Cultural Sensitivity
-- Collaboration with LGBTQ+ historians and community members
-- Respect for diverse community perspectives
-- Ongoing dialogue about representation and interpretation
+* **Location could not be verified. General city or location coordinates used:** For locations that our team was not able to verify manually, we've opted to include the general coordinates for the city. Because these generalized locations can skew the map and provide a false sense of the geographic landscape of a city, we've included a checkbox on our app that allows users to filter out these locations and look only at verified locations. However we've opted to include them by default in the map in order to depict the scale of the growth in LGBTQ establishments between 1965 and 1985.
 
-## Technical Infrastructure
+## Damron's Amenity Features
+How did Damron organize the gay world?
 
-### Database Design
-- SQLite database for data storage
-- Structured schema for location and amenity data
-- API endpoints for data access and analysis
+While you browse any of the maps on _Mapping the Gay Guides_, you’ll quickly notice the ability to search through the listings via “amenity features.” These categories are not our team’s creation; rather, these classifications were actually a part of the original listings during publication. The Damron publishers used a series of mostly letters to denote that certain establishments included particular features. The _Mapping the Gay Guides_ team cannot verify whether all of these amenity features are necessarily accurate, nor do we know Damron’s methodology in adding these letters to particular listings. However, the addition of these amenities features allows users to more thoroughly investigate the gay world the way thousands, perhaps millions of gay men understood it via these travel guides.
 
-### Web Platform
-- Flask-based web application
-- Interactive mapping and visualization tools
-- Static content generation from markdown
+Damron’s “explanation of listings” remained remarkably consistent over the 15 years of data we currently have available. Subtle changes do occasionally appear, including sometimes changing a letter designation or including a whole new category. Below is a list of Damron’s amenity features in the year 1980. You’ll note that the Damron publishers offered their own explanations for each feature.
 
-### Data Access
-- Public API for researchers
-- Downloadable datasets (with appropriate restrictions)
-- Documentation and usage guidelines
+  * **`*` - Very Popular**
+    * Damron used a small black star next to listings to denote that a location was popular. You’ll notice that in our data we’ve opted for an asterisk (`*`).
+  * **`(AH)` – After Hours**
+    * Bars and clubs made up a large, if not majority, of many cities’ listings in the guidebook. The nocturnal nature of the gay world meant gay men continued to look for places of enjoyment even after bar closing times. Establishment closing times differed greatly by city and state.
+  * **`(AYOR)` –  At Your Own Risk – Dangerous – Usually Fuzz**
+    * The AYOR designation was added in the 1977 Damron Address Book. Noting dangerous locations, AYOR later included the “usually fuzz” description. “Fuzz” likely refers to the appearance of police or law enforcement.
+  * **`(B)` – Blacks Frequent**
+    * This designation is Damron’s only amenity feature that specifically mentions race. The use of (B) first began in the 1970 guidebook, then referring to establishments that “blacks predominate.”
+  * **`(BA)` – Bare-Ass (Usually nude beach)**
+  * **`(BYOB)` – Bring Your Own Bottle**
+    * The complications with restaurants securing liquor licenses meant that many locations allowed for outside alcohol to be brought into their premises.
+  * **`(C)` – Coffee, Soft Drinks, Juices, Snacks**
+  * **`(CW)` - Cowboys and Westerns**
+    * This amenity was likely identical to the `(W )- Western or Cowboy Types` (see below).  It’s unclear why in some iterations of the guide (for example, in the 1985 guide) both `W` and `CW` are listed as amenities. 
+  * **`(D)` – Dancing**
+    * While it might seem obvious that many bars and clubs offered dancing, not all gay bars had the space for any dance floors. Upon Damron’s first publication in 1964, same-sex dancing in public was widely seen as taboo and, in many places including New York City, was outright illegal.
+  * **`(E)` – Entertainment**
+  * **`(F&S)` - Fun & such – Men’s ‘Action’ Places**
+    * Damron likely used this this label to denote establishments that condoned sexual activity within their premises. While “cruising” locations were also listed in the Damron guides, it’s likely the use of `F&S` was more often used for sites where sexual activity was only tangential to the site’s main purpose (at a cinema, bar, a bookstore etc.) 
+  * **`(FFA)` – Final Faith of America, or ask your friendly SM Serviceman**
+    * This category is Damron’s attempt at subtlety. FFA actually has another acronym (which a quick Google search can reveal). The designation is reserved for bars or clubs where patrons can partake in a certain sexual act.
+  * **`(H)` – Hotel, Motel, Resort, or other overnight accommodations**
+  * **`(HIP)` – Heads Frequent**
+    * This designation likely refers to the popularity of marijuana at a certain establishment.
+  * **`(L)` or `(G)` – Ladies/Ms, but seldom exclusively unless noted OR Girls/Ms but seldom exclusively OR Lesbians, but not exclusively unless noted**
+    * Damron used the (G) designation to denote “girls” until 1980 when he dropped the (G) in favor of (L). While many of the listings with the (L) or (G) might have been popular with lesbians, Damron also used the designation to describe places frequented by gay men that women (lesbian or straight) would also feel comfortable. Therefore, not all places listed with designation should be understood as “lesbian spaces.” Beginning in the 1984 guide, Damron began using (L) to specifically mark lesbian spaces, though again, not always exclusively lesbian establishments. 
+  * **`(M)` – Mixed – Some Straights**
+    * This designation largely marked establishments that had a significant, if not a majority number of straight identified patrons, or persons who did not identify as gay. Damron likely used this designation to mark sites where gays and lesbians faced less hostility than at otherwise straight venues.
+  * **`M.C.C.` – Metropolitan Community Church**
+    * The first Metropolitan Community Church was founded in 1968 and gained popularity specifically by reaching out to members of LGBT communities. As mainstream Christian denominations have long denounced homosexuality as sinful, the M.C.C. allowed gay and lesbian Christians an accepting place for fellowship and worship.
+  * **`(OC)` – Older/More Mature Crowd**
+    * Modern American society largely prizes youth, and this includes gay male culture. Damron’s (OC) classification likely aided older men looking for spaces where they could find acceptance despite a culture of youth fetishization.
+  * **`(P)` – Private – Inquire locally as to admission**
+    * Many establishments often used the “private” designation to get around the possibility of police raids. Police raids against gay bars were common in the 1960s through 1980. It was harder to raid “private” clubs, however.
+  * **`(PE)` – Pretty Elegant – often coat or tie**
+  * **`(PT)` - Pool Table**
+  * **`(R)` –  Restaurant**
+  * **`(RT)` – Raunchy Types – Hustlers, Drags, and other ‘Downtown’ Types**
+    * Damron began using the (RT) classification in 1972. It’s presence on the explanation of listings suggest Damron’s early attempts to highlight establishments that the guides deemed as less than reputable. The Damron guides link sex workers (hustlers) and “downtown types” (likely people who lived in the inner city) to places of vice, crime, and deviancy.
+  * **`(S)` – Shows—Impersonators or Pantomime Acts—Often Touristy**
+    * It’s likely that “impersonators” here is Damron’s designation of drag shows.
+  * **`(SM)` - Some Motorcycle & Leather**
+    * American motorcycle culture began in the 1940s and 1950s, and gay motorcycle clubs gained in popularity around the same time. Some participants in the culture found refuge in these roaming motorcycle communities as replacement meeting spots for the bars (which could be unsafe, especially with constant police raids).  Gay leather culture also allowed some gay men to embrace a masculine gay identity, one in opposition to the stereotyped femininity of “fairy” gay men.
+  * **`(W)` - Western or Cowboy Types**
+    * Somewhat similar to the (SM) classification above, Damron used the (W) designation to identify places with rodeo and/or western vibes. These establishments were particularly popular in the American West and South and projected a more masculine image of gay life.
+  * **`(WE)` - Weekends**
+    * Damron used (WE) to note places open on the weekends. This label was sometimes joined with the star symbol (or asterisk in our data), suggesting an establishment was popular on the weekends.
+  * **`(YC)` - Young/Collegiate Types**
+    * In opposition to the (OC) label, Damron utilized (YC) to note places popular with a younger in age crowd.
 
----
+## Open Datasets
 
-*For detailed technical documentation, please contact our development team.*
+In line with reproducible research practices, all of our data and code is available on [GitHub.](https://github.com/MappingtheGayGuides) If you're interested in our raw data it can be found in the MGG-Data repository. This repository includes basic csv files with the raw data digitized from the Damron Guides. If you're interested in the code used to build the visualizations on this site you can find that code in the [MGG-App repository.](https://github.com/MappingtheGayGuides/MGG-App) All of the code used to generate this website is in the [MGG-Website](https://github.com/MappingtheGayGuides/mgg-website) repository.

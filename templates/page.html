@@ -3,7 +3,96 @@
 {% block title %}{{ page.meta.title }}{% endblock %}
 
 {% block content %}
-<div class="prose prose-lg max-w-none prose-headings:text-primary prose-h1:text-3xl prose-h1:font-black prose-h2:text-2xl prose-h2:font-black prose-h3:text-xl prose-h3:font-black prose-p:text-base-content prose-p:leading-relaxed prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-strong:text-base-content prose-ul:text-base-content prose-ol:text-base-content prose-li:text-base-content prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:pl-4 prose-blockquote:italic prose-code:bg-base-200 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-code:text-sm">
+<style>
+    /* Figure container styles */
+    figure {
+        margin: 1.5rem 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+    }
+    
+    /* Left-aligned figure */
+    figure.left {
+        float: left !important;
+        margin-right: 2rem !important;
+        margin-bottom: 1rem !important;
+        max-width: 45% !important;
+    }
+    
+    /* Right-aligned figure */
+    figure.right {
+        float: right !important;
+        margin-left: 2rem !important;
+        margin-bottom: 1rem !important;
+        max-width: 45% !important;
+    }
+    
+    /* Image styles */
+    figure img {
+        display: block !important;
+        max-width: 100% !important;
+        height: auto !important;
+        border-radius: 0.5rem !important;
+    }
+    
+    /* Caption styles */
+    figcaption {
+        margin-top: 0.75rem !important;
+        font-size: 0.875rem !important;
+        color: #6b7280 !important;
+        text-align: center !important;
+        font-style: italic !important;
+        line-height: 1.4 !important;
+        max-width: 100% !important;
+    }
+    
+    /* Clear floats */
+    .prose::after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+    
+    /* Iframe styles */
+    iframe {
+        border-radius: 0.5rem !important;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
+        max-width: 100% !important;
+        height: auto !important;
+    }
+    
+    /* Responsive iframe container */
+    figure iframe {
+        aspect-ratio: 16/9 !important;
+        width: 100% !important;
+        height: auto !important;
+    }
+    
+    /* Ensure iframe figures have proper width */
+    figure.left iframe,
+    figure.right iframe {
+        max-width: 100% !important;
+        width: 100% !important;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        figure.left, figure.right {
+            float: none !important;
+            margin: 1rem 0 !important;
+            max-width: 100% !important;
+        }
+    }
+    
+    /* Reduce spacing between list items */
+    .prose ul > li,
+    .prose ol > li {
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+    }
+</style>
+<div class="prose prose-lg max-w-none prose-headings:text-base-content prose-h1:text-3xl prose-h1:font-black prose-h2:text-2xl prose-h2:font-black prose-h3:text-xl prose-h3:font-black prose-p:text-base-content prose-p:leading-relaxed prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-strong:text-base-content prose-ul:text-base-content prose-ol:text-base-content prose-li:text-base-content prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:pl-4 prose-blockquote:italic prose-code:bg-base-200 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-code:text-sm">
     {{ page.html | safe }}
 </div>
 {% endblock %}
