@@ -33,6 +33,73 @@
     </div>
 </div>
 
+<!-- Second Row Section -->
+<div class="bg-base-200 mb-12 mt-12" style="margin-left: calc(-50vw + 50%); margin-right: calc(-50vw + 50%); width: 100vw; max-width: 100vw; padding-top: 45px; padding-bottom: 45px;">
+    <div class="max-w-6xl mx-auto px-6">
+        <!-- Heading spanning full width -->
+        <h2 class="text-4xl font-black mb-6 mt-4">About the Project</h2>
+        
+        <!-- Two column grid below heading -->
+        <div class="grid lg:grid-cols-2 gap-12 items-start">
+            <!-- Left Column: Text -->
+            <div>
+                <p class="text-lg text-base-content/80 leading-relaxed">
+                    Bob Damron's Address Books grew and evolved alongside LGBTQ America itself. The first guide in 1965 listed just 785 locations. By 2003, that number had exploded to over 7,500 entries across the contiguous United States. But it wasn't just the quantity that changed—Damron's categorization system adapted to reflect shifting community needs and technologies. In the 1970s, (PT) marked locations with pool tables. The 1980s introduced (V) for video bars, marking establishments with televisions—cutting-edge technology at the time. By the 1990s, (WC) identified wheelchair-accessible spaces following the Americans with Disabilities Act. Our visualizations let you explore these changes and discover how LGBTQ spaces transformed across decades.
+                </p>
+            </div>
+            
+            <!-- Right Column: 2 Rows of Squares -->
+            <div class="grid grid-cols-2 gap-4">
+            <!-- Square 1 -->
+            <div class="border border-base-300 rounded-lg p-6 flex flex-col items-center text-center aspect-square">
+                <div class="w-12 h-12 mb-4 flex items-center justify-center">
+                    <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path>
+                    </svg>
+                </div>
+                <h3 class="font-bold text-lg mb-2">Interactive Map</h3>
+                <p class="text-sm text-base-content/70">
+                    Explore locations across the United States on an interactive map with filters for year, type, and amenity features</p>
+            </div>
+            
+            <!-- Square 2 -->
+            <div class="border border-base-300 rounded-lg p-6 flex flex-col items-center text-center aspect-square">
+                <div class="w-12 h-12 mb-4 flex items-center justify-center">
+                    <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"></path>
+                    </svg>
+                </div>
+                <h3 class="font-bold text-lg mb-2">Visualize Change</h3>
+                <p class="text-sm text-base-content/70">Visualize Change
+                    Analyze how Damron's categorizations for locations changed over time. </p>
+            </div>
+            
+            <!-- Square 3 -->
+            <div class="border border-base-300 rounded-lg p-6 flex flex-col items-center text-center aspect-square">
+                <div class="w-12 h-12 mb-4 flex items-center justify-center">
+                    <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                </div>
+                <h3 class="font-bold text-lg mb-2">Historical Vignettes</h3>
+                <p class="text-sm text-base-content/70">Learn about what the guides reveal about LGBTQ life, culture, and community across decades.</p>
+            </div>
+            
+            <!-- Square 4 -->
+            <div class="border border-base-300 rounded-lg p-6 flex flex-col items-center text-center aspect-square">
+                <div class="w-12 h-12 mb-4 flex items-center justify-center">
+                    <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path>
+                    </svg>
+                </div>
+                <h3 class="font-bold text-lg mb-2">Locations Database</h3>
+                <p class="text-sm text-base-content/70">Search and filter our database to see locations and read Damron's entry about them</p>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+
 <style>
     /* Reduce spacing between list items */
     .prose ul > li,
@@ -46,91 +113,5 @@
     {{ page.html | safe }}
 </div>
 
-<!-- Feature Cards Section -->
-<div class="bg-base-200 py-8" style="margin-left: calc(-50vw + 50%); margin-right: calc(-50vw + 50%); width: 100vw; max-width: 100vw;">
-    <div class="max-w-6xl mx-auto px-6 mb-6">
-        <h1 class="text-3xl font-black">Discover the Gay Guides</h1>
-    </div>
-    <div class="grid grid-cols-4 gap-4 max-w-6xl mx-auto px-6">
-        <!-- Feature 1: Map -->
-        <div class="card bg-base-100 shadow-md hover:shadow-lg transition-shadow">
-            <figure class="relative w-full" style="padding-bottom: 80%; overflow: hidden;">
-                <img src="{{ url_for('static', filename='images/newmap.png') }}" 
-                     alt="Interactive Map" 
-                     class="absolute inset-0 w-full h-full object-cover">
-            </figure>
-            <div class="card-body p-4">
-                <h3 class="card-title text-sm font-bold mb-2">Explore the Map</h3>
-                <p class="text-xs text-base-content/70 mb-3">
-                    Explore locations across the United States on an interactive map with filters for year, type, and amenity features
-                </p>
-                <div class="card-actions">
-                    <a href="{{ url_for('main.map') }}" class="btn btn-primary btn-xs w-full">
-                        View Map
-                    </a>
-                </div>
-            </div>
-        </div>
 
-        <!-- Feature 2: Amenities/Visualizations -->
-        <div class="card bg-base-100 shadow-md hover:shadow-lg transition-shadow">
-            <figure class="relative w-full" style="padding-bottom: 80%; overflow: hidden;">
-                <img src="{{ url_for('static', filename='images/methodology-status-plot.png') }}" 
-                     alt="Amenity Visualizations" 
-                     class="absolute inset-0 w-full h-full object-cover">
-            </figure>
-            <div class="card-body p-4">
-                <h3 class="card-title text-sm font-bold mb-2">Analyze Amenities</h3>
-                <p class="text-xs text-base-content/70 mb-3">
-                    Analyze how Damron categorized locations in each guide. Use our visualizations to analyze how these amenities changed over time
-                </p>
-                <div class="card-actions">
-                    <a href="{{ url_for('amenities') }}" class="btn btn-secondary btn-xs w-full">
-                        View Amenities
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Feature 3: Articles/Vignettes -->
-        <div class="card bg-base-100 shadow-md hover:shadow-lg transition-shadow">
-            <figure class="relative w-full" style="padding-bottom: 80%; overflow: hidden;">
-                <img src="{{ url_for('static', filename='images/vignette-superbars-cover.jpeg') }}" 
-                     alt="Articles and Vignettes" 
-                     class="absolute inset-0 w-full h-full object-cover">
-            </figure>
-            <div class="card-body p-4">
-                <h3 class="card-title text-sm font-bold mb-2">Read Articles</h3>
-                <p class="text-xs text-base-content/70 mb-3">
-                    Learn through vignettes that uncover insights about LGBTQ life and history from the Damron guides
-                </p>
-                <div class="card-actions">
-                    <a href="{{ url_for('articles') }}" class="btn btn-accent btn-xs w-full">
-                        Read Articles
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Feature 4: Database -->
-        <div class="card bg-base-100 shadow-md hover:shadow-lg transition-shadow">
-            <figure class="relative w-full" style="padding-bottom: 80%; overflow: hidden;">
-                <img src="{{ url_for('static', filename='images/methodology-typicallisting.png') }}" 
-                     alt="Database Search" 
-                     class="absolute inset-0 w-full h-full object-cover">
-            </figure>
-            <div class="card-body p-4">
-                <h3 class="card-title text-sm font-bold mb-2">Search Database</h3>
-                <p class="text-xs text-base-content/70 mb-3">
-                    Search and filter our database by state, year, and amenity categorization to see locations and read Damron's entry about them
-                </p>
-                <div class="card-actions">
-                    <a href="{{ url_for('main.database') }}" class="btn btn-primary btn-xs w-full">
-                        Browse Database
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 {% endblock %}
