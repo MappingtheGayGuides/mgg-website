@@ -958,6 +958,69 @@ def get_amenity_city_data_by_year(amenity_name, year):
         return jsonify({'error': f'Failed to load city data: {str(e)}'}), 500
 
 
+@bp.route('/amenity-city-data/<amenity_name>')
+def get_amenity_city_data(amenity_name):
+    """Get city-level data for a specific amenity across all years, with optional state/city filtering"""
+    try:
+        # Get filter parameters from query string
+        state = request.args.get('state', None)
+        city = request.args.get('city', None)
+        year = request.args.get('year', type=int)
+        
+        # Build base filter
+        base_filter = db.and_(
+            AmenityFeature.name == amenity_name,
+            Location.latitude.isnot(None),
+            Location.longitude.isnot(None)
+        )
+        
+        if state:
+            base_filter = db.and_(base_filter, Location.state == state)
+        if city:
+            base_filter = db.and_(base_filter, Location.city == city)
+        if year:
+            base_filter = db.and_(base_filter, Location.year == year)
+        
+        results = db.session.query(
+            Location.city,
+            Location.state,
+            db.func.count(db.func.distinct(Location.id)).label('count'),
+            db.func.avg(Location.latitude).label('avg_lat'),
+            db.func.avg(Location.longitude).label('avg_lng')
+        ).join(
+            LocationAmenityAssignment, Location.id == LocationAmenityAssignment.location_id
+        ).join(
+            AmenityFeature, LocationAmenityAssignment.amenity_id == AmenityFeature.id
+        ).filter(
+            base_filter
+        ).group_by(
+            Location.city, Location.state
+        ).having(
+            db.func.count(db.func.distinct(Location.id)) > 0
+        ).order_by(db.func.count(db.func.distinct(Location.id)).desc()).all()
+        
+        cities = []
+        for row in results:
+            cities.append({
+                'city': row.city,
+                'state': row.state,
+                'count': row.count,
+                'latitude': float(row.avg_lat) if row.avg_lat else None,
+                'longitude': float(row.avg_lng) if row.avg_lng else None
+            })
+        
+        return jsonify({
+            'amenity': amenity_name,
+            'year': year,
+            'cities': cities,
+            'total_cities': len(cities)
+        })
+        
+    except Exception as e:
+        print(f"Error getting city data for amenity {amenity_name}: {e}")
+        return jsonify({'error': f'Failed to load city data: {str(e)}'}), 500
+
+
 @bp.route('/all-amenities-city-data/<int:year>')
 def get_all_amenities_city_data_by_year(year):
     """Get city-level data for all amenities combined in a specific year"""
@@ -1006,11 +1069,22 @@ def get_all_amenities_city_data_by_year(year):
 
 @bp.route('/amenities-trends')
 def get_amenities_trends():
-    """Get amenities trends data for visualization - SQLAlchemy version"""
+    """Get amenities trends data for visualization - SQLAlchemy version with optional state/city filtering"""
     try:
-        # Get all available years
+        # Get filter parameters from query string
+        state = request.args.get('state', None)
+        city = request.args.get('city', None)
+        
+        # Build base query with optional filters
+        base_location_filter = Location.year.isnot(None)
+        if state:
+            base_location_filter = db.and_(base_location_filter, Location.state == state)
+        if city:
+            base_location_filter = db.and_(base_location_filter, Location.city == city)
+        
+        # Get all available years (filtered)
         years = db.session.query(Location.year).filter(
-            Location.year.isnot(None)
+            base_location_filter
         ).distinct().order_by(Location.year).all()
         years = [row[0] for row in years]
         
@@ -1020,24 +1094,27 @@ def get_amenities_trends():
         ).distinct().all()
         amenities = [row[0] for row in amenities]
         
-        # Calculate total locations per year
-        total_locations_data = db.session.query(
+        # Calculate total locations per year (filtered)
+        total_locations_query = db.session.query(
             Location.year, db.func.count(Location.id).label('total_count')
         ).filter(
-            Location.year.isnot(None)
-        ).group_by(Location.year).order_by(Location.year).all()
+            base_location_filter
+        ).group_by(Location.year).order_by(Location.year)
+        
+        total_locations_data = total_locations_query.all()
         
         total_locations_per_year = [0] * len(years)
         for row in total_locations_data:
-            year_index = years.index(row.year)
-            total_locations_per_year[year_index] = row.total_count
+            if row.year in years:
+                year_index = years.index(row.year)
+                total_locations_per_year[year_index] = row.total_count
         
-        # Calculate trends for all amenities
+        # Calculate trends for all amenities (filtered)
         trends = {}
         for amenity in amenities:
             trends[amenity] = [0] * len(years)
         
-        # Get amenity counts per year using SQLAlchemy
+        # Get amenity counts per year using SQLAlchemy (with filters)
         results = db.session.query(
             AmenityFeature.name.label('amenity_name'),
             Location.year,
@@ -1047,7 +1124,7 @@ def get_amenities_trends():
         ).join(
             AmenityFeature, LocationAmenityAssignment.amenity_id == AmenityFeature.id
         ).filter(
-            Location.year.isnot(None)
+            base_location_filter
         ).group_by(
             AmenityFeature.name, Location.year
         ).order_by(AmenityFeature.name, Location.year).all()
@@ -1062,7 +1139,7 @@ def get_amenities_trends():
                 year_index = years.index(year)
                 trends[amenity_name][year_index] = count
         
-        print(f"OPTIMIZED API Response: {len(amenities)} amenities, {len(years)} years")
+        print(f"OPTIMIZED API Response: {len(amenities)} amenities, {len(years)} years (state={state}, city={city})")
         print(f"Total locations per year: {total_locations_per_year[:5]}...")
         
         return jsonify({
@@ -1172,5 +1249,31 @@ def get_filtered_location_counts(year):
     except Exception as e:
         print(f"Error getting filtered location counts: {e}")
         return jsonify({'error': f'Failed to get filtered counts: {str(e)}'}), 500
+
+
+@bp.route('/states-cities')
+def get_states_cities():
+    """Get all unique states and cities from the database"""
+    try:
+        # Get all unique states
+        states = db.session.query(Location.state).filter(
+            Location.state.isnot(None)
+        ).distinct().order_by(Location.state).all()
+        states = [row[0] for row in states if row[0]]
+        
+        # Get all unique cities
+        cities = db.session.query(Location.city).filter(
+            Location.city.isnot(None)
+        ).distinct().order_by(Location.city).all()
+        cities = [row[0] for row in cities if row[0]]
+        
+        return jsonify({
+            'states': states,
+            'cities': cities
+        })
+        
+    except Exception as e:
+        print(f"Error getting states and cities: {e}")
+        return jsonify({'error': f'Failed to load states and cities: {str(e)}'}), 500
 
 

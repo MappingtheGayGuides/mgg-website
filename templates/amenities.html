@@ -98,7 +98,7 @@
                 Filters
             </h3>
             
-            <div class="grid md:grid-cols-3 gap-4 mb-6">
+            <div class="grid md:grid-cols-2 gap-4 mb-6">
                 <div class="form-control">
                     <label class="label">
                         <span class="label-text font-medium">Select Amenity</span>
@@ -115,16 +115,6 @@
                     </label>
                     <select class="select select-bordered w-full" id="state-filter">
                         <option value="">All States</option>
-                        <!-- Will be populated dynamically -->
-                    </select>
-                </div>
-                
-                <div class="form-control">
-                    <label class="label">
-                        <span class="label-text font-medium">Filter by City</span>
-                    </label>
-                    <select class="select select-bordered w-full" id="city-filter">
-                        <option value="">All Cities</option>
                         <!-- Will be populated dynamically -->
                     </select>
                 </div>
@@ -150,7 +140,7 @@
     <!-- Chart and Map Container -->
     <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
         <!-- Header with View Controls -->
-        <div class="flex justify-between items-center mb-6">
+        <div class="flex justify-between items-center mb-6" style="margin-bottom: 0px;">
             <h3 class="text-xl font-semibold text-gray-800 flex items-center">
                 <svg class="w-6 h-6 mr-3 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
@@ -166,6 +156,16 @@
                 </div>
             </div>
         </div>
+         <div class="flex justify-end items-center mb-6" id="total-locations-checkbox-container" style="display: none;">
+          <!-- Total Locations Checkbox -->
+          <div class="mb-4">
+             <label class="label cursor-pointer justify-end gap-3">
+                 <input type="checkbox" class="checkbox checkbox-primary" id="show-total-locations" />
+                 <span class="label-text font-medium">Total Locations</span>
+             </label>
+         </div>
+         </div>
+        
 
         <!-- Chart Section -->
         <div class="space-y-4 mb-8">
