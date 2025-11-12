@@ -93,6 +93,9 @@ function loadAmenitiesData() {
             const selectedAmenities = getSelectedAmenities();
             const checkboxContainer = document.getElementById('total-locations-checkbox-container');
             
+            // Update amenity info accordions
+            updateAmenityInfoAccordions(selectedAmenities);
+            
             if (selectedAmenities.length > 0) {
                 // Show checkbox when amenities are selected
                 if (checkboxContainer) {
@@ -252,7 +255,7 @@ function loadSampleData() {
 }
 
 function loadAmenityFeatures() {
-    // Load amenity features to get short descriptions
+    // Load amenity features to get short descriptions and full descriptions
     return fetch('/api/amenity-features')
         .then(response => response.json())
         .then(features => {
@@ -260,7 +263,8 @@ function loadAmenityFeatures() {
             features.forEach(feature => {
                 amenityFeaturesMap[feature.name] = {
                     name: feature.name,
-                    short_description: feature.short_description || null
+                    short_description: feature.short_description || null,
+                    description: feature.description || null
                 };
             });
             console.log(`Loaded ${features.length} amenity features with descriptions`);
@@ -309,6 +313,64 @@ function getSelectedAmenities() {
     const dropdown = document.getElementById('amenity-select');
     if (!dropdown) return [];
     return Array.from(dropdown.selectedOptions).map(option => option.value);
+}
+
+function updateAmenityInfoAccordions(selectedAmenities) {
+    const container = document.getElementById('amenity-info-container');
+    if (!container) return;
+    
+    // Clear existing accordions
+    container.innerHTML = '';
+    
+    if (selectedAmenities.length === 0) {
+        container.style.display = 'none';
+        return;
+    }
+    
+    // Show container
+    container.style.display = 'block';
+    
+    // Create an accordion for each selected amenity
+    selectedAmenities.forEach((amenityName, index) => {
+        const feature = amenityFeaturesMap[amenityName];
+        
+        if (!feature) {
+            console.warn(`No feature data found for amenity: ${amenityName}`);
+            return;
+        }
+        
+        // Build title text
+        let titleText = `Learn more about ${amenityName}`;
+        if (feature.short_description) {
+            titleText += ` - ${feature.short_description}`;
+        }
+        
+        // Get description (full description from feature)
+        const description = feature.description || 'No description available.';
+        
+        // Create accordion element
+        const accordion = document.createElement('div');
+        accordion.className = 'collapse collapse-arrow bg-base-100 border border-base-300 mb-4';
+        
+        // Use checkbox instead of radio to allow collapse/expand
+        // Set checked state (first one checked by default)
+        const checkedAttr = index === 0 ? 'checked="checked"' : '';
+        
+        accordion.innerHTML = `
+            <input type="checkbox" ${checkedAttr} />
+            <div class="collapse-title font-semibold flex items-center">
+                <svg class="w-5 h-5 mr-2 text-info" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                ${titleText}
+            </div>
+            <div class="collapse-content text-sm">
+                <p>${description}</p>
+            </div>
+        `;
+        
+        container.appendChild(accordion);
+    });
 }
 
 function populateStateCityDropdowns() {
@@ -2048,6 +2110,9 @@ function resetFilters() {
             option.selected = false;
         });
     }
+    
+    // Hide amenity info accordions
+    updateAmenityInfoAccordions([]);
     
     // Hide map toggle checkboxes
     const mapToggleContainer = document.getElementById('map-amenity-toggles');
