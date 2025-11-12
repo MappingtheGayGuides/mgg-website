@@ -143,12 +143,14 @@
             <div class="grid md:grid-cols-2 gap-4 mb-6">
                 <div class="form-control">
                     <label class="label">
-                        <span class="label-text font-medium">Select Amenity</span>
+                        <span class="label-text font-medium">Select Amenities (up to 3)</span>
                     </label>
-                    <select class="select select-bordered w-full" id="amenity-1">
-                        <option value="">Select an amenity...</option>
+                    <select class="select select-bordered w-full" id="amenity-select" multiple size="8">
                         <!-- Will be populated dynamically -->
                     </select>
+                    <div class="label">
+                        <span class="label-text-alt text-gray-500">Hold Ctrl/Cmd to select multiple (max 3)</span>
+                    </div>
                 </div>
                 
                 <div class="form-control">
@@ -245,6 +247,14 @@
                                    id="year-slider"
                                    step="1">
                         </div>
+                    </div>
+                </div>
+                
+                <!-- Map Toggle Checkboxes (will be populated dynamically) -->
+                <div id="map-amenity-toggles" class="mb-4" style="display: none;">
+                    <div class="text-sm font-medium text-gray-600 mb-2">Toggle Amenities on Map:</div>
+                    <div id="map-toggle-checkboxes" class="flex gap-4 flex-wrap">
+                        <!-- Will be populated dynamically -->
                     </div>
                 </div>
                 

@@ -73,25 +73,23 @@ function loadAmenitiesData() {
                 amenitiesData._stateCityPopulated = true;
             }
             
-            // Get selected amenity (preserve selection)
-            const dropdown = document.getElementById('amenity-1');
-            const selectedAmenity = dropdown ? dropdown.value : '';
+            // Get selected amenities
+            const selectedAmenities = getSelectedAmenities();
             const checkboxContainer = document.getElementById('total-locations-checkbox-container');
             
-            if (selectedAmenity) {
-                // Show checkbox when an amenity is selected
+            if (selectedAmenities.length > 0) {
+                // Show checkbox when amenities are selected
                 if (checkboxContainer) {
                     checkboxContainer.style.display = 'flex';
                 }
                 
-                currentAmenity = selectedAmenity;
-                const selectedAmenities = [selectedAmenity];
+                currentAmenity = selectedAmenities; // Store as array
                 
-                // Create chart based on current view
-                createSingleViewChart(selectedAmenity, currentView);
+                // Create chart based on current view with multiple amenities
+                createMultiAmenityChart(selectedAmenities, currentView);
                 
-                // Create density map
-                createDensityMap(selectedAmenity);
+                // Create density map with multiple amenities
+                createDensityMap(selectedAmenities);
                 
                 currentChart = true;
                 
@@ -230,32 +228,49 @@ function loadSampleData() {
 }
 
 function populateAmenityDropdowns() {
-    const dropdown = document.getElementById('amenity-1');
+    const dropdown = document.getElementById('amenity-select');
     const amenities = amenitiesData.amenities || [];
 
     if (dropdown) {
-        // Preserve selected value
-        const selectedValue = dropdown.value;
+        // Preserve selected amenities
+        const selectedAmenities = getSelectedAmenities();
         
-        // Clear existing options except the first one
-        dropdown.innerHTML = '<option value="">Select an amenity...</option>';
+        // Clear existing options
+        dropdown.innerHTML = '';
 
         // Add amenity options
         amenities.forEach(amenity => {
             const option = document.createElement('option');
             option.value = amenity;
             option.textContent = amenity;
+            
+            // Restore selected state
+            if (selectedAmenities.includes(amenity)) {
+                option.selected = true;
+            }
+            
             dropdown.appendChild(option);
         });
         
-        // Restore selected value if it still exists in the new options
-        if (selectedValue) {
-            const optionExists = Array.from(dropdown.options).some(opt => opt.value === selectedValue);
-            if (optionExists) {
-                dropdown.value = selectedValue;
+        // Add change listener to enforce max 3 selection
+        dropdown.addEventListener('change', function() {
+            const selected = getSelectedAmenities();
+            if (selected.length > 3) {
+                // Deselect the last selected option
+                const selectedOptions = Array.from(this.selectedOptions);
+                if (selectedOptions.length > 3) {
+                    selectedOptions[selectedOptions.length - 1].selected = false;
+                    alert('You can only select up to 3 amenities');
+                }
             }
-        }
+        });
     }
+}
+
+function getSelectedAmenities() {
+    const dropdown = document.getElementById('amenity-select');
+    if (!dropdown) return [];
+    return Array.from(dropdown.selectedOptions).map(option => option.value);
 }
 
 function populateStateCityDropdowns() {
@@ -335,10 +350,18 @@ function setupEventListeners() {
     const totalLocationsCheckbox = document.getElementById('show-total-locations');
     if (totalLocationsCheckbox) {
         totalLocationsCheckbox.addEventListener('change', () => {
-            // Redraw chart if an amenity is selected
-            if (currentAmenity) {
-                createSingleViewChart(currentAmenity, currentView);
+            // Redraw chart if amenities are selected
+            if (currentAmenity && Array.isArray(currentAmenity) && currentAmenity.length > 0) {
+                createMultiAmenityChart(currentAmenity, currentView);
             }
+        });
+    }
+    
+    // Listen for amenity dropdown changes (but don't auto-update)
+    const amenityDropdown = document.getElementById('amenity-select');
+    if (amenityDropdown) {
+        amenityDropdown.addEventListener('change', () => {
+            // Don't auto-update - user must click "Update Chart" button
         });
     }
     
@@ -355,8 +378,8 @@ function setupEventListeners() {
         // Update map when slider value changes
         yearSlider.addEventListener('change', function() {
             const selectedYear = parseInt(this.value);
-            // Redraw map if an amenity is selected
-            if (currentAmenity) {
+            // Redraw map if amenities are selected
+            if (currentAmenity && Array.isArray(currentAmenity) && currentAmenity.length > 0) {
                 createDensityMap(currentAmenity);
             }
         });
@@ -391,9 +414,9 @@ function switchView(view) {
         countButton.className = 'btn btn-sm btn-primary';
     }
     
-    // Redraw chart if an amenity is selected
-    if (currentAmenity) {
-        createSingleViewChart(currentAmenity, currentView);
+    // Redraw chart if amenities are selected
+    if (currentAmenity && Array.isArray(currentAmenity) && currentAmenity.length > 0) {
+        createMultiAmenityChart(currentAmenity, currentView);
     }
 }
 
@@ -658,6 +681,271 @@ function createSingleViewChart(selectedAmenity, view) {
         .style('font-size', '11px')
         .style('fill', '#374151')
         .text('Total Locations');
+    }
+}
+
+function createMultiAmenityChart(selectedAmenities, view) {
+    // Clear previous chart
+    const chartContainer = document.getElementById('combined-chart');
+    chartContainer.innerHTML = '';
+
+    // Set up dimensions
+    const margin = { top: 30, right: 80, bottom: 50, left: 50 };
+    const width = chartContainer.clientWidth - margin.left - margin.right;
+    const height = 500 - margin.top - margin.bottom;
+
+    // Create SVG
+    const svg = d3.select(chartContainer)
+        .append('svg')
+        .attr('width', width + margin.left + margin.right)
+        .attr('height', height + margin.top + margin.bottom)
+        .append('g')
+        .attr('transform', `translate(${margin.left},${margin.top})`);
+
+    // Color palette for multiple amenities
+    const colors = ['#3b82f6', '#ef4444', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899'];
+    
+    // Prepare data for each amenity
+    const amenityData = selectedAmenities.map((amenity, index) => {
+        if (view === 'percentage') {
+            return {
+                amenity: amenity,
+                data: amenitiesData.years.map((year, i) => ({
+                    year: year,
+                    value: amenitiesData.totalLocations[i] > 0 ? 
+                        (amenitiesData.trends[amenity][i] / amenitiesData.totalLocations[i] * 100) : 0
+                })),
+                color: colors[index % colors.length]
+            };
+        } else {
+            return {
+                amenity: amenity,
+                data: amenitiesData.years.map((year, i) => ({
+                    year: year,
+                    value: amenitiesData.trends[amenity][i]
+                })),
+                color: colors[index % colors.length]
+            };
+        }
+    });
+
+    // Prepare total data for reference
+    const totalData = amenitiesData.years.map((year, i) => ({
+        year: year,
+        value: amenitiesData.totalLocations[i]
+    }));
+
+    // Calculate domain for Y-axis
+    let maxValue = 0;
+    amenityData.forEach(ad => {
+        const max = d3.max(ad.data, d => d.value);
+        if (max > maxValue) maxValue = max;
+    });
+
+    // Check if total locations checkbox is checked
+    const showTotalLocations = document.getElementById('show-total-locations')?.checked || false;
+    
+    if (showTotalLocations && view === 'count') {
+        const maxTotal = d3.max(totalData, d => d.value);
+        if (maxTotal > maxValue) maxValue = maxTotal;
+    }
+
+    let yScale, totalYScale, yAxis, yAxisLabel;
+    
+    if (view === 'percentage') {
+        yScale = d3.scaleLinear()
+            .domain([0, maxValue * 1.1])
+            .range([height, 0]);
+            
+        totalYScale = d3.scaleLinear()
+            .domain([0, d3.max(totalData, d => d.value) * 1.1])
+            .range([height, 0]);
+            
+        yAxis = d3.axisLeft(yScale).tickFormat(d => d + '%');
+        yAxisLabel = 'Percentage of Total Locations';
+    } else {
+        yScale = d3.scaleLinear()
+            .domain([0, maxValue * 1.1])
+            .range([height, 0]);
+            
+        totalYScale = yScale;
+        yAxis = d3.axisLeft(yScale);
+        yAxisLabel = 'Number of Locations';
+    }
+
+    // X scale
+    const xScale = d3.scaleLinear()
+        .domain(d3.extent(amenitiesData.years))
+        .range([0, width]);
+
+    // Line generators
+    const line = d3.line()
+        .x(d => xScale(d.year))
+        .y(d => yScale(d.value))
+        .curve(d3.curveMonotoneX);
+        
+    const totalLine = d3.line()
+        .x(d => xScale(d.year))
+        .y(d => totalYScale(d.value))
+        .curve(d3.curveMonotoneX);
+
+    // Add axes
+    const xAxis = d3.axisBottom(xScale).tickFormat(d3.format('d'));
+    const yTotalAxis = view === 'percentage' ? d3.axisRight(totalYScale) : null;
+
+    svg.append('g')
+        .attr('class', 'x-axis')
+        .attr('transform', `translate(0,${height})`)
+        .call(xAxis);
+
+    svg.append('g')
+        .attr('class', 'y-axis')
+        .call(yAxis);
+
+    // Add right Y-axis for total count in percentage view (only if checkbox is checked)
+    if (view === 'percentage' && yTotalAxis && showTotalLocations) {
+        svg.append('g')
+            .attr('class', 'y-axis-right')
+            .attr('transform', `translate(${width},0)`)
+            .call(yTotalAxis);
+    }
+
+    // Add axis labels
+    svg.append('text')
+        .attr('class', 'axis-label')
+        .attr('text-anchor', 'middle')
+        .attr('x', width / 2)
+        .attr('y', height + margin.bottom - 10)
+        .style('font-size', '12px')
+        .style('fill', '#6b7280')
+        .text('Year');
+
+    svg.append('text')
+        .attr('class', 'axis-label')
+        .attr('text-anchor', 'middle')
+        .attr('transform', 'rotate(-90)')
+        .attr('x', -height / 2)
+        .attr('y', -margin.left + 20)
+        .style('font-size', '12px')
+        .style('fill', '#6b7280')
+        .text(yAxisLabel);
+
+    // Add right Y-axis label for total count in percentage view (only if checkbox is checked)
+    if (view === 'percentage' && showTotalLocations) {
+        svg.append('text')
+            .attr('class', 'axis-label')
+            .attr('text-anchor', 'middle')
+            .attr('transform', `rotate(90 ${width + margin.right - 20} ${height / 2})`)
+            .attr('x', width + margin.right - 20)
+            .attr('y', height / 2)
+            .style('font-size', '12px')
+            .style('fill', '#6b7280')
+            .text('Total Locations');
+    }
+
+    // Add grid lines
+    svg.append('g')
+        .attr('class', 'grid')
+        .attr('transform', `translate(0,${height})`)
+        .call(d3.axisBottom(xScale).tickSize(-height).tickFormat('').tickSizeOuter(0))
+        .style('stroke-dasharray', '3,3')
+        .style('opacity', 0.3);
+
+    svg.append('g')
+        .attr('class', 'grid')
+        .call(d3.axisLeft(yScale).tickSize(-width).tickFormat('').tickSizeOuter(0))
+        .style('stroke-dasharray', '3,3')
+        .style('opacity', 0.3);
+
+    // Add the total reference line (only if checkbox is checked)
+    if (showTotalLocations) {
+        svg.append('path')
+            .datum(totalData)
+            .attr('class', 'line-total-reference')
+            .attr('d', totalLine)
+            .style('fill', 'none')
+            .style('stroke', '#10b981')
+            .style('stroke-width', 2)
+            .style('stroke-dasharray', '5,5')
+            .style('opacity', 0.6);
+    }
+
+    // Add lines for each amenity
+    amenityData.forEach((ad, index) => {
+        // Add the line
+        svg.append('path')
+            .datum(ad.data)
+            .attr('class', `line-amenity-${index}`)
+            .attr('d', line)
+            .style('fill', 'none')
+            .style('stroke', ad.color)
+            .style('stroke-width', 3)
+            .style('opacity', 0.8);
+
+        // Add dots for data points
+        svg.selectAll(`.dot-amenity-${index}`)
+            .data(ad.data)
+            .enter().append('circle')
+            .attr('class', `dot-amenity-${index}`)
+            .attr('cx', d => xScale(d.year))
+            .attr('cy', d => yScale(d.value))
+            .attr('r', 4)
+            .style('fill', ad.color)
+            .style('opacity', 0.8);
+    });
+
+    // Add legend for amenities
+    const legend = svg.append('g')
+        .attr('class', 'legend')
+        .attr('transform', `translate(${width - 150}, 20)`);
+
+    amenityData.forEach((ad, index) => {
+        const legendItem = legend.append('g')
+            .attr('transform', `translate(0, ${index * 20})`);
+
+        legendItem.append('line')
+            .attr('x1', 0)
+            .attr('x2', 20)
+            .attr('y1', 0)
+            .attr('y2', 0)
+            .style('stroke', ad.color)
+            .style('stroke-width', 3);
+
+        legendItem.append('circle')
+            .attr('cx', 10)
+            .attr('cy', 0)
+            .attr('r', 3)
+            .style('fill', ad.color);
+
+        legendItem.append('text')
+            .attr('x', 25)
+            .attr('y', 4)
+            .style('font-size', '11px')
+            .style('fill', '#374151')
+            .text(ad.amenity);
+    });
+
+    // Total reference legend item (only if checkbox is checked)
+    if (showTotalLocations) {
+        const legendItem = legend.append('g')
+            .attr('transform', `translate(0, ${amenityData.length * 20})`);
+
+        legendItem.append('line')
+            .attr('x1', 0)
+            .attr('x2', 20)
+            .attr('y1', 0)
+            .attr('y2', 0)
+            .style('stroke', '#10b981')
+            .style('stroke-width', 2)
+            .style('stroke-dasharray', '5,5')
+            .style('opacity', 0.6);
+
+        legendItem.append('text')
+            .attr('x', 25)
+            .attr('y', 4)
+            .style('font-size', '11px')
+            .style('fill', '#374151')
+            .text('Total Locations');
     }
 }
 
@@ -1559,10 +1847,19 @@ function updateInsights(selectedAmenities) {
 function resetFilters() {
     console.log('Resetting filters...');
     
-    // Reset dropdown
-    const dropdown = document.getElementById('amenity-1');
-    if (dropdown) {
-        dropdown.value = '';
+    // Reset amenity dropdown
+    const amenityDropdown = document.getElementById('amenity-select');
+    if (amenityDropdown) {
+        // Deselect all options
+        Array.from(amenityDropdown.options).forEach(option => {
+            option.selected = false;
+        });
+    }
+    
+    // Hide map toggle checkboxes
+    const mapToggleContainer = document.getElementById('map-amenity-toggles');
+    if (mapToggleContainer) {
+        mapToggleContainer.style.display = 'none';
     }
     
     // Reset state filter
@@ -1640,11 +1937,16 @@ let mapCreationInProgress = false; // Flag to prevent concurrent map creation
 // Copy your default public token and paste it below
 const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1IjoiYWVyZWdhbiIsImEiOiJjbWh3NmE5ZWswM2xrMmlvY2wzYjhuOWVmIn0.KhOofH1fXHn87-utlCGD8g';
 
-function createDensityMap(selectedAmenity) {
+function createDensityMap(selectedAmenities) {
     // Prevent concurrent map creation
     if (mapCreationInProgress) {
         console.log('Map creation already in progress, skipping...');
         return;
+    }
+    
+    // Ensure selectedAmenities is an array
+    if (!Array.isArray(selectedAmenities)) {
+        selectedAmenities = [selectedAmenities];
     }
     
     // Clear previous map
@@ -1666,7 +1968,7 @@ function createDensityMap(selectedAmenity) {
     // Check if access token is set
     if (MAPBOX_ACCESS_TOKEN === 'YOUR_MAPBOX_ACCESS_TOKEN_HERE') {
         console.error('Mapbox access token not set!');
-        mapContainer.innerHTML = '<div class="flex items-center justify-center h-full"><p class="text-error">Error: Please set your Mapbox access token in amenities.js</p></div>';
+        mapContainer.innerHTML = '<div class="flex items-center justify-center h-full"><p class="text-error">Please set your Mapbox access token in amenities.js</p></div>';
         mapCreationInProgress = false;
         return;
     }
@@ -1679,35 +1981,36 @@ function createDensityMap(selectedAmenity) {
     const state = stateFilter ? stateFilter.value : '';
     const year = yearSlider ? parseInt(yearSlider.value) : null;
     
-    // Build query string with filters
-    let url = `/api/amenity-city-data/${encodeURIComponent(selectedAmenity)}`;
-    const params = new URLSearchParams();
-    if (state) params.append('state', state);
-    if (year) params.append('year', year);
-    if (params.toString()) {
-        url += '?' + params.toString();
-    }
-    
     // Show loading state
     mapContainer.innerHTML = '<div class="flex items-center justify-center h-full"><div class="text-center"><div class="loading loading-spinner loading-lg mb-4"></div><p class="text-base-content/70">Loading city data...</p></div></div>';
 
-    // Fetch city data
-    fetch(url)
+    // Fetch city data for all selected amenities
+    const fetchPromises = selectedAmenities.map(amenity => {
+        let url = `/api/amenity-city-data/${encodeURIComponent(amenity)}`;
+        const params = new URLSearchParams();
+        if (state) params.append('state', state);
+        if (year) params.append('year', year);
+        if (params.toString()) {
+            url += '?' + params.toString();
+        }
+        
+        return fetch(url)
         .then(response => response.json())
         .then(data => {
             if (data.error) {
                 throw new Error(data.error);
             }
-            
-            console.log('City data received:', {
-                amenity: data.amenity,
-                totalCities: data.total_cities,
-                citiesCount: data.cities ? data.cities.length : 0,
-                sampleCity: data.cities && data.cities.length > 0 ? data.cities[0] : null
+                return { amenity, data };
             });
+    });
+
+    // Wait for all data to load
+    Promise.all(fetchPromises)
+        .then(results => {
+            console.log('City data received for all amenities:', results.length);
             
-            // Create the Mapbox map visualization
-            createMapboxMap(mapContainer, data);
+            // Create the Mapbox map visualization with multiple amenities
+            createMapboxMap(mapContainer, results, selectedAmenities);
             mapCreationInProgress = false;
         })
         .catch(error => {
@@ -1717,14 +2020,20 @@ function createDensityMap(selectedAmenity) {
         });
 }
 
-function createMapboxMap(mapContainer, data) {
-    // Check if we have cities data
-    if (!data.cities || data.cities.length === 0) {
+function createMapboxMap(mapContainer, results, selectedAmenities) {
+    // results is an array of {amenity, data} objects
+    // Check if we have any cities data
+    const hasData = results.some(r => r.data.cities && r.data.cities.length > 0);
+    
+    if (!hasData) {
         console.warn('No city data available');
         mapContainer.innerHTML = '<div class="flex items-center justify-center h-full"><p class="text-warning">No city data available for the selected filters</p></div>';
         mapCreationInProgress = false;
         return;
     }
+    
+    // Color palette for multiple amenities (matching chart colors)
+    const colors = ['#3b82f6', '#ef4444', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899'];
 
     // Destroy existing map if it exists (do this before clearing container)
     if (amenitiesMap) {
@@ -1748,7 +2057,7 @@ function createMapboxMap(mapContainer, data) {
         const container = document.getElementById('density-map');
         if (!container || container.offsetWidth === 0 || container.offsetHeight === 0) {
             console.warn('Map container not ready, retrying...');
-            setTimeout(() => createMapboxMap(mapContainer, data), 100);
+            setTimeout(() => createMapboxMap(mapContainer, results, selectedAmenities), 100);
             return;
         }
         
@@ -1763,203 +2072,231 @@ function createMapboxMap(mapContainer, data) {
 
         // Wait for map to load before adding data
         amenitiesMap.on('load', () => {
-            console.log('Map is ready, adding circles...');
+            console.log('Map is ready, adding circles for', results.length, 'amenities...');
 
-            // Filter to only US coordinates (rough bounds: lat 18-72, lng -180 to -50)
-            const validCities = data.cities.filter(c => {
-                if (!c.latitude || !c.longitude || !c.count) return false;
-                const lat = parseFloat(c.latitude);
-                const lng = parseFloat(c.longitude);
-                // US bounds: roughly lat 18-72, lng -180 to -50
-                return !isNaN(lat) && !isNaN(lng) && 
-                       lat >= 18 && lat <= 72 && 
-                       lng >= -180 && lng <= -50;
-            });
-            
-            if (validCities.length === 0) {
-                console.warn('No valid cities with coordinates and counts within US bounds');
-                mapCreationInProgress = false;
-                return;
-            }
-            
-            const maxCount = Math.max(...validCities.map(d => d.count || 0));
-            
-            // Handle case where maxCount is 0
-            if (maxCount === 0) {
-                console.warn('All city counts are 0');
-            }
-            
-            // Create color scale based on city counts (using D3 scale for consistency)
-            const colorScale = d3.scaleSequential(d3.interpolateBlues)
-                .domain([0, maxCount || 1]);
+            // Process each amenity's data
+            const allFeatures = [];
+            const allBounds = new mapboxgl.LngLatBounds();
+            let globalMaxCount = 0;
+            const layerInfo = []; // Store info about created layers for toggle checkboxes
 
-            // Create radius scale for circle sizes
-            const radiusScale = d3.scaleSqrt()
-                .domain([0, maxCount || 1])
-                .range([5, 30]);
-
-            console.log(`Adding ${validCities.length} city circles to map, maxCount: ${maxCount}`);
-            console.log('Sample city data:', validCities.slice(0, 3).map(c => ({
-                city: c.city,
-                state: c.state,
-                lat: c.latitude,
-                lng: c.longitude,
-                count: c.count
-            })));
-
-            // Convert cities to GeoJSON format for Mapbox
-            const features = validCities.map(city => {
-                const lat = parseFloat(city.latitude);
-                const lng = parseFloat(city.longitude);
+            results.forEach((result, index) => {
+                const { amenity, data } = result;
+                const amenityColor = colors[index % colors.length];
                 
-                if (isNaN(lat) || isNaN(lng) || 
-                    lat < 18 || lat > 72 || 
-                    lng < -180 || lng > -50) {
-                    return null;
+                if (!data.cities || data.cities.length === 0) {
+                    console.warn(`No cities for amenity ${amenity}`);
+                    return;
                 }
-                
-                const radius = radiusScale(city.count || 0);
-                const color = colorScale(city.count || 0);
-                
-                return {
-                    type: 'Feature',
-                    geometry: {
-                        type: 'Point',
-                        coordinates: [lng, lat] // Mapbox uses [lng, lat]
-                    },
-                    properties: {
-                        city: city.city,
-                        state: city.state,
-                        count: city.count,
-                        radius: radius,
-                        color: color
+
+                // Filter to only US coordinates
+                const validCities = data.cities.filter(c => {
+                    if (!c.latitude || !c.longitude || !c.count) return false;
+                    const lat = parseFloat(c.latitude);
+                    const lng = parseFloat(c.longitude);
+                    return !isNaN(lat) && !isNaN(lng) && 
+                           lat >= 18 && lat <= 72 && 
+                           lng >= -180 && lng <= -50;
+                });
+
+                if (validCities.length === 0) {
+                    console.warn(`No valid cities for amenity ${amenity}`);
+                    return;
+                }
+
+                const maxCount = Math.max(...validCities.map(d => d.count || 0));
+                if (maxCount > globalMaxCount) globalMaxCount = maxCount;
+
+                // Create radius scale for this amenity
+    const radiusScale = d3.scaleSqrt()
+                    .domain([0, maxCount || 1])
+                    .range([5, 30]);
+
+                // Convert cities to GeoJSON features
+                const features = validCities.map(city => {
+                    const lat = parseFloat(city.latitude);
+                    const lng = parseFloat(city.longitude);
+                    
+                    if (isNaN(lat) || isNaN(lng) || 
+                        lat < 18 || lat > 72 || 
+                        lng < -180 || lng > -50) {
+                        return null;
                     }
-                };
-            }).filter(f => f !== null);
+                    
+                    const radius = radiusScale(city.count || 0);
+                    
+                    return {
+                        type: 'Feature',
+                        geometry: {
+                            type: 'Point',
+                            coordinates: [lng, lat]
+                        },
+                        properties: {
+                            amenity: amenity,
+                            city: city.city,
+                            state: city.state,
+                            count: city.count,
+                            radius: radius,
+                            color: amenityColor
+                        }
+                    };
+                }).filter(f => f !== null);
 
-            // Add source with city data
-            amenitiesMap.addSource('cities', {
-                type: 'geojson',
-                data: {
-                    type: 'FeatureCollection',
-                    features: features
-                }
-            });
+                allFeatures.push(...features);
 
-            // Add circle layer
-            amenitiesMap.addLayer({
-                id: 'city-circles',
-                type: 'circle',
-                source: 'cities',
-                paint: {
-                    'circle-radius': [
-                        'interpolate',
-                        ['linear'],
-                        ['get', 'count'],
-                        0, 5,
-                        maxCount, 30
-                    ],
-                    'circle-color': [
-                        'interpolate',
-                        ['linear'],
-                        ['get', 'count'],
-                        0, colorScale(0),
-                        maxCount, colorScale(maxCount)
-                    ],
-                    'circle-stroke-width': 2,
-                    'circle-stroke-color': '#fff',
-                    'circle-opacity': 0.8
-                }
-            });
+                // Add source for this amenity
+                const sourceId = `cities-${index}`;
+                amenitiesMap.addSource(sourceId, {
+                    type: 'geojson',
+                    data: {
+                        type: 'FeatureCollection',
+                        features: features
+                    }
+                });
 
-            // Add popup on click
-            const popup = new mapboxgl.Popup({
-                closeButton: true,
-                closeOnClick: false
-            });
-
-            amenitiesMap.on('click', 'city-circles', (e) => {
-                const coordinates = e.features[0].geometry.coordinates.slice();
-                const props = e.features[0].properties;
-                
-                // Ensure that if the map is zoomed out such that
-                // multiple copies of the feature are visible, the
-                // popup appears over the copy being pointed to.
-                while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-                    coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-                }
-                
-                popup
-                    .setLngLat(coordinates)
-                    .setHTML(`
-                        <div class="tooltip-content">
-                            <div class="tooltip-title"><strong>${props.city}, ${props.state}</strong></div>
-                            <div class="tooltip-item">
-                                <span class="tooltip-label">Count:</span>
-                                <span class="tooltip-value">${props.count}</span>
-                            </div>
-                        </div>
-                    `)
-                    .addTo(amenitiesMap);
-            });
-
-            // Change cursor on hover
-            amenitiesMap.on('mouseenter', 'city-circles', () => {
-                amenitiesMap.getCanvas().style.cursor = 'pointer';
-            });
-
-            amenitiesMap.on('mouseleave', 'city-circles', () => {
-                amenitiesMap.getCanvas().style.cursor = '';
-            });
-
-            console.log(`Successfully added ${features.length} circles to map`);
-
-            // Fit map bounds to show all cities
-            if (features.length > 0) {
-                const bounds = new mapboxgl.LngLatBounds();
-                features.forEach(feature => {
-                    bounds.extend(feature.geometry.coordinates);
+                // Add circle layer for this amenity
+                const layerId = `city-circles-${index}`;
+                amenitiesMap.addLayer({
+                    id: layerId,
+                    type: 'circle',
+                    source: sourceId,
+                    paint: {
+                        'circle-radius': [
+                            'interpolate',
+                            ['linear'],
+                            ['get', 'count'],
+                            0, 5,
+                            maxCount, 30
+                        ],
+                        'circle-color': amenityColor,
+                        'circle-stroke-width': 2,
+                        'circle-stroke-color': '#fff',
+                        'circle-opacity': 0.8
+                    },
+                    layout: {
+                        visibility: 'visible'
+                    }
                 });
                 
-                amenitiesMap.fitBounds(bounds, {
+                console.log(`Added layer ${layerId} for amenity ${amenity} with ${features.length} features`);
+                
+                // Store layer info for toggle checkboxes
+                layerInfo.push({
+                    amenity: amenity,
+                    layerId: layerId,
+                    color: amenityColor,
+                    index: index
+                });
+
+                // Add popup for this layer
+                amenitiesMap.on('click', layerId, (e) => {
+                    const coordinates = e.features[0].geometry.coordinates.slice();
+                    const props = e.features[0].properties;
+                    
+                    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+                    }
+                    
+                    const popup = new mapboxgl.Popup({
+                        closeButton: true,
+                        closeOnClick: false
+                    });
+                    
+                    popup
+                        .setLngLat(coordinates)
+                        .setHTML(`
+        <div class="tooltip-content">
+                                <div class="tooltip-title"><strong>${props.city}, ${props.state}</strong></div>
+                                <div class="tooltip-item">
+                                    <span class="tooltip-label">Amenity:</span>
+                                    <span class="tooltip-value">${props.amenity}</span>
+                                </div>
+            <div class="tooltip-item">
+                <span class="tooltip-label">Count:</span>
+                                    <span class="tooltip-value">${props.count}</span>
+            </div>
+        </div>
+                        `)
+                        .addTo(amenitiesMap);
+                });
+
+                // Change cursor on hover
+                amenitiesMap.on('mouseenter', layerId, () => {
+                    amenitiesMap.getCanvas().style.cursor = 'pointer';
+                });
+
+                amenitiesMap.on('mouseleave', layerId, () => {
+                    amenitiesMap.getCanvas().style.cursor = '';
+                });
+
+                // Extend bounds
+                features.forEach(feature => {
+                    allBounds.extend(feature.geometry.coordinates);
+                });
+            });
+
+            // Fit map bounds to show all cities
+            if (allFeatures.length > 0) {
+                amenitiesMap.fitBounds(allBounds, {
                     padding: 50,
                     maxZoom: 10
                 });
-                
-                console.log('Fitted map bounds to show all cities');
             }
 
-            // Add custom legend
-            const legend = document.createElement('div');
-            legend.id = 'map-legend';
-            legend.className = 'map-legend';
-            legend.style.cssText = `
-                position: absolute;
-                bottom: 20px;
-                right: 20px;
-                background: white;
-                padding: 10px;
-                border-radius: 5px;
-                box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-                z-index: 1;
-            `;
+            console.log(`Created ${layerInfo.length} layers total`);
             
-            const legendData = [maxCount, maxCount * 0.6, maxCount * 0.3, maxCount * 0.1];
+            // Add toggle checkboxes for each amenity that has a layer
+            const toggleContainer = document.getElementById('map-amenity-toggles');
+            const toggleCheckboxes = document.getElementById('map-toggle-checkboxes');
             
-            let html = '<div style="font-weight: bold; margin-bottom: 5px; font-size: 12px;">Count</div>';
-            legendData.forEach((count, i) => {
-                const radius = radiusScale(count);
-                const color = colorScale(count);
-                html += `
-                    <div style="display: flex; align-items: center; margin-bottom: 3px;">
-                        <div style="width: ${radius * 2}px; height: ${radius * 2}px; border-radius: 50%; background-color: ${color}; border: 2px solid white; margin-right: 8px;"></div>
-                        <span style="font-size: 11px;">${Math.round(count)}</span>
-                    </div>
-                `;
-            });
-            
-            legend.innerHTML = html;
-            mapContainer.appendChild(legend);
+            if (toggleContainer && toggleCheckboxes && layerInfo.length > 1) {
+                toggleContainer.style.display = 'block';
+                toggleCheckboxes.innerHTML = '';
+                
+                console.log(`Creating toggle checkboxes for ${layerInfo.length} amenities`);
+                
+                layerInfo.forEach((info) => {
+                    const { amenity, layerId, color } = info;
+                    
+                    const label = document.createElement('label');
+                    label.className = 'label cursor-pointer gap-2';
+                    
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.className = 'checkbox checkbox-sm';
+                    checkbox.checked = true;
+                    checkbox.style.accentColor = color;
+                    checkbox.dataset.layerId = layerId;
+                    checkbox.dataset.amenity = amenity;
+                    
+                    checkbox.addEventListener('change', function() {
+                        const visibility = this.checked ? 'visible' : 'none';
+                        const targetLayerId = this.dataset.layerId;
+                        console.log(`Toggling layer ${targetLayerId} to ${visibility}`);
+                        
+                        if (amenitiesMap.getLayer(targetLayerId)) {
+                            amenitiesMap.setLayoutProperty(targetLayerId, 'visibility', visibility);
+                            console.log(`Layer ${targetLayerId} visibility set to ${visibility}`);
+                        } else {
+                            console.warn(`Layer ${targetLayerId} not found on map`);
+                        }
+                    });
+                    
+                    const colorBox = document.createElement('div');
+                    colorBox.style.cssText = `width: 16px; height: 16px; background-color: ${color}; border-radius: 50%; border: 2px solid white;`;
+                    
+                    const span = document.createElement('span');
+                    span.className = 'label-text text-sm';
+                    span.textContent = amenity;
+                    
+                    label.appendChild(checkbox);
+                    label.appendChild(colorBox);
+                    label.appendChild(span);
+                    toggleCheckboxes.appendChild(label);
+                });
+            } else if (toggleContainer) {
+                toggleContainer.style.display = 'none';
+            }
 
             // Add title
             const title = document.createElement('div');
@@ -1978,7 +2315,8 @@ function createMapboxMap(mapContainer, data) {
                 color: #374151;
                 z-index: 1;
             `;
-            title.innerHTML = `${data.amenity} - ${data.total_cities} Cities`;
+            const totalCities = results.reduce((sum, r) => sum + (r.data.total_cities || 0), 0);
+            title.innerHTML = `${selectedAmenities.length} Amenit${selectedAmenities.length > 1 ? 'ies' : 'y'} - ${totalCities} Total Cities`;
             mapContainer.appendChild(title);
 
             mapCreationInProgress = false;
