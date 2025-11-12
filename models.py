@@ -54,6 +54,7 @@ class AmenityFeature(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200), unique=True, nullable=False)
     description = db.Column(db.Text)
+    short_description = db.Column(db.String(200))
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     
     # Many-to-many relationship with locations
@@ -63,7 +64,8 @@ class AmenityFeature(db.Model):
         return {
             'id': self.id,
             'name': self.name,
-            'description': self.description
+            'description': self.description,
+            'short_description': self.short_description
         }
 
 class LocationTypeAssignment(db.Model):
