@@ -3,8 +3,7 @@
 {% block title %}Amenities Analysis - Mapping the Gay Guides{% endblock %}
 
 {% block extra_css %}
-<script src="https://d3js.org/d3.v7.min.js"></script>
-<script src="https://unpkg.com/topojson@3"></script>
+<link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" />
 <style>
     .chart-container {
         min-height: 450px;
@@ -27,10 +26,53 @@
     
     /* Specific styling for map container - maximize space */
     .map-container {
-        min-height: 700px; /* Much taller for larger map */
-        padding: 0.05rem; /* Minimal padding for maximum map space */
-        overflow: visible;
+        min-height: 600px;
+        height: 600px;
         width: 100%;
+        border-radius: 8px;
+        overflow: hidden;
+        position: relative;
+    }
+    
+    #density-map {
+        height: 100%;
+        width: 100%;
+    }
+    
+    .mapboxgl-popup-content {
+        padding: 10px;
+    }
+    
+    .map-legend {
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        background: white;
+        padding: 10px;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        z-index: 1;
+    }
+    
+    #map-title {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        background: white;
+        padding: 8px 15px;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        font-size: 14px;
+        font-weight: bold;
+        color: #374151;
+        z-index: 1;
+    }
+    
+    .map-title-control {
+        text-align: center;
+        margin: 10px auto !important;
+        display: block;
+        width: fit-content;
     }
     
     /* Remove the grid-specific CSS since we're not using grid anymore */
@@ -221,5 +263,7 @@
 {% endblock %}
 
 {% block extra_js %}
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
 <script src="{{ url_for('static', filename='js/amenities.js') }}"></script>
 {% endblock %}

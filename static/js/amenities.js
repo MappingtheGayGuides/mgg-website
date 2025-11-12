@@ -98,9 +98,9 @@ function loadAmenitiesData() {
                 // Update insights
                 updateInsights(selectedAmenities);
             } else {
-                // Show total locations trend by default
-                console.log('Calling showDefaultCharts...');
-                showDefaultCharts();
+            // Show total locations trend by default
+            console.log('Calling showDefaultCharts...');
+            showDefaultCharts();
                 currentAmenity = null;
                 // Hide checkbox when no amenity is selected
                 if (checkboxContainer) {
@@ -342,6 +342,26 @@ function setupEventListeners() {
         });
     }
     
+    // Year slider for map
+    const yearSlider = document.getElementById('year-slider');
+    const currentYearDisplay = document.getElementById('current-year');
+    
+    if (yearSlider && currentYearDisplay) {
+        // Update display when slider changes
+        yearSlider.addEventListener('input', function() {
+            currentYearDisplay.textContent = this.value;
+        });
+        
+        // Update map when slider value changes
+        yearSlider.addEventListener('change', function() {
+            const selectedYear = parseInt(this.value);
+            // Redraw map if an amenity is selected
+            if (currentAmenity) {
+                createDensityMap(currentAmenity);
+            }
+        });
+    }
+    
     // No longer need tab functionality
 }
 
@@ -544,15 +564,15 @@ function createSingleViewChart(selectedAmenity, view) {
 
     // Add the total reference line (only if checkbox is checked)
     if (showTotalLocations) {
-        svg.append('path')
-            .datum(totalData)
-            .attr('class', 'line-total-reference')
-            .attr('d', totalLine)
-            .style('fill', 'none')
-            .style('stroke', '#10b981')
-            .style('stroke-width', 2)
-            .style('stroke-dasharray', '5,5')
-            .style('opacity', 0.6);
+    svg.append('path')
+        .datum(totalData)
+        .attr('class', 'line-total-reference')
+        .attr('d', totalLine)
+        .style('fill', 'none')
+        .style('stroke', '#10b981')
+        .style('stroke-width', 2)
+        .style('stroke-dasharray', '5,5')
+        .style('opacity', 0.6);
     }
 
     // Add the main line
@@ -622,22 +642,22 @@ function createSingleViewChart(selectedAmenity, view) {
 
     // Total reference legend item (only if checkbox is checked)
     if (showTotalLocations) {
-        legend.append('line')
-            .attr('x1', 0)
-            .attr('x2', 20)
-            .attr('y1', 15)
-            .attr('y2', 15)
-            .style('stroke', '#10b981')
-            .style('stroke-width', 2)
-            .style('stroke-dasharray', '5,5')
-            .style('opacity', 0.6);
+    legend.append('line')
+        .attr('x1', 0)
+        .attr('x2', 20)
+        .attr('y1', 15)
+        .attr('y2', 15)
+        .style('stroke', '#10b981')
+        .style('stroke-width', 2)
+        .style('stroke-dasharray', '5,5')
+        .style('opacity', 0.6);
 
-        legend.append('text')
-            .attr('x', 25)
-            .attr('y', 19)
-            .style('font-size', '11px')
-            .style('fill', '#374151')
-            .text('Total Locations');
+    legend.append('text')
+        .attr('x', 25)
+        .attr('y', 19)
+        .style('font-size', '11px')
+        .style('fill', '#374151')
+        .text('Total Locations');
     }
 }
 
@@ -1612,53 +1632,65 @@ function showDefaultMap() {
     `;
 }
 
-function createDensityMap(selectedAmenity) {
-    // Clear previous map
-    const mapContainer = document.getElementById('density-map');
-    mapContainer.innerHTML = '';
+let amenitiesMap = null; // Store Mapbox map instance
+let mapCreationInProgress = false; // Flag to prevent concurrent map creation
 
-    // Set up dimensions - much larger for better map visibility
-    const margin = { top: 20, right: 20, bottom: 20, left: 20 };
-    let width = mapContainer.clientWidth - margin.left - margin.right;
-    const height = 600 - margin.top - margin.bottom; // Much taller for larger map
-    
-    // Fallback width if container doesn't have proper dimensions
-    if (width <= 0 || !mapContainer.clientWidth) {
-        width = 1000; // Much larger default width for full-width map
-        console.log('Using fallback width for map:', width);
+// TODO: Replace with your Mapbox access token
+// Get your token at https://account.mapbox.com/
+// Copy your default public token and paste it below
+const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1IjoiYWVyZWdhbiIsImEiOiJjbWh3NmE5ZWswM2xrMmlvY2wzYjhuOWVmIn0.KhOofH1fXHn87-utlCGD8g';
+
+function createDensityMap(selectedAmenity) {
+    // Prevent concurrent map creation
+    if (mapCreationInProgress) {
+        console.log('Map creation already in progress, skipping...');
+        return;
     }
     
-    console.log('Map dimensions:', { width, height, containerWidth: mapContainer.clientWidth });
+    // Clear previous map
+    const mapContainer = document.getElementById('density-map');
+    if (!mapContainer) {
+        console.error('Map container not found!');
+        return;
+    }
+    
+    mapContainer.innerHTML = '';
 
-    // Create SVG
-    const svg = d3.select(mapContainer)
-        .append('svg')
-        .attr('width', width + margin.left + margin.right)
-        .attr('height', height + margin.top + margin.bottom)
-        .append('g')
-        .attr('transform', `translate(${margin.left},${margin.top})`);
-
-    // Add loading state
-    svg.append('text')
-        .attr('text-anchor', 'middle')
-        .attr('x', width / 2)
-        .attr('y', height / 2)
-        .style('font-size', '14px')
-        .style('fill', '#6b7280')
-        .text('Loading city data...');
+    // Check if Mapbox GL is available
+    if (typeof mapboxgl === 'undefined') {
+        console.error('Mapbox GL library not loaded!');
+        mapContainer.innerHTML = '<p class="text-danger">Error: Mapbox GL library not loaded</p>';
+        return;
+    }
+    
+    // Check if access token is set
+    if (MAPBOX_ACCESS_TOKEN === 'YOUR_MAPBOX_ACCESS_TOKEN_HERE') {
+        console.error('Mapbox access token not set!');
+        mapContainer.innerHTML = '<div class="flex items-center justify-center h-full"><p class="text-error">Error: Please set your Mapbox access token in amenities.js</p></div>';
+        mapCreationInProgress = false;
+        return;
+    }
+    
+    mapCreationInProgress = true;
 
     // Get current filter values
     const stateFilter = document.getElementById('state-filter');
+    const yearSlider = document.getElementById('year-slider');
     const state = stateFilter ? stateFilter.value : '';
+    const year = yearSlider ? parseInt(yearSlider.value) : null;
     
     // Build query string with filters
     let url = `/api/amenity-city-data/${encodeURIComponent(selectedAmenity)}`;
     const params = new URLSearchParams();
     if (state) params.append('state', state);
+    if (year) params.append('year', year);
     if (params.toString()) {
         url += '?' + params.toString();
     }
     
+    // Show loading state
+    mapContainer.innerHTML = '<div class="flex items-center justify-center h-full"><div class="text-center"><div class="loading loading-spinner loading-lg mb-4"></div><p class="text-base-content/70">Loading city data...</p></div></div>';
+
     // Fetch city data
     fetch(url)
         .then(response => response.json())
@@ -1667,197 +1699,297 @@ function createDensityMap(selectedAmenity) {
                 throw new Error(data.error);
             }
             
-            // Clear loading text
-            svg.selectAll('text').remove();
+            console.log('City data received:', {
+                amenity: data.amenity,
+                totalCities: data.total_cities,
+                citiesCount: data.cities ? data.cities.length : 0,
+                sampleCity: data.cities && data.cities.length > 0 ? data.cities[0] : null
+            });
             
-            // Create the map visualization
-            createMapVisualization(svg, data, width, height);
+            // Create the Mapbox map visualization
+            createMapboxMap(mapContainer, data);
+            mapCreationInProgress = false;
         })
         .catch(error => {
             console.error('Error loading city data:', error);
-            svg.selectAll('text').remove();
-            svg.append('text')
-                .attr('text-anchor', 'middle')
-                .attr('x', width / 2)
-                .attr('y', height / 2)
-                .style('font-size', '14px')
-                .style('fill', '#ef4444')
-                .text('Error loading map data');
+            mapContainer.innerHTML = '<div class="flex items-center justify-center h-full"><p class="text-error">Error loading map data</p></div>';
+            mapCreationInProgress = false;
         });
 }
 
-function createMapVisualization(svg, data, width, height) {
-    // Define projection for US map - much larger scale for better visibility
-    // Use a much larger scale to fill the available space
-    const scale = Math.min(width * 1.2, height * 1.1);
-    const projection = d3.geoAlbersUsa()
-        .translate([width / 2, height / 2])
-        .scale(scale);
-
-    console.log('Map projection settings:', { width, height, scale });
-
-    // Create path generator
-    const path = d3.geoPath().projection(projection);
-
-    // Load US states GeoJSON data
-    d3.json("https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json")
-        .then(us => {
-            // Add US states background
-            svg.append("path")
-                .datum(topojson.feature(us, us.objects.states))
-                .attr("class", "states")
-                .attr("d", path)
-                .style("fill", "#f8f9fa")
-                .style("stroke", "#dee2e6")
-                .style("stroke-width", 1);
-
-            // Add state borders
-            svg.append("path")
-                .datum(topojson.mesh(us, us.objects.states, (a, b) => a !== b))
-                .attr("class", "state-borders")
-                .attr("d", path)
-                .style("fill", "none")
-                .style("stroke", "#adb5bd")
-                .style("stroke-width", 0.5);
-
-            // Now add the city circles on top of the map
-            addCityCircles(svg, data, projection, width, height);
-        })
-        .catch(error => {
-            console.error("Error loading US map data:", error);
-            // Fallback: just show city circles without basemap
-            addCityCircles(svg, data, projection, width, height);
-        });
-}
-
-function addCityCircles(svg, data, projection, width, height) {
-    // Create color scale based on city counts
-    const maxCount = d3.max(data.cities, d => d.count);
-    const colorScale = d3.scaleSequential(d3.interpolateBlues)
-        .domain([0, maxCount]);
-
-    // Create radius scale for circle sizes - larger circles for better visibility
-    const radiusScale = d3.scaleSqrt()
-        .domain([0, maxCount])
-        .range([5, 25]); // Increased from [3, 20] to [5, 25]
-
-    // Add circles for each city
-    svg.selectAll('.city-circle')
-        .data(data.cities)
-        .enter().append('circle')
-        .attr('class', 'city-circle')
-        .attr('cx', d => {
-            const coords = projection([d.longitude, d.latitude]);
-            return coords ? coords[0] : null;
-        })
-        .attr('cy', d => {
-            const coords = projection([d.longitude, d.latitude]);
-            return coords ? coords[1] : null;
-        })
-        .attr('r', d => radiusScale(d.count))
-        .style('fill', d => colorScale(d.count))
-        .style('opacity', 0.8) // Increased opacity for better visibility
-        .style('stroke', '#fff')
-        .style('stroke-width', 2) // Thicker stroke for better visibility
-        .on('mouseover', function(event, d) {
-            showMapTooltip(event, d);
-        })
-        .on('mouseout', function() {
-            hideMapTooltip();
-        });
-
-    // Add title
-    svg.append('text')
-        .attr('text-anchor', 'middle')
-        .attr('x', width / 2)
-        .attr('y', 20)
-        .style('font-size', '14px')
-        .style('font-weight', 'bold')
-        .style('fill', '#374151')
-        .text(`${data.amenity} - ${data.total_cities} Cities`);
-
-    // Add legend
-    const legend = svg.append('g')
-        .attr('class', 'legend')
-        .attr('transform', `translate(${width - 120}, ${height - 80})`);
-
-    // Legend title
-    legend.append('text')
-        .attr('text-anchor', 'middle')
-        .attr('x', 60)
-        .attr('y', -10)
-        .style('font-size', '11px')
-        .style('font-weight', 'bold')
-        .style('fill', '#374151')
-        .text('Count');
-
-    // Legend circles
-    const legendData = [maxCount, maxCount * 0.6, maxCount * 0.3, maxCount * 0.1];
-    legend.selectAll('.legend-circle')
-        .data(legendData)
-        .enter().append('circle')
-        .attr('class', 'legend-circle')
-        .attr('cx', 60)
-        .attr('cy', (d, i) => i * 15)
-        .attr('r', d => radiusScale(d))
-        .style('fill', d => colorScale(d))
-        .style('opacity', 0.7)
-        .style('stroke', '#fff')
-        .style('stroke-width', 1);
-
-    // Legend labels
-    legend.selectAll('.legend-label')
-        .data(legendData)
-        .enter().append('text')
-        .attr('class', 'legend-label')
-        .attr('x', 80)
-        .attr('y', (d, i) => i * 15 + 4)
-        .style('font-size', '10px')
-        .style('fill', '#374151')
-        .text(d => Math.round(d));
-}
-
-function showMapTooltip(event, d) {
-    const tooltipContent = `
-        <div class="tooltip-content">
-            <div class="tooltip-title"><strong>${d.city}, ${d.state}</strong></div>
-            <div class="tooltip-item">
-                <span class="tooltip-label">Count:</span>
-                <span class="tooltip-value">${d.count}</span>
-            </div>
-        </div>
-    `;
-    
-    let tooltip = d3.select('body').select('.map-tooltip');
-    if (tooltip.empty()) {
-        tooltip = d3.select('body').append('div')
-            .attr('class', 'map-tooltip')
-            .style('position', 'absolute')
-            .style('background', 'rgba(0, 0, 0, 0.8)')
-            .style('color', 'white')
-            .style('padding', '8px 12px')
-            .style('border-radius', '6px')
-            .style('font-size', '12px')
-            .style('pointer-events', 'none')
-            .style('z-index', '1000')
-            .style('box-shadow', '0 4px 6px rgba(0, 0, 0, 0.1)')
-            .style('opacity', 0);
+function createMapboxMap(mapContainer, data) {
+    // Check if we have cities data
+    if (!data.cities || data.cities.length === 0) {
+        console.warn('No city data available');
+        mapContainer.innerHTML = '<div class="flex items-center justify-center h-full"><p class="text-warning">No city data available for the selected filters</p></div>';
+        mapCreationInProgress = false;
+        return;
     }
-    
-    tooltip.html(tooltipContent)
-        .style('left', (event.pageX + 10) + 'px')
-        .style('top', (event.pageY - 10) + 'px')
-        .transition()
-        .duration(200)
-        .style('opacity', 1);
-}
 
-function hideMapTooltip() {
-    d3.select('.map-tooltip')
-        .transition()
-        .duration(200)
-        .style('opacity', 0)
-        .remove();
+    // Destroy existing map if it exists (do this before clearing container)
+    if (amenitiesMap) {
+        try {
+            amenitiesMap.remove();
+        } catch (e) {
+            console.warn('Error removing existing map:', e);
+        }
+        amenitiesMap = null;
+    }
+
+    // Clear container and ensure it's ready
+    mapContainer.innerHTML = '';
+    
+    // Set Mapbox access token
+    mapboxgl.accessToken = MAPBOX_ACCESS_TOKEN;
+    
+    // Small delay to ensure container is properly sized
+    setTimeout(() => {
+        // Double-check container exists and is visible
+        const container = document.getElementById('density-map');
+        if (!container || container.offsetWidth === 0 || container.offsetHeight === 0) {
+            console.warn('Map container not ready, retrying...');
+            setTimeout(() => createMapboxMap(mapContainer, data), 100);
+            return;
+        }
+        
+        // Initialize the map centered on the US
+        amenitiesMap = new mapboxgl.Map({
+            container: 'density-map',
+            style: 'mapbox://styles/mapbox/light-v11', // Light style, you can change this
+            center: [-98.5795, 39.8283], // [lng, lat] for Mapbox
+            zoom: 4,
+            attributionControl: true
+        });
+
+        // Wait for map to load before adding data
+        amenitiesMap.on('load', () => {
+            console.log('Map is ready, adding circles...');
+
+            // Filter to only US coordinates (rough bounds: lat 18-72, lng -180 to -50)
+            const validCities = data.cities.filter(c => {
+                if (!c.latitude || !c.longitude || !c.count) return false;
+                const lat = parseFloat(c.latitude);
+                const lng = parseFloat(c.longitude);
+                // US bounds: roughly lat 18-72, lng -180 to -50
+                return !isNaN(lat) && !isNaN(lng) && 
+                       lat >= 18 && lat <= 72 && 
+                       lng >= -180 && lng <= -50;
+            });
+            
+            if (validCities.length === 0) {
+                console.warn('No valid cities with coordinates and counts within US bounds');
+                mapCreationInProgress = false;
+                return;
+            }
+            
+            const maxCount = Math.max(...validCities.map(d => d.count || 0));
+            
+            // Handle case where maxCount is 0
+            if (maxCount === 0) {
+                console.warn('All city counts are 0');
+            }
+            
+            // Create color scale based on city counts (using D3 scale for consistency)
+            const colorScale = d3.scaleSequential(d3.interpolateBlues)
+                .domain([0, maxCount || 1]);
+
+            // Create radius scale for circle sizes
+            const radiusScale = d3.scaleSqrt()
+                .domain([0, maxCount || 1])
+                .range([5, 30]);
+
+            console.log(`Adding ${validCities.length} city circles to map, maxCount: ${maxCount}`);
+            console.log('Sample city data:', validCities.slice(0, 3).map(c => ({
+                city: c.city,
+                state: c.state,
+                lat: c.latitude,
+                lng: c.longitude,
+                count: c.count
+            })));
+
+            // Convert cities to GeoJSON format for Mapbox
+            const features = validCities.map(city => {
+                const lat = parseFloat(city.latitude);
+                const lng = parseFloat(city.longitude);
+                
+                if (isNaN(lat) || isNaN(lng) || 
+                    lat < 18 || lat > 72 || 
+                    lng < -180 || lng > -50) {
+                    return null;
+                }
+                
+                const radius = radiusScale(city.count || 0);
+                const color = colorScale(city.count || 0);
+                
+                return {
+                    type: 'Feature',
+                    geometry: {
+                        type: 'Point',
+                        coordinates: [lng, lat] // Mapbox uses [lng, lat]
+                    },
+                    properties: {
+                        city: city.city,
+                        state: city.state,
+                        count: city.count,
+                        radius: radius,
+                        color: color
+                    }
+                };
+            }).filter(f => f !== null);
+
+            // Add source with city data
+            amenitiesMap.addSource('cities', {
+                type: 'geojson',
+                data: {
+                    type: 'FeatureCollection',
+                    features: features
+                }
+            });
+
+            // Add circle layer
+            amenitiesMap.addLayer({
+                id: 'city-circles',
+                type: 'circle',
+                source: 'cities',
+                paint: {
+                    'circle-radius': [
+                        'interpolate',
+                        ['linear'],
+                        ['get', 'count'],
+                        0, 5,
+                        maxCount, 30
+                    ],
+                    'circle-color': [
+                        'interpolate',
+                        ['linear'],
+                        ['get', 'count'],
+                        0, colorScale(0),
+                        maxCount, colorScale(maxCount)
+                    ],
+                    'circle-stroke-width': 2,
+                    'circle-stroke-color': '#fff',
+                    'circle-opacity': 0.8
+                }
+            });
+
+            // Add popup on click
+            const popup = new mapboxgl.Popup({
+                closeButton: true,
+                closeOnClick: false
+            });
+
+            amenitiesMap.on('click', 'city-circles', (e) => {
+                const coordinates = e.features[0].geometry.coordinates.slice();
+                const props = e.features[0].properties;
+                
+                // Ensure that if the map is zoomed out such that
+                // multiple copies of the feature are visible, the
+                // popup appears over the copy being pointed to.
+                while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                    coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+                }
+                
+                popup
+                    .setLngLat(coordinates)
+                    .setHTML(`
+                        <div class="tooltip-content">
+                            <div class="tooltip-title"><strong>${props.city}, ${props.state}</strong></div>
+                            <div class="tooltip-item">
+                                <span class="tooltip-label">Count:</span>
+                                <span class="tooltip-value">${props.count}</span>
+                            </div>
+                        </div>
+                    `)
+                    .addTo(amenitiesMap);
+            });
+
+            // Change cursor on hover
+            amenitiesMap.on('mouseenter', 'city-circles', () => {
+                amenitiesMap.getCanvas().style.cursor = 'pointer';
+            });
+
+            amenitiesMap.on('mouseleave', 'city-circles', () => {
+                amenitiesMap.getCanvas().style.cursor = '';
+            });
+
+            console.log(`Successfully added ${features.length} circles to map`);
+
+            // Fit map bounds to show all cities
+            if (features.length > 0) {
+                const bounds = new mapboxgl.LngLatBounds();
+                features.forEach(feature => {
+                    bounds.extend(feature.geometry.coordinates);
+                });
+                
+                amenitiesMap.fitBounds(bounds, {
+                    padding: 50,
+                    maxZoom: 10
+                });
+                
+                console.log('Fitted map bounds to show all cities');
+            }
+
+            // Add custom legend
+            const legend = document.createElement('div');
+            legend.id = 'map-legend';
+            legend.className = 'map-legend';
+            legend.style.cssText = `
+                position: absolute;
+                bottom: 20px;
+                right: 20px;
+                background: white;
+                padding: 10px;
+                border-radius: 5px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+                z-index: 1;
+            `;
+            
+            const legendData = [maxCount, maxCount * 0.6, maxCount * 0.3, maxCount * 0.1];
+            
+            let html = '<div style="font-weight: bold; margin-bottom: 5px; font-size: 12px;">Count</div>';
+            legendData.forEach((count, i) => {
+                const radius = radiusScale(count);
+                const color = colorScale(count);
+                html += `
+                    <div style="display: flex; align-items: center; margin-bottom: 3px;">
+                        <div style="width: ${radius * 2}px; height: ${radius * 2}px; border-radius: 50%; background-color: ${color}; border: 2px solid white; margin-right: 8px;"></div>
+                        <span style="font-size: 11px;">${Math.round(count)}</span>
+                    </div>
+                `;
+            });
+            
+            legend.innerHTML = html;
+            mapContainer.appendChild(legend);
+
+            // Add title
+            const title = document.createElement('div');
+            title.id = 'map-title';
+            title.className = 'map-title-control';
+            title.style.cssText = `
+                position: absolute;
+                top: 20px;
+                left: 20px;
+                background: white;
+                padding: 8px 15px;
+                border-radius: 5px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+                font-size: 14px;
+                font-weight: bold;
+                color: #374151;
+                z-index: 1;
+            `;
+            title.innerHTML = `${data.amenity} - ${data.total_cities} Cities`;
+            mapContainer.appendChild(title);
+
+            mapCreationInProgress = false;
+        });
+
+        // Handle map errors
+        amenitiesMap.on('error', (e) => {
+            console.error('Mapbox error:', e);
+            mapCreationInProgress = false;
+        });
+    }, 50);
 }
 
 // Tab functionality removed - now using side-by-side layout

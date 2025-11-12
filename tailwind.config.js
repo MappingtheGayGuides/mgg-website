@@ -26,11 +26,11 @@ module.exports = {
       "dark",
       {
         "mgg-vibrant": {
-          "primary": "#6B46C1",
+          "primary": "#021b9c",
           "primary-content": "#ffffff",
           "secondary": "#E67E22",
           "secondary-content": "#ffffff", 
-          "accent": "#2563EB",
+          "accent": "#6B46C1",
           "accent-content": "#ffffff",
           "neutral": "#374151",
           "neutral-content": "#ffffff",
