@@ -1,6 +1,7 @@
 // Amenities visualization for Mapping the Gay Guides using D3.js
 
 let amenitiesData = [];
+let amenityFeaturesMap = {}; // Map of amenity name -> {name, short_description}
 let currentChart = null;
 let currentView = 'percentage'; // 'percentage' or 'count'
 let currentAmenity = null;
@@ -9,8 +10,11 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('Amenities.js loaded, initializing...');
 
     try {
+        // Load amenity features first to get short descriptions
+        loadAmenityFeatures().then(() => {
         loadAmenitiesData();
         setupEventListeners();
+        });
     } catch (error) {
         console.error('Error during amenities initialization:', error);
         const chartContainer = document.getElementById('combined-chart');
@@ -116,9 +120,9 @@ function loadAmenitiesData() {
                 // Update insights
                 updateInsights(selectedAmenities);
             } else {
-                // Show total locations trend by default
-                console.log('Calling showDefaultCharts...');
-                showDefaultCharts();
+            // Show total locations trend by default
+            console.log('Calling showDefaultCharts...');
+            showDefaultCharts();
                 currentAmenity = null;
                 // Hide checkbox when no amenity is selected
                 if (checkboxContainer) {
@@ -247,6 +251,26 @@ function loadSampleData() {
     populateStateCityDropdowns();
 }
 
+function loadAmenityFeatures() {
+    // Load amenity features to get short descriptions
+    return fetch('/api/amenity-features')
+        .then(response => response.json())
+        .then(features => {
+            // Create a map of amenity name -> feature object
+            features.forEach(feature => {
+                amenityFeaturesMap[feature.name] = {
+                    name: feature.name,
+                    short_description: feature.short_description || null
+                };
+            });
+            console.log(`Loaded ${features.length} amenity features with descriptions`);
+        })
+        .catch(error => {
+            console.error('Error loading amenity features:', error);
+            // Continue even if this fails
+        });
+}
+
 function populateAmenityDropdowns() {
     const dropdown = document.getElementById('amenity-select');
     const amenities = amenitiesData.amenities || [];
@@ -258,11 +282,18 @@ function populateAmenityDropdowns() {
         // Clear existing options
         dropdown.innerHTML = '';
 
-        // Add amenity options
+        // Add amenity options with formatted display text
         amenities.forEach(amenity => {
             const option = document.createElement('option');
             option.value = amenity;
-            option.textContent = amenity;
+            
+            // Format display text: include short_description if available
+            const feature = amenityFeaturesMap[amenity];
+            if (feature && feature.short_description) {
+                option.textContent = `${amenity} - ${feature.short_description}`;
+            } else {
+                option.textContent = amenity;
+            }
             
             // Restore selected state
             if (selectedAmenities.includes(amenity)) {
@@ -270,19 +301,6 @@ function populateAmenityDropdowns() {
             }
             
             dropdown.appendChild(option);
-        });
-        
-        // Add change listener to enforce max 3 selection
-        dropdown.addEventListener('change', function() {
-            const selected = getSelectedAmenities();
-            if (selected.length > 3) {
-                // Deselect the last selected option
-                const selectedOptions = Array.from(this.selectedOptions);
-                if (selectedOptions.length > 3) {
-                    selectedOptions[selectedOptions.length - 1].selected = false;
-                    alert('You can only select up to 3 amenities');
-                }
-            }
         });
     }
 }
@@ -380,7 +398,17 @@ function setupEventListeners() {
     // Listen for amenity dropdown changes (but don't auto-update)
     const amenityDropdown = document.getElementById('amenity-select');
     if (amenityDropdown) {
-        amenityDropdown.addEventListener('change', () => {
+        amenityDropdown.addEventListener('change', function() {
+            // Enforce max 3 selection
+            const selected = getSelectedAmenities();
+            if (selected.length > 3) {
+                // Deselect the last selected option
+                const selectedOptions = Array.from(this.selectedOptions);
+                if (selectedOptions.length > 3) {
+                    selectedOptions[selectedOptions.length - 1].selected = false;
+                    alert('You can only select up to 3 amenities');
+                }
+            }
             // Don't auto-update - user must click "Update Chart" button
         });
     }
@@ -2275,7 +2303,7 @@ function createMapboxMap(mapContainer, results, selectedAmenities) {
                 allMaxCounts.push(maxCount); // Store for legend
 
                 // Create radius scale for this amenity
-                const radiusScale = d3.scaleSqrt()
+    const radiusScale = d3.scaleSqrt()
                     .domain([0, maxCount || 1])
                     .range([5, 30]);
 
