@@ -233,28 +233,32 @@
                         </svg>
                         Geographic Distribution
                     </h4>
-                    
-                    <!-- Time Slider -->
-                    <div class="flex items-center gap-3">
-                        <span class="text-sm font-medium text-gray-600">Year:</span>
-                        <div class="flex items-center gap-2">
-                            <span id="current-year" class="text-sm font-semibold text-primary min-w-[3rem]">1965</span>
-                            <input type="range" 
-                                   min="1965" 
-                                   max="2003" 
-                                   value="1965" 
-                                   class="range range-primary range-sm w-40" 
-                                   id="year-slider"
-                                   step="1">
-                        </div>
-                    </div>
                 </div>
                 
-                <!-- Map Toggle Checkboxes (will be populated dynamically) -->
+                <!-- Map Controls: Toggle Checkboxes and Year Slider -->
                 <div id="map-amenity-toggles" class="mb-4" style="display: none;">
-                    <div class="text-sm font-medium text-gray-600 mb-2">Toggle Amenities on Map:</div>
-                    <div id="map-toggle-checkboxes" class="flex gap-4 flex-wrap">
-                        <!-- Will be populated dynamically -->
+                    <div class="flex justify-between items-center flex-wrap gap-4">
+                        <div class="flex-1">
+                            <div class="text-sm font-medium text-gray-600 mb-2">Toggle Amenities on Map:</div>
+                            <div id="map-toggle-checkboxes" class="flex gap-4 flex-wrap">
+                                <!-- Will be populated dynamically -->
+                            </div>
+                        </div>
+                        
+                        <!-- Time Slider -->
+                        <div class="flex items-center gap-3">
+                            <span class="text-sm font-medium text-gray-600">Year:</span>
+                            <div class="flex items-center gap-2">
+                                <span id="current-year" class="text-sm font-semibold text-primary min-w-[3rem]">1965</span>
+                                <input type="range" 
+                                       min="1965" 
+                                       max="2003" 
+                                       value="1965" 
+                                       class="range range-primary range-sm w-40" 
+                                       id="year-slider"
+                                       step="1">
+                            </div>
+                        </div>
                     </div>
                 </div>
                 

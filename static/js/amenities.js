@@ -27,6 +27,8 @@ function loadAmenitiesData() {
     const stateFilter = document.getElementById('state-filter');
     const state = stateFilter ? stateFilter.value : '';
     
+    console.log('State filter:', state || 'None (all states)');
+    
     // Build query string with filters
     let url = '/api/amenities-trends';
     const params = new URLSearchParams();
@@ -34,6 +36,8 @@ function loadAmenitiesData() {
     if (params.toString()) {
         url += '?' + params.toString();
     }
+    
+    console.log('Fetching from URL:', url);
 
     // Use real API data instead of sample data
     fetch(url)
@@ -66,6 +70,14 @@ function loadAmenitiesData() {
             }
 
             amenitiesData = data;
+            
+            // Log filtered data summary
+            const stateFilter = document.getElementById('state-filter');
+            const currentState = stateFilter ? stateFilter.value : '';
+            console.log(`Data loaded with state filter: ${currentState || 'None'}`);
+            console.log(`Total locations in first year: ${data.totalLocations[0] || 0}`);
+            console.log(`Total locations in last year: ${data.totalLocations[data.totalLocations.length - 1] || 0}`);
+            
             populateAmenityDropdowns();
             // Only populate state/city dropdowns on first load
             if (!amenitiesData._stateCityPopulated) {
@@ -85,10 +97,18 @@ function loadAmenitiesData() {
                 
                 currentAmenity = selectedAmenities; // Store as array
                 
+                console.log(`Creating chart for ${selectedAmenities.length} amenities with state filter: ${currentState || 'None'}`);
+                
                 // Create chart based on current view with multiple amenities
                 createMultiAmenityChart(selectedAmenities, currentView);
                 
-                // Create density map with multiple amenities
+                // Calculate earliest year where all selected amenities have data
+                const earliestYear = findEarliestCommonYear(selectedAmenities);
+                if (earliestYear) {
+                    setYearSlider(earliestYear);
+                }
+                
+                // Create density map with multiple amenities (will use the year from slider)
                 createDensityMap(selectedAmenities);
                 
                 currentChart = true;
@@ -96,9 +116,9 @@ function loadAmenitiesData() {
                 // Update insights
                 updateInsights(selectedAmenities);
             } else {
-            // Show total locations trend by default
-            console.log('Calling showDefaultCharts...');
-            showDefaultCharts();
+                // Show total locations trend by default
+                console.log('Calling showDefaultCharts...');
+                showDefaultCharts();
                 currentAmenity = null;
                 // Hide checkbox when no amenity is selected
                 if (checkboxContainer) {
@@ -892,6 +912,23 @@ function createMultiAmenityChart(selectedAmenities, view) {
             .attr('r', 4)
             .style('fill', ad.color)
             .style('opacity', 0.8);
+
+        // Add invisible hover areas for better interaction
+        svg.selectAll(`.hover-area-amenity-${index}`)
+            .data(ad.data)
+            .enter().append('circle')
+            .attr('class', `hover-area-amenity-${index}`)
+            .attr('cx', d => xScale(d.year))
+            .attr('cy', d => yScale(d.value))
+            .attr('r', 8)
+            .style('fill', 'transparent')
+            .style('cursor', 'pointer')
+            .on('mouseover', function(event, d) {
+                showMultiAmenityTooltip(event, d, ad.amenity, view);
+            })
+            .on('mouseout', function() {
+                hideTooltip();
+            });
     });
 
     // Add legend for amenities
@@ -1010,6 +1047,134 @@ function hideTooltip() {
         .duration(200)
         .style('opacity', 0)
         .remove();
+}
+
+function findEarliestCommonYear(selectedAmenities) {
+    if (!selectedAmenities || selectedAmenities.length === 0 || !amenitiesData) {
+        return null;
+    }
+    
+    // For each amenity, find years where it has data (count > 0)
+    const yearsWithData = selectedAmenities.map(amenity => {
+        if (!amenitiesData.trends[amenity]) {
+            return [];
+        }
+        const years = [];
+        amenitiesData.years.forEach((year, index) => {
+            if (amenitiesData.trends[amenity][index] > 0) {
+                years.push(year);
+            }
+        });
+        return years;
+    });
+    
+    // Find intersection of all year sets (years where ALL amenities have data)
+    if (yearsWithData.length === 0) {
+        return null;
+    }
+    
+    let commonYears = yearsWithData[0];
+    for (let i = 1; i < yearsWithData.length; i++) {
+        commonYears = commonYears.filter(year => yearsWithData[i].includes(year));
+    }
+    
+    if (commonYears.length === 0) {
+        console.warn('No common years found for selected amenities');
+        return null;
+    }
+    
+    // Return the earliest year
+    const earliest = Math.min(...commonYears);
+    console.log(`Earliest common year for ${selectedAmenities.length} amenities: ${earliest}`);
+    return earliest;
+}
+
+function setYearSlider(year) {
+    const yearSlider = document.getElementById('year-slider');
+    const currentYearDisplay = document.getElementById('current-year');
+    
+    if (yearSlider && currentYearDisplay) {
+        // Ensure year is within slider bounds
+        const minYear = parseInt(yearSlider.min) || 1965;
+        const maxYear = parseInt(yearSlider.max) || 2003;
+        const clampedYear = Math.max(minYear, Math.min(maxYear, year));
+        
+        yearSlider.value = clampedYear;
+        currentYearDisplay.textContent = clampedYear;
+        
+        console.log(`Year slider set to ${clampedYear}`);
+    }
+}
+
+function showMultiAmenityTooltip(event, d, amenity, view) {
+    // Get the year index to find corresponding data
+    const yearIndex = amenitiesData.years.indexOf(d.year);
+    
+    // Calculate all the values we need
+    const year = d.year;
+    const totalLocations = amenitiesData.totalLocations[yearIndex];
+    const amenityCount = amenitiesData.trends[amenity][yearIndex];
+    
+    let tooltipContent = '';
+    
+    if (view === 'percentage') {
+        const percentage = totalLocations > 0 ? (amenityCount / totalLocations * 100).toFixed(1) : 0;
+        tooltipContent = `
+            <div class="tooltip-content">
+                <div class="tooltip-title"><strong>${year}</strong></div>
+                <div class="tooltip-item">
+                    <span class="tooltip-label">Total Locations:</span>
+                    <span class="tooltip-value">${totalLocations.toLocaleString()}</span>
+                </div>
+                <div class="tooltip-item">
+                    <span class="tooltip-label">${amenity}:</span>
+                    <span class="tooltip-value">${amenityCount.toLocaleString()}</span>
+                </div>
+                <div class="tooltip-item">
+                    <span class="tooltip-label">Percentage:</span>
+                    <span class="tooltip-value">${percentage}%</span>
+                </div>
+            </div>
+        `;
+    } else {
+        tooltipContent = `
+            <div class="tooltip-content">
+                <div class="tooltip-title"><strong>${year}</strong></div>
+                <div class="tooltip-item">
+                    <span class="tooltip-label">Total Locations:</span>
+                    <span class="tooltip-value">${totalLocations.toLocaleString()}</span>
+                </div>
+                <div class="tooltip-item">
+                    <span class="tooltip-label">${amenity}:</span>
+                    <span class="tooltip-value">${amenityCount.toLocaleString()}</span>
+                </div>
+            </div>
+        `;
+    }
+    
+    // Create or update tooltip
+    let tooltip = d3.select('body').select('.chart-tooltip');
+    if (tooltip.empty()) {
+        tooltip = d3.select('body').append('div')
+            .attr('class', 'chart-tooltip')
+            .style('position', 'absolute')
+            .style('background', 'rgba(0, 0, 0, 0.8)')
+            .style('color', 'white')
+            .style('padding', '8px 12px')
+            .style('border-radius', '6px')
+            .style('font-size', '12px')
+            .style('pointer-events', 'none')
+            .style('z-index', '1000')
+            .style('box-shadow', '0 4px 6px rgba(0, 0, 0, 0.1)')
+            .style('opacity', 0);
+    }
+    
+    tooltip.html(tooltipContent)
+        .style('left', (event.pageX + 10) + 'px')
+        .style('top', (event.pageY - 10) + 'px')
+        .transition()
+        .duration(200)
+        .style('opacity', 1);
 }
 
 function createPercentageChart(selectedAmenity) {
@@ -2245,12 +2410,16 @@ function createMapboxMap(mapContainer, results, selectedAmenities) {
 
             console.log(`Created ${layerInfo.length} layers total`);
             
-            // Add toggle checkboxes for each amenity that has a layer
+            // Show map controls (toggle checkboxes and year slider)
             const toggleContainer = document.getElementById('map-amenity-toggles');
             const toggleCheckboxes = document.getElementById('map-toggle-checkboxes');
             
-            if (toggleContainer && toggleCheckboxes && layerInfo.length > 1) {
+            // Always show the container when amenities are selected (even if just one)
+            if (toggleContainer) {
                 toggleContainer.style.display = 'block';
+            }
+            
+            if (toggleCheckboxes && layerInfo.length > 1) {
                 toggleCheckboxes.innerHTML = '';
                 
                 console.log(`Creating toggle checkboxes for ${layerInfo.length} amenities`);
@@ -2294,8 +2463,9 @@ function createMapboxMap(mapContainer, results, selectedAmenities) {
                     label.appendChild(span);
                     toggleCheckboxes.appendChild(label);
                 });
-            } else if (toggleContainer) {
-                toggleContainer.style.display = 'none';
+            } else if (toggleCheckboxes) {
+                // If only one amenity, hide the toggle checkboxes but keep the container visible for the slider
+                toggleCheckboxes.innerHTML = '';
             }
 
             // Add title
