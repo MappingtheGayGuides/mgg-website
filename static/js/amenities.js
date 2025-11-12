@@ -2244,6 +2244,7 @@ function createMapboxMap(mapContainer, results, selectedAmenities) {
             const allBounds = new mapboxgl.LngLatBounds();
             let globalMaxCount = 0;
             const layerInfo = []; // Store info about created layers for toggle checkboxes
+            const allMaxCounts = []; // Store max counts for each amenity for legend
 
             results.forEach((result, index) => {
                 const { amenity, data } = result;
@@ -2271,9 +2272,10 @@ function createMapboxMap(mapContainer, results, selectedAmenities) {
 
                 const maxCount = Math.max(...validCities.map(d => d.count || 0));
                 if (maxCount > globalMaxCount) globalMaxCount = maxCount;
+                allMaxCounts.push(maxCount); // Store for legend
 
                 // Create radius scale for this amenity
-    const radiusScale = d3.scaleSqrt()
+                const radiusScale = d3.scaleSqrt()
                     .domain([0, maxCount || 1])
                     .range([5, 30]);
 
@@ -2488,6 +2490,49 @@ function createMapboxMap(mapContainer, results, selectedAmenities) {
             const totalCities = results.reduce((sum, r) => sum + (r.data.total_cities || 0), 0);
             title.innerHTML = `${selectedAmenities.length} Amenit${selectedAmenities.length > 1 ? 'ies' : 'y'} - ${totalCities} Total Cities`;
             mapContainer.appendChild(title);
+
+            // Add legend for dot sizes (using global max count across all amenities)
+            if (globalMaxCount > 0) {
+                const legend = document.createElement('div');
+                legend.id = 'map-legend';
+                legend.className = 'map-legend';
+                legend.style.cssText = `
+                    position: absolute;
+                    bottom: 20px;
+                    right: 20px;
+                    background: white;
+                    padding: 10px;
+                    border-radius: 5px;
+                    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+                    z-index: 1;
+                `;
+                
+                // Create radius scale for legend (using global max)
+                const radiusScale = d3.scaleSqrt()
+                    .domain([0, globalMaxCount])
+                    .range([5, 30]);
+                
+                // Create color scale for legend (using a neutral color since we have multiple amenity colors)
+                const colorScale = d3.scaleSequential(d3.interpolateBlues)
+                    .domain([0, globalMaxCount]);
+                
+                const legendData = [globalMaxCount, globalMaxCount * 0.6, globalMaxCount * 0.3, globalMaxCount * 0.1];
+                
+                let html = '<div style="font-weight: bold; margin-bottom: 5px; font-size: 12px;">Count</div>';
+                legendData.forEach((count, i) => {
+                    const radius = radiusScale(count);
+                    const color = colorScale(count);
+                    html += `
+                        <div style="display: flex; align-items: center; margin-bottom: 3px;">
+                            <div style="width: ${radius * 2}px; height: ${radius * 2}px; border-radius: 50%; background-color: ${color}; border: 2px solid white; margin-right: 8px;"></div>
+                            <span style="font-size: 11px;">${Math.round(count)}</span>
+                        </div>
+                    `;
+                });
+                
+                legend.innerHTML = html;
+                mapContainer.appendChild(legend);
+            }
 
             mapCreationInProgress = false;
         });
