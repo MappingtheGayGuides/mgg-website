@@ -150,6 +150,7 @@
                         </a>
                     </th>
                     <th class="text-left font-semibold text-base-content py-4">Description</th>
+                    <th class="text-left font-semibold text-base-content py-4">Street Address</th>
                     <th class="text-left font-semibold text-base-content py-4">
                         <a href="{{ url_for('main.database', year=selected_year, state=selected_state, amenity=selected_amenity, search=search, sort='city', order='asc' if sort_by == 'city' and sort_order == 'desc' else 'desc') }}" 
                            class="flex items-center gap-2 hover:text-primary transition-colors cursor-pointer group">
@@ -233,6 +234,13 @@
                             <span class="text-base-content/50 italic text-sm">No description</span>
                         {% endif %}
                     </td>
+                     <td class="py-4 max-w-xs">
+                        {% if location.street_address %}
+                            <div class="text-sm">{{ location.street_address }}</div>
+                        {% else %}
+                            <span class="text-base-content/50 italic text-sm">No address</span>
+                        {% endif %}
+                    </td>
                     <td class="py-4">
                         {% if location.city %}
                             <div class="text-sm font-medium">{{ location.city }}</div>
@@ -240,6 +248,7 @@
                             <span class="text-base-content/50 italic text-sm">No city</span>
                         {% endif %}
                     </td>
+                   
                     <td class="py-4">
                         {% if location.state %}
                             <div class="text-sm font-medium">{{ location.state }}</div>
