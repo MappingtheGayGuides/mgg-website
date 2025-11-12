@@ -1,9 +1,12 @@
-// Map functionality for Mapping the Gay Guides
+// Map functionality for Mapping the Gay Guides using Mapbox GL JS
+
+// Mapbox access token - replace with your token
+const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1IjoiYWVyZWdhbiIsImEiOiJjbWh3NmE5ZWswM2xrMmlvY2wzYjhuOWVmIn0.KhOofH1fXHn87-utlCGD8g';
 
 let map;
-let markerClusterGroup;
 let currentData = [];
 let currentYear = 1965;
+let locationsSource = null;
 
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Map.js loaded, initializing...');
@@ -20,14 +23,13 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function initializeMap() {
-    console.log('Initializing map...');
+    console.log('Initializing Mapbox map...');
     
-    // Check if Leaflet is available
-    if (typeof L === 'undefined') {
-        console.error('Leaflet library not loaded!');
+    // Check if Mapbox GL is available
+    if (typeof mapboxgl === 'undefined') {
+        console.error('Mapbox GL library not loaded!');
         return;
     }
-    console.log('Leaflet library available:', L);
     
     // Check if map container exists
     const mapContainer = document.getElementById('map');
@@ -35,40 +37,121 @@ function initializeMap() {
         console.error('Map container not found!');
         return;
     }
-    console.log('Map container found:', mapContainer);
+    
+    // Set Mapbox access token
+    mapboxgl.accessToken = MAPBOX_ACCESS_TOKEN;
+    
+    if (MAPBOX_ACCESS_TOKEN === 'YOUR_MAPBOX_ACCESS_TOKEN_HERE') {
+        console.error('Mapbox access token not set!');
+        mapContainer.innerHTML = '<div class="flex items-center justify-center h-full"><p class="text-error">Please set your Mapbox access token in map.js</p></div>';
+        return;
+    }
     
     // Initialize the map centered on the US
-    map = L.map('map').setView([39.8283, -98.5795], 4);
-    console.log('Map initialized:', map);
+    map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/light-v11',
+        center: [-98.5795, 39.8283], // [lng, lat] for Mapbox
+        zoom: 4
+    });
     
-    // Add OpenStreetMap tiles
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap contributors'
-    }).addTo(map);
-    console.log('Tiles added to map');
+    console.log('Map initialized');
     
-    // Initialize marker cluster group with performance optimizations
-    if (typeof L.markerClusterGroup === 'undefined') {
-        console.error('MarkerCluster plugin not loaded!');
-        // Fallback to regular marker group
-        markerClusterGroup = L.layerGroup();
-    } else {
-        markerClusterGroup = L.markerClusterGroup({
-            chunkedLoading: true,
-            maxClusterRadius: 80,
-            spiderfyOnMaxZoom: false, // Disable for better performance
-            showCoverageOnHover: false, // Disable for better performance
-            zoomToBoundsOnClick: true,
-            animate: false, // Disable animations for better performance
-            animateAddingMarkers: false,
-            chunkInterval: 100, // Faster chunking
-            chunkDelay: 25, // Faster delays
-            maxZoom: 18, // Limit max zoom for clustering
-            disableClusteringAtZoom: 16 // Stop clustering at high zoom levels
+    // Wait for map to load before adding sources and layers
+    map.on('load', () => {
+        console.log('Map loaded, adding data source...');
+        
+        // Add empty GeoJSON source for locations (NO CLUSTERING)
+        map.addSource('locations', {
+            type: 'geojson',
+            data: {
+                type: 'FeatureCollection',
+                features: []
+            }
+            // Removed: cluster: true, clusterMaxZoom, clusterRadius
         });
-    }
-    map.addLayer(markerClusterGroup);
-    console.log('Marker cluster group added to map');
+        
+        locationsSource = map.getSource('locations');
+        
+        // Add single circle layer for all points (no clustering)
+        map.addLayer({
+            id: 'locations-points',
+            type: 'circle',
+            source: 'locations',
+            paint: {
+                'circle-color': '#3b82f6',
+                // Circle size varies with zoom level for better legibility
+                'circle-radius': [
+                    'interpolate',
+                    ['linear'],
+                    ['zoom'],
+                    2,  3,  // At zoom 2, radius 3px
+                    4,  4,  // At zoom 4 (default), radius 4px - visible!
+                    6,  5,  // At zoom 6, radius 5px
+                    8,  6,  // At zoom 8, radius 6px
+                    10, 7,  // At zoom 10, radius 7px
+                    12, 8,  // At zoom 12, radius 8px
+                    14, 9,  // At zoom 14, radius 9px
+                    16, 10  // At zoom 16+, radius 10px
+                ],
+                // Opacity varies with zoom - more transparent when zoomed out
+                'circle-opacity': [
+                    'interpolate',
+                    ['linear'],
+                    ['zoom'],
+                    2,  0.5,  // At zoom 2, 50% opacity
+                    4,  0.7,  // At zoom 4 (default), 70% opacity - visible!
+                    6,  0.8,  // At zoom 6, 80% opacity
+                    8,  0.9,  // At zoom 8, 90% opacity
+                    10, 1.0,  // At zoom 10+, 100% opacity (fully opaque)
+                    12, 1.0,
+                    14, 1.0,
+                    16, 1.0
+                ],
+                'circle-stroke-width': [
+                    'interpolate',
+                    ['linear'],
+                    ['zoom'],
+                    2,  0.5,  // Thinner stroke when zoomed out
+                    4,  1,    // Normal stroke at default zoom
+                    8,  1.5,  // Thicker stroke at mid zoom
+                    12, 2     // Thicker stroke when zoomed in
+                ],
+                'circle-stroke-color': '#fff'
+                // Removed circle-sort-key as it might cause issues if 'id' doesn't exist
+            }
+        });
+        
+        // Add click handler for points
+        map.on('click', 'locations-points', function(e) {
+            const coordinates = e.features[0].geometry.coordinates.slice();
+            const location = e.features[0].properties;
+            
+            // Show location details
+            showLocationDetails(location);
+            
+            // Create popup
+            const popup = new mapboxgl.Popup()
+                .setLngLat(coordinates)
+                .setHTML(`
+                    <div class="text-sm">
+                        <strong>${location.title || 'Untitled'}</strong><br/>
+                        ${location.city || ''}${location.state ? ', ' + location.state : ''}
+                    </div>
+                `)
+                .addTo(map);
+        });
+        
+        // Change cursor on hover
+        map.on('mouseenter', 'locations-points', function() {
+            map.getCanvas().style.cursor = 'pointer';
+        });
+        map.on('mouseleave', 'locations-points', function() {
+            map.getCanvas().style.cursor = '';
+        });
+        
+        console.log('Map layers and handlers added');
+    });
 }
 
 function loadData() {
@@ -152,12 +235,35 @@ function loadYearData(year) {
 function displayLocations(locations) {
     console.log('Displaying locations:', locations.length);
     
-    // Batch marker operations for better performance
-    const markers = [];
-    const len = locations.length;
+    if (!map) {
+        console.error('Map not initialized');
+        return;
+    }
+    
+    // Ensure map is loaded before trying to update source
+    if (!map.loaded()) {
+        console.log('Map not loaded yet, waiting...');
+        map.once('load', () => {
+            displayLocations(locations);
+        });
+        return;
+    }
+    
+    // Get or create the source
+    if (!locationsSource) {
+        if (map.getSource('locations')) {
+            locationsSource = map.getSource('locations');
+        } else {
+            console.error('Locations source not found');
+            return;
+        }
+    }
+    
+    // Convert locations to GeoJSON features
+    const features = [];
     let validCoordinates = 0;
     
-    for (let i = 0; i < len; i++) {
+    for (let i = 0; i < locations.length; i++) {
         const location = locations[i];
         if (location.latitude && location.longitude) {
             // Ensure coordinates are numbers
@@ -165,24 +271,63 @@ function displayLocations(locations) {
             const lng = parseFloat(location.longitude);
             
             if (!isNaN(lat) && !isNaN(lng)) {
-                const marker = L.marker([lat, lng]);
-                marker.on('click', () => showLocationDetails(location));
-                markers.push(marker);
+                // Filter out invalid coordinates (outside reasonable bounds)
+                if (lat >= -90 && lat <= 90 && lng >= -180 && lng <= 180) {
+                    features.push({
+                        type: 'Feature',
+                        geometry: {
+                            type: 'Point',
+                            coordinates: [lng, lat] // Mapbox uses [lng, lat]
+                        },
+                        properties: {
+                            id: location.id || i,
+                            title: location.title || 'Untitled',
+                            street_address: location.street_address || '',
+                            city: location.city || '',
+                            state: location.state || '',
+                            year: location.year || '',
+                            types: location.types || [],
+                            amenities: location.amenities || [],
+                            status: location.status || '',
+                            description: location.description || '',
+                            notes: location.notes || ''
+                        }
+                    });
                 validCoordinates++;
-            } else {
-                console.log('Invalid coordinates for location:', location.id, 'lat:', location.latitude, 'lng:', location.longitude);
+                }
             }
         }
     }
     
-    console.log('Created markers:', markers.length, 'out of', len, 'locations (valid coordinates:', validCoordinates, ')');
+    console.log('Created features:', features.length, 'out of', locations.length, 'locations (valid coordinates:', validCoordinates, ')');
+    console.log('Sample feature:', features[0]);
     
-    // Clear and add all markers at once
-    if (markerClusterGroup && typeof markerClusterGroup.clearLayers === 'function') {
-        markerClusterGroup.clearLayers();
-        markerClusterGroup.addLayers(markers);
-    } else {
-        console.error('Marker cluster group not properly initialized');
+    // Update the GeoJSON source
+    try {
+        locationsSource.setData({
+            type: 'FeatureCollection',
+            features: features
+        });
+        console.log('Source data updated successfully');
+    } catch (error) {
+        console.error('Error updating source data:', error);
+    }
+    
+    // Fit map to bounds if we have features
+    if (features.length > 0) {
+        const bounds = new mapboxgl.LngLatBounds();
+        features.forEach(feature => {
+            bounds.extend(feature.geometry.coordinates);
+        });
+        
+        // Only fit bounds if we have a reasonable number of features
+        // For large datasets, just ensure the map is visible
+        if (features.length < 10000) {
+            map.fitBounds(bounds, {
+                padding: 50,
+                maxZoom: 10
+            });
+        }
     }
     
     // Update location count display
@@ -191,14 +336,11 @@ function displayLocations(locations) {
 
 function updateLocationCount(count) {
     console.log('Updating location count to:', count);
-    // This function might be missing, so let's implement it
     const dataSizeInfo = document.getElementById('data-size-info');
     if (dataSizeInfo) {
         dataSizeInfo.textContent = `Total locations: ${count.toLocaleString()}`;
     }
 }
-
-
 
 function showLocationDetails(location) {
     const detailsDiv = document.getElementById('location-details');
@@ -397,8 +539,6 @@ function resetFilters() {
             });
     }, 50);
 }
-
-
 
 function dismissLocationDetails() {
     // Get the current filtered data (including all filters) to show the count
