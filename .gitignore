@@ -277,7 +277,8 @@ Temporary Items
 *.db
 *.sqlite
 *.sqlite3
-mgg.db
+# mgg.db - allowed for Render deployment (commented out)
+# mgg.db
 instance/
 
 # Flask session files
@@ -328,6 +329,8 @@ $RECYCLE.BIN/
 *.db-wal
 *.sqlite
 *.sqlite3
+# Exception: mgg.db is needed for Render deployment
+!mgg.db
 
 # Environment variables
 .env
