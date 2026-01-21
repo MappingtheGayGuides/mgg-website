@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: mgg-site
+    env: python
+    buildCommand: |
+      pip install -r requirements.txt
+      npm install
+      npm run build-prod
+    startCommand: python app.py
+    envVars:
+      - key: FLASK_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: SECRET_KEY
+        generateValue: true
+    # Optional: Add persistent disk for database if you want data to persist across deployments
+    # disk:
+    #   name: mgg-db-disk
+    #   mountPath: /opt/render/project/src
+    #   sizeGB: 1
