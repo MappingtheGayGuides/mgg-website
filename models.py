@@ -53,6 +53,7 @@ class AmenityFeature(db.Model):
     
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200), unique=True, nullable=False)
+    descriptive_name = db.Column(db.String(200))
     description = db.Column(db.Text)
     short_description = db.Column(db.String(200))
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
@@ -64,6 +65,7 @@ class AmenityFeature(db.Model):
         return {
             'id': self.id,
             'name': self.name,
+            'descriptive_name': self.descriptive_name,
             'description': self.description,
             'short_description': self.short_description
         }

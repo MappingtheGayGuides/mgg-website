@@ -263,6 +263,7 @@ function loadAmenityFeatures() {
             features.forEach(feature => {
                 amenityFeaturesMap[feature.name] = {
                     name: feature.name,
+                    descriptive_name: feature.descriptive_name || null,
                     short_description: feature.short_description || null,
                     description: feature.description || null
                 };
@@ -339,10 +340,14 @@ function updateAmenityInfoAccordions(selectedAmenities) {
             return;
         }
         
-        // Build title text
-        let titleText = `Learn more about ${amenityName}`;
-        if (feature.short_description) {
-            titleText += ` - ${feature.short_description}`;
+        // Build title text - prefer descriptive_name, fallback to short_description, then just the code
+        let titleText = 'Learn more about ';
+        if (feature.descriptive_name) {
+            titleText += feature.descriptive_name;
+        } else if (feature.short_description) {
+            titleText += feature.short_description;
+        } else {
+            titleText += amenityName;
         }
         
         // Get description (full description from feature)
