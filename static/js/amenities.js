@@ -340,14 +340,13 @@ function updateAmenityInfoAccordions(selectedAmenities) {
             return;
         }
         
-        // Build title text - prefer descriptive_name, fallback to short_description, then just the code
-        let titleText = 'Learn more about ';
+        // Build title text: "Learn more about (code) - Descriptive Name"
+        let titleText = `Learn more about ${amenityName}`;
         if (feature.descriptive_name) {
-            titleText += feature.descriptive_name;
+            titleText += ` - ${feature.descriptive_name}`;
         } else if (feature.short_description) {
-            titleText += feature.short_description;
-        } else {
-            titleText += amenityName;
+            // Fallback to short_description if descriptive_name is not available
+            titleText += ` - ${feature.short_description}`;
         }
         
         // Get description (full description from feature)
