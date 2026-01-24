@@ -97,10 +97,28 @@
                 </div>
                 <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-black rounded-box w-52">
                     <li><a href="{{ url_for('index') }}" class="text-white hover:bg-gray-800 text-lg" style="color: white !important;">Home</a></li>
-                    <li><a href="{{ url_for('main.database') }}" class="text-white hover:bg-gray-800 text-lg" style="color: white !important;">Database</a></li>
-                    <li><a href="{{ url_for('main.map') }}" class="text-white hover:bg-gray-800 text-lg" style="color: white !important;">Map</a></li>
-                    <li><a href="{{ url_for('amenities') }}" class="text-white hover:bg-gray-800 text-lg" style="color: white !important;">Amenities</a></li>
+                    <li>
+                        <details class="dropdown">
+                            <summary class="text-white hover:bg-gray-800 text-lg" style="color: white !important; background-color: transparent !important;">Context</summary>
+                            <ul class="dropdown-content menu bg-black mt-2 rounded-box w-52 p-2" style="z-index: 10000 !important;">
+                                <li><a href="{{ url_for('page', path='about-the-address-books') }}" class="text-white hover:bg-gray-800 text-base">About the Address Books</a></li>
+                                <li><a href="{{ url_for('page', path='who-was-bob-damron') }}" class="text-white hover:bg-gray-800 text-base">Who was Bob Damron?</a></li>
+                            </ul>
+                        </details>
+                    </li>
                     <li><a href="{{ url_for('articles') }}" class="text-white hover:bg-gray-800 text-lg" style="color: white !important;">Articles</a></li>
+                    <li>
+                        <details class="dropdown">
+                            <summary class="text-white hover:bg-gray-800 text-lg" style="color: white !important; background-color: transparent !important;">Visualizations and Data</summary>
+                            <ul class="dropdown-content menu bg-black mt-2 rounded-box w-52 p-2" style="z-index: 10000 !important;">
+                                <li><a href="{{ url_for('main.database') }}" class="text-white hover:bg-gray-800 text-base">Database</a></li>
+                                <li><a href="{{ url_for('main.map') }}" class="text-white hover:bg-gray-800 text-base">Map</a></li>
+                                <li><a href="{{ url_for('amenities') }}" class="text-white hover:bg-gray-800 text-base">Amenity Categorizations</a></li>
+                            </ul>
+                        </details>
+                    </li>
+                    <li><a href="{{ url_for('page', path='methodology') }}" class="text-white hover:bg-gray-800 text-lg" style="color: white !important;">Methodology</a></li>
+                    <li><a href="{{ url_for('page', path='news') }}" class="text-white hover:bg-gray-800 text-lg" style="color: white !important;">News</a></li>
                     <li>
                         <details class="dropdown">
                             <summary class="text-white hover:bg-gray-800 text-lg" style="color: white !important; background-color: transparent !important;">About</summary>
@@ -110,7 +128,6 @@
                             </ul>
                         </details>
                     </li>
-                    <li><a href="{{ url_for('page', path='methodology') }}" class="text-white hover:bg-gray-800 text-lg" style="color: white !important;">Methodology</a></li>
                 </ul>
             </div>
             
@@ -129,10 +146,28 @@
         <div class="navbar-center flex relative">
             <ul class="menu menu-horizontal px-1">
                 <li><a href="{{ url_for('index') }}" class="text-white hover:bg-gray-800 text-lg font-medium" style="color: white !important;">Home</a></li>
-                                    <li><a href="{{ url_for('main.database') }}" class="text-white hover:bg-gray-800 text-lg font-medium" style="color: white !important;">Database</a></li>
-                    <li><a href="{{ url_for('main.map') }}" class="text-white hover:bg-gray-800 text-lg font-medium" style="color: white !important;">Map</a></li>
-                    <li><a href="{{ url_for('amenities') }}" class="text-white hover:bg-gray-800 text-lg font-medium" style="color: white !important;">Amenities</a></li>
-                    <li><a href="{{ url_for('articles') }}" class="text-white hover:bg-gray-800 text-lg font-medium" style="color: white !important;">Articles</a></li>
+                <li>
+                    <details class="dropdown">
+                        <summary class="text-white hover:bg-gray-800 text-lg font-medium" style="color: white !important; background-color: transparent !important;">Context</summary>
+                        <ul class="dropdown-content menu bg-black mt-2 rounded-box w-52 p-2 shadow-2xl" style="z-index: 10000 !important;">
+                            <li><a href="{{ url_for('page', path='about-the-address-books') }}" class="text-white hover:bg-gray-800 text-lg font-medium" style="color: white !important;">About the Address Books</a></li>
+                            <li><a href="{{ url_for('page', path='who-was-bob-damron') }}" class="text-white hover:bg-gray-800 text-lg font-medium" style="color: white !important;">Who was Bob Damron?</a></li>
+                        </ul>
+                    </details>
+                </li>
+                <li><a href="{{ url_for('articles') }}" class="text-white hover:bg-gray-800 text-lg font-medium" style="color: white !important;">Articles</a></li>
+                <li>
+                    <details class="dropdown">
+                        <summary class="text-white hover:bg-gray-800 text-lg font-medium" style="color: white !important; background-color: transparent !important;">Visualizations and Data</summary>
+                        <ul class="dropdown-content menu bg-black mt-2 rounded-box w-52 p-2 shadow-2xl" style="z-index: 10000 !important;">
+                            <li><a href="{{ url_for('main.database') }}" class="text-white hover:bg-gray-800 text-lg font-medium" style="color: white !important;">Database</a></li>
+                            <li><a href="{{ url_for('main.map') }}" class="text-white hover:bg-gray-800 text-lg font-medium" style="color: white !important;">Map</a></li>
+                            <li><a href="{{ url_for('amenities') }}" class="text-white hover:bg-gray-800 text-lg font-medium" style="color: white !important;">Amenity Categorizations</a></li>
+                        </ul>
+                    </details>
+                </li>
+                <li><a href="{{ url_for('page', path='methodology') }}" class="text-white hover:bg-gray-800 text-lg font-medium" style="color: white !important;">Methodology</a></li>
+                <li><a href="{{ url_for('page', path='news') }}" class="text-white hover:bg-gray-800 text-lg font-medium" style="color: white !important;">News</a></li>
                 <li>
                     <details class="dropdown">
                         <summary class="text-white hover:bg-gray-800 text-lg font-medium" style="color: white !important; background-color: transparent !important;">About</summary>
@@ -142,7 +177,6 @@
                         </ul>
                     </details>
                 </li>
-                <li><a href="{{ url_for('page', path='methodology') }}" class="text-white hover:bg-gray-800 text-lg font-medium" style="color: white !important;">Methodology</a></li>
             </ul>
         </div>
 
