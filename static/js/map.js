@@ -7,6 +7,7 @@ let map;
 let currentData = [];
 let currentYear = 1965;
 let locationsSource = null;
+let clusteringEnabled = false;
 
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Map.js loaded, initializing...');
@@ -51,8 +52,8 @@ function initializeMap() {
     map = new mapboxgl.Map({
         container: 'map',
         style: 'mapbox://styles/mapbox/light-v11',
-        center: [-98.5795, 39.8283], // [lng, lat] for Mapbox
-        zoom: 4
+        center: [-98.5795, 39.8283], // [lng, lat] for Mapbox - roughly the center of the contiguous US
+        zoom: 3  // Fixed zoom level - map always starts with this view
     });
     
     console.log('Map initialized');
@@ -61,49 +62,220 @@ function initializeMap() {
     map.on('load', () => {
         console.log('Map loaded, adding data source...');
         
-        // Add empty GeoJSON source for locations (NO CLUSTERING)
+        // Add empty GeoJSON source for locations (clustering will be toggled)
         map.addSource('locations', {
             type: 'geojson',
             data: {
                 type: 'FeatureCollection',
                 features: []
             }
-            // Removed: cluster: true, clusterMaxZoom, clusterRadius
         });
         
         locationsSource = map.getSource('locations');
         
-        // Add single circle layer for all points (no clustering)
+        // Setup initial layers (non-clustered by default)
+        setupMapLayers();
+        
+        console.log('Map layers and handlers added');
+    });
+}
+
+function setupMapLayers() {
+    if (clusteringEnabled) {
+        // Setup clustering layers
+        setupClusteringLayers();
+    } else {
+        // Setup non-clustered layers
+        setupNonClusteredLayers();
+    }
+}
+
+function setupNonClusteredLayers() {
+    // Add single circle layer for all points (no clustering)
+    if (map.getLayer('locations-points')) {
+        return; // Layer already exists
+    }
+    
+    // Make sure clustering layers are removed
+    ['clusters', 'cluster-count', 'unclustered-point'].forEach(layerId => {
+        if (map.getLayer(layerId)) {
+            try {
+                map.off('click', layerId);
+                map.off('mouseenter', layerId);
+                map.off('mouseleave', layerId);
+                map.removeLayer(layerId);
+            } catch (error) {
+                console.warn(`Error removing clustering layer ${layerId}:`, error);
+            }
+        }
+    });
+    
+    map.addLayer({
+        id: 'locations-points',
+        type: 'circle',
+        source: 'locations',
+        paint: {
+            'circle-color': '#3b82f6',
+            'circle-radius': [
+                'interpolate',
+                ['linear'],
+                ['zoom'],
+                2,  3,
+                4,  4,
+                6,  5,
+                8,  6,
+                10, 7,
+                12, 8,
+                14, 9,
+                16, 10
+            ],
+            'circle-opacity': [
+                'interpolate',
+                ['linear'],
+                ['zoom'],
+                2,  0.5,
+                4,  0.7,
+                6,  0.8,
+                8,  0.9,
+                10, 1.0,
+                12, 1.0,
+                14, 1.0,
+                16, 1.0
+            ],
+            'circle-stroke-width': [
+                'interpolate',
+                ['linear'],
+                ['zoom'],
+                2,  0.5,
+                4,  1,
+                8,  1.5,
+                12, 2
+            ],
+            'circle-stroke-color': '#fff'
+        }
+    });
+    
+    // Add click handler for points
+    map.on('click', 'locations-points', function(e) {
+        const coordinates = e.features[0].geometry.coordinates.slice();
+        const location = e.features[0].properties;
+        
+        showLocationDetails(location);
+        
+        const popup = new mapboxgl.Popup()
+            .setLngLat(coordinates)
+            .setHTML(`
+                <div class="text-sm">
+                    <strong>${location.title || 'Untitled'}</strong><br/>
+                    ${location.city || ''}${location.state ? ', ' + location.state : ''}
+                </div>
+            `)
+            .addTo(map);
+    });
+    
+    // Change cursor on hover
+    map.on('mouseenter', 'locations-points', function() {
+        map.getCanvas().style.cursor = 'pointer';
+    });
+    map.on('mouseleave', 'locations-points', function() {
+        map.getCanvas().style.cursor = '';
+    });
+}
+
+function setupClusteringLayers() {
+    // Make sure non-clustered layer is removed
+    if (map.getLayer('locations-points')) {
+        try {
+            map.off('click', 'locations-points');
+            map.off('mouseenter', 'locations-points');
+            map.off('mouseleave', 'locations-points');
+            map.removeLayer('locations-points');
+        } catch (error) {
+            console.warn('Error removing non-clustered layer:', error);
+        }
+    }
+    
+    // Add cluster circles layer
+    if (!map.getLayer('clusters')) {
         map.addLayer({
-            id: 'locations-points',
+            id: 'clusters',
             type: 'circle',
             source: 'locations',
+            filter: ['has', 'point_count'],
+            paint: {
+                'circle-color': [
+                    'step',
+                    ['get', 'point_count'],
+                    '#51bbd6',
+                    100,
+                    '#f1f075',
+                    750,
+                    '#f28cb1'
+                ],
+                'circle-radius': [
+                    'step',
+                    ['get', 'point_count'],
+                    20,
+                    100,
+                    30,
+                    750,
+                    40
+                ],
+                'circle-stroke-width': 2,
+                'circle-stroke-color': '#fff'
+            }
+        });
+    }
+    
+    // Add cluster count labels
+    if (!map.getLayer('cluster-count')) {
+        map.addLayer({
+            id: 'cluster-count',
+            type: 'symbol',
+            source: 'locations',
+            filter: ['has', 'point_count'],
+            layout: {
+                'text-field': '{point_count_abbreviated}',
+                'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
+                'text-size': 12
+            },
+            paint: {
+                'text-color': '#fff'
+            }
+        });
+    }
+    
+    // Add unclustered points layer
+    if (!map.getLayer('unclustered-point')) {
+        map.addLayer({
+            id: 'unclustered-point',
+            type: 'circle',
+            source: 'locations',
+            filter: ['!', ['has', 'point_count']],
             paint: {
                 'circle-color': '#3b82f6',
-                // Circle size varies with zoom level for better legibility
                 'circle-radius': [
                     'interpolate',
                     ['linear'],
                     ['zoom'],
-                    2,  3,  // At zoom 2, radius 3px
-                    4,  4,  // At zoom 4 (default), radius 4px - visible!
-                    6,  5,  // At zoom 6, radius 5px
-                    8,  6,  // At zoom 8, radius 6px
-                    10, 7,  // At zoom 10, radius 7px
-                    12, 8,  // At zoom 12, radius 8px
-                    14, 9,  // At zoom 14, radius 9px
-                    16, 10  // At zoom 16+, radius 10px
+                    2,  3,
+                    4,  4,
+                    6,  5,
+                    8,  6,
+                    10, 7,
+                    12, 8,
+                    14, 9,
+                    16, 10
                 ],
-                // Opacity varies with zoom - more transparent when zoomed out
                 'circle-opacity': [
                     'interpolate',
                     ['linear'],
                     ['zoom'],
-                    2,  0.5,  // At zoom 2, 50% opacity
-                    4,  0.7,  // At zoom 4 (default), 70% opacity - visible!
-                    6,  0.8,  // At zoom 6, 80% opacity
-                    8,  0.9,  // At zoom 8, 90% opacity
-                    10, 1.0,  // At zoom 10+, 100% opacity (fully opaque)
+                    2,  0.5,
+                    4,  0.7,
+                    6,  0.8,
+                    8,  0.9,
+                    10, 1.0,
                     12, 1.0,
                     14, 1.0,
                     16, 1.0
@@ -112,46 +284,119 @@ function initializeMap() {
                     'interpolate',
                     ['linear'],
                     ['zoom'],
-                    2,  0.5,  // Thinner stroke when zoomed out
-                    4,  1,    // Normal stroke at default zoom
-                    8,  1.5,  // Thicker stroke at mid zoom
-                    12, 2     // Thicker stroke when zoomed in
+                    2,  0.5,
+                    4,  1,
+                    8,  1.5,
+                    12, 2
                 ],
                 'circle-stroke-color': '#fff'
-                // Removed circle-sort-key as it might cause issues if 'id' doesn't exist
             }
         });
+    }
+    
+    // Click handler for clusters - zoom in
+    map.on('click', 'clusters', function(e) {
+        const features = map.queryRenderedFeatures(e.point, {
+            layers: ['clusters']
+        });
+        const clusterId = features[0].properties.cluster_id;
         
-        // Add click handler for points
-        map.on('click', 'locations-points', function(e) {
-            const coordinates = e.features[0].geometry.coordinates.slice();
-            const location = e.features[0].properties;
+        map.getSource('locations').getClusterExpansionZoom(clusterId, (err, zoom) => {
+            if (err) return;
             
-            // Show location details
-            showLocationDetails(location);
-            
-            // Create popup
-            const popup = new mapboxgl.Popup()
-                .setLngLat(coordinates)
-                .setHTML(`
-                    <div class="text-sm">
-                        <strong>${location.title || 'Untitled'}</strong><br/>
-                        ${location.city || ''}${location.state ? ', ' + location.state : ''}
-                    </div>
-                `)
-                .addTo(map);
+            map.easeTo({
+                center: features[0].geometry.coordinates,
+                zoom: zoom
+            });
         });
-        
-        // Change cursor on hover
-        map.on('mouseenter', 'locations-points', function() {
-            map.getCanvas().style.cursor = 'pointer';
-        });
-        map.on('mouseleave', 'locations-points', function() {
-            map.getCanvas().style.cursor = '';
-        });
-        
-        console.log('Map layers and handlers added');
     });
+    
+    // Click handler for unclustered points
+    map.on('click', 'unclustered-point', function(e) {
+        const coordinates = e.features[0].geometry.coordinates.slice();
+        const location = e.features[0].properties;
+        
+        showLocationDetails(location);
+        
+        const popup = new mapboxgl.Popup()
+            .setLngLat(coordinates)
+            .setHTML(`
+                <div class="text-sm">
+                    <strong>${location.title || 'Untitled'}</strong><br/>
+                    ${location.city || ''}${location.state ? ', ' + location.state : ''}
+                </div>
+            `)
+            .addTo(map);
+    });
+    
+    // Change cursor on hover for clusters
+    map.on('mouseenter', 'clusters', function() {
+        map.getCanvas().style.cursor = 'pointer';
+    });
+    map.on('mouseleave', 'clusters', function() {
+        map.getCanvas().style.cursor = '';
+    });
+    
+    // Change cursor on hover for unclustered points
+    map.on('mouseenter', 'unclustered-point', function() {
+        map.getCanvas().style.cursor = 'pointer';
+    });
+    map.on('mouseleave', 'unclustered-point', function() {
+        map.getCanvas().style.cursor = '';
+    });
+}
+
+function removeMapLayers() {
+    // Remove all location-related layers
+    const layersToRemove = ['locations-points', 'clusters', 'cluster-count', 'unclustered-point'];
+    
+    layersToRemove.forEach(layerId => {
+        try {
+            if (map.getLayer(layerId)) {
+                // Remove event listeners first
+                map.off('click', layerId);
+                map.off('mouseenter', layerId);
+                map.off('mouseleave', layerId);
+                // Remove the layer
+                map.removeLayer(layerId);
+            }
+        } catch (error) {
+            console.warn(`Error removing layer ${layerId}:`, error);
+        }
+    });
+}
+
+function updateSourceClustering() {
+    // Get current data before removing source
+    const currentData = locationsSource ? locationsSource._data : {
+        type: 'FeatureCollection',
+        features: []
+    };
+    
+    // Remove source (layers must be removed first, which we did in removeMapLayers)
+    try {
+        if (map.getSource('locations')) {
+            map.removeSource('locations');
+        }
+    } catch (error) {
+        console.warn('Error removing source:', error);
+    }
+    
+    // Create new source configuration
+    const sourceConfig = {
+        type: 'geojson',
+        data: currentData
+    };
+    
+    if (clusteringEnabled) {
+        sourceConfig.cluster = true;
+        sourceConfig.clusterRadius = 50;
+        sourceConfig.clusterMaxZoom = 14;
+    }
+    
+    // Add source with new configuration
+    map.addSource('locations', sourceConfig);
+    locationsSource = map.getSource('locations');
 }
 
 function loadData() {
@@ -313,22 +558,24 @@ function displayLocations(locations) {
         console.error('Error updating source data:', error);
     }
     
-    // Fit map to bounds if we have features
-    if (features.length > 0) {
-        const bounds = new mapboxgl.LngLatBounds();
-        features.forEach(feature => {
-            bounds.extend(feature.geometry.coordinates);
-        });
-        
-        // Only fit bounds if we have a reasonable number of features
-        // For large datasets, just ensure the map is visible
-        if (features.length < 10000) {
-            map.fitBounds(bounds, {
-                padding: 50,
-                maxZoom: 10
-            });
-        }
-    }
+    // Map always starts with fixed view of contiguous US (center and zoom set during initialization)
+    // Removed fitBounds to prevent map from moving when filters/year changes
+    // If you want to fit bounds, uncomment below:
+    // if (features.length > 0) {
+    //     const bounds = new mapboxgl.LngLatBounds();
+    //     features.forEach(feature => {
+    //         bounds.extend(feature.geometry.coordinates);
+    //     });
+    //     
+    //     // Only fit bounds if we have a reasonable number of features
+    //     // For large datasets, just ensure the map is visible
+    //     if (features.length < 10000) {
+    //         map.fitBounds(bounds, {
+    //             padding: 50,
+    //             maxZoom: 10
+    //         });
+    //     }
+    // }
     
     // Update location count display
     updateLocationCount(locations.length);
@@ -449,6 +696,32 @@ function setupEventListeners() {
     
     // Reset filters button
     document.getElementById('reset-filters').addEventListener('click', resetFilters);
+    
+    // Clustering checkbox
+    document.getElementById('clustering-checkbox').addEventListener('change', function() {
+        clusteringEnabled = this.checked;
+        console.log('Clustering toggled:', clusteringEnabled);
+        
+        // Get current features from source before removing
+        const currentFeatures = locationsSource ? locationsSource._data.features : [];
+        
+        // Remove existing layers first
+        removeMapLayers();
+        
+        // Update source configuration
+        updateSourceClustering();
+        
+        // Recreate layers with new clustering setting
+        setupMapLayers();
+        
+        // Restore the data
+        if (currentFeatures.length > 0 && locationsSource) {
+            locationsSource.setData({
+                type: 'FeatureCollection',
+                features: currentFeatures
+            });
+        }
+    });
 }
 
 function applyFiltersAndGetData() {
@@ -514,6 +787,7 @@ function resetFilters() {
         document.getElementById('amenity-filter').value = '';
         document.getElementById('state-filter').value = '';
         document.getElementById('clear-addresses-checkbox').checked = false;
+        // Note: clustering checkbox is NOT reset - user preference is preserved
         
         // Load data for the reset year and display results
         loadYearData(currentYear)
