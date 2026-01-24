@@ -91,8 +91,57 @@
         margin-top: 0 !important;
         margin-bottom: 0 !important;
     }
+    
+    /* Ensure nested lists have proper indentation */
+    .prose ul ul,
+    .prose ol ol,
+    .prose ul ol,
+    .prose ol ul {
+        margin-top: 0.5rem !important;
+        margin-bottom: 0.5rem !important;
+        padding-left: 1.5rem !important;
+    }
+    
+    /* Ensure nested list items maintain indentation */
+    .prose ul ul > li,
+    .prose ol ol > li,
+    .prose ul ol > li,
+    .prose ol ul > li {
+        margin-top: 0.25rem !important;
+        margin-bottom: 0.25rem !important;
+    }
+    
+    /* Accordion styling for methodology page */
+    .methodology-accordion .collapse-content {
+        padding-top: 1rem;
+    }
 </style>
-<div class="prose prose-lg max-w-none prose-headings:text-base-content prose-h1:text-3xl prose-h1:font-black prose-h2:text-2xl prose-h2:font-black prose-h3:text-xl prose-h3:font-black prose-p:text-base-content prose-p:leading-relaxed prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-strong:text-base-content prose-ul:text-base-content prose-ol:text-base-content prose-li:text-base-content prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:pl-4 prose-blockquote:italic prose-code:bg-base-200 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-code:text-sm">
-    {{ page.html | safe }}
-</div>
+
+{% if is_methodology %}
+    {# Methodology page with accordions #}
+    <div class="prose prose-lg max-w-none prose-headings:text-base-content prose-h1:text-3xl prose-h1:font-black prose-h3:text-xl prose-h3:font-black prose-p:text-base-content prose-p:leading-relaxed prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-strong:text-base-content prose-ul:text-base-content prose-ol:text-base-content prose-li:text-base-content prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:pl-4 prose-blockquote:italic prose-code:bg-base-200 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-code:text-sm">
+        {# Intro content before first h2 #}
+        {{ intro_html | safe }}
+    </div>
+    
+    {# Accordions for each h2 section #}
+    <div class="space-y-4 mt-8">
+        {% for section in sections %}
+        <div class="collapse collapse-arrow bg-base-100 border border-base-300 shadow-lg">
+            <input type="checkbox" />
+            <div class="collapse-title text-xl font-black text-base-content">
+                {{ section.heading | safe }}
+            </div>
+            <div class="collapse-content prose prose-lg max-w-none prose-headings:text-base-content prose-h3:text-xl prose-h3:font-black prose-p:text-base-content prose-p:leading-relaxed prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-strong:text-base-content prose-ul:text-base-content prose-ol:text-base-content prose-li:text-base-content prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:pl-4 prose-blockquote:italic prose-code:bg-base-200 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-code:text-sm">
+                {{ section.content | safe }}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% else %}
+    {# Regular page rendering #}
+    <div class="prose prose-lg max-w-none prose-headings:text-base-content prose-h1:text-3xl prose-h1:font-black prose-h2:text-2xl prose-h2:font-black prose-h3:text-xl prose-h3:font-black prose-p:text-base-content prose-p:leading-relaxed prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-strong:text-base-content prose-ul:text-base-content prose-ol:text-base-content prose-li:text-base-content prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:pl-4 prose-blockquote:italic prose-code:bg-base-200 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-code:text-sm">
+        {{ page.html | safe }}
+    </div>
+{% endif %}
 {% endblock %}

@@ -85,7 +85,40 @@ def amenities():
 def page(path):
     """Serve any markdown page"""
     page = pages.get_or_404(path)
-    return render_template('page.html', page=page)
+    
+    # Special handling for methodology page - convert h2 sections to accordions
+    if path == 'methodology':
+        import re
+        from html import unescape
+        html = page.html
+        
+        # Find all h2 tags and split content
+        h2_pattern = r'<h2[^>]*>(.*?)</h2>'
+        matches = list(re.finditer(h2_pattern, html))
+        
+        if not matches:
+            # No h2 tags found, render normally
+            return render_template('page.html', page=page, is_methodology=False)
+        
+        # Get intro content (everything before first h2)
+        intro_html = html[:matches[0].start()].strip()
+        
+        # Process each h2 section
+        sections = []
+        for i, match in enumerate(matches):
+            heading = unescape(re.sub(r'<[^>]+>', '', match.group(1))).strip()
+            
+            # Get content from this h2 to the next h2 (or end)
+            start_pos = match.end()
+            end_pos = matches[i + 1].start() if i + 1 < len(matches) else len(html)
+            content = html[start_pos:end_pos].strip()
+            
+            sections.append({'heading': heading, 'content': content})
+        
+        return render_template('page.html', page=page, is_methodology=True, 
+                             intro_html=intro_html, sections=sections)
+    
+    return render_template('page.html', page=page, is_methodology=False)
 
 # Import routes after db initialization to avoid circular imports
 from routes import main, api
