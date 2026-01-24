@@ -9,6 +9,13 @@ let currentYear = 1965;
 let locationsSource = null;
 let clusteringEnabled = false;
 
+// Store handler functions so we can properly remove them
+const clickHandlers = {
+    'locations-points': null,
+    'unclustered-point': null,
+    'clusters': null
+};
+
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Map.js loaded, initializing...');
     
@@ -91,12 +98,7 @@ function setupMapLayers() {
 }
 
 function setupNonClusteredLayers() {
-    // Add single circle layer for all points (no clustering)
-    if (map.getLayer('locations-points')) {
-        return; // Layer already exists
-    }
-    
-    // Make sure clustering layers are removed
+    // Make sure clustering layers are removed first
     ['clusters', 'cluster-count', 'unclustered-point'].forEach(layerId => {
         if (map.getLayer(layerId)) {
             try {
@@ -110,76 +112,106 @@ function setupNonClusteredLayers() {
         }
     });
     
-    map.addLayer({
-        id: 'locations-points',
-        type: 'circle',
-        source: 'locations',
-        paint: {
-            'circle-color': '#3b82f6',
-            'circle-radius': [
-                'interpolate',
-                ['linear'],
-                ['zoom'],
-                2,  3,
-                4,  4,
-                6,  5,
-                8,  6,
-                10, 7,
-                12, 8,
-                14, 9,
-                16, 10
-            ],
-            'circle-opacity': [
-                'interpolate',
-                ['linear'],
-                ['zoom'],
-                2,  0.5,
-                4,  0.7,
-                6,  0.8,
-                8,  0.9,
-                10, 1.0,
-                12, 1.0,
-                14, 1.0,
-                16, 1.0
-            ],
-            'circle-stroke-width': [
-                'interpolate',
-                ['linear'],
-                ['zoom'],
-                2,  0.5,
-                4,  1,
-                8,  1.5,
-                12, 2
-            ],
-            'circle-stroke-color': '#fff'
+    // Remove existing non-clustered layer if it exists (to ensure clean state)
+    if (map.getLayer('locations-points')) {
+        try {
+            // Remove all event listeners for this layer
+            map.off('click', 'locations-points');
+            map.off('mouseenter', 'locations-points');
+            map.off('mouseleave', 'locations-points');
+            map.removeLayer('locations-points');
+        } catch (error) {
+            console.warn('Error removing existing locations-points layer:', error);
         }
-    });
+    }
     
-    // Add click handler for points
-    map.on('click', 'locations-points', function(e) {
-        const coordinates = e.features[0].geometry.coordinates.slice();
-        const location = e.features[0].properties;
+    // Add single circle layer for all points (no clustering)
+    try {
+        map.addLayer({
+            id: 'locations-points',
+            type: 'circle',
+            source: 'locations',
+            paint: {
+                'circle-color': '#3b82f6',
+                'circle-radius': [
+                    'interpolate',
+                    ['linear'],
+                    ['zoom'],
+                    2,  3,
+                    4,  4,
+                    6,  5,
+                    8,  6,
+                    10, 7,
+                    12, 8,
+                    14, 9,
+                    16, 10
+                ],
+                'circle-opacity': [
+                    'interpolate',
+                    ['linear'],
+                    ['zoom'],
+                    2,  0.5,
+                    4,  0.7,
+                    6,  0.8,
+                    8,  0.9,
+                    10, 1.0,
+                    12, 1.0,
+                    14, 1.0,
+                    16, 1.0
+                ],
+                'circle-stroke-width': [
+                    'interpolate',
+                    ['linear'],
+                    ['zoom'],
+                    2,  0.5,
+                    4,  1,
+                    8,  1.5,
+                    12, 2
+                ],
+                'circle-stroke-color': '#fff'
+            }
+        });
         
-        showLocationDetails(location);
+        // Define click handler function
+        clickHandlers['locations-points'] = function(e) {
+            console.log('Click detected on locations-points', e);
+            if (!e.features || e.features.length === 0) {
+                console.log('No features in click event');
+                return;
+            }
+            
+            const coordinates = e.features[0].geometry.coordinates.slice();
+            const location = e.features[0].properties;
+            
+            console.log('Location clicked:', location);
+            showLocationDetails(location);
+            
+            const popup = new mapboxgl.Popup()
+                .setLngLat(coordinates)
+                .setHTML(`
+                    <div class="text-sm">
+                        <strong>${location.title || 'Untitled'}</strong><br/>
+                        ${location.city || ''}${location.state ? ', ' + location.state : ''}
+                    </div>
+                `)
+                .addTo(map);
+        };
         
-        const popup = new mapboxgl.Popup()
-            .setLngLat(coordinates)
-            .setHTML(`
-                <div class="text-sm">
-                    <strong>${location.title || 'Untitled'}</strong><br/>
-                    ${location.city || ''}${location.state ? ', ' + location.state : ''}
-                </div>
-            `)
-            .addTo(map);
-    });
-    
-    // Change cursor on hover
-    map.on('mouseenter', 'locations-points', function() {
-        map.getCanvas().style.cursor = 'pointer';
-    });
-    map.on('mouseleave', 'locations-points', function() {
-        map.getCanvas().style.cursor = '';
-    });
+        // Add click handler for points
+        map.on('click', 'locations-points', clickHandlers['locations-points']);
+        
+        // Change cursor on hover
+        map.on('mouseenter', 'locations-points', function() {
+            map.getCanvas().style.cursor = 'pointer';
+        });
+        map.on('mouseleave', 'locations-points', function() {
+            map.getCanvas().style.cursor = '';
+        });
+        
+        console.log('Non-clustered layers and handlers set up');
+    } catch (error) {
+        console.error('Error setting up non-clustered layers:', error);
+    }
 }
 
 function setupClusteringLayers() {
@@ -312,10 +344,17 @@ function setupClusteringLayers() {
     });
     
     // Click handler for unclustered points
-    map.on('click', 'unclustered-point', function(e) {
+    clickHandlers['unclustered-point'] = function(e) {
+        console.log('Click detected on unclustered-point', e);
+        if (!e.features || e.features.length === 0) {
+            console.log('No features in click event');
+            return;
+        }
+        
         const coordinates = e.features[0].geometry.coordinates.slice();
         const location = e.features[0].properties;
         
+        console.log('Location clicked:', location);
         showLocationDetails(location);
         
         const popup = new mapboxgl.Popup()
@@ -327,7 +366,9 @@ function setupClusteringLayers() {
                 </div>
             `)
             .addTo(map);
-    });
+    };
+    
+    map.on('click', 'unclustered-point', clickHandlers['unclustered-point']);
     
     // Change cursor on hover for clusters
     map.on('mouseenter', 'clusters', function() {
@@ -353,12 +394,16 @@ function removeMapLayers() {
     layersToRemove.forEach(layerId => {
         try {
             if (map.getLayer(layerId)) {
-                // Remove event listeners first
+                // Remove all event listeners for this layer
                 map.off('click', layerId);
                 map.off('mouseenter', layerId);
                 map.off('mouseleave', layerId);
                 // Remove the layer
                 map.removeLayer(layerId);
+                // Clear the handler reference
+                if (clickHandlers[layerId]) {
+                    clickHandlers[layerId] = null;
+                }
             }
         } catch (error) {
             console.warn(`Error removing layer ${layerId}:`, error);
@@ -531,8 +576,21 @@ function displayLocations(locations) {
                             city: location.city || '',
                             state: location.state || '',
                             year: location.year || '',
-                            types: location.types || [],
-                            amenities: location.amenities || [],
+                            // Parse types and amenities if they're JSON strings
+                            types: (() => {
+                                let t = location.types;
+                                if (typeof t === 'string') {
+                                    try { t = JSON.parse(t); } catch (e) { t = []; }
+                                }
+                                return Array.isArray(t) ? t : [];
+                            })(),
+                            amenities: (() => {
+                                let a = location.amenities;
+                                if (typeof a === 'string') {
+                                    try { a = JSON.parse(a); } catch (e) { a = []; }
+                                }
+                                return Array.isArray(a) ? a : [];
+                            })(),
                             status: location.status || '',
                             description: location.description || '',
                             notes: location.notes || ''
@@ -553,7 +611,77 @@ function displayLocations(locations) {
             type: 'FeatureCollection',
             features: features
         });
-        console.log('Source data updated successfully');
+        console.log('Source data updated successfully with', features.length, 'features');
+        
+        // Ensure handlers are properly attached after data is loaded
+        // Use a small delay to ensure Mapbox has processed the data update
+        setTimeout(() => {
+            if (!clusteringEnabled && map.getLayer('locations-points')) {
+                // Remove existing handler and re-attach to ensure it's working
+                if (clickHandlers['locations-points']) {
+                    map.off('click', 'locations-points', clickHandlers['locations-points']);
+                }
+                
+                clickHandlers['locations-points'] = function(e) {
+                    console.log('Click detected on locations-points', e);
+                    if (!e.features || e.features.length === 0) {
+                        console.log('No features in click event');
+                        return;
+                    }
+                    
+                    const coordinates = e.features[0].geometry.coordinates.slice();
+                    const location = e.features[0].properties;
+                    
+                    console.log('Location clicked:', location);
+                    showLocationDetails(location);
+                    
+                    const popup = new mapboxgl.Popup()
+                        .setLngLat(coordinates)
+                        .setHTML(`
+                            <div class="text-sm">
+                                <strong>${location.title || 'Untitled'}</strong><br/>
+                                ${location.city || ''}${location.state ? ', ' + location.state : ''}
+                            </div>
+                        `)
+                        .addTo(map);
+                };
+                
+                map.on('click', 'locations-points', clickHandlers['locations-points']);
+                console.log('Click handler attached for locations-points layer');
+            } else if (clusteringEnabled && map.getLayer('unclustered-point')) {
+                // Remove existing handler and re-attach
+                if (clickHandlers['unclustered-point']) {
+                    map.off('click', 'unclustered-point', clickHandlers['unclustered-point']);
+                }
+                
+                clickHandlers['unclustered-point'] = function(e) {
+                    console.log('Click detected on unclustered-point', e);
+                    if (!e.features || e.features.length === 0) {
+                        console.log('No features in click event');
+                        return;
+                    }
+                    
+                    const coordinates = e.features[0].geometry.coordinates.slice();
+                    const location = e.features[0].properties;
+                    
+                    console.log('Location clicked:', location);
+                    showLocationDetails(location);
+                    
+                    const popup = new mapboxgl.Popup()
+                        .setLngLat(coordinates)
+                        .setHTML(`
+                            <div class="text-sm">
+                                <strong>${location.title || 'Untitled'}</strong><br/>
+                                ${location.city || ''}${location.state ? ', ' + location.state : ''}
+                            </div>
+                        `)
+                        .addTo(map);
+                };
+                
+                map.on('click', 'unclustered-point', clickHandlers['unclustered-point']);
+                console.log('Click handler attached for unclustered-point layer');
+            }
+        }, 100);
     } catch (error) {
         console.error('Error updating source data:', error);
     }
@@ -591,8 +719,33 @@ function updateLocationCount(count) {
 
 function showLocationDetails(location) {
     const detailsDiv = document.getElementById('location-details');
-    const typesText = location.types && location.types.length > 0 ? location.types.join(', ') : 'N/A';
-    const amenitiesText = location.amenities && location.amenities.length > 0 ? location.amenities.join(', ') : 'N/A';
+    
+    // Parse types and amenities - they might be JSON strings or arrays
+    let types = location.types;
+    if (typeof types === 'string') {
+        try {
+            types = JSON.parse(types);
+        } catch (e) {
+            types = [];
+        }
+    }
+    if (!Array.isArray(types)) {
+        types = [];
+    }
+    const typesText = types.length > 0 ? types.join(', ') : 'N/A';
+    
+    let amenities = location.amenities;
+    if (typeof amenities === 'string') {
+        try {
+            amenities = JSON.parse(amenities);
+        } catch (e) {
+            amenities = [];
+        }
+    }
+    if (!Array.isArray(amenities)) {
+        amenities = [];
+    }
+    const amenitiesText = amenities.length > 0 ? amenities.join(', ') : 'N/A';
 
     detailsDiv.innerHTML = `
         <div class="flex justify-between items-start mb-3">
@@ -711,16 +864,20 @@ function setupEventListeners() {
         // Update source configuration
         updateSourceClustering();
         
-        // Recreate layers with new clustering setting
-        setupMapLayers();
-        
-        // Restore the data
-        if (currentFeatures.length > 0 && locationsSource) {
-            locationsSource.setData({
-                type: 'FeatureCollection',
-                features: currentFeatures
-            });
-        }
+        // Small delay to ensure source is ready, then recreate layers
+        setTimeout(() => {
+            // Recreate layers with new clustering setting
+            setupMapLayers();
+            
+            // Restore the data
+            if (currentFeatures.length > 0 && locationsSource) {
+                locationsSource.setData({
+                    type: 'FeatureCollection',
+                    features: currentFeatures
+                });
+                console.log('Data restored after clustering toggle');
+            }
+        }, 50);
     });
 }
 

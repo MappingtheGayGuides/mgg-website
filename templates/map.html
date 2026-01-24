@@ -66,6 +66,39 @@
     .hidden {
         display: none !important;
     }
+    
+    /* Map control for clustering toggle */
+    .map-control {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: white;
+        padding: 8px 12px;
+        border-radius: 6px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 14px;
+        cursor: pointer;
+        user-select: none;
+    }
+    
+    .map-control:hover {
+        background: #f5f5f5;
+    }
+    
+    .map-control input[type="checkbox"] {
+        cursor: pointer;
+    }
+    
+    .map-control label {
+        cursor: pointer;
+        margin: 0;
+        font-weight: 500;
+        color: #374151;
+    }
 
 </style>
 {% endblock %}
@@ -123,15 +156,6 @@
 
                             <div class="form-control">
                                 <label class="label">
-                                    <span class="label-text font-medium">Enable clustering</span>
-                                </label>
-                                <div class="flex items-center">
-                                    <input type="checkbox" class="checkbox checkbox-primary" id="clustering-checkbox" />
-                                </div>
-                            </div>
-
-                            <div class="form-control">
-                                <label class="label">
                                     <span class="label-text">&nbsp;</span>
                                 </label>
                                 <div class="flex gap-2">
@@ -175,6 +199,11 @@
         <div>
             <div class="map-container">
                 <div id="map"></div>
+                <!-- Clustering Toggle Control -->
+                <div class="map-control">
+                    <input type="checkbox" class="checkbox checkbox-primary checkbox-sm" id="clustering-checkbox" />
+                    <label for="clustering-checkbox" class="text-sm font-medium">Clustering</label>
+                </div>
             </div>
         </div>
         
