@@ -2183,8 +2183,6 @@ function showDefaultMap() {
     mapContainer.innerHTML = `
         <div class="flex items-center justify-center h-full">
             <div class="text-center">
-                <div class="text-6xl mb-4">🗺️</div>
-                <h3 class="text-lg font-semibold mb-2">Select an Amenity</h3>
                 <p class="text-base-content/70">Choose an amenity from the dropdown above to view its geographic distribution across US cities.</p>
             </div>
         </div>
@@ -2328,7 +2326,7 @@ function createMapboxMap(mapContainer, results, selectedAmenities) {
             container: 'density-map',
             style: 'mapbox://styles/mapbox/light-v11', // Light style, you can change this
             center: [-98.5795, 39.8283], // [lng, lat] for Mapbox
-            zoom: 4,
+            zoom: 3.5,
             attributionControl: true
         });
 
@@ -2372,9 +2370,11 @@ function createMapboxMap(mapContainer, results, selectedAmenities) {
                 allMaxCounts.push(maxCount); // Store for legend
 
                 // Create radius scale for this amenity
-    const radiusScale = d3.scaleSqrt()
+                // Range: [min_radius, max_radius] in pixels
+                // Adjust these values to make dots smaller/larger
+                const radiusScale = d3.scaleSqrt()
                     .domain([0, maxCount || 1])
-                    .range([5, 30]);
+                    .range([3, 20]);  // Reduced from [5, 30] - min: 3px, max: 20px
 
                 // Convert cities to GeoJSON features
                 const features = validCities.map(city => {
@@ -2429,8 +2429,8 @@ function createMapboxMap(mapContainer, results, selectedAmenities) {
                             'interpolate',
                             ['linear'],
                             ['get', 'count'],
-                            0, 5,
-                            maxCount, 30
+                            0, 3,      // Minimum radius: 3px (for 0-1 locations)
+                            maxCount, 20  // Maximum radius: 20px (for max count)
                         ],
                         'circle-color': amenityColor,
                         'circle-stroke-width': 2,
@@ -2493,19 +2493,21 @@ function createMapboxMap(mapContainer, results, selectedAmenities) {
                     amenitiesMap.getCanvas().style.cursor = '';
                 });
 
-                // Extend bounds
+                // Extend bounds (keeping for potential future use, but not using fitBounds)
                 features.forEach(feature => {
                     allBounds.extend(feature.geometry.coordinates);
                 });
             });
 
-            // Fit map bounds to show all cities
-            if (allFeatures.length > 0) {
-                amenitiesMap.fitBounds(allBounds, {
-                    padding: 50,
-                    maxZoom: 10
-                });
-            }
+            // Map always starts with fixed view of contiguous US (center and zoom set during initialization)
+            // Removed fitBounds to prevent map from moving when year changes
+            // If you want to fit bounds, uncomment below:
+            // if (allFeatures.length > 0) {
+            //     amenitiesMap.fitBounds(allBounds, {
+            //         padding: 50,
+            //         maxZoom: 10
+            //     });
+            // }
 
             console.log(`Created ${layerInfo.length} layers total`);
             
@@ -2605,9 +2607,10 @@ function createMapboxMap(mapContainer, results, selectedAmenities) {
                 `;
                 
                 // Create radius scale for legend (using global max)
+                // Match the same range as the map circles above
                 const radiusScale = d3.scaleSqrt()
                     .domain([0, globalMaxCount])
-                    .range([5, 30]);
+                    .range([3, 20]);  // Reduced from [5, 30] to match map circles
                 
                 // Create color scale for legend (using a neutral color since we have multiple amenity colors)
                 const colorScale = d3.scaleSequential(d3.interpolateBlues)
