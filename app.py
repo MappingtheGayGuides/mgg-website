@@ -45,11 +45,16 @@ def index():
 # Articles page route
 @app.route('/articles/')
 def articles():
-    """Serve the articles/blog page"""
-    # Get all articles from the markdown directory
+    """Serve the articles/vignettes page (excludes news posts)"""
+    # Get all articles from the markdown directory, excluding news posts
     articles_list = []
     for article in pages:
-        if hasattr(article, 'meta') and article.meta.get('title') and not article.meta.get('draft', True):
+        # Exclude news posts (category == "Project News") and drafts
+        category = article.meta.get('category', '') if hasattr(article, 'meta') else ''
+        if (hasattr(article, 'meta') and 
+            article.meta.get('title') and 
+            not article.meta.get('draft', True) and
+            category != 'Project News'):  # Exclude news posts
             articles_list.append({
                 'title': article.meta.get('title', 'Untitled'),
                 'date': article.meta.get('date', 'No date'),
@@ -79,6 +84,59 @@ def article(path):
 def amenities():
     """Serve the amenities visualization page"""
     return render_template('amenities.html')
+
+# News page route
+@app.route('/news/')
+def news():
+    """Serve the news/blog page"""
+    # Get all news posts from the markdown directory
+    news_list = []
+    for page in pages:
+        if hasattr(page, 'meta') and page.meta.get('category') == 'Project News' and not page.meta.get('draft', True):
+            is_affiliate = page.meta.get('affiliate', False)
+            news_list.append({
+                'title': page.meta.get('title', 'Untitled'),
+                'date': page.meta.get('lastmod', page.meta.get('date', 'No date')),
+                'author': page.meta.get('author', 'Unknown'),
+                'description': page.meta.get('description', ''),
+                'img': page.meta.get('img', ''),
+                'url': page.path,
+                'content': page.html if not is_affiliate else None,
+                'is_affiliate': is_affiliate,
+                'affiliatelink': page.meta.get('affiliatelink', ''),
+                'affiliatename': page.meta.get('affiliatename', ''),
+                'affiliatewebsite': page.meta.get('affiliatewebsite', '')
+            })
+    
+    # Sort news by date (newest first)
+    def sort_key(x):
+        date_str = x['date']
+        try:
+            # Try to parse date for sorting
+            from datetime import datetime
+            # Try different date formats
+            for fmt in ['%Y-%m-%d', '%B %d, %Y', '%Y-%m-%d %H:%M:%S']:
+                try:
+                    return datetime.strptime(date_str, fmt)
+                except:
+                    continue
+            return datetime.min
+        except:
+            from datetime import datetime
+            return datetime.min
+    
+    news_list.sort(key=sort_key, reverse=True)
+    
+    # Format dates for display
+    from datetime import datetime
+    for post in news_list:
+        try:
+            date_obj = datetime.strptime(post['date'], '%Y-%m-%d')
+            post['date_formatted'] = date_obj.strftime('%B %d, %Y')
+        except:
+            post['date_formatted'] = post['date']
+    
+    return render_template('news.html', news=news_list)
 
 # Generic route for any markdown page
 @app.route('/<path:path>/')

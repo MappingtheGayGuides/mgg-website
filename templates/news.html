@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}News - Mapping the Gay Guides{% endblock %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto">
+    <!-- Page Header -->
+    <div class="text-center mb-12">
+        <h1 class="text-4xl font-bold text-primary mb-4">Project News</h1>
+    </div>
+
+    <!-- News Posts Section - List format -->
+    <ul class="list bg-base-100 rounded-box shadow-md">
+        {% for post in news %}
+        <li class="flex items-center border-b border-base-300 last:border-b-0 hover:bg-base-200 transition-colors">
+            <!-- Image -->
+            {% if post.img %}
+            <div class="shrink-0 flex items-center justify-center p-6" style="min-width: 120px;">
+                <img src="{{ url_for('static', filename='images/' + post.img) }}" 
+                     alt="{{ post.title }}"
+                     class="w-full h-full object-cover rounded-lg" 
+                     style="max-width: 120px; max-height: 120px;" />
+            </div>
+            {% endif %}
+            
+            <!-- Content -->
+            <div class="flex-1 py-4 pr-6">
+                <div class="flex items-center gap-3 mb-2">
+                    {% if post.is_affiliate %}
+                        <a href="{{ post.affiliatelink }}" target="_blank" rel="noopener noreferrer" class="hover:text-primary">
+                            <h2 class="text-xl font-semibold">{{ post.title }}</h2>
+                        </a>
+                    {% else %}
+                        <a href="{{ url_for('article', path=post.url) }}" class="hover:text-primary">
+                            <h2 class="text-xl font-semibold">{{ post.title }}</h2>
+                        </a>
+                    {% endif %}
+                </div>
+                <div class="text-sm text-base-content/70 mb-2">
+                    <span>Posted in {% if post.is_affiliate %}<em><a href="{{ post.affiliatewebsite }}" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">{{ post.affiliatename }}</a></em>{% else %}<em>Project News</em>{% endif %} on {{ post.date_formatted }}.</span>
+                    {% if post.author and post.author != 'Unknown' %}
+                    <span class="ml-2">By {{ post.author }}</span>
+                    {% endif %}
+                </div>
+                <p class="text-base-content/70 text-sm">{{ post.description }}</p>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <!-- No News Message -->
+    {% if not news %}
+    <div class="text-center py-12">
+        <div class="text-6xl mb-4">📰</div>
+        <h3 class="text-xl font-medium mb-2">No news posts yet</h3>
+        <p class="text-base-content/70">
+            We're working on creating content for this section. Check back soon!
+        </p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
