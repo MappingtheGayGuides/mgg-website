@@ -114,6 +114,7 @@
                                 <li><a href="{{ url_for('main.database') }}" class="text-white hover:bg-gray-800 text-base">Database</a></li>
                                 <li><a href="{{ url_for('main.map') }}" class="text-white hover:bg-gray-800 text-base">Map</a></li>
                                 <li><a href="{{ url_for('amenities') }}" class="text-white hover:bg-gray-800 text-base">Amenity Categorizations</a></li>
+                                <li><a href="{{ url_for('amenity_guide') }}" class="text-white hover:bg-gray-800 text-base">Amenity Guide</a></li>
                             </ul>
                         </details>
                     </li>
@@ -163,6 +164,7 @@
                             <li><a href="{{ url_for('main.database') }}" class="text-white hover:bg-gray-800 text-lg font-medium" style="color: white !important;">Database</a></li>
                             <li><a href="{{ url_for('main.map') }}" class="text-white hover:bg-gray-800 text-lg font-medium" style="color: white !important;">Map</a></li>
                             <li><a href="{{ url_for('amenities') }}" class="text-white hover:bg-gray-800 text-lg font-medium" style="color: white !important;">Amenity Categorizations</a></li>
+                            <li><a href="{{ url_for('amenity_guide') }}" class="text-white hover:bg-gray-800 text-lg font-medium" style="color: white !important;">Amenity Guide</a></li>
                         </ul>
                     </details>
                 </li>
@@ -183,14 +185,7 @@
     </div>
 
     <!-- Temporary Alert -->
-    <div class="max-w-6xl mx-auto px-6 py-4">
-        <div role="alert" class="alert bg-base-200 border-base-300">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-8 w-8 shrink-0 text-secondary">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-            </svg>
-            <span><b>Preview Version:</b> You are viewing a work-in-progress version of our redesigned site with expanded data and new visualizations. We're aiming for a public release in late 2025. Some things may be broken or under development, and we update regularly. Please keep this link private for now.</span>
-        </div>
-    </div>
+   
 
     <!-- Main Content -->
     <main class="max-w-6xl mx-auto px-6 py-8">
@@ -200,18 +195,9 @@
     <!-- Footer -->
     <footer class="footer footer-center p-10 bg-black text-white">
         <div>
-            <p class="font-bold text-lg">Mapping the Gay Guides</p> 
-            <p>Digital History Project</p>
-            <p>&copy; 2024 - All rights reserved</p>
+            <p>This site is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/" class="text-white hover:text-gray-300">Creative Commons Attribution 4.0 International License</a>.</p>
         </div> 
-        <div>
-            <div class="grid grid-flow-col gap-4">
-                <a class="link link-hover text-white hover:text-gray-300">About</a>
-                <a class="link link-hover text-white hover:text-gray-300">Contact</a>
-                <a class="link link-hover text-white hover:text-gray-300">Privacy</a>
 
-            </div>
-        </div>
     </footer>
 
     <!-- Custom JS -->

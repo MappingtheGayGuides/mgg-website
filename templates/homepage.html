@@ -11,7 +11,7 @@
             <!-- Left Column: Text Content -->
             <div class="text-left">
                 <p class="text-xl mb-8 leading-relaxed text-base-content">
-                    The Bob Damron Address Books are a series of gay travel guides published by Bob Damron between 1964 and 2021. First published in an era when most states banned same-sex intimacy both in public and private spaces, these travel guides helped gays (and to a lesser extent lesbians) find bars, cocktail lounges, bookstores, restaurants, bathhouses, cinemas, and cruising grounds that catered to people like themselves. Much like the Green Books of the 1950s and 1960s, which African Americans used to find friendly businesses that would cater to black citizens in the era of Jim Crow apartheid, Damron's guidebooks aided a generation of queer people in identifying sites of community, pleasure, and politics.
+                    Welcome to <i>Mapping the Gay Guides</i>, a digital history project that transforms the <i>Bob Damron Address Books</i> into interactive maps and visualizations! The Address Books were a series of gay travel guides originally published by gay entrepreneur Bob Damron. First appearing in the 1960s, an era when most states banned same-sex intimacy in public and private spaces, these guides helped gay travelers find queer-friendly spaces across the United States. They directed gays (and to a lesser extent lesbians) to bars, cocktail lounges, bookstores, restaurants, bathhouses, cinemas, cruising sites, and more. Much like the Green Books used by Black Americans during Jim Crow, Damron’s guides helped identify sites of community, pleasure, and politics for generations of queer Americans.
                 </p>
                 <div class="flex flex-col sm:flex-row sm:flex-wrap gap-3 mb-4">
                     <a href="{{ url_for('main.map') }}" class="btn btn-secondary sm:btn-md lg:btn-lg flex-1 sm:flex-initial sm:min-w-[140px] lg:min-w-[160px]">
@@ -47,8 +47,10 @@
             <!-- Left Column: Text -->
             <div>
                 <p class="text-lg leading-relaxed text-base-content">
-                    Bob Damron's Address Books grew and evolved alongside LGBTQ America itself. The first guide in 1965 listed just 785 locations. By 2003, that number had exploded to over 7,500 entries across the contiguous United States. But it wasn't just the quantity that changed—Damron's categorization system adapted to reflect shifting community needs and technologies. In the 1970s, (PT) marked locations with pool tables. The 1980s introduced (V) for video bars, marking establishments with televisions—cutting-edge technology at the time. By the 1990s, (WC) identified wheelchair-accessible spaces following the Americans with Disabilities Act. Our visualizations let you explore these changes and discover how LGBTQ spaces transformed across decades.
+                    This site offers multiple ways to explore the Bob Damron Address Books. Rather than offering a single narrative, this site invites you to work with historical data. Maps and visualizations reveal patterns and absences, while individual listings allow close reading of how spaces were described and categorized. As you explore, consider what these gay guides make visible. What might they leave out? What factors might have shaped the queer geographies recorded here?
                 </p>
+                <br><a href="{{ url_for('page', path='methodology') }}" class="btn btn-warning sm:btn-md lg:btn-lg flex-1 sm:flex-initial sm:min-w-[140px] lg:min-w-[160px]">
+                    Read more about our Methodology                </a>
             </div>
             
             <!-- Right Column: 2 Rows of Squares -->
@@ -62,7 +64,7 @@
                 </div>
                 <h3 class="font-bold text-lg mb-2">Interactive Map</h3>
                 <p class="text-sm text-base-content/70">
-                    Explore locations across the United States on an interactive map with filters for year, type, and amenity features</p>
+                    Explore queer spaces across the United States by year and location. Zoom and filter to see where listings appear and disappear over time.</p>
             </a>
             
             <!-- Square 2 -->
@@ -74,7 +76,7 @@
                 </div>
                 <h3 class="font-bold text-lg mb-2">Visualize Change</h3>
                 <p class="text-sm text-base-content/70">Visualize Change
-                    Analyze how Damron's categorizations for locations changed over time. </p>
+                    Track long-term patterns in the guides. See how amenities shift across decades. </p>
             </a>
             
             <!-- Square 3 -->
@@ -85,7 +87,7 @@
                     </svg>
                 </div>
                 <h3 class="font-bold text-lg mb-2">Historical Vignettes</h3>
-                <p class="text-sm text-base-content/70">Learn about what the guides reveal about LGBTQ life, culture, and community across decades.</p>
+                <p class="text-sm text-base-content/70">Read short interpretive essays that use the guides and the data to explore themes in LGBTQ history and culture.</p>
             </a>
             
             <!-- Square 4 -->
@@ -96,7 +98,7 @@
                     </svg>
                 </div>
                 <h3 class="font-bold text-lg mb-2">Locations Database</h3>
-                <p class="text-sm text-base-content/70">Search and filter our database to see locations and read Damron's entry about them</p>
+                <p class="text-sm text-base-content/70">Search individual listings and view details across multiple years. Compare how specific places were described and recorded over time.</p>
             </a>
         </div>
     </div>

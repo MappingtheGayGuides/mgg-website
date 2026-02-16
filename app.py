@@ -85,6 +85,41 @@ def amenities():
     """Serve the amenities visualization page"""
     return render_template('amenities.html')
 
+# Amenity guide route (table of amenity blurbs from markdown)
+@app.route('/amenity-guide/')
+def amenity_guide():
+    """Serve the amenity guide page with DaisyUI table layout"""
+    import re
+    from html import unescape
+    page = pages.get_or_404('amenity-guide')
+    html = page.html
+
+    h2_pattern = r'<h2[^>]*>(.*?)</h2>'
+    matches = list(re.finditer(h2_pattern, html))
+
+    if not matches:
+        return render_template('page.html', page=page, is_methodology=False)
+
+    intro_html = html[:matches[0].start()].strip()
+    sections = []
+    for i, match in enumerate(matches):
+        heading = unescape(re.sub(r'<[^>]+>', '', match.group(1))).strip()
+        start_pos = match.end()
+        end_pos = matches[i + 1].start() if i + 1 < len(matches) else len(html)
+        content = html[start_pos:end_pos].strip()
+        # Split heading into name (code) and short_description: "CODE - Short Desc"
+        parts = heading.split(' - ', 1)
+        name = parts[0].strip() if parts else heading
+        short_description = parts[1].strip() if len(parts) > 1 else ''
+        sections.append({
+            'name': name,
+            'short_description': short_description,
+            'description': content
+        })
+
+    return render_template('amenity-guide.html', page=page,
+                          intro_html=intro_html, sections=sections)
+
 # News page route
 @app.route('/news/')
 def news():

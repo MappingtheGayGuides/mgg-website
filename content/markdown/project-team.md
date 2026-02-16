@@ -7,8 +7,8 @@ subtitle: "Digital History Project"
 
 **Core Team:**
 
-* [Dr. Amanda Regan](/regan), Co-Project Director and Digital Lead
-* [Dr. Eric Gonzaba](/gonzaba), Co-Project Director
+* [Dr. Amanda Regan](https://www.amanda-regan.com), Co-Project Director and Digital Lead
+* [Dr. Eric Gonzaba](https://ericnolangonzaba.net/), Co-Project Director
 
 **Advisory Board:**
 
@@ -29,6 +29,7 @@ subtitle: "Digital History Project"
 
 **Project Alumni:**
 
+* Markus Albin, Graduate Research Assistant, California State University Fullerton, 2024-2025
 * Shannon Anderson, Graduate Research Assistant, California State University Fullerton, 2022-2023.
 * Lucas Avelar, Ph.D. Student in Digital History, Clemson University, Fall 2022 - Spring 2024.
 * Mikel Baxter, Intern, St. Mary's University, 2021.
