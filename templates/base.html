@@ -118,7 +118,15 @@
                             </ul>
                         </details>
                     </li>
-                    <li><a href="{{ url_for('page', path='methodology') }}" class="text-white hover:bg-gray-800 text-lg" style="color: white !important;">Methodology</a></li>
+                    <li>
+                        <details class="dropdown">
+                            <summary class="text-white hover:bg-gray-800 text-lg" style="color: white !important; background-color: transparent !important;">Methodology</summary>
+                            <ul class="dropdown-content menu bg-black mt-2 rounded-box w-52 p-2" style="z-index: 10000 !important;">
+                                <li><a href="{{ url_for('page', path='methodology') }}" class="text-white hover:bg-gray-800 text-base">Methodology</a></li>
+                                <li><a href="{{ url_for('page', path='ethics') }}" class="text-white hover:bg-gray-800 text-base">Ethics</a></li>
+                            </ul>
+                        </details>
+                    </li>
                     <li><a href="{{ url_for('page', path='news') }}" class="text-white hover:bg-gray-800 text-lg" style="color: white !important;">News</a></li>
                     <li>
                         <details class="dropdown">
@@ -144,7 +152,8 @@
             </div>
         </div>
         
-        <div class="navbar-center flex relative">
+        <!-- Desktop navigation (hidden on mobile, shown on lg and up) -->
+        <div class="navbar-center hidden lg:flex relative">
             <ul class="menu menu-horizontal px-1">
                 <li><a href="{{ url_for('index') }}" class="text-white hover:bg-gray-800 text-lg font-medium" style="color: white !important;">Home</a></li>
                 <li>
@@ -168,7 +177,15 @@
                         </ul>
                     </details>
                 </li>
-                <li><a href="{{ url_for('page', path='methodology') }}" class="text-white hover:bg-gray-800 text-lg font-medium" style="color: white !important;">Methodology</a></li>
+                <li>
+                    <details class="dropdown">
+                        <summary class="text-white hover:bg-gray-800 text-lg font-medium" style="color: white !important; background-color: transparent !important;">Methodology</summary>
+                        <ul class="dropdown-content menu bg-black mt-2 rounded-box w-52 p-2 shadow-2xl" style="z-index: 10000 !important;">
+                            <li><a href="{{ url_for('page', path='methodology') }}" class="text-white hover:bg-gray-800 text-lg font-medium" style="color: white !important;">Methodology</a></li>
+                            <li><a href="{{ url_for('page', path='ethics') }}" class="text-white hover:bg-gray-800 text-lg font-medium" style="color: white !important;">Ethics</a></li>
+                        </ul>
+                    </details>
+                </li>
                 <li><a href="{{ url_for('page', path='news') }}" class="text-white hover:bg-gray-800 text-lg font-medium" style="color: white !important;">News</a></li>
                 <li>
                     <details class="dropdown">
