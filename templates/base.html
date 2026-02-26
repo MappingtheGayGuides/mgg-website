@@ -128,15 +128,7 @@
                         </details>
                     </li>
                     <li><a href="{{ url_for('page', path='news') }}" class="text-white hover:bg-gray-800 text-lg" style="color: white !important;">News</a></li>
-                    <li>
-                        <details class="dropdown">
-                            <summary class="text-white hover:bg-gray-800 text-lg" style="color: white !important; background-color: transparent !important;">About</summary>
-                            <ul class="dropdown-content menu bg-black mt-2 rounded-box w-52 p-2" style="z-index: 10000 !important;">
-                                <li><a href="{{ url_for('page', path='project-history') }}" class="text-white hover:bg-gray-800 text-base">Project History</a></li>
-                                <li><a href="{{ url_for('page', path='project-team') }}" class="text-white hover:bg-gray-800 text-base">Project Team</a></li>
-                            </ul>
-                        </details>
-                    </li>
+                    
                 </ul>
             </div>
             
@@ -156,6 +148,15 @@
         <div class="navbar-center hidden lg:flex relative">
             <ul class="menu menu-horizontal px-1">
                 <li><a href="{{ url_for('index') }}" class="text-white hover:bg-gray-800 text-lg font-medium" style="color: white !important;">Home</a></li>
+                <li>
+                    <details class="dropdown">
+                        <summary class="text-white hover:bg-gray-800 text-lg" style="color: white !important; background-color: transparent !important;">About</summary>
+                        <ul class="dropdown-content menu bg-black mt-2 rounded-box w-52 p-2" style="z-index: 10000 !important;">
+                            <li><a href="{{ url_for('page', path='project-history') }}" class="text-white hover:bg-gray-800 text-base">Project History</a></li>
+                            <li><a href="{{ url_for('page', path='project-team') }}" class="text-white hover:bg-gray-800 text-base">Project Team</a></li>
+                        </ul>
+                    </details>
+                </li>
                 <li>
                     <details class="dropdown">
                         <summary class="text-white hover:bg-gray-800 text-lg font-medium" style="color: white !important; background-color: transparent !important;">Context</summary>
@@ -187,15 +188,6 @@
                     </details>
                 </li>
                 <li><a href="{{ url_for('page', path='news') }}" class="text-white hover:bg-gray-800 text-lg font-medium" style="color: white !important;">News</a></li>
-                <li>
-                    <details class="dropdown">
-                        <summary class="text-white hover:bg-gray-800 text-lg font-medium" style="color: white !important; background-color: transparent !important;">About</summary>
-                        <ul class="dropdown-content menu bg-black mt-2 rounded-box w-52 p-2 shadow-2xl" style="z-index: 10000 !important;">
-                            <li><a href="{{ url_for('page', path='project-history') }}" class="text-white hover:bg-gray-800 text-lg font-medium" style="color: white !important;">Project History</a></li>
-                            <li><a href="{{ url_for('page', path='project-team') }}" class="text-white hover:bg-gray-800 text-lg font-medium" style="color: white !important;">Project Team</a></li>
-                        </ul>
-                    </details>
-                </li>
             </ul>
         </div>
 
