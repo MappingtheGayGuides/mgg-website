@@ -10,7 +10,11 @@
         <nav class="text-sm mb-4" aria-label="Breadcrumb">
             <ol class="flex items-center space-x-2">
                 <li>
+                    {% if article.meta.category == 'Project News' %}
+                    <a href="{{ url_for('news') }}" class="text-primary hover:underline">News</a>
+                    {% else %}
                     <a href="{{ url_for('articles') }}" class="text-primary hover:underline">Articles</a>
+                    {% endif %}
                 </li>
                 <li class="flex items-center">
                     <svg class="w-4 h-4 text-gray-400 mx-2" fill="currentColor" viewBox="0 0 20 20">

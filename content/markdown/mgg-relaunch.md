@@ -4,9 +4,10 @@ author: "Amanda Regan and Eric Gonzaba"
 description: "Introducing MGG 2.0 - a completely redesigned and new site featuring new data and new visualizations."
 draft: false
 lastmod: "2026-03-06"
+date: "2026-03-06"
 category: "Project News"
-images: ["/images/news-c-ski-logo.png"]
-img: "news-c-ski-logo.png"
+images: ["/images/news-smithsonian-header.jpg"]
+img: "news-smithsonian-header.jpg"
 ---
 We are thrilled to announce the launch of _Mapping the Gay Guides_ 2.0, the most significant expansion of our project since we first went live in 2020.
 
@@ -16,7 +17,7 @@ This update is the culmination of years of work by a dedicated team of scholars 
 
 Here's a look at what's new.
 
-## What's New in 2.0
+# What's New in 2.0
 * 147,044 new listings added to the dataset, extending coverage from 1965 through 2003
 * Redesigned website with new entry points for researchers and the general public
 * Updated [database](/database) with the ability to sort and filter by year, state, and amenity category
@@ -29,20 +30,47 @@ The most significant change is the sheer scale of new data. The original site co
 
 This expanded timeline captures some of the most transformative periods in LGBTQ American history: the post-Stonewall movement of the 1970s, the devastating impact of the AIDS crisis in the 1980s, the emergence of new advocacy organizations, and the dramatic growth and eventual contraction of queer commercial spaces as online life took hold.
 
+---
+
 ## A Redesigned Website
+<figure class="right">
+<img src="/static/images/relaunch-site.png">
+<figcaption>The website has been entirely redesigned for MGG 2.0.</figcaption>
+</figure>
+
+
 We’ve completely redesigned the site to make the data more accessible to a wider audience. The new homepage introduces the project and the Damron guides for first-time visitors while providing clear pathways for researchers who want to dive directly into the data. Whether you're a scholar interested in studying LGBTQ geographies, a local historian looking for information about queer spaces in your community, or someone curious about the history behind these remarkable travel guides, the new site offers multiple ways in.
 
+---
+
 ## Updated Database
+<figure class="left">
+<img src="/static/images/relauch-locationsdb.png">
+<figcaption>Database page with new filters.</figcaption>
+</figure>
 The new [database interface](/database) allows you to search, sort, and filter through all locations in our dataset. You can narrow results by year, state, and amenity category to find exactly the information you need. Each entry displays the location's name, description, address, and all associated amenity features as they appeared in the original guides. In keeping with our commitment to open source historical data, the data can also be downloaded from our [GitHub repository](https://github.com/MappingtheGayGuides/MGG-Data) for those who want to reuse it in their own research. 
 
+---
+
 ## Amenities Visualization
+<figure class="right">
+<img src="/static/images/relaunch-amenityviz.png">
+<figcaption>The new amenities visualization.</figcaption>
+</figure>
 One of the features we’re most excited about is the new [amenities visualization](/amenities). This interactive tool allows users to track how Damron's amenity categorizations changed over the nearly four decades covered by our dataset. You can compare multiple amenities simultaneously, view data as percentages or raw counts, and explore geographic distributions. Want to see how listings for wheelchair-accessible venues grew after the passage of the Americans with Disabilities Act in 1990? Curious about changes in spaces categorized as welcoming to women? The amenities visualization makes these kinds of questions explorable in ways that would be nearly impossible with the raw data alone.
+
+---
 
 ## Amenity Guide
 We've also added a new [amenity guide](/amenity-guide) that provides descriptions and historical context for each of Damron's amenity categorizations. The amenity features—the lettered codes Damron used to describe locations, like "(D)" for dancing or "(B)" for "Blacks Frequent"—are one of the most interesting and complex aspects of the guides. They changed over time, reflected Damron's own perspective and biases, and offer a unique window into how queer spaces were understood and categorized. The amenity guide helps users understand what these codes meant, how they evolved, and what they can tell us about LGBTQ history.
 
+---
+
 ## Methodology
 Finally, we've published a comprehensive new [methodology page](/methodology) that walks through the entire process of building this database—from digitization and transcription to geocoding and visualization. We've also included a discussion of considerations users should keep in mind when working with the data and visualizations on this site. We believe strongly in making our process transparent, and we hope this page will be a valuable resource for other digital history and humanities practitioners as well as for anyone using the data in their own research.
+
+---
+
 
 # Acknowledgments
 A project of this scale is only possible because of the contributions of many people over many years and we are grateful to the community of scholars who has supported this project since its inception.
