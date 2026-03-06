@@ -4,7 +4,7 @@ author: "Amanda Regan and Eric Gonzaba"
 description: "Introducing MGG 2.0 - a completely redesigned and new site featuring new data and new visualizations."
 draft: false
 lastmod: "2026-03-06"
-date: "2026-03-06"
+date: "2026-02-01"
 category: "Project News"
 images: ["/images/news-smithsonian-header.jpg"]
 img: "news-smithsonian-header.jpg"
