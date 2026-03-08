@@ -1,13 +1,18 @@
 // Map functionality for Mapping the Gay Guides using Mapbox GL JS
 
-// Mapbox access token - replace with your token
-const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1IjoiYWVyZWdhbiIsImEiOiJjbWh3NmE5ZWswM2xrMmlvY2wzYjhuOWVmIn0.KhOofH1fXHn87-utlCGD8g';
+// Mapbox access token (injected from server via MAPBOX_ACCESS_TOKEN env var)
+const MAPBOX_ACCESS_TOKEN = (typeof window !== 'undefined' && window.MAPBOX_ACCESS_TOKEN) || '';
 
 let map;
 let currentData = [];
 let currentYear = 1965;
 let locationsSource = null;
 let clusteringEnabled = false;
+
+// Spiderfy: state for temporary spread layer (collapse when clicking elsewhere or moving)
+let spreadState = null; // { mapClickHandler, moveendHandler, locations }
+// Lookup so we don't rely on Mapbox preserving nested feature.properties.locations
+const groupedLocationsByCoord = new Map(); // "lat_lng" -> [location objects]
 
 // Store handler functions so we can properly remove them
 const clickHandlers = {
@@ -125,7 +130,7 @@ function setupNonClusteredLayers() {
         }
     }
     
-    // Add single circle layer for all points (no clustering)
+    // Add single circle layer for all points (no clustering). Same blue; count label indicates stacked.
     try {
         map.addLayer({
             id: 'locations-points',
@@ -171,43 +176,56 @@ function setupNonClusteredLayers() {
                 'circle-stroke-color': '#fff'
             }
         });
-        
-        // Define click handler function
-        clickHandlers['locations-points'] = function(e) {
-            console.log('Click detected on locations-points', e);
-            if (!e.features || e.features.length === 0) {
-                console.log('No features in click event');
-                return;
+
+        // Count label on stacked points only
+        map.addLayer({
+            id: 'locations-points-count',
+            type: 'symbol',
+            source: 'locations',
+            filter: ['>', ['get', 'location_count'], 1],
+            layout: {
+                'text-field': ['get', 'location_count'],
+                'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
+                'text-size': 11
+            },
+            paint: {
+                'text-color': '#fff'
             }
-            
-            const coordinates = e.features[0].geometry.coordinates.slice();
-            const location = e.features[0].properties;
-            
-            console.log('Location clicked:', location);
-            showLocationDetails(location);
-            
-            const popup = new mapboxgl.Popup()
-                .setLngLat(coordinates)
-                .setHTML(`
-                    <div class="text-sm">
-                        <strong>${location.title || 'Untitled'}</strong><br/>
-                        ${location.city || ''}${location.state ? ', ' + location.state : ''}
-                    </div>
-                `)
-                .addTo(map);
+        });
+
+        // Define click handler: spiderfy if stacked, else single popup (locations from lookup by stored key)
+        clickHandlers['locations-points'] = function(e) {
+            if (!e.features || e.features.length === 0) return;
+            const feature = e.features[0];
+            const coordinates = feature.geometry.coordinates.slice();
+            const props = feature.properties;
+            const count = props.location_count || 1;
+            const coordKey = props._coordKey || `${Number(coordinates[1]).toFixed(6)}_${Number(coordinates[0]).toFixed(6)}`;
+            const locations = groupedLocationsByCoord.get(coordKey) || [props];
+            if (count > 1) {
+                showSpread(coordinates, locations);
+            } else {
+                showLocationDetails(locations[0]);
+                new mapboxgl.Popup()
+                    .setLngLat(coordinates)
+                    .setHTML(`
+                        <div class="text-sm">
+                            <strong>${locations[0].title || 'Untitled'}</strong><br/>
+                            ${locations[0].city || ''}${locations[0].state ? ', ' + locations[0].state : ''}
+                        </div>
+                    `)
+                    .addTo(map);
+            }
         };
-        
-        // Add click handler for points
+
         map.on('click', 'locations-points', clickHandlers['locations-points']);
-        
-        // Change cursor on hover
         map.on('mouseenter', 'locations-points', function() {
             map.getCanvas().style.cursor = 'pointer';
         });
         map.on('mouseleave', 'locations-points', function() {
             map.getCanvas().style.cursor = '';
         });
-        
+
         console.log('Non-clustered layers and handlers set up');
     } catch (error) {
         console.error('Error setting up non-clustered layers:', error);
@@ -277,7 +295,7 @@ function setupClusteringLayers() {
         });
     }
     
-    // Add unclustered points layer
+    // Add unclustered points layer (same blue; count label indicates stacked)
     if (!map.getLayer('unclustered-point')) {
         map.addLayer({
             id: 'unclustered-point',
@@ -287,45 +305,36 @@ function setupClusteringLayers() {
             paint: {
                 'circle-color': '#3b82f6',
                 'circle-radius': [
-                    'interpolate',
-                    ['linear'],
-                    ['zoom'],
-                    2,  3,
-                    4,  4,
-                    6,  5,
-                    8,  6,
-                    10, 7,
-                    12, 8,
-                    14, 9,
-                    16, 10
+                    'interpolate', ['linear'], ['zoom'],
+                    2, 3, 4, 4, 6, 5, 8, 6, 10, 7, 12, 8, 14, 9, 16, 10
                 ],
                 'circle-opacity': [
-                    'interpolate',
-                    ['linear'],
-                    ['zoom'],
-                    2,  0.5,
-                    4,  0.7,
-                    6,  0.8,
-                    8,  0.9,
-                    10, 1.0,
-                    12, 1.0,
-                    14, 1.0,
-                    16, 1.0
+                    'interpolate', ['linear'], ['zoom'],
+                    2, 0.5, 4, 0.7, 6, 0.8, 8, 0.9, 10, 1, 12, 1, 14, 1, 16, 1
                 ],
                 'circle-stroke-width': [
-                    'interpolate',
-                    ['linear'],
-                    ['zoom'],
-                    2,  0.5,
-                    4,  1,
-                    8,  1.5,
-                    12, 2
+                    'interpolate', ['linear'], ['zoom'],
+                    2, 0.5, 4, 1, 8, 1.5, 12, 2
                 ],
                 'circle-stroke-color': '#fff'
             }
         });
     }
-    
+    if (!map.getLayer('unclustered-point-count')) {
+        map.addLayer({
+            id: 'unclustered-point-count',
+            type: 'symbol',
+            source: 'locations',
+            filter: ['all', ['!', ['has', 'point_count']], ['>', ['get', 'location_count'], 1]],
+            layout: {
+                'text-field': ['get', 'location_count'],
+                'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
+                'text-size': 11
+            },
+            paint: { 'text-color': '#fff' }
+        });
+    }
+
     // Click handler for clusters - zoom in
     map.on('click', 'clusters', function(e) {
         const features = map.queryRenderedFeatures(e.point, {
@@ -342,32 +351,32 @@ function setupClusteringLayers() {
             });
         });
     });
-    
-    // Click handler for unclustered points
+
+    // Click handler for unclustered points: spiderfy if stacked, else single popup
     clickHandlers['unclustered-point'] = function(e) {
-        console.log('Click detected on unclustered-point', e);
-        if (!e.features || e.features.length === 0) {
-            console.log('No features in click event');
-            return;
+        if (!e.features || e.features.length === 0) return;
+        const feature = e.features[0];
+        const coordinates = feature.geometry.coordinates.slice();
+        const props = feature.properties;
+        const count = props.location_count || 1;
+        const coordKey = props._coordKey || `${Number(coordinates[1]).toFixed(6)}_${Number(coordinates[0]).toFixed(6)}`;
+        const locations = groupedLocationsByCoord.get(coordKey) || [props];
+        if (count > 1) {
+            showSpread(coordinates, locations);
+        } else {
+            showLocationDetails(locations[0]);
+            new mapboxgl.Popup()
+                .setLngLat(coordinates)
+                .setHTML(`
+                    <div class="text-sm">
+                        <strong>${locations[0].title || 'Untitled'}</strong><br/>
+                        ${locations[0].city || ''}${locations[0].state ? ', ' + locations[0].state : ''}
+                    </div>
+                `)
+                .addTo(map);
         }
-        
-        const coordinates = e.features[0].geometry.coordinates.slice();
-        const location = e.features[0].properties;
-        
-        console.log('Location clicked:', location);
-        showLocationDetails(location);
-        
-        const popup = new mapboxgl.Popup()
-            .setLngLat(coordinates)
-            .setHTML(`
-                <div class="text-sm">
-                    <strong>${location.title || 'Untitled'}</strong><br/>
-                    ${location.city || ''}${location.state ? ', ' + location.state : ''}
-                </div>
-            `)
-            .addTo(map);
     };
-    
+
     map.on('click', 'unclustered-point', clickHandlers['unclustered-point']);
     
     // Change cursor on hover for clusters
@@ -388,9 +397,14 @@ function setupClusteringLayers() {
 }
 
 function removeMapLayers() {
-    // Remove all location-related layers
-    const layersToRemove = ['locations-points', 'clusters', 'cluster-count', 'unclustered-point'];
-    
+    collapseSpread();
+
+    const layersToRemove = [
+        'locations-points', 'locations-points-count',
+        'clusters', 'cluster-count', 'unclustered-point', 'unclustered-point-count',
+        'locations-spread-points', 'locations-spread-lines'
+    ];
+
     layersToRemove.forEach(layerId => {
         try {
             if (map.getLayer(layerId)) {
@@ -409,6 +423,14 @@ function removeMapLayers() {
             console.warn(`Error removing layer ${layerId}:`, error);
         }
     });
+
+    try {
+        if (map.getSource('locations-spread')) {
+            map.removeSource('locations-spread');
+        }
+    } catch (err) {
+        console.warn('Error removing locations-spread source:', err);
+    }
 }
 
 function updateSourceClustering() {
@@ -524,12 +546,14 @@ function loadYearData(year) {
 
 function displayLocations(locations) {
     console.log('Displaying locations:', locations.length);
-    
+
+    collapseSpread();
+
     if (!map) {
         console.error('Map not initialized');
         return;
     }
-    
+
     // Ensure map is loaded before trying to update source
     if (!map.loaded()) {
         console.log('Map not loaded yet, waiting...');
@@ -549,59 +573,81 @@ function displayLocations(locations) {
         }
     }
     
-    // Convert locations to GeoJSON features
-    const features = [];
+    // Helper: build normalized location properties (parse types/amenities)
+    function locationProps(location, index) {
+        let t = location.types;
+        if (typeof t === 'string') {
+            try { t = JSON.parse(t); } catch (e) { t = []; }
+        }
+        let a = location.amenities;
+        if (typeof a === 'string') {
+            try { a = JSON.parse(a); } catch (e) { a = []; }
+        }
+        return {
+            id: location.id || index,
+            title: location.title || 'Untitled',
+            street_address: location.street_address || '',
+            city: location.city || '',
+            state: location.state || '',
+            year: location.year || '',
+            types: Array.isArray(t) ? t : [],
+            amenities: Array.isArray(a) ? a : [],
+            status: location.status || '',
+            description: location.description || '',
+            notes: location.notes || ''
+        };
+    }
+
+    // Group locations by coordinate (6 decimals) so we can show one point per place and spiderfy when stacked
+    const COORD_PRECISION = 6;
+    const groups = new Map(); // key -> { lng, lat, locations: [props...] }
     let validCoordinates = 0;
-    
+
     for (let i = 0; i < locations.length; i++) {
         const location = locations[i];
-        if (location.latitude && location.longitude) {
-            // Ensure coordinates are numbers
-            const lat = parseFloat(location.latitude);
-            const lng = parseFloat(location.longitude);
-            
-            if (!isNaN(lat) && !isNaN(lng)) {
-                // Filter out invalid coordinates (outside reasonable bounds)
-                if (lat >= -90 && lat <= 90 && lng >= -180 && lng <= 180) {
-                    features.push({
-                        type: 'Feature',
-                        geometry: {
-                            type: 'Point',
-                            coordinates: [lng, lat] // Mapbox uses [lng, lat]
-                        },
-                        properties: {
-                            id: location.id || i,
-                            title: location.title || 'Untitled',
-                            street_address: location.street_address || '',
-                            city: location.city || '',
-                            state: location.state || '',
-                            year: location.year || '',
-                            // Parse types and amenities if they're JSON strings
-                            types: (() => {
-                                let t = location.types;
-                                if (typeof t === 'string') {
-                                    try { t = JSON.parse(t); } catch (e) { t = []; }
-                                }
-                                return Array.isArray(t) ? t : [];
-                            })(),
-                            amenities: (() => {
-                                let a = location.amenities;
-                                if (typeof a === 'string') {
-                                    try { a = JSON.parse(a); } catch (e) { a = []; }
-                                }
-                                return Array.isArray(a) ? a : [];
-                            })(),
-                            status: location.status || '',
-                            description: location.description || '',
-                            notes: location.notes || ''
-                        }
-                    });
-                validCoordinates++;
-                }
-            }
+        if (location.latitude == null || location.longitude == null) continue;
+        const lat = parseFloat(location.latitude);
+        const lng = parseFloat(location.longitude);
+        if (!Number.isFinite(lat) || !Number.isFinite(lng)) continue;
+        if (lat < -90 || lat > 90 || lng < -180 || lng > 180) continue;
+
+        validCoordinates++;
+        const key = `${lat.toFixed(COORD_PRECISION)}_${lng.toFixed(COORD_PRECISION)}`;
+        const props = locationProps(location, i);
+        if (!groups.has(key)) {
+            groups.set(key, { lng, lat, locations: [props] });
+        } else {
+            groups.get(key).locations.push(props);
         }
     }
-    
+
+    groupedLocationsByCoord.clear();
+    const features = [];
+    for (const [, { lng, lat, locations: locs }] of groups) {
+        const first = locs[0];
+        const coordKey = `${lat.toFixed(COORD_PRECISION)}_${lng.toFixed(COORD_PRECISION)}`;
+        groupedLocationsByCoord.set(coordKey, locs);
+        features.push({
+            type: 'Feature',
+            geometry: { type: 'Point', coordinates: [lng, lat] },
+            properties: {
+                id: first.id,
+                title: first.title,
+                street_address: first.street_address,
+                city: first.city,
+                state: first.state,
+                year: first.year,
+                types: first.types,
+                amenities: first.amenities,
+                status: first.status,
+                description: first.description,
+                notes: first.notes,
+                location_count: locs.length,
+                _coordKey: coordKey
+            }
+        });
+    }
+
     console.log('Created features:', features.length, 'out of', locations.length, 'locations (valid coordinates:', validCoordinates, ')');
     console.log('Sample feature:', features[0]);
     
@@ -614,72 +660,44 @@ function displayLocations(locations) {
         console.log('Source data updated successfully with', features.length, 'features');
         
         // Ensure handlers are properly attached after data is loaded
-        // Use a small delay to ensure Mapbox has processed the data update
+        // Re-attach click handlers after data update (same spiderfy/single logic as in setup)
         setTimeout(() => {
+            function handlePointClick(layerId, e) {
+                if (!e.features || e.features.length === 0) return;
+                const feature = e.features[0];
+                const coordinates = feature.geometry.coordinates.slice();
+                const props = feature.properties;
+                const count = props.location_count || 1;
+                const coordKey = props._coordKey || `${Number(coordinates[1]).toFixed(6)}_${Number(coordinates[0]).toFixed(6)}`;
+                const locations = groupedLocationsByCoord.get(coordKey) || [props];
+                if (count > 1) {
+                    showSpread(coordinates, locations);
+                } else {
+                    showLocationDetails(locations[0]);
+                    new mapboxgl.Popup()
+                        .setLngLat(coordinates)
+                        .setHTML(`
+                            <div class="text-sm">
+                                <strong>${locations[0].title || 'Untitled'}</strong><br/>
+                                ${locations[0].city || ''}${locations[0].state ? ', ' + locations[0].state : ''}
+                            </div>
+                        `)
+                        .addTo(map);
+                }
+            }
+
             if (!clusteringEnabled && map.getLayer('locations-points')) {
-                // Remove existing handler and re-attach to ensure it's working
                 if (clickHandlers['locations-points']) {
                     map.off('click', 'locations-points', clickHandlers['locations-points']);
                 }
-                
-                clickHandlers['locations-points'] = function(e) {
-                    console.log('Click detected on locations-points', e);
-                    if (!e.features || e.features.length === 0) {
-                        console.log('No features in click event');
-                        return;
-                    }
-                    
-                    const coordinates = e.features[0].geometry.coordinates.slice();
-                    const location = e.features[0].properties;
-                    
-                    console.log('Location clicked:', location);
-                    showLocationDetails(location);
-                    
-                    const popup = new mapboxgl.Popup()
-                        .setLngLat(coordinates)
-                        .setHTML(`
-                            <div class="text-sm">
-                                <strong>${location.title || 'Untitled'}</strong><br/>
-                                ${location.city || ''}${location.state ? ', ' + location.state : ''}
-                            </div>
-                        `)
-                        .addTo(map);
-                };
-                
+                clickHandlers['locations-points'] = (e) => handlePointClick('locations-points', e);
                 map.on('click', 'locations-points', clickHandlers['locations-points']);
-                console.log('Click handler attached for locations-points layer');
             } else if (clusteringEnabled && map.getLayer('unclustered-point')) {
-                // Remove existing handler and re-attach
                 if (clickHandlers['unclustered-point']) {
                     map.off('click', 'unclustered-point', clickHandlers['unclustered-point']);
                 }
-                
-                clickHandlers['unclustered-point'] = function(e) {
-                    console.log('Click detected on unclustered-point', e);
-                    if (!e.features || e.features.length === 0) {
-                        console.log('No features in click event');
-                        return;
-                    }
-                    
-                    const coordinates = e.features[0].geometry.coordinates.slice();
-                    const location = e.features[0].properties;
-                    
-                    console.log('Location clicked:', location);
-                    showLocationDetails(location);
-                    
-                    const popup = new mapboxgl.Popup()
-                        .setLngLat(coordinates)
-                        .setHTML(`
-                            <div class="text-sm">
-                                <strong>${location.title || 'Untitled'}</strong><br/>
-                                ${location.city || ''}${location.state ? ', ' + location.state : ''}
-                            </div>
-                        `)
-                        .addTo(map);
-                };
-                
+                clickHandlers['unclustered-point'] = (e) => handlePointClick('unclustered-point', e);
                 map.on('click', 'unclustered-point', clickHandlers['unclustered-point']);
-                console.log('Click handler attached for unclustered-point layer');
             }
         }, 100);
     } catch (error) {
@@ -715,6 +733,138 @@ function updateLocationCount(count) {
     if (dataSizeInfo) {
         dataSizeInfo.textContent = `Total locations: ${count.toLocaleString()}`;
     }
+}
+
+function collapseSpread() {
+    if (!spreadState || !map) return;
+    try {
+        if (spreadState.mapClickHandler) {
+            map.off('click', spreadState.mapClickHandler);
+        }
+        if (spreadState.moveendHandler) {
+            map.off('moveend', spreadState.moveendHandler);
+        }
+        if (map.getLayer('locations-spread-points')) {
+            map.off('click', 'locations-spread-points');
+            map.off('mouseenter', 'locations-spread-points');
+            map.off('mouseleave', 'locations-spread-points');
+            map.removeLayer('locations-spread-points');
+        }
+        if (map.getLayer('locations-spread-lines')) {
+            map.removeLayer('locations-spread-lines');
+        }
+        if (map.getSource('locations-spread')) {
+            map.removeSource('locations-spread');
+        }
+    } catch (err) {
+        console.warn('collapseSpread:', err);
+    }
+    spreadState = null;
+}
+
+function showSpread(centerLngLat, locations) {
+    if (!map || !locations || locations.length === 0) return;
+    collapseSpread();
+
+    const center = map.project(centerLngLat);
+    const n = locations.length;
+    const radiusPx = 45;
+    const lineFeatures = [];
+    const pointFeatures = [];
+
+    for (let i = 0; i < n; i++) {
+        const angle = (2 * Math.PI * i) / n;
+        const dx = radiusPx * Math.cos(angle);
+        const dy = radiusPx * Math.sin(angle);
+        const spreadPixel = [center.x + dx, center.y + dy];
+        const spreadLngLat = map.unproject(spreadPixel);
+
+        lineFeatures.push({
+            type: 'Feature',
+            geometry: {
+                type: 'LineString',
+                coordinates: [centerLngLat, spreadLngLat.toArray()]
+            },
+            properties: { index: i }
+        });
+        pointFeatures.push({
+            type: 'Feature',
+            geometry: {
+                type: 'Point',
+                coordinates: spreadLngLat.toArray()
+            },
+            properties: { index: i }
+        });
+    }
+
+    const spreadGeoJSON = {
+        type: 'FeatureCollection',
+        features: lineFeatures.concat(pointFeatures)
+    };
+
+    map.addSource('locations-spread', {
+        type: 'geojson',
+        data: spreadGeoJSON
+    });
+
+    map.addLayer({
+        id: 'locations-spread-lines',
+        type: 'line',
+        source: 'locations-spread',
+        filter: ['==', ['geometry-type'], 'LineString'],
+        paint: {
+            'line-color': '#94a3b8',
+            'line-width': 2
+        }
+    });
+
+    map.addLayer({
+        id: 'locations-spread-points',
+        type: 'circle',
+        source: 'locations-spread',
+        filter: ['==', ['geometry-type'], 'Point'],
+        paint: {
+            'circle-color': '#3b82f6',
+            'circle-radius': 8,
+            'circle-stroke-width': 2,
+            'circle-stroke-color': '#fff'
+        }
+    });
+
+    map.on('mouseenter', 'locations-spread-points', function() {
+        map.getCanvas().style.cursor = 'pointer';
+    });
+    map.on('mouseleave', 'locations-spread-points', function() {
+        map.getCanvas().style.cursor = '';
+    });
+
+    function onSpreadPointClick(e) {
+        if (!e.features || e.features.length === 0) return;
+        const idx = e.features[0].properties.index;
+        if (spreadState && spreadState.locations && spreadState.locations[idx] != null) {
+            showLocationDetails(spreadState.locations[idx]);
+        }
+        collapseSpread();
+    }
+
+    map.on('click', 'locations-spread-points', onSpreadPointClick);
+
+    function onMapClick(e) {
+        const under = map.queryRenderedFeatures(e.point, { layers: ['locations-spread-points'] });
+        if (under.length === 0) collapseSpread();
+    }
+    function onMoveend() {
+        collapseSpread();
+    }
+
+    map.on('click', onMapClick);
+    map.on('moveend', onMoveend);
+
+    spreadState = {
+        mapClickHandler: onMapClick,
+        moveendHandler: onMoveend,
+        locations: locations
+    };
 }
 
 function showLocationDetails(location) {
