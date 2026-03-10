@@ -71,6 +71,11 @@ python3 app.py
 ```
 Access at: `http://localhost:5001`
 
+#### Environment variables (map)
+The interactive map uses Mapbox. Set the token via environment variable (never commit it):
+- **Local:** `export MAPBOX_ACCESS_TOKEN=pk.your...` or add to a `.env` file.
+- **Render:** In the dashboard, add `MAPBOX_ACCESS_TOKEN` under Environment for your web service.
+
 #### Development Mode (with auto-reload on changes)
 The app runs in debug mode by default, so it will auto-reload when you make changes to Python files.
 

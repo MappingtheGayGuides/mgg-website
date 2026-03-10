@@ -230,6 +230,9 @@
 {% endblock %}
 
 {% block extra_js %}
+<script>
+    window.MAPBOX_ACCESS_TOKEN = {{ mapbox_token|tojson }};
+</script>
 <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
 <script src="{{ url_for('static', filename='js/map.js') }}"></script>
 {% endblock %}

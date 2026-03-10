@@ -1,3 +1,4 @@
+import os
 from flask import Blueprint, render_template, request
 from models import db, Location, LocationType, AmenityFeature, LocationAmenityAssignment
 from sqlalchemy import or_, func
@@ -7,7 +8,8 @@ bp = Blueprint('main', __name__)
 @bp.route('/map')
 def map():
     """Main map visualization"""
-    return render_template('map.html')
+    mapbox_token = os.environ.get('MAPBOX_ACCESS_TOKEN', '')
+    return render_template('map.html', mapbox_token=mapbox_token)
 
 @bp.route('/database')
 def database():

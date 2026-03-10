@@ -54,7 +54,7 @@ function initializeMap() {
     // Set Mapbox access token
     mapboxgl.accessToken = MAPBOX_ACCESS_TOKEN;
     
-    if (MAPBOX_ACCESS_TOKEN === 'YOUR_MAPBOX_ACCESS_TOKEN_HERE') {
+    if (!MAPBOX_ACCESS_TOKEN || MAPBOX_ACCESS_TOKEN === 'YOUR_MAPBOX_ACCESS_TOKEN_HERE') {
         console.error('Mapbox access token not set!');
         mapContainer.innerHTML = '<div class="flex items-center justify-center h-full"><p class="text-error">Please set your Mapbox access token in map.js</p></div>';
         return;

@@ -332,6 +332,9 @@ $RECYCLE.BIN/
 # Exception: mgg.db is needed for Render deployment
 !mgg.db
 
+# Local DB backups (do not commit)
+data/backups/
+
 # Environment variables
 .env
 .env.local
