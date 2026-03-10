@@ -113,7 +113,11 @@
     
     /* Accordion styling for methodology page */
     .methodology-accordion .collapse-content {
-        padding-top: 1rem;
+        padding-top: 0;
+    }
+    /* Reduce extra top margin on first element inside each accordion body */
+    .methodology-accordion .collapse-content > *:first-child {
+        margin-top: 0 !important;
     }
 </style>
 
@@ -125,7 +129,7 @@
     </div>
     
     {# Accordions for each h2 section #}
-    <div class="space-y-4 mt-8">
+    <div class="methodology-accordion space-y-4 mt-8">
         {% for section in sections %}
         <div class="collapse collapse-arrow bg-base-100 border border-base-300 shadow-lg">
             <input type="checkbox" />
@@ -138,6 +142,27 @@
         </div>
         {% endfor %}
     </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var hash = window.location.hash ? window.location.hash.substring(1) : '';
+        if (!hash) return;
+
+        var target = document.getElementById(hash);
+        if (!target) return;
+
+        var collapse = target.closest('.collapse');
+        if (!collapse) return;
+
+        var checkbox = collapse.querySelector('input[type=\"checkbox\"]');
+        if (checkbox) {
+            checkbox.checked = true;
+        }
+
+        // Re-scroll now that content is visible
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+    </script>
 {% else %}
     {# Regular page rendering #}
     <div class="prose prose-lg max-w-none prose-headings:text-base-content prose-h1:text-3xl prose-h1:font-black prose-h2:text-2xl prose-h2:font-black prose-h3:text-xl prose-h3:font-black prose-p:text-base-content prose-p:leading-relaxed prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-strong:text-base-content prose-ul:text-base-content prose-ol:text-base-content prose-li:text-base-content prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:pl-4 prose-blockquote:italic prose-code:bg-base-200 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-code:text-sm">

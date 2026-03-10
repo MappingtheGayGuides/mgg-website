@@ -103,9 +103,27 @@
     <!-- Header -->
     <div class="text-center mb-8">
         <h1 class="text-4xl font-bold text-primary mb-4">What does mapping gay travel guides tell us about American queer history?</h1>
-      
-        <div class="text-sm text-base-content/50 mt-2">
-            <span id="data-size-info">Loading data...</span>
+    </div>
+
+    <!-- Context: Interactive map (accordion) -->
+    <div class="collapse collapse-arrow bg-base-100 border border-base-300 mb-8">
+        <input type="checkbox" />
+        <div class="collapse-title font-semibold">
+            Read more about this visualization
+        </div>
+        <div class="collapse-content text-sm text-base-content/80">
+            <p class="mb-3">
+                The interactive map reveals the geographic distribution of LGBTQ spaces across the United States from 1965 to 2003.
+                Filter by year, state, amenity feature, and location type to explore how queer communities formed and evolved across nearly four decades.
+                Zoom in to investigate local geographies, or track broad national patterns in LGBTQ space-making.
+                The map makes visible both where LGBTQ spaces existed and significant absences, challenging assumptions about where and how queer life flourished.
+            </p>
+            <p>
+                Use the filters above to explore patterns and individual locations.
+                <span class="ml-1">
+                    <a href="/methodology/#the-interactive-map" class="link link-primary">Learn more about how to use the map →</a>
+                </span>
+            </p>
         </div>
     </div>
 
@@ -154,13 +172,13 @@
                                     <span class="label-text">&nbsp;</span>
                                 </label>
                                 <div class="flex gap-2">
-                                    <button class="btn btn-primary flex-1" id="apply-filters">
+                                    <button class="btn btn-primary whitespace-nowrap" id="apply-filters">
                                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.207A1 1 0 013 6.5V4z"></path>
                                         </svg>
                                         Apply Filters
                                     </button>
-                                    <button class="btn btn-accent" id="reset-filters">
+                                    <button class="btn btn-accent whitespace-nowrap" id="reset-filters">
                                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
                                         </svg>
@@ -186,7 +204,10 @@
         </div>
     </div>
 
-
+    <!-- Data summary -->
+    <div class="text-sm text-base-content/60 mb-4">
+        <span id="data-size-info">Loading data...</span>
+    </div>
 
     <!-- Map and Details Container -->
     <div class="map-details-grid mb-8">
